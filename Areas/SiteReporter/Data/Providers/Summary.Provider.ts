@@ -32,6 +32,11 @@ module Main {
     Section;
     Table;
 
+    export enum FiltersType {
+        Bugs,
+        Trends
+    }
+
     export interface IStaticProvider {
         getHeaderViewModelData: () => Header.IViewModelData;
         getSidebarViewModelData: () => Section.IViewModelData;
@@ -500,21 +505,22 @@ module Main {
         }
     }
 
+
     export class FiltersProvider extends BaseProvider.DynamicProvider<FiltersRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
         constructor(repository: FiltersRepository.IRepository) {
             super(repository);
         }
 
-        public getFilterSelectDataByType(type: "bugs" | "trends"): Array<Select.IViewModelData> {
+        public getFilterSelectDataByType(type: FiltersType): Array<Select.IViewModelData> {
             let data: Array<Select.IViewModelData> = [];
             let typeFilterNames: Array<string>;
 
             switch (type) {
-                case "bugs":
+                case FiltersType.Bugs:
                     typeFilterNames = Config.Filters.Bugs;
                     break;
 
-                case "trends":
+                case FiltersType.Trends:
                     typeFilterNames = Config.Filters.Trends;
                     break;
             }
