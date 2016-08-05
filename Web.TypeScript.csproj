@@ -22,9 +22,43 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Shared\Html\Samples\Controls\Button.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\Chart.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\DescriptionList.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\Filters.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\Header.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\Icon.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\Input.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\Section.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\Select.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\Table.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\Tabs.Sample.html" />
+    <Content Include="Areas\SiteReporter\Html\Samples\Views\Details.Sample.html" />
+    <Content Include="Areas\SiteReporter\Html\Samples\Views\Summary.Sample.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Base.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Button.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Chart.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\DescriptionList.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Filters.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Header.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Icon.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Input.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Section.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Select.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Table.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Tabs.Test.html" />
+    <Content Include="Areas\SiteReporter\Html\Tests\Views\Details.Test.html" />
+    <Content Include="Areas\SiteReporter\Html\Tests\Views\Summary.Test.html" />
+    <Content Include="Content\samples.css" />
+    <Content Include="Index.html" />
+    <Content Include="require.config.js" />
+    <Content Include="require.samples.config.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="chutzpah.json" />
+    <Content Include="JSLintNet.json" />
+    <Content Include="packages.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -32,6 +66,77 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Areas\Shared\Config.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Util\Knockout.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Config.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Base.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Button.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Chart.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\DescriptionList.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Editable.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Filters.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Header.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Icon.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Input.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Section.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Select.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Table.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Tabs.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Data\Providers\Base.Provider.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Details.Provider.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Details.Providers.New.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Summary.Provider.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Data\Repositories\Base.Repository.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForTag.Repository.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForTagBlobUrl.Repository.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\Filters.Repository.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Data\Request.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\ScanTime.Repository.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\TrendsForTag.Repository.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Button.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Chart.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\DescriptionList.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Filters.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Header.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Icon.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Input.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Section.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Select.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Table.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Tabs.Sample.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Samples\Views\Details.Sample.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Samples\Views\Summary.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Base.Loading.Template.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Controls\DescriptionList.Template.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Filters.Template.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Header.Template.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Section.Template.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Table.Template.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Tabs.Template.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Templates\Views\Details.Template.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Templates\Views\Summary.Template.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Base.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Button.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Chart.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\DescriptionList.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Filters.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Header.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Icon.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Input.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Section.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Select.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Table.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Tabs.Test.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Tests\Views\Details.Test.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Tests\Views\Summary.Test.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Util\Navigation.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Views\Details.View.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Views\Summary.View.Start.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Views\Summary.View.ts" />
+    <TypeScriptCompile Include="references.d.ts" />
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

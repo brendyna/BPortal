@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Input - Samples</title>
+    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web/Lib/indigo/indigo.full.min.css" />
+    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web.Tests/Content/samples.css" />
+    <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web/Lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web.Tests/require.samples.config.js"></script>
+    <script>
+        require(["Web.Tests/TypeScript/Areas/SiteReporter/Samples/Input.Sample"])
+    </script>
+</head>
+
+<body>
+    <h1>Samples: Input</h1>
+    <section>
+        Indigo CSS Library reference:
+        <a href="http://edgecore.azurewebsites.net/core/forms.html" target="_blank">http://edgecore.azurewebsites.net/core/forms.html</a>
+    </section>
+    <section>
+        <h2>Basic Inputs</h2>
+        <input class="basic" />
+        <input class="basic-disabled" />
+
+        <h2>Rendered via Custom Binding</h2>
+        <input class="custom-binding" data-bind="wpsInput: defaults" />
+    </section>
+    <section id="sample-metadata">
+        <div>Basic Input value: <span data-bind="text: basicInputValue"></span></div>
+        <div>Custom-bound Input value: <span data-bind="text: customBoundInputValue"></span></div>
+    </section>
+</body>
+</html>
+

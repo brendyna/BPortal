@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Header - Sample</title>
+        <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web/Lib/indigo/indigo.full.min.css" />
+        <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web/Areas/SiteReporter/Content/css/controls.css" />
+        <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web.Tests/Content/samples.css" />
+        <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web/Lib/requirejs/require.js"></script>
+        <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web.Tests/require.samples.config.js"></script>
+        <script>
+            require(["Web.Tests/TypeScript/Areas/SiteReporter/Samples/Header.Sample"])
+        </script>
+    </head>
+
+    <body>
+        <h1>Sample: Header</h1>
+        <section>
+            Indigo CSS Library references:<br />
+            <a href="http://edgecore.azurewebsites.net/components/breadcrumb/breadcrumb.html" target="_blank">http://edgecore.azurewebsites.net/components/breadcrumb/breadcrumb.html</a><br />
+            <a href="http://edgecore.azurewebsites.net/core/structure.html" target="_blank">http://edgecore.azurewebsites.net/core/structure.html</a>
+        </section>
+        <section class="content">
+            <h2>All parts shown</h2>
+            <header id="sample"></header>
+
+            <h2>Just breadcrumb</h2>
+            <header id="sample-breadcrumb"></header>
+
+            <h2>No subtitle</h2>
+            <header id="sample-no-subtitle"></header>
+
+            <h2>Custom binding handler</h2>
+            <header id="sample-custom-binding" data-bind="wpsHeader: defaults"></header>
+        </section>
+    </body>
+</html>
+

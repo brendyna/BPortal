@@ -1,0 +1,180 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+}
+
+/*
+    Purposefully overriding/copying edgecore styles
+    since including all edgecore styles in tests/samples
+    overrides too many other styles (e.g. qunit)
+*/
+body > h1 {
+    border-top: 35px solid #0078d7;
+    padding-top: 10px;
+    padding-left: 14px;
+    margin-top: 0;
+    font-size: 4.1rem;
+    font-weight: 200;
+    line-height: 1.2;
+    letter-spacing: -.01em;
+    color: #414143;
+    box-sizing: border-box;
+    font-style: normal;
+    font-variant: normal;
+    font-family: "Segoe UI Webfont","Segoe UI",Segoe,'Segoe WP',"Lucida Grande","Lucida Sans",Tahoma,Verdana,Arial,sans-serif;
+}
+
+section > h2 {
+    border-bottom: 1px solid #414143;
+}
+
+body > section {
+    background: #fbfbfb;
+    margin: 15px;
+    padding: 10px;
+    clear: both;
+    position: relative;
+    overflow: hidden;
+}
+
+#qunit p,
+#qunit li {
+    line-height: normal;
+    max-width: none;
+}
+
+#qunit *+* {
+    margin-top: 0
+}
+
+#qunit #qunit-testrunner-toolbar label {
+    padding-left: 2.1rem;
+}
+
+/* Temporary for demo pages as prod will have right URL mapping for Indigo.min.css */
+select {
+    background: url(../../Web/Content/Images/select-arrow.svg) right 1rem center/1.4rem .8rem no-repeat;
+}
+
+/* Temporary for demo page, as portal will have the right fonts/CSS loaded */
+
+/*
+ *	ICON FONT
+ *	=============================================
+ */
+
+@font-face {
+	font-family: "PlatformIcons";
+	src: url("../../Web/fonts/PlatMDL2-061016.woff2") format("woff2"),
+	     url("../../Web/fonts/PlatMDL2-061016.woff") format("woff"),
+	     url("../../Web/fonts/PlatMDL2-061016.ttf") format("truetype");
+}
+
+[class*="icon--"]::before,
+[class*="icon--"]::after,
+.accordion__toggle::after,
+summary::after {
+	font-family: "PlatformIcons";
+}
+
+/* stylelint-disable */
+.icon--global-nav-button::before { content: "\e700"; }
+.icon--quick-note::before { content: "\e70b"; }
+.icon--chevron-down::before, .accordion__toggle::after, summary::after { content: "\e70d"; }
+.icon--chevron-up::before { content: "\e70e"; }
+.icon--edit::before { content: "\e70f"; }
+.icon--add::before { content: "\e710"; }
+.icon--cancel::before { content: "\e711"; }
+.icon--more::before { content: "\e712"; }
+.icon--settings::before { content: "\e713"; }
+.icon--video::before { content: "\e714"; }
+.icon--mail::before { content: "\e715"; }
+.icon--people::before { content: "\e716"; }
+.icon--stop::before { content: "\e71a"; }
+.icon--link::before { content: "\e71b"; }
+.icon--filter::before { content: "\e71c"; }
+.icon--zoom::before { content: "\e71e"; }
+.icon--zoom-out::before { content: "\e71f"; }
+.icon--microphone::before { content: "\e720"; }
+.icon--search::before, .icon--scan::before { content: "\e721"; }
+.icon--camera::before { content: "\e722"; }
+.icon--forward::before { content: "\e72a"; }
+.icon--back::before { content: "\e72b"; }
+.icon--refresh::before { content: "\e72c"; }
+.icon--share::before { content: "\e72d"; }
+.icon--lock:before, .icon--security:before { content: "\e72e"; }
+.icon--blocked::before, .icon--deprecated::before { content: "\e733"; }
+.icon--favorite-star::before, .icon--new:before { content: "\e734"; }
+.icon--favorite-star-fill::before { content: "\e735"; }
+.icon--remove::before { content: "\e738"; }
+.icon--check:before { content: "\e73e"; }
+.icon--up::before { content: "\e74a"; }
+.icon--down::before { content: "\e74b"; }
+.icon--delete:before { content: "\e74d"; }
+.icon--sad::before { content: "\e757"; }
+.icon--volume::before { content: "\e767"; }
+.icon--play::before { content: "\e768"; }
+.icon--pause::before { content: "\e769"; }
+.icon--chevron-left::before { content: "\e76b"; }
+.icon--chevron-right::before { content: "\e76c"; }
+.icon--error::before, .icon--issues:before { content: "\e783"; }
+.icon--calendar::before { content: "\e787"; }
+.icon--filters::before { content: "\e795"; }
+.icon--flag::before { content: "\e7c1"; }
+.icon--page::before { content: "\e7c3"; }
+.icon--touch::before { content: "\e815"; }
+.icon--history::before { content: "\e81c"; }
+.icon--recent::before { content: "\e823"; }
+.icon--news:before { content: "\e900"; }
+.icon--clear::before { content: "\e894"; }
+.icon--sync::before { content: "\e895"; }
+.icon--download::before { content: "\e896"; }
+.icon--help::before { content: "\e897"; }
+.icon--upload::before { content: "\e898"; }
+.icon--document:before, .icon--fileapis:before { content: "\e8a5"; }
+.icon--switch::before, .icon--changed::before { content: "\e8ab"; }
+.icon--remote::before { content: "\e8af"; }
+.icon--message::before, .icon--realtimecommunication::before { content: "\e8bd"; }
+.icon--like-dislike::before { content: "\e8df"; }
+.icon--dislike::before { content: "\e8e0"; }
+.icon--like::before { content: "\e8e1"; }
+.icon--tag::before { content: "\e8ec"; }
+.icon--accept::before, .icon--success::before  { content: "\e8fb"; }
+.icon--news::before { content: "\e900"; }
+.icon--repair::before, .icon--fixed:before { content: "\e90f"; }
+.icon--unknown::before, .icon--faq::before { content: "\e9ce"; }
+.icon--feedback-app::before { content: "\e939"; }
+.icon--code::before { content: "\e943"; }
+.icon--info::before { content: "\e946"; }
+.icon--health::before { content: "\e95e"; }
+.icon--input::before, .icon--userinput::before { content: "\e961"; }
+.icon--networkconnectivity:before { content: "\e968"; }
+.icon--device:before { content: "\e975"; }
+.icon--chart::before { content: "\e999"; }
+.icon--unknown:before { content: "\e9ce"; }
+.icon--asterisk:before, .icon--misc:before { content: "\ea38"; }
+.icon--help-mirrored::before { content: "\ea51"; }
+.icon--media::before, .icon--multimedia::before { content: "\ea69"; }
+.icon--articles::before { content: "\eac1"; }
+.icon--trackers::before { content: "\eadf"; }
+.icon--personal-finance::before { content: "\eb03"; }
+.icon--interop::before { content: "\eb18"; }
+.icon--performance::before { content: "\eb24"; }
+.icon--edit-mirrored::before { content: "\eb7e"; }
+.icon--graphics::before { content: "\eb9f"; }
+.icon--open-source::before { content: "\ebc2"; }
+.icon--bug::before { content: "\ebe8"; }
+.icon--feature-request::before { content: "\ebe9"; }
+.icon--changelog::before { content: "\ebea"; }
+.icon--virtual-machine::before { content: "\ebeb"; }
+.icon--site-scan::before { content: "\ebec"; }
+.icon--browser-screenshot::before { content: "\ebed"; }
+.icon--f12-dev-tools::before { content: "\ebee"; }
+.icon--css::before { content: "\ebef"; }
+.icon--js::before, .icon--javascript::before { content: "\ebf0"; }
+.icon--documentation::before { content: "\ec17"; }
+.icon--webcomponents:before { content: "\ec8b"; }
+.icon--offlinestorage:before { content: "\ec8c"; }
+.icon--dom:before { content: "\ec8d"; }
+.icon--webdriver::before { content: "\ef28"; }
+/* stylelint-enable */

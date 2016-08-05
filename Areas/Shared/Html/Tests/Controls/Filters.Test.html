@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Filters - QUnit Tests</title>
+    <link rel="stylesheet" type="text/css" href="file:///C:/Users/brendyna/AppData/Local/Microsoft/VisualStudio/14.0/Extensions/2sxuzlv4.1ou/TestFiles/QUnit/qunit.css" />
+    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web.Tests/Content/samples.css" />
+    <script type="text/javascript" src="file:///C:/Users/brendyna/AppData/Local/Microsoft/VisualStudio/14.0/Extensions/2sxuzlv4.1ou/TestFiles/chutzpah_boot.js"></script>
+    <script type="text/javascript" src="file:///C:/Users/brendyna/AppData/Local/Microsoft/VisualStudio/14.0/Extensions/2sxuzlv4.1ou/TestFiles/QUnit/qunit.js"></script>
+    <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web/Lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web.Tests/require.config.js"></script>
+    <script>
+        var amdTestPaths = ["Web.Tests/TypeScript/Areas/SiteReporter/Tests/Filters.Test"];
+        window.chutzpah.boot(amdTestPaths);
+
+        if (window.chutzpah.usingModuleLoader) {
+
+            if("file:///D:/Dev/Edge/IEPortal/Web.Tests/TypeScript.out/") {
+                window.chutzpah.amdConfig({
+                    baseUrl: "file:///D:/Dev/Edge/IEPortal/Web.Tests/TypeScript.out/"
+                });
+            }
+
+            window.chutzpah.amdConfig({
+                map: {
+                    '*': {
+
+                        }
+                }
+            });
+
+            window.QUnit.config.autostart = false;
+            window.chutzpah.amdStart = function() {
+                window.chutzpah.amdImport(amdTestPaths, function () {
+                    console.log("!!_!! Starting QUnit from inline AMD call...");
+                    if (!window._Chutzpah_covobj_name) {
+                        window.QUnit.start();
+                    }
+                });
+            }
+
+            if(window.chutzpah.amdAutoStart) {
+                window.chutzpah.amdStart();
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Tests: Filters</h1>
+    <section>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+    </section>
+</body>
+</html>
+

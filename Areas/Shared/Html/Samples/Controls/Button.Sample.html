@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Button - Samples</title>
+    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web/Lib/indigo/indigo.full.min.css" />
+    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web.Tests/Content/samples.css" />
+    <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web/Lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web.Tests/require.samples.config.js"></script>
+    <script>
+        require(["Web.Tests/TypeScript/Areas/SiteReporter/Samples/Button.Sample"])
+    </script>
+</head>
+
+<body>
+    <h1>Samples: Button</h1>
+    <section>
+        Indigo CSS Library reference:
+        <a href="http://edgecore.azurewebsites.net/core/forms.html" target="_blank">http://edgecore.azurewebsites.net/core/forms.html</a>
+    </section>
+    <section>
+        <h2>Basic Buttons</h2>
+        <div class="actions">
+            <button class="basic1"></button>
+            <button class="basic2"></button>
+            <button class="basic3"></button>
+        </div>
+
+        <h2>Primary</h2>
+        <button class="primary"></button>
+        <a class="primary"></a>
+
+        <h2>Page Primary</h2>
+        <a class="page-primary"></a>
+
+        <h2>Destructive/Warning</h2>
+        <button class="warning"></button>
+
+        <h2>Textual</h2>
+        <button class="textual"></button>
+
+        <h2>Rendered via Custom Binding</h2>
+        <button class="custom-binding" data-bind="wpsButton: defaults"></button>
+    </section>
+</body>
+</html>
+

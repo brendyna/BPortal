@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Select - Samples</title>
+    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web/Lib/indigo/indigo.full.min.css" />
+    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web.Tests/Content/samples.css" />
+    <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web/Lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web.Tests/require.samples.config.js"></script>
+    <script>
+        require(["Web.Tests/TypeScript/Areas/SiteReporter/Samples/Select.Sample"])
+    </script>
+</head>
+
+<body>
+    <h1>Samples: Select</h1>
+    <section>
+        Indigo CSS Library reference:
+        <a href="http://edgecore.azurewebsites.net/core/forms.html" target="_blank">http://edgecore.azurewebsites.net/core/forms.html</a>
+    </section>
+    <section>
+        <h2>Basic Selects</h2>
+        <select class="basic"></select>
+        <select class="basic-disabled"></select>
+
+        <h2>Rendered via Custom Binding</h2>
+        <select class="custom-binding" data-bind="wpsSelect: defaults"></select>
+    </section>
+    <section id="sample-metadata">
+        <div>Basic Select value: <span data-bind="text: basicSelectValue"></span></div>
+        <div>Custom-bound Select value: <span data-bind="text: customBoundSelectValue"></span></div>
+    </section>
+</body>
+</html>
+

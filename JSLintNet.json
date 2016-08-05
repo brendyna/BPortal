@@ -1,0 +1,29 @@
+﻿{
+  "version": "2.2.0",
+  "output": "Error",
+  "ignore": [
+      "\\require.samples.config.js"
+  ],
+  "options": {
+    "bitwise": false,
+    "browser": true,
+    "couch": false,
+    "devel": true,
+    "es6": true,
+    "eval": false,
+    "for": true,
+    "maxerr": 250,
+    "maxlen": 120,
+    "node": false,
+    "this": true,
+    "white": true
+  },
+  "globalVariables": [
+    "require",
+    "sampleConfig"
+  ],
+  "runOnSave": true,
+  "runOnBuild": true,
+  "cancelBuild": false,
+  "errorLimit": 1000
+}
