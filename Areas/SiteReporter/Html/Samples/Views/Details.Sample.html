@@ -3,20 +3,24 @@
 <head>
     <meta charset="utf-8" />
     <title>Details - Samples</title>
-    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web/Lib/indigo/indigo.full.min.css" />
-    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web/Content/Styles/spinner.css" />
-    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web/Areas/SiteReporter/Content/css/controls.css" />
-    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web.Tests/Content/samples.css" />
+    <link rel="stylesheet" href="http://edgecore.azurewebsites.net/min/indigo.full.min.css" />
+    <link rel="stylesheet" href="/Content/css/spinner.css" />
+    <link rel="stylesheet" href="/Content/css/controls.css" />
+    <link rel="stylesheet" href="/Content/css/samples.css" />
     <script>
-        var sampleConfig = {
-            baseUrl: "../../../../../",
-            web: "../../"
-        };
+        window.API_SERVER = "https://sitereporter-api.azurewebsites.net/api";
+        window.API_USERNAME = "iesitrep@microsoft.com";
+        window.API_PASSWORD = "B33r!b33r!b33r!b33r!b33r!";
+        window.BREADCRUMB = [
+            { text: "WPT Portal", url: "javascript:;" },
+            { text: "Site Reporter", url: "javascript:;" },
+            { text: "Summary", url: "javascript:;" }
+        ];
     </script>
-    <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web/Lib/requirejs/require.js"></script>
-    <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web.Tests/require.samples.config.js"></script>
+    <script type="text/javascript" src="/Lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="/require.web.config.js"></script>
     <script>
-        require(["Web.Tests/TypeScript/Areas/SiteReporter/Samples/Views/Details.Sample"]);
+        require(["Areas/SiteReporter/Samples/Views/Details.Sample"]);
     </script>
 </head>
 

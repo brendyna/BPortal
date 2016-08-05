@@ -2,7 +2,9 @@
   "version": "2.2.0",
   "output": "Error",
   "ignore": [
-      "\\require.samples.config.js"
+    "\\Lib",
+    "require.web.config.js",
+    "require.chutzpah.config.js"
   ],
   "options": {
     "bitwise": false,

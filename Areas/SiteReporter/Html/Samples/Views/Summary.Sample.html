@@ -3,16 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <title>Summary - Samples</title>
-    <link rel="stylesheet" href="/Web/Lib/indigo/indigo.full.min.css" />
-    <link rel="stylesheet" href="/Web/Content/Styles/spinner.css" />
-    <link rel="stylesheet" href="/Web/Areas/SiteReporter/Content/css/controls.css" />
-    <link rel="stylesheet" href="/Web.Tests/Content/samples.css" />
+    <link rel="stylesheet" href="http://edgecore.azurewebsites.net/min/indigo.full.min.css" />
+    <link rel="stylesheet" href="/Content/css/spinner.css" />
+    <link rel="stylesheet" href="/Content/css/controls.css" />
+    <link rel="stylesheet" href="/Content/css/samples.css" />
     <script>
-        var sampleConfig = {
-            baseUrl: "../../../../../",
-            root: "../../"
-        };
-
         window.API_SERVER = "https://sitereporter-api.azurewebsites.net/api";
         window.API_USERNAME = "iesitrep@microsoft.com";
         window.API_PASSWORD = "B33r!b33r!b33r!b33r!b33r!";
@@ -22,10 +17,10 @@
             { text: "Summary", url: "javascript:;" }
         ];
     </script>
-    <script type="text/javascript" src="/Web/Lib/requirejs/require.js"></script>
-    <script type="text/javascript" src="/Web.Tests/require.samples.config.js"></script>
+    <script type="text/javascript" src="/Lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="/require.web.config.js"></script>
     <script>
-        require(["Web.Tests/TypeScript/Areas/SiteReporter/Samples/Views/Summary.Sample"]);
+        require(["Areas/SiteReporter/Samples/Views/Summary.Sample"]);
     </script>
 </head>
 

@@ -1,4 +1,6 @@
-﻿interface HumanizeStatic {
+﻿﻿/// <reference path="../typings/index.d.ts" />
+
+interface HumanizeStatic {
     compactInteger: (num: number, precision: number) => number;
 }
 declare var Humanize: HumanizeStatic;

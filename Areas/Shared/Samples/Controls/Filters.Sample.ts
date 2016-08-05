@@ -1,6 +1,4 @@
-﻿/// <reference path="../../../../../Web/references.d.ts" />
-
-import $ = require("jquery");
+﻿import $ = require("jquery");
 import ko = require("knockout");
 import Filters = require("Areas/Shared/Controls/Filters");
 

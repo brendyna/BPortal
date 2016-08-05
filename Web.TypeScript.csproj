@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>2.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -49,16 +49,87 @@
     <Content Include="Areas\Shared\Html\Tests\Controls\Tabs.Test.html" />
     <Content Include="Areas\SiteReporter\Html\Tests\Views\Details.Test.html" />
     <Content Include="Areas\SiteReporter\Html\Tests\Views\Summary.Test.html" />
-    <Content Include="Content\samples.css" />
+    <Content Include="Content\css\controls.css" />
+    <Content Include="Content\css\qunit.css" />
+    <Content Include="Content\css\samples.css" />
+    <Content Include="Content\css\spinner.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\css\spinner.min.css">
+      <DependentUpon>spinner.css</DependentUpon>
+    </Content>
+    <Content Include="Lib\chutzpah_boot.js" />
+    <Content Include="Lib\qunit.js" />
+    <Content Include="require.chutzpah.config.js" />
+    <Content Include="Web\Content\Images\ajax-loader-black.gif" />
+    <Content Include="Web\Content\Images\ajax-loader-white.gif" />
+    <Content Include="Web\Content\Images\bsod.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\Images\edge-logo.svg" />
+    <Content Include="Web\Content\Images\IELogo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\Images\nav-arrow-down.svg" />
+    <Content Include="Web\Content\Images\NFFFFFF-0.png" />
+    <Content Include="Web\Content\Images\refresh.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\Images\RefreshActive.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\Images\RefreshHover.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\Images\search-dark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\Images\search-light.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Content\Images\select-arrow.svg" />
+    <Content Include="Web\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Index.html" />
-    <Content Include="require.config.js" />
-    <Content Include="require.samples.config.js" />
+    <Content Include="Lib\commoncharting.js" />
+    <Content Include="Lib\DataTables\jquery.dataTables.css" />
+    <Content Include="Lib\DataTables\jquery.dataTables.js" />
+    <Content Include="Lib\DataTables\sort_asc.png" />
+    <Content Include="Lib\DataTables\sort_asc_disabled.png" />
+    <Content Include="Lib\DataTables\sort_both.png" />
+    <Content Include="Lib\DataTables\sort_desc.png" />
+    <Content Include="Lib\DataTables\sort_desc_disabled.png" />
+    <Content Include="Lib\Highcharts-4.0.4\highcharts-more.js" />
+    <Content Include="Lib\Highcharts-4.0.4\highcharts-more.src.js" />
+    <Content Include="Lib\Highcharts-4.0.4\highcharts.js" />
+    <Content Include="Lib\Highcharts-4.0.4\highcharts.src.js" />
+    <Content Include="Lib\Highcharts-4.0.4\modules\data.js" />
+    <Content Include="Lib\Highcharts-4.0.4\modules\drilldown.js" />
+    <Content Include="Lib\Highcharts-4.0.4\themes\ieportal.js" />
+    <Content Include="Lib\highcharts-legend-highlighter.src.js" />
+    <Content Include="Lib\humanize\humanize.min.js" />
+    <Content Include="Lib\jQuery.Extensions.js" />
+    <Content Include="Lib\jquery.mockjax.js" />
+    <Content Include="Lib\jquery\jquery-2.1.1.js" />
+    <Content Include="Lib\knockout-3.2.0.js" />
+    <Content Include="Lib\moment\moment.js" />
+    <Content Include="Lib\requirejs\require.js" />
+    <Content Include="Lib\wps.portal.min.js" />
+    <Content Include="require.web.config.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="chutzpah.json" />
     <Content Include="JSLintNet.json" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="tsconfig.json" />
+    <Content Include="Web\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Web\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Web\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Web\fonts\PlatMDL2-061016.ttf" />
+    <Content Include="Web\fonts\PlatMDL2-061016.woff" />
+    <Content Include="Web\fonts\PlatMDL2-061016.woff2" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -136,14 +207,18 @@
     <TypeScriptCompile Include="Areas\SiteReporter\Views\Summary.View.ts" />
     <TypeScriptCompile Include="references.d.ts" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\js\" />
+  </ItemGroup>
   <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>Web.TypeScript</RootNamespace>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\JSLintNet.MSBuild.2.0.3\build\JSLintNet.MSBuild.targets" Condition="Exists('..\packages\JSLintNet.MSBuild.2.0.3\build\JSLintNet.MSBuild.targets')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
   <ProjectExtensions>
     <VisualStudio>
@@ -163,24 +238,25 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
-    <TypeScriptSourceMap>true</TypeScriptSourceMap>
-    <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
-    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
-    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
-    <TypeScriptOutFile />
-    <TypeScriptOutDir />
-    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
-    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
-    <TypeScriptMapRoot />
-    <TypeScriptSourceRoot />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
-    <TypeScriptSourceMap>false</TypeScriptSourceMap>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <ItemGroup>
+    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Base.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Button.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Chart.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\DescriptionList.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Filters.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Header.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Icon.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Input.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Section.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Select.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Table.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Tabs.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\SiteReporter\Tests\Views\Details.Test.js" />
+    <ChutzpahTestFiles Include=".\Areas\SiteReporter\Tests\Views\Summary.Test.js" />
+  </ItemGroup>
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="@(ChutzpahTestFiles)" DestinationFiles="@(ChutzpahTestFiles->'.\Areas.chutzpah\%(RecursiveDir)%(Filename).js')" />
+    <Exec Command="$(SolutionDir)\packages\Chutzpah.4.2.3\tools\chutzpah.console.exe .\Areas.chutzpah\ /nologo /vsoutput /silent /showFailureReport" />
+    <RemoveDir Directories=".\Areas.chutzpah\" />
+  </Target>
 </Project>

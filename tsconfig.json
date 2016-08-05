@@ -1,0 +1,13 @@
+﻿{
+    "buildOnSave": true,
+    "compileOnSave": true,
+    "compilerOptions": {
+        "declaration": false,
+        "module": "amd",
+        "noEmitOnError": true,
+        "noImplicitAny": false,
+        "removeComments": false,
+        "sourceMap": true,
+        "target": "es5"
+    }
+}

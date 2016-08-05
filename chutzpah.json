@@ -1,10 +1,10 @@
 ﻿{
-    "AMDBaseUrl": "./TypeScript.out/",
+    "AMDBaseUrl": "./",
     "Framework": "qunit",
     "TestHarnessReferenceMode": "AMD",
     "TestHarnessLocationMode": "SettingsFileAdjacent",
     "References": [
-        { "Path": "../Web/Lib/requirejs/require.js" },
-        { "Path": "require.config.js" }
+        { "Path": "./Lib/requirejs/require.js" },
+        { "Path": "require.chutzpah.config.js" }
     ]
 }

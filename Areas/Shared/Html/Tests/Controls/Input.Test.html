@@ -3,33 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <title>Input - QUnit Tests</title>
-    <link rel="stylesheet" type="text/css" href="file:///C:/Users/brendyna/AppData/Local/Microsoft/VisualStudio/14.0/Extensions/2sxuzlv4.1ou/TestFiles/QUnit/qunit.css" />
-    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web/Lib/indigo/indigo.full.min.css" />
-    <link rel="stylesheet" href="file:///D:/Dev/Edge/IEPortal/Web.Tests/Content/samples.css" />
-    <script type="text/javascript" src="file:///C:/Users/brendyna/AppData/Local/Microsoft/VisualStudio/14.0/Extensions/2sxuzlv4.1ou/TestFiles/chutzpah_boot.js"></script>
-    <script type="text/javascript" src="file:///C:/Users/brendyna/AppData/Local/Microsoft/VisualStudio/14.0/Extensions/2sxuzlv4.1ou/TestFiles/QUnit/qunit.js"></script>
-    <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web/Lib/requirejs/require.js"></script>
-    <script type="text/javascript" src="file:///D:/Dev/Edge/IEPortal/Web.Tests/require.config.js"></script>
+    <link rel="stylesheet" type="text/css" href="/Content/css/qunit.css" />
+    <link rel="stylesheet" href="/Content/css/samples.css" />
+    <link rel="stylesheet" href="/Content/css/controls.css" />
+    <script type="text/javascript" src="/Lib/chutzpah_boot.js"></script>
+    <script type="text/javascript" src="/Lib/qunit.js"></script>
+    <script type="text/javascript" src="/Lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="/require.web.config.js"></script>
     <script>
-        var amdTestPaths = ["Web.Tests/TypeScript/Areas/SiteReporter/Tests/Input.Test"];
+        var amdTestPaths = ["Areas/Shared/Tests/Controls/Input.Test"];
         window.chutzpah.boot(amdTestPaths);
 
         if (window.chutzpah.usingModuleLoader) {
-
-            if("file:///D:/Dev/Edge/IEPortal/Web.Tests/TypeScript.out/") {
-                window.chutzpah.amdConfig({
-                    baseUrl: "file:///D:/Dev/Edge/IEPortal/Web.Tests/TypeScript.out/"
-                });
-            }
-
-            window.chutzpah.amdConfig({
-                map: {
-                    '*': {
-
-                        }
-                }
-            });
-
             window.QUnit.config.autostart = false;
             window.chutzpah.amdStart = function() {
                 window.chutzpah.amdImport(amdTestPaths, function () {
