@@ -505,7 +505,6 @@ module Main {
         }
     }
 
-
     export class FiltersProvider extends BaseProvider.DynamicProvider<FiltersRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
         constructor(repository: FiltersRepository.IRepository) {
             super(repository);

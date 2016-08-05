@@ -238,25 +238,29 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <ItemGroup>
-    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Base.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Button.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Chart.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\DescriptionList.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Filters.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Header.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Icon.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Input.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Section.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Select.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Table.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\Shared\Tests\Controls\Tabs.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\SiteReporter\Tests\Views\Details.Test.js" />
-    <ChutzpahTestFiles Include=".\Areas\SiteReporter\Tests\Views\Summary.Test.js" />
-  </ItemGroup>
   <Target Name="AfterBuild">
+    <ItemGroup>
+      <!-- DON'T DELETE: Keeping a commented version of these as the csproj keeps overwriting them -->
+      <!--<ChutzpahTestFiles Include=".\Areas\**\*.Test.js" />
+      <SharedTypeScriptFiles Include=".\Areas\Shared\**\*.js" Exclude=".\Areas\Shared\**\*.Test.js;.\Areas\Shared\**\*.Sample.js" />
+      <SiteReporterTypeScriptFiles Include=".\Areas\SiteReporter\**\*.js" Exclude=".\Areas\SiteReporter\**\*.Test.js;.\Areas\SharedSiteReporter\**\*.Sample.js" />-->
+
+      <ChutzpahTestFiles Include=".\Areas\**\*.Test.js" />
+      <SharedTypeScriptFiles Include=".\Areas\Shared\**\*.js" Exclude=".\Areas\Shared\**\*.Test.js;.\Areas\Shared\**\*.Sample.js" />
+      <SharedCssFiles Include=".\Content\css\controls.css" />
+      <SiteReporterTypeScriptFiles Include=".\Areas\SiteReporter\**\*.js" Exclude=".\Areas\SiteReporter\**\*.Test.js;.\Areas\SiteReporter\**\*.Sample.js" />
+    </ItemGroup>
+
+    <!-- Test TS files before copying them to deployment locations -->
     <Copy SourceFiles="@(ChutzpahTestFiles)" DestinationFiles="@(ChutzpahTestFiles->'.\Areas.chutzpah\%(RecursiveDir)%(Filename).js')" />
     <Exec Command="$(SolutionDir)\packages\Chutzpah.4.2.3\tools\chutzpah.console.exe .\Areas.chutzpah\ /nologo /vsoutput /silent /showFailureReport" />
     <RemoveDir Directories=".\Areas.chutzpah\" />
+
+    <!-- Copy TS-generated JS files to Web project -->
+    <Copy SourceFiles="@(SharedTypeScriptFiles)" DestinationFiles="@(SharedTypeScriptFiles->'..\Web\Areas\Shared\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(SiteReporterTypeScriptFiles)" DestinationFiles="@(SiteReporterTypeScriptFiles->'..\Web\Areas\SiteReporter\Content\js\%(RecursiveDir)%(Filename)%(Extension)')" />
+
+    <!-- Copy controls styles to Web project -->
+    <Copy SourceFiles="@(SharedCssFiles)" DestinationFiles="@(SharedCssFiles->'..\Web\Content\Styles\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
 </Project>
