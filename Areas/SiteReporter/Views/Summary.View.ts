@@ -278,7 +278,7 @@ module Main {
             this.bugsFilters.vm.loading(false);
             this.bugsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Bugs));
             this.trendsFilters.vm.loading(false);
-            this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Bugs));
+            this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Trends));
         }
 
         private applyTrendsData(): void {
