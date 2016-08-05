@@ -176,10 +176,10 @@ module Main {
             return {
                 classes: "bugs__site-list",
                 headers: [
+                    { classes: "table__column__switch" },
                     { hidden: true, text: "DomainId" },
                     { hidden: true },
                     { text: "Site", classes: "table__column__site" },
-                    { classes: "table__column__switch" },
                     { text: "Bingdex", classes: "table__column__rank" },
                     { text: "Outreach", classes: "table__column__bugs outreach__bugs" },
                     { text: "Current", classes: "table__column__bugs release__bugs" },
@@ -204,10 +204,10 @@ module Main {
                         ]
                     ],
                     columns: [
+                        { data: 'isSwitchRisk' },
                         { data: 'domainId' },
                         { data: 'isOffensive' },
                         { data: 'domainName' },
-                        { data: 'isSwitchRisk' },
                         { data: 'bingdexRank' },
                         { data: 'outreachBugCount' },
                         { data: 'currentReleaseBugCount' },
@@ -217,12 +217,12 @@ module Main {
                     columnDefs: [
                         {
                             targets: 'table__column__rank',
-                            width: '1%',
+                            width: '16%',
                             render: renderBingdexColumn
                         },
                         {
                             targets: 'table__column__site',
-                            width: '20%',
+                            width: '30%',
                             render: function (data) {
                                 return '<img class="summary--favicon"' +
                                     ' src="http://www.google.com/s2/favicons?domain_url=' + data + '" />'
@@ -232,7 +232,7 @@ module Main {
                         },
                         {
                             targets: 'table__column__switch',
-                            width: '2%',
+                            width: '1%',
                             render: function (data, type) {
                                 var value;
 
@@ -258,19 +258,19 @@ module Main {
                         },
                         {
                             targets: 'outreach__bugs',
-                            width: '15%',
+                            width: '16%',
                             type: 'nullable',
                             className: 'table__column__bugs table__column__bugs--outreach'
                         },
                         {
                             targets: 'release__bugs',
-                            width: '15%',
+                            width: '16%',
                             type: 'nullable',
                             className: 'table__column__bugs table__column__bugs--release'
                         },
                         {
                             targets: 'total__bugs',
-                            width: '15%',
+                            width: '16%',
                             type: 'nullable',
                             className: 'table__column__bugs table__column__bugs--total'
                         },
@@ -351,11 +351,12 @@ module Main {
                     columnDefs: [
                         {
                             targets: 'table__column__rank',
-                            width: '1%',
+                            width: '15%',
                             render: renderBingdexColumn
                         },
                         {
                             targets: 'table__column__site',
+                            width: '30%',
                             render: function (data) {
                                 return '<img class="summary--favicon"' +
                                     ' src="http://www.google.com/s2/favicons?domain_url=' + data + '" />'
@@ -371,6 +372,7 @@ module Main {
                         },
                         {
                             targets: 'table__column__delta--Standard',
+                            width: '15%',
                             render: function (data, type) {
                                 var value;
 
@@ -402,6 +404,7 @@ module Main {
                         },
                         {
                             targets: 'table__column__delta--Reverse',
+                            width: '15%',
                             render: function (data, type) {
                                 var value;
 
@@ -433,7 +436,7 @@ module Main {
                         },
                         {
                             targets: 'table__column__button',
-                            width: '1%',
+                            width: '5%',
                             data: null,
                             defaultContent: '<button><span>Details</span></button>',
                             className: 'details-button'
@@ -487,7 +490,7 @@ module Main {
             [
                 { term: "Switch risk sites", value: Humanize.compactInteger(((switchRiskCount / this.repository.resultData.length) * 100), 1) + "%", icon: Icon.Type.Flag, classes: "metrics__measurements__icon--switchRisk" },
                 { term: "Outreach bugs", value: Humanize.compactInteger(outreachBugCount, 1), icon: Icon.Type.Bug },
-                { term: "Release bugs", value: Humanize.compactInteger(outreachBugCount, 1), icon: Icon.Type.Bug },
+                { term: "Release bugs", value: Humanize.compactInteger(releaseBugCount, 1), icon: Icon.Type.Bug },
                 { term: "Total bugs", value: Humanize.compactInteger(totalBugCount, 1), icon: Icon.Type.Bug }
             ].forEach((snapshot) => {
                 data.push(new DescriptionList.DescriptionPair({
@@ -586,6 +589,22 @@ module Main {
                 { term: "Navigations", value: navigationsCount },
                 { term: "Hours of Focus Time", value: focusTimeCount }
             ].forEach((snapshot) => {
+                let colorClass = "";
+
+                if (snapshot.value > 0) {
+                    if (snapshot.term === "Frownies") {
+                        colorClass = "sitereporter__tile__delta--Sad";
+                    } else {
+                        colorClass = "sitereporter__tile__delta--Happy";
+                    }
+                } else {
+                    if (snapshot.term === "Frownies") {
+                        colorClass = "sitereporter__tile__delta--Happy";
+                    } else {
+                        colorClass = "sitereporter__tile__delta--Sad";
+                    }
+                }
+
                 data.push({
                     term: snapshot.term,
                     descriptions: [{
@@ -594,7 +613,7 @@ module Main {
                             text: Humanize.compactInteger(Math.abs(snapshot.value), 1),
                             icon: <Icon.IViewModelData>{
                                 type: (snapshot.value > 0) ? Icon.Type.Up : Icon.Type.Down,
-                                classes: "subtitle"
+                                classes: "subtitle " + colorClass
                             }
                         }
                     }]

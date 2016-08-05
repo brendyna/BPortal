@@ -51,7 +51,7 @@
     <Content Include="Areas\Shared\Html\Tests\Controls\Tabs.Test.html" />
     <Content Include="Areas\SiteReporter\Html\Tests\Views\Details.Test.html" />
     <Content Include="Areas\SiteReporter\Html\Tests\Views\Summary.Test.html" />
-    <Content Include="Content\css\controls.css" />
+    <Content Include="Areas\Shared\Styles\controls.css" />
     <Content Include="Content\css\qunit.css" />
     <Content Include="Content\css\samples.css" />
     <Content Include="Content\css\spinner.css">
@@ -60,6 +60,7 @@
     <Content Include="Content\css\spinner.min.css">
       <DependentUpon>spinner.css</DependentUpon>
     </Content>
+    <Content Include="Areas\SiteReporter\Styles\styles.css" />
     <Content Include="Lib\chutzpah_boot.js" />
     <Content Include="Lib\qunit.js" />
     <Content Include="require.chutzpah.config.js" />
@@ -252,8 +253,9 @@
       <SiteReporterTypeScriptFiles Include=".\Areas\SiteReporter\**\*.js" Exclude=".\Areas\SiteReporter\**\*.Test.js;.\Areas\SharedSiteReporter\**\*.Sample.js" />-->
       <ChutzpahTestFiles Include=".\Areas\**\*.Test.js" />
       <SharedTypeScriptFiles Include=".\Areas\Shared\**\*.js" Exclude=".\Areas\Shared\**\*.Test.js;.\Areas\Shared\**\*.Sample.js" />
-      <SharedCssFiles Include=".\Content\css\controls.css" />
+      <SharedCssFiles Include=".\Areas\Shared\Styles\controls.css" />
       <SiteReporterTypeScriptFiles Include=".\Areas\SiteReporter\**\*.js" Exclude=".\Areas\SiteReporter\**\*.Test.js;.\Areas\SiteReporter\**\*.Sample.js" />
+      <SiteReporterCssFiles Include=".\Areas\SiteReporter\Styles\styles.css" />
     </ItemGroup>
     <!-- Test TS files before copying them to deployment locations -->
     <Copy SourceFiles="@(ChutzpahTestFiles)" DestinationFiles="@(ChutzpahTestFiles->'.\Areas.chutzpah\%(RecursiveDir)%(Filename).js')" />
@@ -262,7 +264,8 @@
     <!-- Copy TS-generated JS files to Web project -->
     <Copy SourceFiles="@(SharedTypeScriptFiles)" DestinationFiles="@(SharedTypeScriptFiles->'..\Web\Areas\Shared\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(SiteReporterTypeScriptFiles)" DestinationFiles="@(SiteReporterTypeScriptFiles->'..\Web\Areas\SiteReporter\Content\js\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <!-- Copy controls styles to Web project -->
+    <!-- Copy styles to Web project -->
     <Copy SourceFiles="@(SharedCssFiles)" DestinationFiles="@(SharedCssFiles->'..\Web\Content\Styles\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(SiteReporterCssFiles)" DestinationFiles="@(SiteReporterCssFiles->'..\Web\Areas\SiteReporter\Content\css\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
 </Project>
