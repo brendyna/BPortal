@@ -7,6 +7,7 @@ module Main {
     $((): void => {
         let dataProvider = new DataProvider.Provider();
         let data = {
+            navigation: dataProvider.getNavigationData(),
             header: dataProvider.getHeaderData(),
             sidebar: dataProvider.getSidebarData(),
             bugs: dataProvider.getBugsData(),

@@ -4,6 +4,7 @@ import ko = require("knockout");
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 import Filters = require("Areas/Shared/Controls/Filters");
 import Header = require("Areas/Shared/Controls/Header");
+import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Table = require("Areas/Shared/Controls/Table");
 
@@ -21,6 +22,7 @@ export = Main;
 
 module Main {
     Header;
+    Navigation;
     Section;
 
     export type Params = {
@@ -35,6 +37,7 @@ module Main {
     }
 
     export interface IViewModelData {
+        navigation?: Navigation.IViewModelData;
         header?: Header.IViewModelData;
         sidebar?: Section.IViewModelData;
         bugs?: Section.IViewModelData;
@@ -55,6 +58,7 @@ module Main {
     export interface IWidget {
         element: JQuery;
         defaults: IWidgetDefaults;
+        navigation: Control<Navigation.IViewModel, Navigation.IWidget>;
         header: Control<Header.IViewModel, Header.IWidget>;
         sidebar: Control<Section.IViewModel, Section.IWidget>;
         bugs: Control<Section.IViewModel, Section.IWidget>;
@@ -63,6 +67,7 @@ module Main {
 
     export class Widget implements IWidget {
         public static controlIds = {
+            navigation: "summary-navigation",
             header: "summary-header",
             sidebar: "summary-sidebar",
             bugs: "summary-bugs",
@@ -126,6 +131,10 @@ module Main {
 
         public get header(): Control<Header.IViewModel, Header.IWidget> {
             return ko.dataFor(this._element.find("#" + Widget.controlIds.header)[0]);
+        }
+
+        public get navigation(): Control<Navigation.IViewModel, Navigation.IWidget> {
+            return ko.dataFor(this._element.find("#" + Widget.controlIds.navigation)[0]);
         }
 
         public get sidebar(): Control<Section.IViewModel, Section.IWidget> {
@@ -300,6 +309,7 @@ module Main {
             this._staticProvider = new SummaryProvider.StaticProvider();
 
             return {
+                navigation: this._staticProvider.getNavigationViewModelData(),
                 header: this._staticProvider.getHeaderViewModelData(),
                 sidebar: this._staticProvider.getSidebarViewModelData(),
                 bugs: this._staticProvider.getBugsViewModelData(),

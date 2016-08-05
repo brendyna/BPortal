@@ -26,6 +26,7 @@
     <Content Include="Areas\Shared\Html\Samples\Controls\Chart.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\DescriptionList.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Filters.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\Navigation.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Header.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Icon.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Input.Sample.html" />
@@ -33,6 +34,7 @@
     <Content Include="Areas\Shared\Html\Samples\Controls\Select.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Table.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Tabs.Sample.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Navigation.Test.html" />
     <Content Include="Areas\SiteReporter\Html\Samples\Views\Details.Sample.html" />
     <Content Include="Areas\SiteReporter\Html\Samples\Views\Summary.Sample.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Base.Test.html" />
@@ -139,6 +141,10 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Areas\Shared\Config.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Navigation.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Navigation.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Navigation.Template.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Navigation.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Util\Knockout.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Config.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Base.ts" />
@@ -244,22 +250,18 @@
       <!--<ChutzpahTestFiles Include=".\Areas\**\*.Test.js" />
       <SharedTypeScriptFiles Include=".\Areas\Shared\**\*.js" Exclude=".\Areas\Shared\**\*.Test.js;.\Areas\Shared\**\*.Sample.js" />
       <SiteReporterTypeScriptFiles Include=".\Areas\SiteReporter\**\*.js" Exclude=".\Areas\SiteReporter\**\*.Test.js;.\Areas\SharedSiteReporter\**\*.Sample.js" />-->
-
       <ChutzpahTestFiles Include=".\Areas\**\*.Test.js" />
       <SharedTypeScriptFiles Include=".\Areas\Shared\**\*.js" Exclude=".\Areas\Shared\**\*.Test.js;.\Areas\Shared\**\*.Sample.js" />
       <SharedCssFiles Include=".\Content\css\controls.css" />
       <SiteReporterTypeScriptFiles Include=".\Areas\SiteReporter\**\*.js" Exclude=".\Areas\SiteReporter\**\*.Test.js;.\Areas\SiteReporter\**\*.Sample.js" />
     </ItemGroup>
-
     <!-- Test TS files before copying them to deployment locations -->
     <Copy SourceFiles="@(ChutzpahTestFiles)" DestinationFiles="@(ChutzpahTestFiles->'.\Areas.chutzpah\%(RecursiveDir)%(Filename).js')" />
     <Exec Command="$(SolutionDir)\packages\Chutzpah.4.2.3\tools\chutzpah.console.exe .\Areas.chutzpah\ /nologo /vsoutput /silent /showFailureReport" />
     <RemoveDir Directories=".\Areas.chutzpah\" />
-
     <!-- Copy TS-generated JS files to Web project -->
     <Copy SourceFiles="@(SharedTypeScriptFiles)" DestinationFiles="@(SharedTypeScriptFiles->'..\Web\Areas\Shared\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(SiteReporterTypeScriptFiles)" DestinationFiles="@(SiteReporterTypeScriptFiles->'..\Web\Areas\SiteReporter\Content\js\%(RecursiveDir)%(Filename)%(Extension)')" />
-
     <!-- Copy controls styles to Web project -->
     <Copy SourceFiles="@(SharedCssFiles)" DestinationFiles="@(SharedCssFiles->'..\Web\Content\Styles\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>

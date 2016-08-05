@@ -2,32 +2,29 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Header - Sample</title>
+        <title>Navigation - Sample</title>
         <link rel="stylesheet" href="http://edgecore.azurewebsites.net/min/indigo.full.min.css" />
         <link rel="stylesheet" href="/Content/css/samples.css" />
         <link rel="stylesheet" href="/Content/css/controls.css" />
         <script type="text/javascript" src="/Lib/requirejs/require.js"></script>
         <script type="text/javascript" src="/require.web.config.js"></script>
         <script>
-            require(["Areas/Shared/Samples/Controls/Header.Sample"])
+            require(["Areas/Shared/Samples/Controls/Navigation.Sample"])
         </script>
     </head>
 
     <body>
-        <h1>Sample: Header</h1>
+        <h1>Sample: Navigation</h1>
         <section>
             Indigo CSS Library references:
-            <a href="http://edgecore.azurewebsites.net/core/structure.html" target="_blank">http://edgecore.azurewebsites.net/core/structure.html</a>
+            <a href="http://edgecore.azurewebsites.net/components/breadcrumb/breadcrumb.html" target="_blank">http://edgecore.azurewebsites.net/components/breadcrumb/breadcrumb.html</a>
         </section>
         <section class="content">
-            <h2>All parts shown</h2>
-            <header id="sample"></header>
-
-            <h2>No subtitle</h2>
-            <header id="sample-no-subtitle"></header>
+            <h2>Basic</h2>
+            <nav id="sample"></nav>
 
             <h2>Custom binding handler</h2>
-            <header id="sample-custom-binding" data-bind="wpsHeader: defaults"></header>
+            <nav id="sample-custom-binding" data-bind="wpsNavigation: defaults"></nav>
         </section>
     </body>
 </html>

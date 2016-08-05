@@ -2,6 +2,7 @@
 
 module Main {
     export let template = `
+        <nav id="details-navigation" data-bind="wpsNavigation: vm.navigation"></nav>
         <header id="details-header" data-bind="wpsHeader: vm.header"></header>
         <section>
             <div class="layout layout--sidebar">

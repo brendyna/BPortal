@@ -9,6 +9,7 @@ import Header = require("Areas/Shared/Controls/Header");
 import Icon = require("Areas/Shared/Controls/Icon");
 import Input = require("Areas/Shared/Controls/Input");
 import KnockoutUtil = require("Areas/Shared/Util/Knockout");
+import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Select = require("Areas/Shared/Controls/Select");
 import Table = require("Areas/Shared/Controls/Table");
@@ -38,6 +39,7 @@ module Main {
     }
 
     export interface IStaticProvider {
+        getNavigationViewModelData: () => Navigation.IViewModelData;
         getHeaderViewModelData: () => Header.IViewModelData;
         getSidebarViewModelData: () => Section.IViewModelData;
         getBugsViewModelData: () => Section.IViewModelData;
@@ -51,9 +53,16 @@ module Main {
         constructor() {
         }
 
+        public getNavigationViewModelData(): Navigation.IViewModelData {
+            let navViewModelData: Navigation.IViewModelData = {
+                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.Breadcrumb
+            };
+
+            return navViewModelData;
+        }
+
         public getHeaderViewModelData(): Header.IViewModelData {
             let headerViewModelData: Header.IViewModelData = {
-                breadcrumb: <Array<Header.ICrumbData>>Config.Window.Breadcrumb
             };
 
             return headerViewModelData;

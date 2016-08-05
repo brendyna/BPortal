@@ -40,33 +40,6 @@ module Main {
             widget.destroy();
         });
 
-        test("Control renders breadcrumb correctly", 7, () => {
-            // Setup
-            let defaults: Header.IWidgetDefaults = {
-                viewModelData: {
-                    breadcrumb: [
-                        { text: "Foo", url: "javascript:;" },
-                        { text: "Bar", url: "javascript:;" }
-                    ]
-                }
-            };
-            let widget = new Header.Widget($("#qunit-fixture"), defaults);
-            let crumbs = widget.element.find("ul li");
-
-            // Act
-
-            // Assert
-            equal(crumbs.length, defaults.viewModelData.breadcrumb.length, "Number of rendered crumbs matches data");
-            equal($(crumbs.get(0)).text(), defaults.viewModelData.breadcrumb[0].text, "Text for first crumb matches data");
-            equal($(crumbs.get(0)).find("a").attr("href"), defaults.viewModelData.breadcrumb[0].url, "URL for first crumb matches data");
-            equal($(crumbs.get(0)).attr("aria-current"), undefined, "aria-current is undefined for first crumb");
-            equal($(crumbs.get(1)).text(), defaults.viewModelData.breadcrumb[1].text, "Text for second crumb matches data");
-            equal($(crumbs.get(1)).find("a").length, 0, "The second/last crumb is not a link");
-            equal($(crumbs.get(1)).attr("aria-current"), "page", "aria-current is set to 'page' for the second/last crumb");
-
-            widget.destroy();
-        });
-
         test("Control renders title correctly", 1, () => {
             // Setup
             let defaults: Header.IWidgetDefaults = {

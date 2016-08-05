@@ -5,6 +5,7 @@ import Header = require("Areas/Shared/Controls/Header");
 import Icon = require("Areas/Shared/Controls/Icon");
 import Input = require("Areas/Shared/Controls/Input");
 import KnockoutUtil = require("Areas/Shared/Util/Knockout");
+import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Table = require("Areas/Shared/Controls/Table");
 
@@ -22,6 +23,7 @@ module Main {
     Table;
 
     export interface IProvider {
+        getNavigationData: Navigation.IViewModelData;
         getHeaderData: Header.IViewModelData;
         getSidebarData: Section.IViewModelData;
         getBugsData: Section.IViewModelData;
@@ -32,14 +34,21 @@ module Main {
         constructor() {
         }
 
-        public getHeaderData(): Header.IViewModelData {
-            let headerData: Header.IViewModelData = {
-                title: "facebook.com",
+        public getNavigationData(): Navigation.IViewModelData {
+            let navData: Navigation.IViewModelData = {
                 breadcrumb: [
                     { text: "WPT Portal", url: "javascript:;" },
                     { text: "Site Reporter", url: "javascript:;" },
                     { text: "Details", url: "javascript:;" }
                 ]
+            };
+
+            return navData;
+        }
+
+        public getHeaderData(): Header.IViewModelData {
+            let headerData: Header.IViewModelData = {
+                title: "facebook.com"
             };
 
             return headerData;
