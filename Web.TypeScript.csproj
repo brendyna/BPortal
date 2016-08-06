@@ -145,8 +145,10 @@
     <TypeScriptCompile Include="Areas\Shared\Controls\Navigation.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Navigation.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Navigation.Template.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Navigation.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Util\Knockout.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Views\Base.View.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Config.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Base.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Button.ts" />

@@ -1,10 +1,9 @@
 ﻿import $ = require("jquery");
 import ko = require("knockout");
-(<any>window).ko = ko;
+import Base = require("Areas/Shared/Views/Base.View");
+import BaseControl = require("Areas/Shared/Controls/Base");
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 import Filters = require("Areas/Shared/Controls/Filters");
-import Header = require("Areas/Shared/Controls/Header");
-import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Table = require("Areas/Shared/Controls/Table");
 
@@ -21,67 +20,36 @@ import DefaultTemplate = require("../Templates/Views/Summary.Template");
 export = Main;
 
 module Main {
-    Header;
-    Navigation;
     Section;
 
-    export type Params = {
+    export interface IParams extends Base.IParams {
         tag: string;
         platform: string;
         release: string;
     }
 
-    export interface Control<VM, W> {
-        vm: VM;
-        widget: W;
-    }
-
-    export interface IViewModelData {
-        navigation?: Navigation.IViewModelData;
-        header?: Header.IViewModelData;
+    export interface IViewModelData extends Base.IViewModelData {
         sidebar?: Section.IViewModelData;
         bugs?: Section.IViewModelData;
         trends?: Section.IViewModelData;
     }
 
-    export interface IViewContext {
-        params: Params;
+    export interface IViewContext extends Base.IViewContext {
+        params: IParams;
     }
 
-    export interface IWidgetDefaults {
+    export interface IWidgetDefaults extends Base.IWidgetDefaults {
         viewContext: IViewContext;
         viewModelData?: IViewModelData;
-        template?: string;
-        disableAutoRender?: boolean;
     }
 
-    export interface IWidget {
-        element: JQuery;
-        defaults: IWidgetDefaults;
-        navigation: Control<Navigation.IViewModel, Navigation.IWidget>;
-        header: Control<Header.IViewModel, Header.IWidget>;
-        sidebar: Control<Section.IViewModel, Section.IWidget>;
-        bugs: Control<Section.IViewModel, Section.IWidget>;
-        trends: Control<Section.IViewModel, Section.IWidget>;
+    export interface IWidget extends Base.IWidget {
+        sidebar: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        bugs: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        trends: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
     }
 
-    export class Widget implements IWidget {
-        public static controlIds = {
-            navigation: "summary-navigation",
-            header: "summary-header",
-            sidebar: "summary-sidebar",
-            bugs: "summary-bugs",
-            trends: "summary-trends"
-        };
-
-        public static controlClasses = {
-        };
-
-        private _element: JQuery;
-        private _defaults: IWidgetDefaults;
-        private _loadDeferred: JQueryDeferred<void>;
-        private _subscriptions: Array<KnockoutSubscription>;
-
+    export class Widget extends Base.Widget implements IWidget {
         private _bugsForTagBlobUrlRepo: BugsForTagBlobUrlRepository.IRepository;
         private _bugsForTagRepo: BugsForTagRepository.IRepository;
         private _bugsForTagProvider: SummaryProvider.BugsProvider;
@@ -94,23 +62,76 @@ module Main {
         private _staticProvider: SummaryProvider.StaticProvider;
 
         constructor(element: JQuery, defaults: IWidgetDefaults, viewModelData: IViewModelData = {}) {
-            this._element = element;
-            this._defaults = <IWidgetDefaults>defaults;
-            this._loadDeferred = $.Deferred<void>();
-            this._subscriptions = [];
+            defaults.template = defaults.template || DefaultTemplate;
 
-            this._defaults.template = this._defaults.template || DefaultTemplate;
+            super(element, defaults, viewModelData);
 
-            this.element.html(this._defaults.template);
+            this._controlIds = $.extend({
+                sidebar: "summary-sidebar",
+                bugs: "summary-bugs",
+                trends: "summary-trends"
+            }, this._controlIds);
 
-            if (!defaults.disableAutoRender) {
-                this.render();
+            this._controlClasses = $.extend({
+                bugFilters: "bugs__filters",
+                bugSnapshot: "sidebar__bug-snapshot",
+                bugList: "bugs__site-list",
+                trendFilters: "trends__filters",
+                trendSnapshot: "sidebar__trend-snapshot",
+                trendList: "trends__site-list"
+            }, this._controlClasses);
+
+            this.setStaticViewModelData();
+
+            if (!this._defaults.disableAutoRender) {
+                super.render();
                 this.loadData();
             }
         }
 
-        public render(): void {
-            ko.applyBindings({ vm: this.getStaticViewModelData(), widget: this }, this._element[0]);
+        public get sidebar(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
+            return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
+                (super.getDataFor("#" + this.controlIds["sidebar"]));
+        }
+
+        public get bugs(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
+            return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
+                (super.getDataFor("#" + this.controlIds["bugs"]));
+        }
+
+        public get trends(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
+            return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
+                (super.getDataFor("#" + this.controlIds["trends"]));
+        }
+
+        public get bugsFilters(): BaseControl.IControl<Filters.ViewModel, Filters.Widget> {
+            return <BaseControl.IControl<Filters.ViewModel, Filters.Widget>>
+                (super.getDataFor("." + this.controlClasses["bugFilters"]));
+        }
+
+        public get bugsSnapshots(): BaseControl.IControl<DescriptionList.ViewModel, DescriptionList.Widget> {
+            return <BaseControl.IControl<DescriptionList.ViewModel, DescriptionList.Widget>>
+                (super.getDataFor("." + this.controlClasses["bugSnapshot"]));
+        }
+
+        public get bugsTable(): BaseControl.IControl<Table.ViewModel, Table.Widget> {
+            return <BaseControl.IControl<Table.ViewModel, Table.Widget>>
+                (super.getDataFor("." + this.controlClasses["bugList"]));
+        }
+
+        public get trendsFilters(): BaseControl.IControl<Filters.ViewModel, Filters.Widget> {
+            return <BaseControl.IControl<Filters.ViewModel, Filters.Widget>>
+                (super.getDataFor("." + this.controlClasses["trendFilters"]));
+        }
+
+        public get trendsSnapshots(): BaseControl.IControl<DescriptionList.ViewModel, DescriptionList.Widget> {
+            return <BaseControl.IControl<DescriptionList.ViewModel, DescriptionList.Widget>>
+                (super.getDataFor("." + this.controlClasses["trendSnapshot"]));
+        }
+
+        public get trendsTable(): BaseControl.IControl<Table.ViewModel, Table.Widget> {
+            return <BaseControl.IControl<Table.ViewModel, Table.Widget>>
+                (super.getDataFor("." + this.controlClasses["trendList"]));
         }
 
         public loadData(): JQueryPromise<void> {
@@ -121,67 +142,55 @@ module Main {
             return this._loadDeferred.promise();
         }
 
-        public get defaults(): IWidgetDefaults {
-            return this._defaults;
+        public initializeRepos(): void {
+            let repoSettings = {
+                request: {
+                    data: this.defaults.viewContext.params
+                }
+            };
+            this._bugsForTagBlobUrlRepo = new BugsForTagBlobUrlRepository.Repository($.extend({}, repoSettings));
+            this._bugsForTagRepo = new BugsForTagRepository.Repository();
+            this._filtersRepo = new FiltersRepository.Repository($.extend({}, repoSettings));
+            this._trendsForTagRepo = new TrendsForTagRepository.Repository($.extend({}, repoSettings));
+            this._scantimeRepo = new ScanTimeRepository.Repository();
         }
 
-        public get element(): JQuery {
-            return this._element;
+        public initializeLoading(): void {
+            this.bugsFilters.vm.loading(true);
+            this.trendsFilters.vm.loading(true);
+
+            this.initializeBugsLoading();
+            this.initializeTrendsLoading();
         }
 
-        public get header(): Control<Header.IViewModel, Header.IWidget> {
-            return ko.dataFor(this._element.find("#" + Widget.controlIds.header)[0]);
+        public loadRepos(): void {
+            // Setup load state changes for when promises resolve
+            // There's a random bug here (remove the <any> and see the compiler error)
+            $.when<any>(
+                this._bugsForTagBlobUrlRepo.getPromise(),
+                this._bugsForTagRepo.getPromise(),
+                this._filtersRepo.getPromise(),
+                this._trendsForTagRepo.getPromise(),
+                this._scantimeRepo.getPromise())
+            .done(() => {
+                this._loadDeferred.resolve();
+                this.initializeSubscriptions();
+            });
+
+            // Begin loading the data
+            this.loadBugsRepo();
+            this.loadTrendsRepo();
+
+            this._filtersRepo.load().done(() => {
+                this.applyFiltersData();
+            });
+
+            this._scantimeRepo.load().done(() => {
+                this.applyScantimeData();
+            });
         }
 
-        public get navigation(): Control<Navigation.IViewModel, Navigation.IWidget> {
-            return ko.dataFor(this._element.find("#" + Widget.controlIds.navigation)[0]);
-        }
-
-        public get sidebar(): Control<Section.IViewModel, Section.IWidget> {
-            return ko.dataFor(this._element.find("#" + Widget.controlIds.sidebar)[0]);
-        }
-
-        public get bugs(): Control<Section.IViewModel, Section.IWidget> {
-            return ko.dataFor(this._element.find("#" + Widget.controlIds.bugs)[0]);
-        }
-
-        public get trends(): Control<Section.IViewModel, Section.IWidget> {
-            return ko.dataFor(this._element.find("#" + Widget.controlIds.trends)[0]);
-        }
-
-        public get bugsFilters(): Control<Filters.ViewModel, Filters.Widget> {
-            return <Control<Filters.ViewModel, Filters.Widget>>
-                ko.dataFor(this.element.find(".bugs__filters")[0]);
-        }
-
-        public get bugsSnapshots(): Control<DescriptionList.ViewModel, DescriptionList.Widget> {
-            let control = <Control<DescriptionList.ViewModel, DescriptionList.Widget>>
-                ko.dataFor(this.element.find(".sidebar__bug-snapshot")[0]);
-            return control;
-        }
-
-        public get bugsTable(): Control<Table.ViewModel, Table.Widget> {
-            return <Control<Table.ViewModel, Table.Widget>>
-                ko.dataFor(this.element.find(".bugs__site-list")[0]);
-        }
-
-        public get trendsFilters(): Control<Filters.ViewModel, Filters.Widget> {
-            return <Control<Filters.ViewModel, Filters.Widget>>
-                ko.dataFor(this.element.find(".trends__filters")[0]);
-        }
-
-        public get trendsSnapshots(): Control<DescriptionList.ViewModel, DescriptionList.Widget> {
-            let control = <Control<DescriptionList.ViewModel, DescriptionList.Widget>>
-                ko.dataFor(this.element.find(".sidebar__trend-snapshot")[0]);
-            return control;
-        }
-
-        public get trendsTable(): Control<Table.ViewModel, Table.Widget> {
-            return <Control<Table.ViewModel, Table.Widget>>
-                ko.dataFor(this.element.find(".trends__site-list")[0]);
-        }
-
-        private initializeSubscriptions(): void {
+        public initializeSubscriptions(): void {
             this._subscriptions.push(this.bugsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
                 $.extend(this._bugsForTagBlobUrlRepo.settings.request.data, newValue);
 
@@ -197,44 +206,26 @@ module Main {
             }));
         }
 
-        private initializeRepos(): void {
-            let repoSettings = {
-                request: {
-                    data: this.defaults.viewContext.params
-                }
-            };
-            this._bugsForTagBlobUrlRepo = new BugsForTagBlobUrlRepository.Repository($.extend({}, repoSettings));
-            this._bugsForTagRepo = new BugsForTagRepository.Repository();
-            this._filtersRepo = new FiltersRepository.Repository($.extend({}, repoSettings));
-            this._trendsForTagRepo = new TrendsForTagRepository.Repository($.extend({}, repoSettings));
-            this._scantimeRepo = new ScanTimeRepository.Repository();
+        public setStaticViewModelData(): void {
+            this._staticProvider = new SummaryProvider.StaticProvider();
+
+            this._staticViewModelData = <IViewModelData>{
+                navigation: this._staticProvider.getNavigationViewModelData(),
+                header: this._staticProvider.getHeaderViewModelData(),
+                sidebar: this._staticProvider.getSidebarViewModelData(),
+                bugs: this._staticProvider.getBugsViewModelData(),
+                trends: this._staticProvider.getTrendsViewModelData()
+            }
         }
 
-        private loadRepos(): void {
-            // Setup load state changes for when promises resolve
-            // There's a random bug here (remove the <any> and see the compiler error)
-            (<any>$).when(
-                this._bugsForTagBlobUrlRepo.getPromise(),
-                this._bugsForTagRepo.getPromise(),
-                this._filtersRepo.getPromise(),
-                this._trendsForTagRepo.getPromise(),
-                this._scantimeRepo.getPromise())
-                .done(() => {
-                    this._loadDeferred.resolve();
-                    this.initializeSubscriptions();
-                });
+        private initializeBugsLoading(): void {
+            this.bugsSnapshots.vm.loading(true);
+            this.bugsTable.vm.loading(true);
+        }
 
-            // Begin loading the data
-            this.loadBugsRepo();
-            this.loadTrendsRepo();
-
-            this._filtersRepo.load().done(() => {
-                this.applyFiltersData();
-            });
-
-            this._scantimeRepo.load().done(() => {
-                this.applyScantimeData();
-            });
+        private initializeTrendsLoading(): void {
+            this.trendsSnapshots.vm.loading(true);
+            this.trendsTable.vm.loading(true);
         }
 
         private loadBugsRepo(): void {
@@ -254,24 +245,6 @@ module Main {
             });
         }
 
-        private initializeLoading(): void {
-            this.bugsFilters.vm.loading(true);
-            this.trendsFilters.vm.loading(true);
-
-            this.initializeBugsLoading();
-            this.initializeTrendsLoading();
-        }
-
-        private initializeBugsLoading(): void {
-            this.bugsSnapshots.vm.loading(true);
-            this.bugsTable.vm.loading(true);
-        }
-
-        private initializeTrendsLoading(): void {
-            this.trendsSnapshots.vm.loading(true);
-            this.trendsTable.vm.loading(true);
-        }
-
         private applyBugsData(): void {
             this._bugsForTagProvider = new SummaryProvider.BugsProvider(this._bugsForTagRepo);
 
@@ -279,15 +252,6 @@ module Main {
             this.bugsTable.vm.loading(false);
             this.bugsSnapshots.vm.descriptionPairs(this._bugsForTagProvider.getBugSnapshotData());
             this.bugsTable.widget.data(this._bugsForTagProvider.getBugTableData());
-        }
-
-        private applyFiltersData(): void {
-            this._filtersProvider = new SummaryProvider.FiltersProvider(this._filtersRepo);
-
-            this.bugsFilters.vm.loading(false);
-            this.bugsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Bugs));
-            this.trendsFilters.vm.loading(false);
-            this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Trends));
         }
 
         private applyTrendsData(): void {
@@ -299,22 +263,19 @@ module Main {
             this.trendsTable.widget.data(this._trendsForTagProvider.getTrendsTableData());
         }
 
+        private applyFiltersData(): void {
+            this._filtersProvider = new SummaryProvider.FiltersProvider(this._filtersRepo);
+
+            this.bugsFilters.vm.loading(false);
+            this.bugsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Bugs));
+            this.trendsFilters.vm.loading(false);
+            this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Trends));
+        }
+
         private applyScantimeData(): void {
             this._scantimeProvider = new SummaryProvider.ScanTimeProvider(this._scantimeRepo);
 
             this.bugsTable.vm.metadata("Updated " + this._scantimeProvider.getLastScannedTime());
-        }
-
-        private getStaticViewModelData(): IViewModelData {
-            this._staticProvider = new SummaryProvider.StaticProvider();
-
-            return {
-                navigation: this._staticProvider.getNavigationViewModelData(),
-                header: this._staticProvider.getHeaderViewModelData(),
-                sidebar: this._staticProvider.getSidebarViewModelData(),
-                bugs: this._staticProvider.getBugsViewModelData(),
-                trends: this._staticProvider.getTrendsViewModelData()
-            }
         }
     }
 }

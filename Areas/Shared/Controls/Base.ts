@@ -25,6 +25,11 @@ module Main {
         return <T>(ko.dataFor(elem[0]).vm);
     }
 
+    export interface IControl<VM extends IViewModel, W extends IWidget> {
+        vm: VM;
+        widget: W;
+    }
+
     export interface IViewModelData {
         loading?: boolean;
         disabled?: boolean;

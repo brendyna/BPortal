@@ -49,4 +49,5 @@ interface Window {
     API_USERNAME: string;
     API_PASSWORD: string;
     BREADCRUMB: any;
+    ko: KnockoutStatic;
 }
