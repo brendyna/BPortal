@@ -110,15 +110,15 @@ module Main {
                                             {
                                                 content: `<a data-bind="text: $vm.text, attr: { href: $vm.url }"></a>`,
                                                 contentViewModel: {
-                                                    text: "Install Edge extension",
-                                                    url: "file://iefs/Users/brendyna/SiteReporterEdgeExtension"
+                                                    text: "Learn about our data",
+                                                    url: "https://osgwiki.com/wiki/SiteReporter"
                                                 }
                                             },
                                             {
                                                 content: `<a data-bind="text: $vm.text, attr: { href: $vm.url }"></a>`,
                                                 contentViewModel: {
-                                                    text: "Learn about our data",
-                                                    url: "https://osgwiki.com/wiki/SiteReporter"
+                                                    text: "Install Edge extension",
+                                                    url: "file://iefs/Users/brendyna/SiteReporterEdgeExtension"
                                                 }
                                             }
                                         ]

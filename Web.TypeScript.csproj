@@ -165,11 +165,11 @@
     <TypeScriptCompile Include="Areas\Shared\Controls\Tabs.ts" />
     <TypeScriptCompile Include="Areas\Shared\Data\Providers\Base.Provider.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Details.Provider.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Details.Providers.New.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Summary.Provider.ts" />
     <TypeScriptCompile Include="Areas\Shared\Data\Repositories\Base.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForTag.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForTagBlobUrl.Repository.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\GetBuiltWithData.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\Filters.Repository.ts" />
     <TypeScriptCompile Include="Areas\Shared\Data\Request.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\ScanTime.Repository.ts" />
@@ -212,6 +212,7 @@
     <TypeScriptCompile Include="Areas\SiteReporter\Tests\Views\Summary.Test.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Util\Navigation.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Views\Details.View.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Views\Details.View.Start.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Views\Summary.View.Start.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Views\Summary.View.ts" />
     <TypeScriptCompile Include="references.d.ts" />

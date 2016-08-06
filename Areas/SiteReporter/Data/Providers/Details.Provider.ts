@@ -1,4 +1,8 @@
-﻿import Chart = require("Areas/Shared/Controls/Chart");
+﻿import moment = require("moment");
+
+import Base = require("Areas/Shared/Controls/Base");
+import Chart = require("Areas/Shared/Controls/Chart");
+import Config = require("../../Config");
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 import Filters = require("Areas/Shared/Controls/Filters");
 import Header = require("Areas/Shared/Controls/Header");
@@ -7,34 +11,39 @@ import Input = require("Areas/Shared/Controls/Input");
 import KnockoutUtil = require("Areas/Shared/Util/Knockout");
 import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
+import Select = require("Areas/Shared/Controls/Select");
 import Table = require("Areas/Shared/Controls/Table");
+
+import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
+//import BugsForTagRepository = require("../Repositories/BugsForTag.Repository");
+//import FiltersRepository = require("../Repositories/Filters.Repository");
+//import TrendsForTagRepository = require("../Repositories/TrendsForTag.Repository");
+import GetBuiltWithDataRepository = require("../Repositories/GetBuiltWithData.Repository");
+import ScanTimeRepository = require("../Repositories/ScanTime.Repository");
 
 export = Main;
 
 module Main {
-    Chart;
     DescriptionList;
-    Filters;
-    Header;
-    Icon;
-    Input;
     KnockoutUtil;
-    Section;
-    Table;
 
-    export interface IProvider {
-        getNavigationData: Navigation.IViewModelData;
-        getHeaderData: Header.IViewModelData;
-        getSidebarData: Section.IViewModelData;
-        getBugsData: Section.IViewModelData;
-        getTrendsData: Section.IViewModelData;
+    export interface IStaticProvider {
+        getNavigationViewModelData: Navigation.IViewModelData;
+        getHeaderViewModelData: Header.IViewModelData;
+        getSidebarViewModelData: Section.IViewModelData;
+        getBugsViewModelData: Section.IViewModelData;
+        getTrendsViewModelData: Section.IViewModelData;
+        getTechViewModelData: Section.IViewModelData;
     }
 
-    export class Provider implements IProvider {
+    export interface IDynamicProvider extends BaseProvider.IDynamicProvider {
+    }
+
+    export class StaticProvider implements IStaticProvider {
         constructor() {
         }
 
-        public getNavigationData(): Navigation.IViewModelData {
+        public getNavigationViewModelData(): Navigation.IViewModelData {
             let navData: Navigation.IViewModelData = {
                 breadcrumb: [
                     { text: "WPT Portal", url: "javascript:;" },
@@ -46,7 +55,7 @@ module Main {
             return navData;
         }
 
-        public getHeaderData(): Header.IViewModelData {
+        public getHeaderViewModelData(): Header.IViewModelData {
             let headerData: Header.IViewModelData = {
                 title: "facebook.com"
             };
@@ -54,7 +63,7 @@ module Main {
             return headerData;
         }
 
-        public getSidebarData(): Section.IViewModelData {
+        public getSidebarViewModelData(): Section.IViewModelData {
             let sidebarData = <Section.IViewModelData>{
                 classes: "sidebar",
                 body: `<input data-bind="wpsInput: $vm.siteSearch" />`,
@@ -69,47 +78,37 @@ module Main {
                 },
                 subsections: [
                     {
-                        body: `<dl data-bind="wpsDescriptionList: $vm.links"></dl>`,
-                        bodyViewModel: {
-                            links: <DescriptionList.IViewModelData>{
-                                descriptionPairs: [
-                                    {
-                                        descriptions: [
-                                            {
-                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url }"></a>`,
-                                                contentViewModel: {
-                                                    text: "Install Edge extension",
-                                                    url: "file://iefs/Users/brendyna/SiteReporterEdgeExtension"
-                                                }
-                                            },
-                                            {
-                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url }"></a>`,
-                                                contentViewModel: {
-                                                    text: "Learn about our data",
-                                                    url: "https://osgwiki.com/wiki/SiteReporter"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    {
-                        header: "Highlights",
                         body: `<dl data-bind="wpsDescriptionList: $vm.highlights"></dl>`,
                         bodyViewModel: {
                             highlights: <DescriptionList.IViewModelData>{
                                 descriptionPairs: [
                                     {
-                                        term: "Switch risk",
                                         descriptions: [{
-                                            content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> High</span>`,
+                                            content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> Switch risk</span>`,
                                             contentViewModel: {
                                                 icon: <Icon.IViewModelData>{
-                                                    type: Icon.Type.Error,
-                                                    classes: "subtitle"
+                                                    type: Icon.Type.Flag,
+                                                    classes: "subtitle metrics__measurements__icon--switchRisk"
                                                 }
+                                            }
+                                        }]
+                                    },
+                                    {
+                                        descriptions: [{
+                                            content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> Potentially offensive</span>`,
+                                            contentViewModel: {
+                                                icon: <Icon.IViewModelData>{
+                                                    type: Icon.Type.Blocked,
+                                                    classes: "sitereporter__tile__delta--Sad"
+                                                }
+                                            }
+                                        }]
+                                    },
+                                    {
+                                        descriptions: [{
+                                            content: `<img class="summary--favicon" data-bind="attr: { src: $vm.src }" />`,
+                                            contentViewModel: {
+                                                src: "http://www.google.com/s2/favicons?domain_url=facebook.com"
                                             }
                                         }]
                                     },
@@ -130,26 +129,33 @@ module Main {
                                                 text: "#1"
                                             }
                                         }]
-                                    },
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        body: `<dl data-bind="wpsDescriptionList: $vm.links"></dl>`,
+                        bodyViewModel: {
+                            links: <DescriptionList.IViewModelData>{
+                                descriptionPairs: [
                                     {
-                                        term: "Content",
-                                        descriptions: [{
-                                            content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> Potentially offensive</span>`,
-                                            contentViewModel: {
-                                                icon: <Icon.IViewModelData>{
-                                                    type: Icon.Type.Blocked
+                                        descriptions: [
+                                            {
+                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url }"></a>`,
+                                                contentViewModel: {
+                                                    text: "Learn about our data",
+                                                    url: "https://osgwiki.com/wiki/SiteReporter"
+                                                }
+                                            },
+                                            {
+                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url }"></a>`,
+                                                contentViewModel: {
+                                                    text: "Install Edge extension",
+                                                    url: "file://iefs/Users/brendyna/SiteReporterEdgeExtension"
                                                 }
                                             }
-                                        }]
-                                    },
-                                    {
-                                        term: "Favicon",
-                                        descriptions: [{
-                                            content: `<img class="summary--favicon" data-bind="attr: { src: $vm.src }" />`,
-                                            contentViewModel: {
-                                                src: "http://www.google.com/s2/favicons?domain_url=facebook.com"
-                                            }
-                                        }]
+                                        ]
                                     }
                                 ]
                             }
@@ -161,7 +167,7 @@ module Main {
             return sidebarData;
         }
 
-        public getBugsData(): Section.IViewModelData {
+        public getBugsViewModelData(): Section.IViewModelData {
             return {
                 title: "Bugs",
                 altHeader: true,
@@ -176,7 +182,7 @@ module Main {
             };
         }
 
-        public getTrendsData(): Section.IViewModelData {
+        public getTrendsViewModelData(): Section.IViewModelData {
             let trendsData = <Section.IViewModelData>{
                 title: "Trends",
                 altHeader: true,
@@ -229,7 +235,7 @@ module Main {
             return trendsData;
         }
 
-        public getTechData(): Section.IViewModelData {
+        public getTechViewModelData(): Section.IViewModelData {
             return {
                 title: "Technologies",
                 altHeader: true,
@@ -237,27 +243,9 @@ module Main {
                     <div data-bind="text: $vm.builtwith"></div>
                 `,
                 bodyViewModel: {
-                    builtwith: this.getBuiltWithTechnologies(this.getSampleBuiltWithData())
+                    builtwith: ko.observable("")
                 }
             };
-        }
-
-        private getBuiltWithTechnologies(data: any): string {
-            let technologies = "";
-
-            if (data && data.identifier) {
-                if (data.technologies && data.technologies.length > 0) {
-                    let techs = [];
-
-                    for (let j = 0; j < data.technologies.length; j++) {
-                        techs.push(data.technologies[j].name);
-                    }
-
-                    technologies = techs.join(", ");
-                }
-            }
-
-            return technologies;
         }
 
         private getSampleBuiltWithData(): any {
@@ -1293,4 +1281,205 @@ module Main {
             return value;
         }
     }
+
+    //export class BugsProvider extends BaseProvider.DynamicProvider<BugsForTagRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
+    //    constructor(repository: BugsForTagRepository.IRepository) {
+    //        super(repository);
+    //    }
+
+    //    public getBugSnapshotData(): Array<DescriptionList.IDescriptionPair> {
+    //        let data: Array<DescriptionList.DescriptionPair> = [];
+    //        //let switchRiskCount = 0;
+    //        //let outreachBugCount = 0;
+    //        //let releaseBugCount = 0;
+    //        //let totalBugCount = 0;
+
+    //        //this.repository.resultData.forEach((summary: BugsForTagRepository.SiteBugSummary) => {
+    //        //    outreachBugCount += summary.OutreachBugCount;
+    //        //    releaseBugCount += summary.CurrentReleaseBugCount;
+    //        //    totalBugCount += summary.ActiveBugCount;
+
+    //        //    if (summary.IsSwitchRisk) {
+    //        //        switchRiskCount++;
+    //        //    }
+    //        //});
+
+    //        //[
+    //        //    { term: "Switch risk sites", value: Humanize.compactInteger(((switchRiskCount / this.repository.resultData.length) * 100), 1) + "%", icon: Icon.Type.Flag, classes: "metrics__measurements__icon--switchRisk" },
+    //        //    { term: "Outreach bugs", value: Humanize.compactInteger(outreachBugCount, 1), icon: Icon.Type.Bug },
+    //        //    { term: "Release bugs", value: Humanize.compactInteger(releaseBugCount, 1), icon: Icon.Type.Bug },
+    //        //    { term: "Total bugs", value: Humanize.compactInteger(totalBugCount, 1), icon: Icon.Type.Bug }
+    //        //].forEach((snapshot) => {
+    //        //    data.push(new DescriptionList.DescriptionPair({
+    //        //        term: snapshot.term,
+    //        //        descriptions: [{
+    //        //            content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon, css: $vm.classes"></span>&nbsp;<span data-bind="text: $vm.text"></span></span>`,
+    //        //            contentViewModel: {
+    //        //                classes: (<any>snapshot).classes || "",
+    //        //                text: snapshot.value,
+    //        //                icon: <Icon.IViewModelData>{
+    //        //                    type: snapshot.icon,
+    //        //                    classes: "subtitle"
+    //        //                }
+    //        //            }
+    //        //        }]
+    //        //    }));
+    //        //});
+
+    //        return data;
+    //    }
+
+    //    public getBugTableData(): Array<any> {
+    //        return KnockoutUtil.convertToCamelCase(this.repository.resultData);
+    //    }
+    //}
+
+    //export class FiltersProvider extends BaseProvider.DynamicProvider<FiltersRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
+    //    constructor(repository: FiltersRepository.IRepository) {
+    //        super(repository);
+    //    }
+
+    //    //public getFilterSelectDataByType(type: FiltersType): Array<Select.IViewModelData> {
+    //    //    let data: Array<Select.IViewModelData> = [];
+    //    //    let typeFilterNames: Array<string>;
+
+    //    //    switch (type) {
+    //    //        case FiltersType.Bugs:
+    //    //            typeFilterNames = Config.Filters.Bugs;
+    //    //            break;
+
+    //    //        case FiltersType.Trends:
+    //    //            typeFilterNames = Config.Filters.Trends;
+    //    //            break;
+    //    //    }
+
+
+    //    //    typeFilterNames.forEach((name: string) => {
+    //    //        let optionsDTO = this.getResultFilterOptionsByName(name);
+    //    //        data.push({
+    //    //            name: name,
+    //    //            options: this.transformDTOOptionsToVMOptionsData(optionsDTO)
+    //    //        });
+    //    //    });
+
+    //    //    return data;
+    //    //}
+
+    //    //private transformDTOOptionsToVMOptionsData(dtoOptions: Array<FiltersRepository.Option>): Array<Select.IOptionData> {
+    //    //    let optionsData: Array<Select.IOptionData> = [];
+
+    //    //    dtoOptions.forEach((dtoOption: FiltersRepository.Option) => {
+    //    //        optionsData.push({
+    //    //            text: dtoOption.text,
+    //    //            value: dtoOption.value,
+    //    //            disabled: dtoOption.disabled
+    //    //        });
+    //    //    });
+
+    //    //    return optionsData;
+    //    //}
+
+    //    //private getResultFilterOptionsByName(name: string): Array<FiltersRepository.Option> {
+    //    //    return this.repository.resultData[name];
+    //    //}
+    //}
+
+    //export class TrendsProvider extends BaseProvider.DynamicProvider<TrendsForTagRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
+    //    constructor(repository: TrendsForTagRepository.IRepository) {
+    //        super(repository);
+    //    }
+
+    //    //public getTrendsSnapshotData(): Array<DescriptionList.IDescriptionPair> {
+    //    //    let data = [];
+    //    //    let frowniesCount = 0;
+    //    //    let navigationsCount = 0;
+    //    //    let focusTimeCount = 0;
+
+    //    //    this.repository.resultData.data.forEach((summary: TrendsForTagRepository.SiteTrendSummary) => {
+    //    //        frowniesCount += summary.frowny;
+    //    //        navigationsCount += summary.navigation;
+    //    //        focusTimeCount += summary.focusTime;
+    //    //    });
+
+    //    //    [
+    //    //        { term: "Frownies", value: frowniesCount },
+    //    //        { term: "Navigations", value: navigationsCount },
+    //    //        { term: "Hours of Focus Time", value: focusTimeCount }
+    //    //    ].forEach((snapshot) => {
+    //    //        let colorClass = "";
+
+    //    //        if (snapshot.value > 0) {
+    //    //            if (snapshot.term === "Frownies") {
+    //    //                colorClass = "sitereporter__tile__delta--Sad";
+    //    //            } else {
+    //    //                colorClass = "sitereporter__tile__delta--Happy";
+    //    //            }
+    //    //        } else {
+    //    //            if (snapshot.term === "Frownies") {
+    //    //                colorClass = "sitereporter__tile__delta--Happy";
+    //    //            } else {
+    //    //                colorClass = "sitereporter__tile__delta--Sad";
+    //    //            }
+    //    //        }
+
+    //    //        data.push({
+    //    //            term: snapshot.term,
+    //    //            descriptions: [{
+    //    //                content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span>&nbsp;<span data-bind="text: $vm.text"></span></span>`,
+    //    //                contentViewModel: {
+    //    //                    text: Humanize.compactInteger(Math.abs(snapshot.value), 1),
+    //    //                    icon: <Icon.IViewModelData>{
+    //    //                        type: (snapshot.value > 0) ? Icon.Type.Up : Icon.Type.Down,
+    //    //                        classes: "subtitle " + colorClass
+    //    //                    }
+    //    //                }
+    //    //            }]
+    //    //        });
+    //    //    });
+
+    //    //    return Base.createFromDefaults(data, DescriptionList.DescriptionPair);
+    //    //}
+
+    //    //public getTrendsTableData(): Array<any> {
+    //    //    return KnockoutUtil.convertToCamelCase(this.repository.resultData.data);
+    //    //}
+    //}
+
+    export class ScanTimeProvider extends BaseProvider.DynamicProvider<ScanTimeRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
+        constructor(repository: ScanTimeRepository.IRepository) {
+            super(repository);
+        }
+
+        public getLastScannedTime(): string {
+            return moment(this.repository.resultData).fromNow();
+        }
+    }
+
+    export class BuiltWithProvider extends BaseProvider.DynamicProvider<GetBuiltWithDataRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
+        constructor(repository: GetBuiltWithDataRepository.IRepository) {
+            super(repository);
+        }
+
+        public getTechnologies(): string {
+            let technologies = [];
+
+            this.repository.resultData.technologies.forEach((tech: GetBuiltWithDataRepository.Technology) => {
+                technologies.push(tech.name);
+            });
+
+            return technologies.join(", ");
+        }
+    }
+
+    //function renderBingdexColumn(data, type) {
+    //    var value;
+    //    if ((type === "sort" || type === "type") && data === 0) {
+    //        value = (<any>Number).MAX_SAFE_INTEGER;
+    //    } else if (data === 0) {
+    //        value = 'n/a';
+    //    } else {
+    //        value = data;
+    //    }
+    //    return value;
+    //}
 }

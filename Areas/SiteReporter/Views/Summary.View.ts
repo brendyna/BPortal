@@ -20,7 +20,10 @@ import DefaultTemplate = require("../Templates/Views/Summary.Template");
 export = Main;
 
 module Main {
+    DescriptionList;
+    Filters;
     Section;
+    Table;
 
     export interface IParams extends Base.IParams {
         tag: string;

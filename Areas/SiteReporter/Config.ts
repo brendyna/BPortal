@@ -4,6 +4,7 @@ module Main {
     export class Endpoints {
         public static BugsForTag = "bugsfortag";
         public static Filters = "filter";
+        public static GetBuildWithData = "getbuiltwithdata";
         public static ScanTime = "scantime";
         public static TrendsForTag = "trendsfortag";
     }
@@ -40,7 +41,7 @@ module Main {
         public static LearnMore = "https://osgwiki.com/wiki/SiteReporter";
         public static SummaryPage = '/SiteReporter/Summary/Index2?';
         public static DetailsPage = '/SiteReporter/Details?';
-        public static DetailsPageBase = "http://wptportal.corp.microsoft.com/sitereporter/details?domain=";
+        public static DetailsPageBase = "http://wptportal.corp.microsoft.com/sitereporter/details";
         public static SiteReporterApi = "https://sitereporter-api.azurewebsites.net/api";
     }
 
