@@ -58,19 +58,15 @@ module Main {
 
         public getNavigationViewModelData(): Navigation.IViewModelData {
             let navData: Navigation.IViewModelData = {
-                breadcrumb: [
-                    { text: "WPT Portal", url: "javascript:;" },
-                    { text: "Site Reporter", url: "javascript:;" },
-                    { text: "Details", url: "javascript:;" }
-                ]
+                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.Breadcrumb
             };
 
             return navData;
         }
 
-        public getHeaderViewModelData(): Header.IViewModelData {
+        public getHeaderViewModelData(title: string): Header.IViewModelData {
             let headerData: Header.IViewModelData = {
-                title: "facebook.com"
+                title: title
             };
 
             return headerData;

@@ -30,7 +30,7 @@ module Main {
             super(repository);
         }
 
-        public getFilterSelectDataByType(type: FiltersType): Array<Select.IViewModelData> {
+        public getFilterSelectDataByType(type: FiltersType, defaults?: IDictionary<string>): Array<Select.IViewModelData> {
             let data: Array<Select.IViewModelData> = [];
             let typeFilterNames: Array<string>;
 
@@ -52,7 +52,9 @@ module Main {
                 let optionsDTO = this.getResultFilterOptionsByName(name);
                 data.push({
                     name: name,
-                    options: this.transformDTOOptionsToVMOptionsData(optionsDTO)
+                    options: this.transformDTOOptionsToVMOptionsData(optionsDTO),
+                    intialValue: defaults[name],
+                    value: defaults[name]
                 });
             });
 

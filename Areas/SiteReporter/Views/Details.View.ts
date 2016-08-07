@@ -176,21 +176,23 @@ module Main {
         }
 
         public initializeRepos(): void {
-            let repoSettings = {
+            this._bugsForDomainBlobUrlRepo = new BugsForDomainBlobUrlRepository.Repository(this.getRepoSettings());
+            this._bugsForDomainRepo = new BugsForDomainRepository.Repository();
+            this._bugTrendsBlobUrlRepo = new BugTrendsBlobUrlRepository.Repository(this.getRepoSettings());
+            this._bugTrendsRepo = new BugTrendsRepository.Repository();
+            this._detailsForDomainRepo = new DetailsForDomainRepository.Repository(this.getRepoSettings());
+            this._filtersRepo = new FiltersRepository.Repository(this.getRepoSettings());
+            this._trendsForDomainRepo = new TrendsForDomainRepository.Repository(this.getRepoSettings());
+            this._builtWithRepo = new GetBuiltWithDataRepository.Repository(this.getRepoSettings());
+            this._scantimeRepo = new ScanTimeRepository.Repository();
+        }
+
+        private getRepoSettings(): {} {
+            return {
                 request: {
-                    data: this.defaults.viewContext.params
+                    data: $.extend({}, this.defaults.viewContext.params)
                 }
             };
-
-            this._bugsForDomainBlobUrlRepo = new BugsForDomainBlobUrlRepository.Repository($.extend({}, repoSettings));
-            this._bugsForDomainRepo = new BugsForDomainRepository.Repository();
-            this._bugTrendsBlobUrlRepo = new BugTrendsBlobUrlRepository.Repository($.extend({}, repoSettings));
-            this._bugTrendsRepo = new BugTrendsRepository.Repository();
-            this._detailsForDomainRepo = new DetailsForDomainRepository.Repository($.extend({}, repoSettings));
-            this._filtersRepo = new FiltersRepository.Repository($.extend({}, repoSettings));
-            this._trendsForDomainRepo = new TrendsForDomainRepository.Repository($.extend({}, repoSettings));
-            this._builtWithRepo = new GetBuiltWithDataRepository.Repository($.extend({}, repoSettings));
-            this._scantimeRepo = new ScanTimeRepository.Repository();
         }
 
         public initializeLoading(): void {
@@ -205,27 +207,9 @@ module Main {
 
         public loadRepos(): void {
             // Setup load state changes for when promises resolve
-            // There's a random bug here (remove the <any> and see the compiler error)
-            $.when<any>(
-                this._bugsForDomainRepo.getPromise(),
-                this._bugTrendsRepo.getPromise(),
-                this._builtWithRepo.getPromise(),
-                this._filtersRepo.getPromise(),
-                this._scantimeRepo.getPromise(),
-                this._trendsForDomainRepo.getPromise())
-            .done(() => {
-                this._loadDeferred.resolve();
-                this.initializeSubscriptions();
-            });
+            this.initializeRepoLoadActions();
 
-            // When the complete set of data is ready, render the sidebar
-            $.when<any>(
-                this._bugsForDomainRepo.getPromise(),
-                this._detailsForDomainRepo.getPromise())
-            .done(() => {
-                this.applySidebarData();
-            });
-
+            // Load repos
             this._detailsForDomainRepo.load();
 
             this._filtersRepo.load().done(() => {
@@ -253,11 +237,54 @@ module Main {
         }
 
         public initializeSubscriptions(): void {
+            // No-op (subscription initialization is split up based on repo loads)
+        }
+
+        private initializeRepoLoadActions(): void {
+            // There's a random bug here (remove the <any> and see the compiler error)
+            $.when<any>(
+                this._bugsForDomainRepo.getPromise(),
+                this._bugTrendsRepo.getPromise(),
+                this._builtWithRepo.getPromise(),
+                this._filtersRepo.getPromise(),
+                this._scantimeRepo.getPromise(),
+                this._trendsForDomainRepo.getPromise())
+            .done(() => {
+                this._loadDeferred.resolve();
+            });
+
+            // When the complete set of data is ready, render the sidebar
+            $.when<any>(
+                this._bugsForDomainRepo.getPromise(),
+                this._detailsForDomainRepo.getPromise())
+            .done(() => {
+                this.applySidebarData();
+            });
+
+            $.when<any>(
+                this._filtersRepo.getPromise(),
+                this._bugsForDomainRepo.getPromise(),
+                this._bugTrendsRepo.getPromise())
+            .done(() => {
+                this.initializeBugSubscriptions();
+            });
+
+            $.when<any>(
+                this._filtersRepo.getPromise(),
+                this._trendsForDomainRepo.getPromise())
+            .done(() => {
+                this.initializeTrendsSubscriptions();
+            });
+        }
+
+        private initializeBugSubscriptions(): void {
             this._subscriptions.push(this.bugsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
                 this.bugsTable.widget.data(this._bugsForDomainProvider.getBugTableDataByType(newValue[DetailsProvider.BugsProvider.SelectName]));
                 this.updateBugTrendsChart(newValue[DetailsProvider.BugsProvider.SelectName]);
             }));
+        }
 
+        private initializeTrendsSubscriptions(): void {
             this._subscriptions.push(this.trendsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
                 $.extend(this._trendsForDomainRepo.settings.request.data, newValue);
 
@@ -271,7 +298,7 @@ module Main {
 
             this._staticViewModelData = <IViewModelData>{
                 navigation: this._staticProvider.getNavigationViewModelData(),
-                header: this._staticProvider.getHeaderViewModelData(),
+                header: this._staticProvider.getHeaderViewModelData((<IParams>this.defaults.viewContext.params).domain),
                 sidebar: this._staticProvider.getSidebarViewModelData(),
                 bugs: this._staticProvider.getBugsViewModelData(),
                 trends: this._staticProvider.getTrendsViewModelData(),
@@ -370,7 +397,10 @@ module Main {
             this._filtersProvider = new SharedProvider.FiltersProvider(this._filtersRepo);
             
             this.trendsFilters.vm.loading(false);
-            this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SharedProvider.FiltersType.TrendsDetails));
+            this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SharedProvider.FiltersType.TrendsDetails, {
+                platform: (<IParams>this.defaults.viewContext.params).platform,
+                release: (<IParams>this.defaults.viewContext.params).release
+            }));
         }
 
         private applyBuiltWithData(): void {

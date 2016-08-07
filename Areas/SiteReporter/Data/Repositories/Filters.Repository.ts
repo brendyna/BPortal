@@ -21,12 +21,15 @@ module Main {
     }
 
     export class Repository extends BaseRepository.Repository<DataTransferObject> implements IRepository {
-        constructor(settings: BaseRepository.IRepositorySettings = {}, params?: BaseRepository.RepositoryParams) {
+        constructor(settings: BaseRepository.IRepositorySettings = new Object(), params?: BaseRepository.RepositoryParams) {
             settings.baseUrl = Config.Urls.SiteReporterApi;
             settings.endpoint = Config.Endpoints.Filters;
             settings.authorize = true;
             settings.request = settings.request || {};
-            settings.request.data = settings.request.data || params || {};
+
+            // Set to Summary defaults because filters are the same regardless of params
+            // (Perhaps we should remove params from the JSON API)
+            settings.request.data = $.extend({}, Config.Params.SummaryDefaults);
 
             super(settings);
         }

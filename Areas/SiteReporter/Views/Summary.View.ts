@@ -150,16 +150,19 @@ module Main {
         }
 
         public initializeRepos(): void {
-            let repoSettings = {
+            this._bugsForTagBlobUrlRepo = new BugsForTagBlobUrlRepository.Repository(this.getRepoSettings());
+            this._bugsForTagRepo = new BugsForTagRepository.Repository();
+            this._filtersRepo = new FiltersRepository.Repository(this.getRepoSettings());
+            this._trendsForTagRepo = new TrendsForTagRepository.Repository(this.getRepoSettings());
+            this._scantimeRepo = new ScanTimeRepository.Repository();
+        }
+
+        private getRepoSettings(): {} {
+            return {
                 request: {
-                    data: this.defaults.viewContext.params
+                    data: $.extend({}, this.defaults.viewContext.params)
                 }
             };
-            this._bugsForTagBlobUrlRepo = new BugsForTagBlobUrlRepository.Repository($.extend({}, repoSettings));
-            this._bugsForTagRepo = new BugsForTagRepository.Repository();
-            this._filtersRepo = new FiltersRepository.Repository($.extend({}, repoSettings));
-            this._trendsForTagRepo = new TrendsForTagRepository.Repository($.extend({}, repoSettings));
-            this._scantimeRepo = new ScanTimeRepository.Repository();
         }
 
         public initializeLoading(): void {
@@ -172,17 +175,7 @@ module Main {
 
         public loadRepos(): void {
             // Setup load state changes for when promises resolve
-            // There's a random bug here (remove the <any> and see the compiler error)
-            $.when<any>(
-                this._bugsForTagBlobUrlRepo.getPromise(),
-                this._bugsForTagRepo.getPromise(),
-                this._filtersRepo.getPromise(),
-                this._trendsForTagRepo.getPromise(),
-                this._scantimeRepo.getPromise())
-            .done(() => {
-                this._loadDeferred.resolve();
-                this.initializeSubscriptions();
-            });
+            this.initializeRepoLoadActions();
 
             // Begin loading the data
             this.loadBugsRepo();
@@ -198,19 +191,7 @@ module Main {
         }
 
         public initializeSubscriptions(): void {
-            this._subscriptions.push(this.bugsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
-                $.extend(this._bugsForTagBlobUrlRepo.settings.request.data, newValue);
-
-                this.initializeBugsLoading();
-                this.loadBugsRepo();
-            }));
-
-            this._subscriptions.push(this.trendsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
-                $.extend(this._trendsForTagRepo.settings.request.data, newValue);
-
-                this.initializeTrendsLoading();
-                this.loadTrendsRepo();
-            }));
+            // No-op (subscription initialization is split up based on repo loads)
         }
 
         public setStaticViewModelData(): void {
@@ -223,6 +204,50 @@ module Main {
                 bugs: this._staticProvider.getBugsViewModelData(),
                 trends: this._staticProvider.getTrendsViewModelData()
             }
+        }
+
+        private initializeRepoLoadActions(): void {
+            // There's a random bug here (remove the <any> and see the compiler error)
+            $.when<any>(
+                this._bugsForTagRepo.getPromise(),
+                this._filtersRepo.getPromise(),
+                this._trendsForTagRepo.getPromise(),
+                this._scantimeRepo.getPromise())
+            .done(() => {
+                this._loadDeferred.resolve();
+            });
+
+            $.when<any>(
+                this._bugsForTagRepo.getPromise(),
+                this._filtersRepo.getPromise())
+            .done(() => {
+                this.initializeBugSubscriptions();
+            });
+
+            $.when<any>(
+                this._trendsForTagRepo.getPromise(),
+                this._filtersRepo.getPromise())
+            .done(() => {
+                this.initializeTrendsSubscriptions();
+            });
+        }
+
+        private initializeBugSubscriptions(): void {
+            this._subscriptions.push(this.bugsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
+                $.extend(this._bugsForTagBlobUrlRepo.settings.request.data, newValue);
+
+                this.initializeBugsLoading();
+                this.loadBugsRepo();
+            }));
+        }
+
+        private initializeTrendsSubscriptions(): void {
+            this._subscriptions.push(this.trendsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
+                $.extend(this._trendsForTagRepo.settings.request.data, newValue);
+
+                this.initializeTrendsLoading();
+                this.loadTrendsRepo();
+            }));
         }
 
         private initializeBugsLoading(): void {
@@ -274,9 +299,16 @@ module Main {
             this._filtersProvider = new SummaryProvider.FiltersProvider(this._filtersRepo);
 
             this.bugsFilters.vm.loading(false);
-            this.bugsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Bugs));
+            this.bugsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Bugs, {
+                tag: (<IParams>this.defaults.viewContext.params).tag
+            }));
+
             this.trendsFilters.vm.loading(false);
-            this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Trends));
+            this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Trends, {
+                tag: (<IParams>this.defaults.viewContext.params).tag,
+                platform: (<IParams>this.defaults.viewContext.params).platform,
+                release: (<IParams>this.defaults.viewContext.params).release
+            }));
         }
 
         private applyScantimeData(): void {

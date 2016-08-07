@@ -522,7 +522,7 @@ module Main {
             super(repository);
         }
 
-        public getFilterSelectDataByType(type: FiltersType): Array<Select.IViewModelData> {
+        public getFilterSelectDataByType(type: FiltersType, defaults?: IDictionary<string>): Array<Select.IViewModelData> {
             let data: Array<Select.IViewModelData> = [];
             let typeFilterNames: Array<string>;
 
@@ -541,7 +541,9 @@ module Main {
                 let optionsDTO = this.getResultFilterOptionsByName(name);
                 data.push({
                     name: name,
-                    options: this.transformDTOOptionsToVMOptionsData(optionsDTO)
+                    options: this.transformDTOOptionsToVMOptionsData(optionsDTO),
+                    intialValue: defaults[name],
+                    value: defaults[name]
                 });
             });
 
@@ -567,7 +569,8 @@ module Main {
         }
     }
 
-    export class TrendsProvider extends BaseProvider.DynamicProvider<TrendsForTagRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
+    export class TrendsProvider extends BaseProvider.DynamicProvider<TrendsForTagRepository.DataTransferObject>
+        implements BaseProvider.IDynamicProvider {
         constructor(repository: TrendsForTagRepository.IRepository) {
             super(repository);
         }

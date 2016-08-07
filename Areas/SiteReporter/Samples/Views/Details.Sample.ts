@@ -4,11 +4,7 @@ import DetailsView = require("../../Views/Details.View");
 export = Main;
 
 module Main {
-    let facebookParams = {
-        domain: "facebook.com",
-        platform: "Desktop",
-        release: "RS1"
-    };
+    let facebookParams = $.extend({}, Config.Params.DetailsDefaults);
 
     let facebookTh2Params = {
         release: "TH2"

@@ -4,16 +4,12 @@ import SummaryView = require("../../Views/Summary.View");
 export = Main;
 
 module Main {
-    let bingdexParams = {
-        tag: "BingdexTop100",
-        platform: "Desktop",
-        release: "Rs1"
-    };
+    let bingdexParams = Config.Params.SummaryDefaults;
 
     let mindtreeParams = {
         tag: "MindTreeNotoriousSites",
         platform: "Desktop",
-        release: "Rs1"
+        release: "RS1"
     };
 
     $((): void => {

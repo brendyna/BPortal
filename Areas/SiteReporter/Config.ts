@@ -1,4 +1,8 @@
-﻿export = Main;
+﻿/// <amd-dependency path="jquery.extensions" />
+
+import $ = require("jquery");
+
+export = Main;
 
 module Main {
     export class Endpoints {
@@ -31,6 +35,24 @@ module Main {
         public static Tag = "tag";
         public static Platform = "platform";
         public static Release = "release";
+        public static DetailsDefaults = isDebugMode() ? {
+            domain: "facebook.com",
+            platform: "Desktop",
+            release: "RS1"
+        } : {
+            domain: $.getUrlVar("domain"),
+            platform: $.getUrlVar("platform"),
+            release: $.getUrlVar("release").toUpperCase()
+        };
+        public static SummaryDefaults = isDebugMode() ? {
+            tag: "BingdexTop100",
+            platform: "Desktop",
+            release: "RS1"
+        } : {
+            tag: $.getUrlVar("tag") || "BingdexTop100",
+            platform: $.getUrlVar("platform"),
+            release: $.getUrlVar("release").toUpperCase()
+        };
     }
 
     export class Strings {
@@ -44,9 +66,10 @@ module Main {
     export class Urls {
         public static ExtensionLocation = "file:\\iefs\Users\brendyna\SiteReporterEdgeExtension";
         public static LearnMore = "https://osgwiki.com/wiki/SiteReporter";
-        public static SummaryPage = '/SiteReporter/Summary/Index2?';
-        public static DetailsPage = '/SiteReporter/Details?';
-        public static DetailsPageBase = "http://wptportal.corp.microsoft.com/sitereporter/details";
+        public static SummaryPage = '/sitereporter/summary?';
+        public static DetailsPage = '/sitereporter/details?';
+        public static DetailsPageBase = isPortalDebugMode() ?
+            "http://localhost:61484/sitereporter/details" : "http://wptportal.corp.microsoft.com/sitereporter/details";
         public static SiteReporterApi = "https://sitereporter-api.azurewebsites.net/api";
     }
 
@@ -55,6 +78,14 @@ module Main {
         public static ApiUsername = window.API_USERNAME;
         public static ApiPassword = window.API_PASSWORD;
         public static Breadcrumb = window.BREADCRUMB;
-        public static DebugMode = document.location.href.indexOf("localhost:8080") !== -1;
+        public static DebugMode = isDebugMode();
+    }
+
+    export function isDebugMode(): boolean {
+        return document.location.href.indexOf("localhost:1305") !== -1;
+    }
+
+    export function isPortalDebugMode(): boolean {
+        return document.location.href.indexOf("localhost:61484") !== -1;
     }
 }
