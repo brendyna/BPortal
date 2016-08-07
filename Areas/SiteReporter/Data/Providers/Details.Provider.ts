@@ -16,14 +16,20 @@ import Table = require("Areas/Shared/Controls/Table");
 
 import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
 //import BugsForTagRepository = require("../Repositories/BugsForTag.Repository");
-//import TrendsForTagRepository = require("../Repositories/TrendsForTag.Repository");
 import GetBuiltWithDataRepository = require("../Repositories/GetBuiltWithData.Repository");
+import TrendsForDomainRepository = require("../Repositories/TrendsForDomain.Repository");
 
 export = Main;
 
 module Main {
     DescriptionList;
     KnockoutUtil;
+
+    export enum ChartType {
+        FocusTime,
+        Frownies,
+        Navigations
+    }
 
     export interface IStaticProvider {
         getNavigationViewModelData: Navigation.IViewModelData;
@@ -187,10 +193,10 @@ module Main {
                 body: `
                     <div data-bind="wpsFilters: $vm.filters"></div>
                     <div class="layout layout--halves">
-                        <div class="module" data-bind="wpsChart: $vm.bugs"></div>
-                        <div class="module" data-bind="wpsChart: $vm.frownies"s></div>
-                        <div class="module" data-bind="wpsChart: $vm.navigations"></div>
-                        <div class="module" data-bind="wpsChart: $vm.focustime"></div>
+                        <div data-bind="wpsChart: $vm.bugs"></div>
+                        <div data-bind="wpsChart: $vm.frownies"s></div>
+                        <div data-bind="wpsChart: $vm.navigations"></div>
+                        <div data-bind="wpsChart: $vm.focustime"></div>
                     </div>
                 `,
                 bodyViewModel: {
@@ -199,15 +205,19 @@ module Main {
                         hideButtons: true
                     },
                     frownies: <Chart.IViewModelData>{
-                        options: this.getTrendChartOptions("Frownies", this.getSampleFrowniesSeries())
+                        classes: "module trends__frownies",
+                        options: this.getTrendChartOptions("Frownies", [])
                     },
                     navigations: <Chart.IViewModelData>{
-                        options: this.getTrendChartOptions("Navigations", this.getSampleNavigationsSeries())
+                        classes: "module trends__navigations",
+                        options: this.getTrendChartOptions("Navigations", [])
                     },
                     focustime: <Chart.IViewModelData>{
-                        options: this.getTrendChartOptions("Focus Time", this.getSampleFocusTimeSeries())
+                        classes: "module trends__focustime",
+                        options: this.getTrendChartOptions("Focus Time", [])
                     },
                     bugs: <Chart.IViewModelData>{
+                        classes: "module",
                         options: this.getBugTrendChartOptions(this.getSampleBugTrendMultiseriesData())
                     }
                 }
@@ -1315,66 +1325,49 @@ module Main {
     //    }
     //}
 
-    //export class TrendsProvider extends BaseProvider.DynamicProvider<TrendsForTagRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
-    //    constructor(repository: TrendsForTagRepository.IRepository) {
-    //        super(repository);
-    //    }
+    export class TrendsProvider extends BaseProvider.DynamicProvider<TrendsForDomainRepository.DataTransferObject>
+        implements BaseProvider.IDynamicProvider {
+        private _typeMap: Array<string>;
 
-    //    //public getTrendsSnapshotData(): Array<DescriptionList.IDescriptionPair> {
-    //    //    let data = [];
-    //    //    let frowniesCount = 0;
-    //    //    let navigationsCount = 0;
-    //    //    let focusTimeCount = 0;
+        constructor(repository: TrendsForDomainRepository.IRepository) {
+            super(repository);
 
-    //    //    this.repository.resultData.data.forEach((summary: TrendsForTagRepository.SiteTrendSummary) => {
-    //    //        frowniesCount += summary.frowny;
-    //    //        navigationsCount += summary.navigation;
-    //    //        focusTimeCount += summary.focusTime;
-    //    //    });
+            this._typeMap = [];
+            this._typeMap[ChartType.FocusTime] = "focus-time";
+            this._typeMap[ChartType.Frownies] = "frownies";
+            this._typeMap[ChartType.Navigations] = "navigations";
+        }
 
-    //    //    [
-    //    //        { term: "Frownies", value: frowniesCount },
-    //    //        { term: "Navigations", value: navigationsCount },
-    //    //        { term: "Hours of Focus Time", value: focusTimeCount }
-    //    //    ].forEach((snapshot) => {
-    //    //        let colorClass = "";
+        public getChartDataByType(type: ChartType): Array<TrendsForDomainRepository.DataPoint> {
+            let data = [];
 
-    //    //        if (snapshot.value > 0) {
-    //    //            if (snapshot.term === "Frownies") {
-    //    //                colorClass = "sitereporter__tile__delta--Sad";
-    //    //            } else {
-    //    //                colorClass = "sitereporter__tile__delta--Happy";
-    //    //            }
-    //    //        } else {
-    //    //            if (snapshot.term === "Frownies") {
-    //    //                colorClass = "sitereporter__tile__delta--Happy";
-    //    //            } else {
-    //    //                colorClass = "sitereporter__tile__delta--Sad";
-    //    //            }
-    //    //        }
+            this.charts.forEach((chart: TrendsForDomainRepository.Chart) => {
+                if (this._typeMap[type] === chart.id) {
+                    data = chart.dataPoints;
+                }
+            });
 
-    //    //        data.push({
-    //    //            term: snapshot.term,
-    //    //            descriptions: [{
-    //    //                content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span>&nbsp;<span data-bind="text: $vm.text"></span></span>`,
-    //    //                contentViewModel: {
-    //    //                    text: Humanize.compactInteger(Math.abs(snapshot.value), 1),
-    //    //                    icon: <Icon.IViewModelData>{
-    //    //                        type: (snapshot.value > 0) ? Icon.Type.Up : Icon.Type.Down,
-    //    //                        classes: "subtitle " + colorClass
-    //    //                    }
-    //    //                }
-    //    //            }]
-    //    //        });
-    //    //    });
+            return this.formatChartPoints(data);
+        }
 
-    //    //    return Base.createFromDefaults(data, DescriptionList.DescriptionPair);
-    //    //}
+        private get charts(): Array<TrendsForDomainRepository.Chart> {
+            return this.repository.resultData["charts"];
+        }
 
-    //    //public getTrendsTableData(): Array<any> {
-    //    //    return KnockoutUtil.convertToCamelCase(this.repository.resultData.data);
-    //    //}
-    //}
+        private formatChartPoints(series) {
+            'use strict';
+
+            var newSeries = series;
+            $.each(newSeries, (point, value) => {
+                var d = new Date(value.date.substr(0, 10));
+                newSeries[point] = [
+                    Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()),
+                    value.count
+                ];
+            });
+            return newSeries.sort();
+        }
+    }
 
     export class BuiltWithProvider extends BaseProvider.DynamicProvider<GetBuiltWithDataRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
         constructor(repository: GetBuiltWithDataRepository.IRepository) {

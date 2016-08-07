@@ -50,6 +50,8 @@ module Main {
         constructor(element: JQuery, defaults?: IWidgetDefaults | IViewModelData) {
             super(element, ViewModel, Widget.resolveDefaults(defaults));
 
+            this._data = ko.observable();
+
             this._setupElement();
         }
 
@@ -83,6 +85,21 @@ module Main {
 
         public _initializeSubscriptions(): void {
             super._initializeSubscriptions();
+
+            this._subscriptions.push(this.data.subscribe((newData: any) => {
+                this.updateChartData(newData);
+            }));
+        }
+
+        private updateChartData(newData: any): void {
+            // Check if we're dealing w/a multi-series data set
+            if ($.isArray(newData[0][0])) {
+                (<Array<any>>newData).forEach((newSeriesData: any, index: number) => {
+                    $(this.element).highcharts().series[index].setData(newSeriesData, true, true);
+                });
+            } else {
+                $(this.element).highcharts().series[0].setData(newData, true, true, true);
+            } 
         }
     }
 

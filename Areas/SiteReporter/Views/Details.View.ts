@@ -13,6 +13,7 @@ import Table = require("Areas/Shared/Controls/Table");
 import FiltersRepository = require("../Data/Repositories/Filters.Repository");
 import GetBuiltWithDataRepository = require("../Data/Repositories/GetBuiltWithData.Repository");
 import ScanTimeRepository = require("../Data/Repositories/ScanTime.Repository");
+import TrendsForDomainRepository = require("../Data/Repositories/TrendsForDomain.Repository");
 
 import DetailsProvider = require("../Data/Providers/Details.Provider");
 import SharedProvider = require("../Data/Providers/Shared.Provider");
@@ -59,6 +60,8 @@ module Main {
         private _scantimeRepo: ScanTimeRepository.IRepository;
         private _scantimeProvider: SharedProvider.ScanTimeProvider;
         private _staticProvider: DetailsProvider.StaticProvider;
+        private _trendsForDomainRepo: TrendsForDomainRepository.IRepository;
+        private _trendsForDomainProvider: DetailsProvider.TrendsProvider;
 
         constructor(element: JQuery, defaults: IWidgetDefaults, viewModelData: IViewModelData = {}) {
             defaults.template = defaults.template || DefaultTemplate;
@@ -73,7 +76,10 @@ module Main {
             }, this._controlIds);
 
             this._controlClasses = $.extend({
-                trendFilters: "trends__filters"
+                trendFilters: "trends__filters",
+                trendsFocusTime: "trends__focustime",
+                trendsNavigations: "trends__navigations",
+                trendsFrownies: "trends__frownies"
             }, this._controlClasses);
 
             this.setStaticViewModelData();
@@ -84,14 +90,29 @@ module Main {
             }
         }
 
-        public get sidebar(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
-            return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
-                (super.getDataFor("#" + this.controlIds["sidebar"]));
-        }
-
         public get bugs(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
             return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
                 (super.getDataFor("#" + this.controlIds["bugs"]));
+        }
+
+        public get focusTimeChart(): BaseControl.IControl<Chart.IViewModel, Chart.IWidget> {
+            return <BaseControl.IControl<Chart.IViewModel, Chart.IWidget>>
+                (super.getDataFor("." + this.controlClasses["trendsFocusTime"]));
+        }
+
+        public get frowniesChart(): BaseControl.IControl<Chart.IViewModel, Chart.IWidget> {
+            return <BaseControl.IControl<Chart.IViewModel, Chart.IWidget>>
+                (super.getDataFor("." + this.controlClasses["trendsFrownies"]));
+        }
+
+        public get navigationsChart(): BaseControl.IControl<Chart.IViewModel, Chart.IWidget> {
+            return <BaseControl.IControl<Chart.IViewModel, Chart.IWidget>>
+                (super.getDataFor("." + this.controlClasses["trendsNavigations"]));
+        }
+
+        public get sidebar(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
+            return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
+                (super.getDataFor("#" + this.controlIds["sidebar"]));
         }
 
         public get tech(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
@@ -126,7 +147,7 @@ module Main {
             //this._bugsForTagBlobUrlRepo = new BugsForTagBlobUrlRepository.Repository($.extend({}, repoSettings));
             //this._bugsForTagRepo = new BugsForTagRepository.Repository();
             this._filtersRepo = new FiltersRepository.Repository($.extend({}, repoSettings));
-            //this._trendsForTagRepo = new TrendsForTagRepository.Repository($.extend({}, repoSettings));
+            this._trendsForDomainRepo = new TrendsForDomainRepository.Repository($.extend({}, repoSettings));
             this._builtWithRepo = new GetBuiltWithDataRepository.Repository($.extend({}, repoSettings));
             //this._scantimeRepo = new ScanTimeRepository.Repository();
         }
@@ -137,14 +158,16 @@ module Main {
             this.tech.vm.loading(true);
 
             //this.initializeBugsLoading();
-            //this.initializeTrendsLoading();
+            this.initializeTrendsLoading();
         }
 
         public loadRepos(): void {
             // Setup load state changes for when promises resolve
             // There's a random bug here (remove the <any> and see the compiler error)
             $.when<any>(
-                this._builtWithRepo.getPromise())
+                this._builtWithRepo.getPromise(),
+                this._filtersRepo.getPromise(),
+                this._trendsForDomainRepo.getPromise())
             .done(() => {
                 this._loadDeferred.resolve();
                 this.initializeSubscriptions();
@@ -152,7 +175,7 @@ module Main {
 
             //// Begin loading the data
             //this.loadBugsRepo();
-            //this.loadTrendsRepo();
+            this.loadTrendsRepo();
 
             this._filtersRepo.load().done(() => {
                 this.applyFiltersData();
@@ -176,10 +199,10 @@ module Main {
             //}));
 
             this._subscriptions.push(this.trendsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
-                //$.extend(this._trendsForTagRepo.settings.request.data, newValue);
+                $.extend(this._trendsForDomainRepo.settings.request.data, newValue);
 
-                //this.initializeTrendsLoading();
-                //this.loadTrendsRepo();
+                this.initializeTrendsLoading();
+                this.loadTrendsRepo();
             }));
         }
 
@@ -202,8 +225,9 @@ module Main {
         }
 
         private initializeTrendsLoading(): void {
-            //this.trendsSnapshots.vm.loading(true);
-            //this.trendsTable.vm.loading(true);
+            this.frowniesChart.vm.loading(true);
+            this.navigationsChart.vm.loading(true);
+            this.focusTimeChart.vm.loading(true);
         }
 
         private loadBugsRepo(): void {
@@ -218,9 +242,9 @@ module Main {
 
         private loadTrendsRepo(): void {
             // Load Trends data
-            //this._trendsForTagRepo.load().done(() => {
-            //    this.applyTrendsData();
-            //});
+            this._trendsForDomainRepo.load().done(() => {
+                this.applyTrendsData();
+            });
         }
 
         private applyBugsData(): void {
@@ -233,12 +257,19 @@ module Main {
         }
 
         private applyTrendsData(): void {
-            //this._trendsForTagProvider = new SummaryProvider.TrendsProvider(this._trendsForTagRepo);
+            this._trendsForDomainProvider = new DetailsProvider.TrendsProvider(this._trendsForDomainRepo);
 
-            //this.trendsSnapshots.vm.loading(false);
-            //this.trendsTable.vm.loading(false);
-            //this.trendsSnapshots.vm.descriptionPairs(this._trendsForTagProvider.getTrendsSnapshotData());
-            //this.trendsTable.widget.data(this._trendsForTagProvider.getTrendsTableData());
+            this.focusTimeChart.vm.loading(false);
+            this.focusTimeChart.widget.data(
+                this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.FocusTime));
+
+            this.frowniesChart.vm.loading(false);
+            this.frowniesChart.widget.data(
+                this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.Frownies));
+
+            this.navigationsChart.vm.loading(false);
+            this.navigationsChart.widget.data(
+                this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.Navigations));
         }
 
         private applyFiltersData(): void {

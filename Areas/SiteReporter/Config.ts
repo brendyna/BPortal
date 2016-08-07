@@ -6,6 +6,7 @@ module Main {
         public static Filters = "filter";
         public static GetBuildWithData = "getbuiltwithdata";
         public static ScanTime = "scantime";
+        public static TrendsForDomain = "trendsfordomain";
         public static TrendsForTag = "trendsfortag";
     }
 

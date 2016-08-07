@@ -151,6 +151,14 @@ table.dataTable thead th {
 
 /* END CONTROL: Table */
 
+/* CONTROL: Chart */
+
+.control.chart .highcharts-container {
+    margin-top: 0;
+}
+
+/* END CONTROL: Chart */
+
 /* CONTROL: Tabs */
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css');
 

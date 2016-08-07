@@ -74,9 +74,6 @@ module Main {
             responseText: getMockBugsForTagBlobUrlMindtreeNotorious(),
             data: (data) => {
                 return data.tag === mindtreeParams.tag;
-            },
-            onAfterComplete: () => {
-                console.log("Mindtree after complete");
             }
         });
 
