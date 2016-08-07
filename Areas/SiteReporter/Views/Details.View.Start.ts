@@ -8,7 +8,9 @@ export = Main;
 
 module Main {
     $((): void => {
-        setupMockjax();
+        if (Config.isPortalDebugMode()) {
+            setupMockjax();
+        }
 
         let details = new View.Widget($("#details"), {
             viewContext: {

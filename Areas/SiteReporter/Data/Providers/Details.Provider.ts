@@ -155,12 +155,12 @@ module Main {
             };
         }
 
-        public getFavIconDescriptionPair(): DescriptionList.IDescriptionPairData {
+        public getFavIconDescriptionPair(domain: string): DescriptionList.IDescriptionPairData {
             return {
                 descriptions: [{
                     content: `<img class="summary--favicon" data-bind="attr: { src: $vm.src }" />`,
                     contentViewModel: {
-                        src: "http://www.google.com/s2/favicons?domain_url=facebook.com"
+                        src: "http://www.google.com/s2/favicons?domain_url=" + domain
                     }
                 }]
             };
@@ -477,7 +477,7 @@ module Main {
                     { text: "All bugs (" + this.bugs.length + ")", value: this._bugTypeMap[BugType.All] },
                     { text: "Switch risk bugs (" + this.switchRiskBugs.length + ")", value: this._bugTypeMap[BugType.SwitchRisk] },
                     { text: "Outreach bugs (" + this.outreachBugs.length + ")", value: this._bugTypeMap[BugType.Outreach] },
-                    { text: this.releaseBugs[0].Release + " bugs (" + this.releaseBugs.length + ")", value: this._bugTypeMap[BugType.Release] }
+                    { text: (this.releaseBugs[0] && this.releaseBugs[0].Release || "Current release") + " bugs (" + this.releaseBugs.length + ")", value: this._bugTypeMap[BugType.Release] }
                 ]
             });
 

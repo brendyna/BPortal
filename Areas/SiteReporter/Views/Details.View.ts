@@ -350,7 +350,7 @@ module Main {
                 descriptionPairs.push(this._staticProvider.getOffensiveContentDescriptionPair());
             }
 
-            descriptionPairs.push(this._staticProvider.getFavIconDescriptionPair());
+            descriptionPairs.push(this._staticProvider.getFavIconDescriptionPair((<IParams>this.defaults.viewContext.params).domain));
             descriptionPairs.push(this._detailsForDomainProvider.getBingdexDescriptionPair());
             descriptionPairs.push(this._detailsForDomainProvider.getAlexaDescriptionPair());
 
