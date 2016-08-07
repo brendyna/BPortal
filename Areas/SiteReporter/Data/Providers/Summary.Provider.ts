@@ -628,16 +628,6 @@ module Main {
         }
     }
 
-    export class ScanTimeProvider extends BaseProvider.DynamicProvider<ScanTimeRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
-        constructor(repository: ScanTimeRepository.IRepository) {
-            super(repository);
-        }
-
-        public getLastScannedTime(): string {
-            return moment(this.repository.resultData).fromNow();
-        }
-    }
-
     function renderBingdexColumn(data, type) {
         var value;
         if ((type === "sort" || type === "type") && data === 0) {

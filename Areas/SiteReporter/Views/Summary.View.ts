@@ -13,6 +13,7 @@ import FiltersRepository = require("../Data/Repositories/Filters.Repository");
 import ScanTimeRepository = require("../Data/Repositories/ScanTime.Repository");
 import TrendsForTagRepository = require("../Data/Repositories/TrendsForTag.Repository");
 
+import SharedProvider = require("../Data/Providers/Shared.Provider");
 import SummaryProvider = require("../Data/Providers/Summary.Provider");
 
 import DefaultTemplate = require("../Templates/Views/Summary.Template");
@@ -57,11 +58,14 @@ module Main {
         private _bugsForTagRepo: BugsForTagRepository.IRepository;
         private _bugsForTagProvider: SummaryProvider.BugsProvider;
         private _filtersRepo: FiltersRepository.IRepository;
+        // TODO: Convery this to SharedProvider.FiltersProvider
+        // (When I do, TSC throws a random exception with very little context
+        // so keeping it as SummaryProvider.TrendsProvider for now)
         private _filtersProvider: SummaryProvider.FiltersProvider;
         private _trendsForTagRepo: TrendsForTagRepository.IRepository;
         private _trendsForTagProvider: SummaryProvider.TrendsProvider;
         private _scantimeRepo: ScanTimeRepository.IRepository;
-        private _scantimeProvider: SummaryProvider.ScanTimeProvider;
+        private _scantimeProvider: SharedProvider.ScanTimeProvider;
         private _staticProvider: SummaryProvider.StaticProvider;
 
         constructor(element: JQuery, defaults: IWidgetDefaults, viewModelData: IViewModelData = {}) {
@@ -276,7 +280,7 @@ module Main {
         }
 
         private applyScantimeData(): void {
-            this._scantimeProvider = new SummaryProvider.ScanTimeProvider(this._scantimeRepo);
+            this._scantimeProvider = new SharedProvider.ScanTimeProvider(this._scantimeRepo);
 
             this.bugsTable.vm.metadata("Updated " + this._scantimeProvider.getLastScannedTime());
         }

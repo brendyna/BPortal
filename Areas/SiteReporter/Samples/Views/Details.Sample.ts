@@ -23,6 +23,12 @@ module Main {
     export function setupMockjax(): void {
         // Get filters
         $.mockjax({
+            url: [Config.Urls.SiteReporterApi, Config.Endpoints.Filters].join("/"),
+            responseText: getMockFiltersData()
+        });
+
+        // Get buitwith data
+        $.mockjax({
             url: [Config.Urls.DetailsPageBase, Config.Endpoints.GetBuildWithData].join("/"),
             responseText: getMockBuiltWithData(),
             data: (data) => {
@@ -802,6 +808,25 @@ module Main {
                     "firstDetected": 1467241200000,
                     "lastDetected": 1467241200000
                 }
+            ]
+        };
+    }
+
+    export function getMockFiltersData(): any {
+        return {
+            "tag": [
+                { "disabled": false, "selected": true, "text": " Bingdex Top 100", "value": "BingdexTop100" },
+                { "disabled": false, "selected": false, "text": " Mind Tree Top Sites", "value": "MindTreeTopSites" },
+                { "disabled": false, "selected": false, "text": " Mind Tree Notorious Sites", "value": "MindTreeNotoriousSites" },
+                { "disabled": false, "selected": false, "text": " In Country Testing", "value": "InCountryTesting" }],
+            "platform": [
+                { "disabled": false, "selected": true, "text": "Desktop", "value": "Desktop" },
+                { "disabled": false, "selected": true, "text": "Mobile", "value": "Mobile" }
+            ],
+            "release": [
+                { "disabled": false, "selected": false, "text": "TH1", "value": "TH1" },
+                { "disabled": false, "selected": false, "text": "TH2", "value": "TH2" },
+                { "disabled": false, "selected": true, "text": "RS1", "value": "RS1" }
             ]
         };
     }

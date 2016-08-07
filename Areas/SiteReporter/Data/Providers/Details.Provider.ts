@@ -16,10 +16,8 @@ import Table = require("Areas/Shared/Controls/Table");
 
 import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
 //import BugsForTagRepository = require("../Repositories/BugsForTag.Repository");
-//import FiltersRepository = require("../Repositories/Filters.Repository");
 //import TrendsForTagRepository = require("../Repositories/TrendsForTag.Repository");
 import GetBuiltWithDataRepository = require("../Repositories/GetBuiltWithData.Repository");
-import ScanTimeRepository = require("../Repositories/ScanTime.Repository");
 
 export = Main;
 
@@ -197,25 +195,8 @@ module Main {
                 `,
                 bodyViewModel: {
                     filters: <Filters.IViewModelData>{
-                        hideButtons: true,
-                        selectData: [
-                            {
-                                name: "platform",
-                                options: [
-                                    { text: "Desktop", value: "Desktop" },
-                                    { text: "Mobile", value: "Mobile" },
-                                    { text: "Holographic", value: "Holographic" }
-                                ]
-                            },
-                            {
-                                name: "release",
-                                options: [
-                                    { text: "TH2", value: "TH2" },
-                                    { text: "RS1", value: "RS1" },
-                                    { text: "RS2", value: "RS2" }
-                                ]
-                            }
-                        ]
+                        classes: "trends__filters",
+                        hideButtons: true
                     },
                     frownies: <Chart.IViewModelData>{
                         options: this.getTrendChartOptions("Frownies", this.getSampleFrowniesSeries())
@@ -1334,56 +1315,6 @@ module Main {
     //    }
     //}
 
-    //export class FiltersProvider extends BaseProvider.DynamicProvider<FiltersRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
-    //    constructor(repository: FiltersRepository.IRepository) {
-    //        super(repository);
-    //    }
-
-    //    //public getFilterSelectDataByType(type: FiltersType): Array<Select.IViewModelData> {
-    //    //    let data: Array<Select.IViewModelData> = [];
-    //    //    let typeFilterNames: Array<string>;
-
-    //    //    switch (type) {
-    //    //        case FiltersType.Bugs:
-    //    //            typeFilterNames = Config.Filters.Bugs;
-    //    //            break;
-
-    //    //        case FiltersType.Trends:
-    //    //            typeFilterNames = Config.Filters.Trends;
-    //    //            break;
-    //    //    }
-
-
-    //    //    typeFilterNames.forEach((name: string) => {
-    //    //        let optionsDTO = this.getResultFilterOptionsByName(name);
-    //    //        data.push({
-    //    //            name: name,
-    //    //            options: this.transformDTOOptionsToVMOptionsData(optionsDTO)
-    //    //        });
-    //    //    });
-
-    //    //    return data;
-    //    //}
-
-    //    //private transformDTOOptionsToVMOptionsData(dtoOptions: Array<FiltersRepository.Option>): Array<Select.IOptionData> {
-    //    //    let optionsData: Array<Select.IOptionData> = [];
-
-    //    //    dtoOptions.forEach((dtoOption: FiltersRepository.Option) => {
-    //    //        optionsData.push({
-    //    //            text: dtoOption.text,
-    //    //            value: dtoOption.value,
-    //    //            disabled: dtoOption.disabled
-    //    //        });
-    //    //    });
-
-    //    //    return optionsData;
-    //    //}
-
-    //    //private getResultFilterOptionsByName(name: string): Array<FiltersRepository.Option> {
-    //    //    return this.repository.resultData[name];
-    //    //}
-    //}
-
     //export class TrendsProvider extends BaseProvider.DynamicProvider<TrendsForTagRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
     //    constructor(repository: TrendsForTagRepository.IRepository) {
     //        super(repository);
@@ -1445,16 +1376,6 @@ module Main {
     //    //}
     //}
 
-    export class ScanTimeProvider extends BaseProvider.DynamicProvider<ScanTimeRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
-        constructor(repository: ScanTimeRepository.IRepository) {
-            super(repository);
-        }
-
-        public getLastScannedTime(): string {
-            return moment(this.repository.resultData).fromNow();
-        }
-    }
-
     export class BuiltWithProvider extends BaseProvider.DynamicProvider<GetBuiltWithDataRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
         constructor(repository: GetBuiltWithDataRepository.IRepository) {
             super(repository);
@@ -1470,16 +1391,4 @@ module Main {
             return technologies.join(", ");
         }
     }
-
-    //function renderBingdexColumn(data, type) {
-    //    var value;
-    //    if ((type === "sort" || type === "type") && data === 0) {
-    //        value = (<any>Number).MAX_SAFE_INTEGER;
-    //    } else if (data === 0) {
-    //        value = 'n/a';
-    //    } else {
-    //        value = data;
-    //    }
-    //    return value;
-    //}
 }

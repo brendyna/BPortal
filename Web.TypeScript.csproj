@@ -165,6 +165,7 @@
     <TypeScriptCompile Include="Areas\Shared\Controls\Tabs.ts" />
     <TypeScriptCompile Include="Areas\Shared\Data\Providers\Base.Provider.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Details.Provider.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Shared.Provider.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Summary.Provider.ts" />
     <TypeScriptCompile Include="Areas\Shared\Data\Repositories\Base.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForTag.Repository.ts" />

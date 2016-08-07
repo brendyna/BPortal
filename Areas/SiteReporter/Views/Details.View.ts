@@ -10,10 +10,12 @@ import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Table = require("Areas/Shared/Controls/Table");
 
+import FiltersRepository = require("../Data/Repositories/Filters.Repository");
 import GetBuiltWithDataRepository = require("../Data/Repositories/GetBuiltWithData.Repository");
 import ScanTimeRepository = require("../Data/Repositories/ScanTime.Repository");
 
 import DetailsProvider = require("../Data/Providers/Details.Provider");
+import SharedProvider = require("../Data/Providers/Shared.Provider");
 
 import DefaultTemplate = require("../Templates/Views/Details.Template");
 
@@ -52,8 +54,10 @@ module Main {
     export class Widget extends Base.Widget implements IWidget {
         private _builtWithRepo: GetBuiltWithDataRepository.IRepository;
         private _builtWithProvider: DetailsProvider.BuiltWithProvider;
+        private _filtersRepo: FiltersRepository.IRepository;
+        private _filtersProvider: SharedProvider.FiltersProvider;
         private _scantimeRepo: ScanTimeRepository.IRepository;
-        private _scantimeProvider: DetailsProvider.ScanTimeProvider;
+        private _scantimeProvider: SharedProvider.ScanTimeProvider;
         private _staticProvider: DetailsProvider.StaticProvider;
 
         constructor(element: JQuery, defaults: IWidgetDefaults, viewModelData: IViewModelData = {}) {
@@ -67,6 +71,10 @@ module Main {
                 trends: "details-trends",
                 tech: "details-tech"
             }, this._controlIds);
+
+            this._controlClasses = $.extend({
+                trendFilters: "trends__filters"
+            }, this._controlClasses);
 
             this.setStaticViewModelData();
 
@@ -91,6 +99,11 @@ module Main {
                 (super.getDataFor("#" + this.controlIds["tech"]));
         }
 
+        public get trendsFilters(): BaseControl.IControl<Filters.ViewModel, Filters.Widget> {
+            return <BaseControl.IControl<Filters.ViewModel, Filters.Widget>>
+                (super.getDataFor("." + this.controlClasses["trendFilters"]));
+        }
+
         public get trends(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
             return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
                 (super.getDataFor("#" + this.controlIds["trends"]));
@@ -112,7 +125,7 @@ module Main {
             };
             //this._bugsForTagBlobUrlRepo = new BugsForTagBlobUrlRepository.Repository($.extend({}, repoSettings));
             //this._bugsForTagRepo = new BugsForTagRepository.Repository();
-            //this._filtersRepo = new FiltersRepository.Repository($.extend({}, repoSettings));
+            this._filtersRepo = new FiltersRepository.Repository($.extend({}, repoSettings));
             //this._trendsForTagRepo = new TrendsForTagRepository.Repository($.extend({}, repoSettings));
             this._builtWithRepo = new GetBuiltWithDataRepository.Repository($.extend({}, repoSettings));
             //this._scantimeRepo = new ScanTimeRepository.Repository();
@@ -120,7 +133,7 @@ module Main {
 
         public initializeLoading(): void {
             //this.bugsFilters.vm.loading(true);
-            //this.trendsFilters.vm.loading(true);
+            this.trendsFilters.vm.loading(true);
             this.tech.vm.loading(true);
 
             //this.initializeBugsLoading();
@@ -141,9 +154,9 @@ module Main {
             //this.loadBugsRepo();
             //this.loadTrendsRepo();
 
-            //this._filtersRepo.load().done(() => {
-            //    this.applyFiltersData();
-            //});
+            this._filtersRepo.load().done(() => {
+                this.applyFiltersData();
+            });
 
             this._builtWithRepo.load().done(() => {
                 this.applyBuiltWithData();
@@ -162,12 +175,12 @@ module Main {
             //    this.loadBugsRepo();
             //}));
 
-            //this._subscriptions.push(this.trendsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
-            //    $.extend(this._trendsForTagRepo.settings.request.data, newValue);
+            this._subscriptions.push(this.trendsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
+                //$.extend(this._trendsForTagRepo.settings.request.data, newValue);
 
-            //    this.initializeTrendsLoading();
-            //    this.loadTrendsRepo();
-            //}));
+                //this.initializeTrendsLoading();
+                //this.loadTrendsRepo();
+            }));
         }
 
         public setStaticViewModelData(): void {
@@ -229,12 +242,10 @@ module Main {
         }
 
         private applyFiltersData(): void {
-            //this._filtersProvider = new SummaryProvider.FiltersProvider(this._filtersRepo);
-
-            //this.bugsFilters.vm.loading(false);
-            //this.bugsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Bugs));
-            //this.trendsFilters.vm.loading(false);
-            //this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Trends));
+            this._filtersProvider = new SharedProvider.FiltersProvider(this._filtersRepo);
+            
+            this.trendsFilters.vm.loading(false);
+            this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SharedProvider.FiltersType.TrendsDetails));
         }
 
         private applyBuiltWithData(): void {

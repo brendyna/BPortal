@@ -15,6 +15,7 @@ module Main {
         public static DefaultPlatform = "Desktop";
         public static DefaultRelease = "RS1";
         public static Trends = ["tag", "platform", "release"];
+        public static TrendsDetails = ["platform", "release"];
     }
 
     export class Html {
