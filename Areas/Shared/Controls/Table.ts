@@ -168,6 +168,8 @@ module Main {
             let pages = wrapper.find(".dataTables_paginate span a.paginate_button").length;
             if (pages === 1) {
                 wrapper.find(".dataTables_paginate").hide();
+            } else {
+                wrapper.find(".dataTables_paginate").show();
             }
         }
 

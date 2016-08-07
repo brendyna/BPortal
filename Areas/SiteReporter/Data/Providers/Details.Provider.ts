@@ -15,7 +15,7 @@ import Select = require("Areas/Shared/Controls/Select");
 import Table = require("Areas/Shared/Controls/Table");
 
 import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
-//import BugsForTagRepository = require("../Repositories/BugsForTag.Repository");
+import BugsForDomainRepository = require("../Repositories/BugsForDomain.Repository");
 import GetBuiltWithDataRepository = require("../Repositories/GetBuiltWithData.Repository");
 import TrendsForDomainRepository = require("../Repositories/TrendsForDomain.Repository");
 
@@ -24,6 +24,13 @@ export = Main;
 module Main {
     DescriptionList;
     KnockoutUtil;
+
+    export enum BugType {
+        All,
+        Release,
+        Outreach,
+        SwitchRisk
+    }
 
     export enum ChartType {
         FocusTime,
@@ -85,56 +92,7 @@ module Main {
                         body: `<dl data-bind="wpsDescriptionList: $vm.highlights"></dl>`,
                         bodyViewModel: {
                             highlights: <DescriptionList.IViewModelData>{
-                                descriptionPairs: [
-                                    {
-                                        descriptions: [{
-                                            content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> Switch risk</span>`,
-                                            contentViewModel: {
-                                                icon: <Icon.IViewModelData>{
-                                                    type: Icon.Type.Flag,
-                                                    classes: "subtitle metrics__measurements__icon--switchRisk"
-                                                }
-                                            }
-                                        }]
-                                    },
-                                    {
-                                        descriptions: [{
-                                            content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> Potentially offensive</span>`,
-                                            contentViewModel: {
-                                                icon: <Icon.IViewModelData>{
-                                                    type: Icon.Type.Blocked,
-                                                    classes: "sitereporter__tile__delta--Sad"
-                                                }
-                                            }
-                                        }]
-                                    },
-                                    {
-                                        descriptions: [{
-                                            content: `<img class="summary--favicon" data-bind="attr: { src: $vm.src }" />`,
-                                            contentViewModel: {
-                                                src: "http://www.google.com/s2/favicons?domain_url=facebook.com"
-                                            }
-                                        }]
-                                    },
-                                    {
-                                        term: "Bingdex rank",
-                                        descriptions: [{
-                                            content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
-                                            contentViewModel: {
-                                                text: "#1"
-                                            }
-                                        }]
-                                    },
-                                    {
-                                        term: "Alexa rank",
-                                        descriptions: [{
-                                            content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
-                                            contentViewModel: {
-                                                text: "#1"
-                                            }
-                                        }]
-                                    }
-                                ]
+                                classes: "domain__snapshot"
                             }
                         }
                     },
@@ -171,6 +129,69 @@ module Main {
             return sidebarData;
         }
 
+        public getSwitchRiskDescriptionPair(): DescriptionList.IDescriptionPairData {
+            return {
+                descriptions: [{
+                    content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> Switch risk</span>`,
+                    contentViewModel: {
+                        icon: <Icon.IViewModelData>{
+                            type: Icon.Type.Flag,
+                            classes: "subtitle metrics__measurements__icon--switchRisk"
+                        }
+                    }
+                }]
+            };
+        }
+
+        public getOffensiveContentDescriptionPair(): DescriptionList.IDescriptionPairData {
+            return {
+                descriptions: [{
+                    content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> Potentially offensive content</span>`,
+                    contentViewModel: {
+                        icon: <Icon.IViewModelData>{
+                            type: Icon.Type.Blocked,
+                            classes: "sitereporter__tile__delta--Sad"
+                        }
+                    }
+                }]
+            };
+        }
+
+        public getFavIconDescriptionPair(): DescriptionList.IDescriptionPairData {
+            return {
+                descriptions: [{
+                    content: `<img class="summary--favicon" data-bind="attr: { src: $vm.src }" />`,
+                    contentViewModel: {
+                        src: "http://www.google.com/s2/favicons?domain_url=facebook.com"
+                    }
+                }]
+            };
+        }
+
+        public getBingdexDescriptionPair(): DescriptionList.IDescriptionPairData {
+            return {
+                term: "Bingdex rank",
+                descriptions: [{
+                    content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
+                    contentViewModel: {
+                        text: "#1"
+                    }
+                }]
+            };
+        }
+
+        public getAlexaDescriptionPair(): DescriptionList.IDescriptionPairData {
+            return {
+                term: "Alexa rank",
+                descriptions: [{
+                    content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
+                    contentViewModel: {
+                        text: "#1"
+                    }
+                }]
+            };
+        }
+
         public getBugsViewModelData(): Section.IViewModelData {
             return {
                 title: "Bugs",
@@ -178,10 +199,15 @@ module Main {
                 body: `
                     <div data-bind="wpsFilters: $vm.filters"></div>
                     <table data-bind="wpsTable: $vm.table"></table>
+                    <div data-bind="wpsChart: $vm.bugs"></div>
                 `,
                 bodyViewModel: {
                     filters: this.getBugFilterData(),
-                    table: this.getBugTableData()
+                    table: this.getBugTableData(),
+                    bugs: <Chart.IViewModelData>{
+                        classes: "bug__trends",
+                        options: this.getBugTrendChartOptions(this.getSampleBugTrendMultiseriesData())
+                    }
                 }
             };
         }
@@ -193,7 +219,6 @@ module Main {
                 body: `
                     <div data-bind="wpsFilters: $vm.filters"></div>
                     <div class="layout layout--halves">
-                        <div data-bind="wpsChart: $vm.bugs"></div>
                         <div data-bind="wpsChart: $vm.frownies"s></div>
                         <div data-bind="wpsChart: $vm.navigations"></div>
                         <div data-bind="wpsChart: $vm.focustime"></div>
@@ -215,10 +240,6 @@ module Main {
                     focustime: <Chart.IViewModelData>{
                         classes: "module trends__focustime",
                         options: this.getTrendChartOptions("Focus Time", [])
-                    },
-                    bugs: <Chart.IViewModelData>{
-                        classes: "module",
-                        options: this.getBugTrendChartOptions(this.getSampleBugTrendMultiseriesData())
                     }
                 }
             };
@@ -1016,24 +1037,14 @@ module Main {
 
         private getBugFilterData(): Filters.IViewModelData {
             return {
-                hideButtons: true,
-                selectData: [
-                    {
-                        name: "bug",
-                        options: [
-                            { text: "All bugs (20)", value: "AllBugs" },
-                            { text: "Switch risk bugs (8)", value: "SwitchRisk" },
-                            { text: "RS1 bugs (13)", value: "ReleaseBug" },
-                            { text: "Outreach bugs (12)", value: "OutreachBug" },
-                            { text: "Active bugs (17)", value: "ActiveBug" }
-                        ]
-                    }
-                ]
+                classes: "bug__filters",
+                hideButtons: true
             };
         }
 
         private getBugTableData(): Table.IViewModelData {
             return {
+                classes: "bug__list",
                 headers: [
                     { text: "Id" },
                     { text: "AreaPath" },
@@ -1048,12 +1059,11 @@ module Main {
                     { text: "Tags" },
                     { text: "Title" }
                 ],
-                metadata: "Updated 15 minutes ago",
+                metadata: "Updated...",
                 settings: <DataTables.Settings>{
                     lengthChange: false,
                     searchDelay: 500,
-                    data: KnockoutUtil.convertToCamelCase(this.getSampleBugTableData()),
-                    pageLength: 10,
+                    pageLength: 5,
                     autoWidth: false,
                     info: false,
                     language: <any>{
@@ -1172,7 +1182,7 @@ module Main {
                     type: 'spline',
                     height: 300
                 },
-                title: { text: "Bugs" },
+                title: { text: "Trends" },
                 xAxis: {
                     type: 'datetime',
                     labels: {
@@ -1273,57 +1283,87 @@ module Main {
         }
     }
 
-    //export class BugsProvider extends BaseProvider.DynamicProvider<BugsForTagRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
-    //    constructor(repository: BugsForTagRepository.IRepository) {
-    //        super(repository);
-    //    }
+    export class BugsProvider extends BaseProvider.DynamicProvider<BugsForDomainRepository.DataTransferObject>
+        implements BaseProvider.IDynamicProvider {
+        public static SelectName = "bug";
 
-    //    public getBugSnapshotData(): Array<DescriptionList.IDescriptionPair> {
-    //        let data: Array<DescriptionList.DescriptionPair> = [];
-    //        //let switchRiskCount = 0;
-    //        //let outreachBugCount = 0;
-    //        //let releaseBugCount = 0;
-    //        //let totalBugCount = 0;
+        private _bugTypeMap: Array<string>;
 
-    //        //this.repository.resultData.forEach((summary: BugsForTagRepository.SiteBugSummary) => {
-    //        //    outreachBugCount += summary.OutreachBugCount;
-    //        //    releaseBugCount += summary.CurrentReleaseBugCount;
-    //        //    totalBugCount += summary.ActiveBugCount;
+        constructor(repository: BugsForDomainRepository.IRepository) {
+            super(repository);
 
-    //        //    if (summary.IsSwitchRisk) {
-    //        //        switchRiskCount++;
-    //        //    }
-    //        //});
+            this._bugTypeMap = [];
+            this._bugTypeMap[BugType.All] = "AllBugs";
+            this._bugTypeMap[BugType.Release] = "ReleaseBug";
+            this._bugTypeMap[BugType.Outreach] = "OutreachBug";
+            this._bugTypeMap[BugType.SwitchRisk] = "SwitchRisk";
+        }
 
-    //        //[
-    //        //    { term: "Switch risk sites", value: Humanize.compactInteger(((switchRiskCount / this.repository.resultData.length) * 100), 1) + "%", icon: Icon.Type.Flag, classes: "metrics__measurements__icon--switchRisk" },
-    //        //    { term: "Outreach bugs", value: Humanize.compactInteger(outreachBugCount, 1), icon: Icon.Type.Bug },
-    //        //    { term: "Release bugs", value: Humanize.compactInteger(releaseBugCount, 1), icon: Icon.Type.Bug },
-    //        //    { term: "Total bugs", value: Humanize.compactInteger(totalBugCount, 1), icon: Icon.Type.Bug }
-    //        //].forEach((snapshot) => {
-    //        //    data.push(new DescriptionList.DescriptionPair({
-    //        //        term: snapshot.term,
-    //        //        descriptions: [{
-    //        //            content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon, css: $vm.classes"></span>&nbsp;<span data-bind="text: $vm.text"></span></span>`,
-    //        //            contentViewModel: {
-    //        //                classes: (<any>snapshot).classes || "",
-    //        //                text: snapshot.value,
-    //        //                icon: <Icon.IViewModelData>{
-    //        //                    type: snapshot.icon,
-    //        //                    classes: "subtitle"
-    //        //                }
-    //        //            }
-    //        //        }]
-    //        //    }));
-    //        //});
+        public getBugTableData(): Array<any> {
+            return KnockoutUtil.convertToCamelCase(this.repository.resultData.Bugs);
+        }
 
-    //        return data;
-    //    }
+        public getBugTableDataByType(type: string): Array<any> {
+            let data: Array<any>;
 
-    //    public getBugTableData(): Array<any> {
-    //        return KnockoutUtil.convertToCamelCase(this.repository.resultData);
-    //    }
-    //}
+            switch (type) {
+                case this._bugTypeMap[BugType.Release]:
+                    data = this.releaseBugs;
+                    break;
+
+                case this._bugTypeMap[BugType.Outreach]:
+                    data = this.outreachBugs;
+                    break;
+
+                case this._bugTypeMap[BugType.SwitchRisk]:
+                    data = this.switchRiskBugs;
+                    break;
+
+                case this._bugTypeMap[BugType.All]:
+                default:
+                    data = this.bugs;
+                    break;
+            }
+
+            return KnockoutUtil.convertToCamelCase(data);
+        }
+
+        public getFilterSelectData(): Array<Select.IViewModelData> {
+            let data: Array<Select.IViewModelData> = [];
+
+            data.push({
+                name: BugsProvider.SelectName,
+                options: [
+                    { text: "All bugs (" + this.bugs.length + ")", value: this._bugTypeMap[BugType.All] },
+                    { text: "Outreach bugs (" + this.outreachBugs.length + ")", value: this._bugTypeMap[BugType.Outreach] },
+                    { text: "Switch risk bugs (" + this.switchRiskBugs.length + ")", value: this._bugTypeMap[BugType.SwitchRisk] },
+                    { text: this.releaseBugs[0].Release + " bugs (" + this.releaseBugs.length + ")", value: this._bugTypeMap[BugType.Release] }
+                ]
+            });
+
+            return data;
+        }
+
+        public get bugTypeMap(): Array<string> {
+            return this._bugTypeMap;
+        }
+
+        public get bugs(): Array<BugsForDomainRepository.Bug> {
+            return this.repository.resultData.Bugs;
+        }
+
+        public get releaseBugs(): Array<BugsForDomainRepository.Bug> {
+            return this.repository.resultData.CurrentReleaseBugs;
+        }
+
+        public get outreachBugs(): Array<BugsForDomainRepository.Bug> {
+            return this.repository.resultData.OutreachBugs;
+        }
+
+        public get switchRiskBugs(): Array<BugsForDomainRepository.Bug> {
+            return this.repository.resultData.SwitchRiskBugs;
+        }
+    }
 
     export class TrendsProvider extends BaseProvider.DynamicProvider<TrendsForDomainRepository.DataTransferObject>
         implements BaseProvider.IDynamicProvider {

@@ -2,6 +2,7 @@
 
 module Main {
     export class Endpoints {
+        public static BugsForDomain = "bugsfordomain";
         public static BugsForTag = "bugsfortag";
         public static Filters = "filter";
         public static GetBuildWithData = "getbuiltwithdata";

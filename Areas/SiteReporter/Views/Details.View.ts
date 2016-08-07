@@ -10,6 +10,8 @@ import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Table = require("Areas/Shared/Controls/Table");
 
+import BugsForDomainRepository = require("../Data/Repositories/BugsForDomain.Repository");
+import BugsForDomainBlobUrlRepository = require("../Data/Repositories/BugsForDomainBlobUrl.Repository");
 import FiltersRepository = require("../Data/Repositories/Filters.Repository");
 import GetBuiltWithDataRepository = require("../Data/Repositories/GetBuiltWithData.Repository");
 import ScanTimeRepository = require("../Data/Repositories/ScanTime.Repository");
@@ -53,6 +55,9 @@ module Main {
     }
 
     export class Widget extends Base.Widget implements IWidget {
+        private _bugsForDomainRepo: BugsForDomainRepository.IRepository;
+        private _bugsForDomainBlobUrlRepo: BugsForDomainBlobUrlRepository.IRepository;
+        private _bugsForDomainProvider: DetailsProvider.BugsProvider;
         private _builtWithRepo: GetBuiltWithDataRepository.IRepository;
         private _builtWithProvider: DetailsProvider.BuiltWithProvider;
         private _filtersRepo: FiltersRepository.IRepository;
@@ -76,6 +81,10 @@ module Main {
             }, this._controlIds);
 
             this._controlClasses = $.extend({
+                bugFilters: "bug__filters",
+                bugList: "bug__list",
+                bugTrends: "bug__trends",
+                domainSnapshot: "domain__snapshot",
                 trendFilters: "trends__filters",
                 trendsFocusTime: "trends__focustime",
                 trendsNavigations: "trends__navigations",
@@ -95,6 +104,21 @@ module Main {
                 (super.getDataFor("#" + this.controlIds["bugs"]));
         }
 
+        public get bugsFilters(): BaseControl.IControl<Filters.ViewModel, Filters.Widget> {
+            return <BaseControl.IControl<Filters.ViewModel, Filters.Widget>>
+                (super.getDataFor("." + this.controlClasses["bugFilters"]));
+        }
+
+        public get bugsTable(): BaseControl.IControl<Table.ViewModel, Table.Widget> {
+            return <BaseControl.IControl<Table.ViewModel, Table.Widget>>
+                (super.getDataFor("." + this.controlClasses["bugList"]));
+        }
+
+        public get bugTrendsChart(): BaseControl.IControl<Chart.IViewModel, Chart.IWidget> {
+            return <BaseControl.IControl<Chart.IViewModel, Chart.IWidget>>
+                (super.getDataFor("." + this.controlClasses["bugTrends"]));
+        }
+
         public get focusTimeChart(): BaseControl.IControl<Chart.IViewModel, Chart.IWidget> {
             return <BaseControl.IControl<Chart.IViewModel, Chart.IWidget>>
                 (super.getDataFor("." + this.controlClasses["trendsFocusTime"]));
@@ -103,6 +127,11 @@ module Main {
         public get frowniesChart(): BaseControl.IControl<Chart.IViewModel, Chart.IWidget> {
             return <BaseControl.IControl<Chart.IViewModel, Chart.IWidget>>
                 (super.getDataFor("." + this.controlClasses["trendsFrownies"]));
+        }
+
+        public get snapshot(): BaseControl.IControl<DescriptionList.ViewModel, DescriptionList.Widget> {
+            return <BaseControl.IControl<DescriptionList.ViewModel, DescriptionList.Widget>>
+                (super.getDataFor("." + this.controlClasses["domainSnapshot"]));
         }
 
         public get navigationsChart(): BaseControl.IControl<Chart.IViewModel, Chart.IWidget> {
@@ -144,20 +173,20 @@ module Main {
                     data: this.defaults.viewContext.params
                 }
             };
-            //this._bugsForTagBlobUrlRepo = new BugsForTagBlobUrlRepository.Repository($.extend({}, repoSettings));
-            //this._bugsForTagRepo = new BugsForTagRepository.Repository();
+            this._bugsForDomainBlobUrlRepo = new BugsForDomainBlobUrlRepository.Repository($.extend({}, repoSettings));
+            this._bugsForDomainRepo = new BugsForDomainRepository.Repository();
             this._filtersRepo = new FiltersRepository.Repository($.extend({}, repoSettings));
             this._trendsForDomainRepo = new TrendsForDomainRepository.Repository($.extend({}, repoSettings));
             this._builtWithRepo = new GetBuiltWithDataRepository.Repository($.extend({}, repoSettings));
-            //this._scantimeRepo = new ScanTimeRepository.Repository();
+            this._scantimeRepo = new ScanTimeRepository.Repository();
         }
 
         public initializeLoading(): void {
-            //this.bugsFilters.vm.loading(true);
             this.trendsFilters.vm.loading(true);
             this.tech.vm.loading(true);
+            this.snapshot.vm.loading(true);
 
-            //this.initializeBugsLoading();
+            this.initializeBugsLoading();
             this.initializeTrendsLoading();
         }
 
@@ -165,6 +194,8 @@ module Main {
             // Setup load state changes for when promises resolve
             // There's a random bug here (remove the <any> and see the compiler error)
             $.when<any>(
+                this._bugsForDomainBlobUrlRepo.getPromise(),
+                this._bugsForDomainRepo.getPromise(),
                 this._builtWithRepo.getPromise(),
                 this._filtersRepo.getPromise(),
                 this._trendsForDomainRepo.getPromise())
@@ -173,8 +204,15 @@ module Main {
                 this.initializeSubscriptions();
             });
 
-            //// Begin loading the data
-            //this.loadBugsRepo();
+            // When the complete set of data is ready, render the sidebar
+            $.when<any>(
+                this._bugsForDomainRepo.getPromise())
+            .done(() => {
+                this.applySidebarData();
+            });
+
+            // Begin loading the data
+            this.loadBugsRepo();
             this.loadTrendsRepo();
 
             this._filtersRepo.load().done(() => {
@@ -185,18 +223,16 @@ module Main {
                 this.applyBuiltWithData();
             });
 
-            //this._scantimeRepo.load().done(() => {
-            //    this.applyScantimeData();
-            //});
+            this._scantimeRepo.load().done(() => {
+                this.applyScantimeData();
+            });
         }
 
         public initializeSubscriptions(): void {
-            //this._subscriptions.push(this.bugsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
-            //    $.extend(this._bugsForTagBlobUrlRepo.settings.request.data, newValue);
-
-            //    this.initializeBugsLoading();
-            //    this.loadBugsRepo();
-            //}));
+            this._subscriptions.push(this.bugsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
+                this.bugsTable.widget.data(this._bugsForDomainProvider.getBugTableDataByType(newValue[DetailsProvider.BugsProvider.SelectName]));
+                this.updateBugTrendsChart(newValue[DetailsProvider.BugsProvider.SelectName]);
+            }));
 
             this._subscriptions.push(this.trendsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
                 $.extend(this._trendsForDomainRepo.settings.request.data, newValue);
@@ -220,8 +256,8 @@ module Main {
         }
 
         private initializeBugsLoading(): void {
-            //this.bugsSnapshots.vm.loading(true);
-            //this.bugsTable.vm.loading(true);
+            this.bugsTable.vm.loading(true);
+            this.bugsFilters.vm.loading(true);
         }
 
         private initializeTrendsLoading(): void {
@@ -232,12 +268,12 @@ module Main {
 
         private loadBugsRepo(): void {
             // Load Bugs data
-            //this._bugsForTagBlobUrlRepo.load().done((blobUrl: string) => {
-            //    this._bugsForTagRepo.settings.baseUrl = blobUrl;
-            //    this._bugsForTagRepo.load().done(() => {
-            //        this.applyBugsData();
-            //    });
-            //});
+            this._bugsForDomainBlobUrlRepo.load().done((blobUrl: string) => {
+                this._bugsForDomainRepo.settings.baseUrl = blobUrl;
+                this._bugsForDomainRepo.load().done(() => {
+                    this.applyBugsData();
+                });
+            });
         }
 
         private loadTrendsRepo(): void {
@@ -247,13 +283,30 @@ module Main {
             });
         }
 
-        private applyBugsData(): void {
-            //this._bugsForTagProvider = new SummaryProvider.BugsProvider(this._bugsForTagRepo);
+        private applySidebarData(): void {
+            let descriptionPairs = [];
 
-            //this.bugsSnapshots.vm.loading(false);
-            //this.bugsTable.vm.loading(false);
-            //this.bugsSnapshots.vm.descriptionPairs(this._bugsForTagProvider.getBugSnapshotData());
-            //this.bugsTable.widget.data(this._bugsForTagProvider.getBugTableData());
+            if (this._bugsForDomainRepo.resultData.IsSwitchRisk) {
+                descriptionPairs.push(this._staticProvider.getSwitchRiskDescriptionPair());
+            }
+
+            descriptionPairs.push(this._staticProvider.getOffensiveContentDescriptionPair());
+            descriptionPairs.push(this._staticProvider.getFavIconDescriptionPair());
+            descriptionPairs.push(this._staticProvider.getBingdexDescriptionPair());
+            descriptionPairs.push(this._staticProvider.getAlexaDescriptionPair());
+
+            this.snapshot.vm.loading(false);
+            this.snapshot.vm.descriptionPairs(descriptionPairs);
+        }
+
+        private applyBugsData(): void {
+            this._bugsForDomainProvider = new DetailsProvider.BugsProvider(this._bugsForDomainRepo);
+
+            this.bugsFilters.vm.loading(false);
+            this.bugsFilters.vm.selectData(this._bugsForDomainProvider.getFilterSelectData());
+
+            this.bugsTable.vm.loading(false);
+            this.bugsTable.widget.data(this._bugsForDomainProvider.getBugTableData());
         }
 
         private applyTrendsData(): void {
@@ -287,9 +340,36 @@ module Main {
         }
 
         private applyScantimeData(): void {
-            //this._scantimeProvider = new SummaryProvider.ScanTimeProvider(this._scantimeRepo);
+            this._scantimeProvider = new SharedProvider.ScanTimeProvider(this._scantimeRepo);
 
-            //this.bugsTable.vm.metadata("Updated " + this._scantimeProvider.getLastScannedTime());
+            this.bugsTable.vm.metadata("Updated " + this._scantimeProvider.getLastScannedTime());
+        }
+
+        private updateBugTrendsChart(visibleSeriesName: string): void {
+            let chart = $(this.bugTrendsChart.widget.element).highcharts();
+
+            chart.series.forEach((series: HighchartsSeriesObject, index: number) => {
+                series.hide();
+            });
+
+            switch (visibleSeriesName) {
+                case this._bugsForDomainProvider.bugTypeMap[DetailsProvider.BugType.Release]:
+                    chart.series[3].show();
+                    break;
+
+                case this._bugsForDomainProvider.bugTypeMap[DetailsProvider.BugType.Outreach]:
+                    chart.series[2].show();
+                    break;
+
+                case this._bugsForDomainProvider.bugTypeMap[DetailsProvider.BugType.SwitchRisk]:
+                    chart.series[1].show();
+                    break;
+
+                case this._bugsForDomainProvider.bugTypeMap[DetailsProvider.BugType.All]:
+                default:
+                    chart.series[0].show();
+                    break;
+            }
         }
     }
 }

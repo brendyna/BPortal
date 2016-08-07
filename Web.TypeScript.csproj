@@ -168,7 +168,9 @@
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Shared.Provider.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Summary.Provider.ts" />
     <TypeScriptCompile Include="Areas\Shared\Data\Repositories\Base.Repository.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForDomain.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForTag.Repository.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForDomainBlobUrl.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForTagBlobUrl.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\GetBuiltWithData.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\Filters.Repository.ts" />
