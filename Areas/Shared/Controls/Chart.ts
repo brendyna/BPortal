@@ -92,13 +92,26 @@ module Main {
         }
 
         private updateChartData(newData: any): void {
+            let chart = $(this.element).highcharts();
             // Check if we're dealing w/a multi-series data set
-            if ($.isArray(newData[0][0])) {
+            if ($.isPlainObject(newData[0])) {
                 (<Array<any>>newData).forEach((newSeriesData: any, index: number) => {
-                    $(this.element).highcharts().series[index].setData(newSeriesData, true, true);
+                    if (chart.series[index]) {
+                        chart.series[index].setData(newSeriesData, true, true);
+                    } else {
+                        chart.addSeries(newSeriesData, false);
+                    }
                 });
+
+                chart.redraw(true);
             } else {
-                $(this.element).highcharts().series[0].setData(newData, true, true, true);
+                if (chart.series[0]) {
+                    chart.series[0].setData(newData, true, true, true);
+                } else {
+                    chart.addSeries({
+                        data: newData
+                    }, true, true);
+                }
             } 
         }
     }

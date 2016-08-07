@@ -12,6 +12,8 @@ import Table = require("Areas/Shared/Controls/Table");
 
 import BugsForDomainRepository = require("../Data/Repositories/BugsForDomain.Repository");
 import BugsForDomainBlobUrlRepository = require("../Data/Repositories/BugsForDomainBlobUrl.Repository");
+import BugTrendsRepository = require("../Data/Repositories/BugTrends.Repository");
+import BugTrendsBlobUrlRepository = require("../Data/Repositories/BugTrendsBlobUrl.Repository");
 import FiltersRepository = require("../Data/Repositories/Filters.Repository");
 import GetBuiltWithDataRepository = require("../Data/Repositories/GetBuiltWithData.Repository");
 import ScanTimeRepository = require("../Data/Repositories/ScanTime.Repository");
@@ -58,6 +60,9 @@ module Main {
         private _bugsForDomainRepo: BugsForDomainRepository.IRepository;
         private _bugsForDomainBlobUrlRepo: BugsForDomainBlobUrlRepository.IRepository;
         private _bugsForDomainProvider: DetailsProvider.BugsProvider;
+        private _bugTrendsRepo: BugTrendsRepository.IRepository;
+        private _bugTrendsBlobUrlRepo: BugTrendsBlobUrlRepository.IRepository;
+        private _bugTrendsProvider: DetailsProvider.BugTrendsProvider;
         private _builtWithRepo: GetBuiltWithDataRepository.IRepository;
         private _builtWithProvider: DetailsProvider.BuiltWithProvider;
         private _filtersRepo: FiltersRepository.IRepository;
@@ -173,8 +178,11 @@ module Main {
                     data: this.defaults.viewContext.params
                 }
             };
+
             this._bugsForDomainBlobUrlRepo = new BugsForDomainBlobUrlRepository.Repository($.extend({}, repoSettings));
             this._bugsForDomainRepo = new BugsForDomainRepository.Repository();
+            this._bugTrendsBlobUrlRepo = new BugTrendsBlobUrlRepository.Repository($.extend({}, repoSettings));
+            this._bugTrendsRepo = new BugTrendsRepository.Repository();
             this._filtersRepo = new FiltersRepository.Repository($.extend({}, repoSettings));
             this._trendsForDomainRepo = new TrendsForDomainRepository.Repository($.extend({}, repoSettings));
             this._builtWithRepo = new GetBuiltWithDataRepository.Repository($.extend({}, repoSettings));
@@ -185,6 +193,7 @@ module Main {
             this.trendsFilters.vm.loading(true);
             this.tech.vm.loading(true);
             this.snapshot.vm.loading(true);
+            this.bugTrendsChart.vm.loading(true);
 
             this.initializeBugsLoading();
             this.initializeTrendsLoading();
@@ -194,10 +203,11 @@ module Main {
             // Setup load state changes for when promises resolve
             // There's a random bug here (remove the <any> and see the compiler error)
             $.when<any>(
-                this._bugsForDomainBlobUrlRepo.getPromise(),
                 this._bugsForDomainRepo.getPromise(),
+                this._bugTrendsRepo.getPromise(),
                 this._builtWithRepo.getPromise(),
                 this._filtersRepo.getPromise(),
+                this._scantimeRepo.getPromise(),
                 this._trendsForDomainRepo.getPromise())
             .done(() => {
                 this._loadDeferred.resolve();
@@ -211,21 +221,28 @@ module Main {
                 this.applySidebarData();
             });
 
-            // Begin loading the data
-            this.loadBugsRepo();
-            this.loadTrendsRepo();
-
             this._filtersRepo.load().done(() => {
                 this.applyFiltersData();
+            });
+
+            this._scantimeRepo.load().done(() => {
+                this.applyScantimeData();
+            });
+
+            this.loadBugsRepo();
+            
+            this._bugTrendsBlobUrlRepo.load().done((blobUrl: string) => {
+                this._bugTrendsRepo.settings.baseUrl = blobUrl;
+                this._bugTrendsRepo.load().done(() => {
+                    this.applyBugTrendsData();
+                });
             });
 
             this._builtWithRepo.load().done(() => {
                 this.applyBuiltWithData();
             });
 
-            this._scantimeRepo.load().done(() => {
-                this.applyScantimeData();
-            });
+            this.loadTrendsRepo();
         }
 
         public initializeSubscriptions(): void {
@@ -307,6 +324,13 @@ module Main {
 
             this.bugsTable.vm.loading(false);
             this.bugsTable.widget.data(this._bugsForDomainProvider.getBugTableData());
+        }
+
+        private applyBugTrendsData(): void {
+            this._bugTrendsProvider = new DetailsProvider.BugTrendsProvider(this._bugTrendsRepo);
+
+            this.bugTrendsChart.vm.loading(false);
+            this.bugTrendsChart.widget.data(this._bugTrendsProvider.getChartSeriesData());
         }
 
         private applyTrendsData(): void {
