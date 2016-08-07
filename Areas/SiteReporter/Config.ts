@@ -5,6 +5,7 @@ module Main {
         public static BugTrends = "bugtrends";
         public static BugsForDomain = "bugsfordomain";
         public static BugsForTag = "bugsfortag";
+        public static DetailsForDomain = "detailsfordomain";
         public static Filters = "filter";
         public static GetBuildWithData = "getbuiltwithdata";
         public static ScanTime = "scantime";

@@ -25,6 +25,15 @@ module Main {
     });
 
     export function setupMockjax(): void {
+        // Get details for domain
+        $.mockjax({
+            url: [Config.Urls.SiteReporterApi, Config.Endpoints.DetailsForDomain].join("/"),
+            responseText: getMockDetailsForDomain(),
+            data: (data) => {
+                return data.domain === facebookParams.domain;
+            }
+        });
+
         // Get filters
         $.mockjax({
             url: [Config.Urls.SiteReporterApi, Config.Endpoints.Filters].join("/"),
@@ -914,6 +923,10 @@ module Main {
             "CurrentReleaseBugs": [{ "Date": "2016-05-16T00:00:00", "Count": 6 }, { "Date": "2016-05-17T00:00:00", "Count": 9 }, { "Date": "2016-05-18T00:00:00", "Count": 9 }, { "Date": "2016-05-19T00:00:00", "Count": 9 }, { "Date": "2016-05-20T00:00:00", "Count": 6 }, { "Date": "2016-05-21T00:00:00", "Count": 6 }, { "Date": "2016-05-22T00:00:00", "Count": 6 }, { "Date": "2016-05-23T00:00:00", "Count": 6 }, { "Date": "2016-05-24T00:00:00", "Count": 5 }, { "Date": "2016-05-25T00:00:00", "Count": 5 }, { "Date": "2016-05-26T00:00:00", "Count": 4 }, { "Date": "2016-05-27T00:00:00", "Count": 5 }, { "Date": "2016-05-28T00:00:00", "Count": 5 }, { "Date": "2016-05-29T00:00:00", "Count": 5 }, { "Date": "2016-05-30T00:00:00", "Count": 5 }, { "Date": "2016-05-31T00:00:00", "Count": 4 }, { "Date": "2016-06-01T00:00:00", "Count": 9 }, { "Date": "2016-06-02T00:00:00", "Count": 9 }, { "Date": "2016-06-03T00:00:00", "Count": 9 }, { "Date": "2016-06-04T00:00:00", "Count": 9 }, { "Date": "2016-06-05T00:00:00", "Count": 9 }, { "Date": "2016-06-06T00:00:00", "Count": 9 }, { "Date": "2016-06-07T00:00:00", "Count": 7 }, { "Date": "2016-06-08T00:00:00", "Count": 8 }, { "Date": "2016-06-09T00:00:00", "Count": 9 }, { "Date": "2016-06-10T00:00:00", "Count": 8 }, { "Date": "2016-06-11T00:00:00", "Count": 8 }, { "Date": "2016-06-12T00:00:00", "Count": 7 }, { "Date": "2016-06-13T00:00:00", "Count": 7 }, { "Date": "2016-06-14T00:00:00", "Count": 9 }, { "Date": "2016-06-15T00:00:00", "Count": 13 }, { "Date": "2016-06-16T00:00:00", "Count": 13 }, { "Date": "2016-06-17T00:00:00", "Count": 16 }, { "Date": "2016-06-18T00:00:00", "Count": 16 }, { "Date": "2016-06-19T00:00:00", "Count": 16 }, { "Date": "2016-06-20T00:00:00", "Count": 15 }, { "Date": "2016-06-21T00:00:00", "Count": 14 }, { "Date": "2016-06-22T00:00:00", "Count": 16 }, { "Date": "2016-06-23T00:00:00", "Count": 16 }, { "Date": "2016-06-24T00:00:00", "Count": 13 }, { "Date": "2016-06-25T00:00:00", "Count": 13 }, { "Date": "2016-06-26T00:00:00", "Count": 12 }, { "Date": "2016-06-27T00:00:00", "Count": 13 }, { "Date": "2016-06-28T00:00:00", "Count": 13 }, { "Date": "2016-06-29T00:00:00", "Count": 13 }, { "Date": "2016-06-30T00:00:00", "Count": 15 }, { "Date": "2016-07-01T00:00:00", "Count": 15 }, { "Date": "2016-07-02T00:00:00", "Count": 14 }, { "Date": "2016-07-03T00:00:00", "Count": 14 }, { "Date": "2016-07-04T00:00:00", "Count": 13 }, { "Date": "2016-07-05T00:00:00", "Count": 11 }, { "Date": "2016-07-06T00:00:00", "Count": 5 }, { "Date": "2016-07-07T00:00:00", "Count": 4 }, { "Date": "2016-07-08T00:00:00", "Count": 3 }, { "Date": "2016-07-09T00:00:00", "Count": 3 }, { "Date": "2016-07-10T00:00:00", "Count": 3 }, { "Date": "2016-07-11T00:00:00", "Count": 4 }, { "Date": "2016-07-12T00:00:00", "Count": 3 }, { "Date": "2016-07-13T00:00:00", "Count": 3 }, { "Date": "2016-07-14T00:00:00", "Count": 3 }, { "Date": "2016-07-15T00:00:00", "Count": 3 }, { "Date": "2016-07-16T00:00:00", "Count": 3 }, { "Date": "2016-07-17T00:00:00", "Count": 3 }, { "Date": "2016-07-18T00:00:00", "Count": 3 }, { "Date": "2016-07-19T00:00:00", "Count": 3 }, { "Date": "2016-07-20T00:00:00", "Count": 3 }, { "Date": "2016-07-21T00:00:00", "Count": 3 }, { "Date": "2016-07-22T00:00:00", "Count": 3 }, { "Date": "2016-07-23T00:00:00", "Count": 3 }, { "Date": "2016-07-24T00:00:00", "Count": 3 }, { "Date": "2016-07-25T00:00:00", "Count": 3 }, { "Date": "2016-07-26T00:00:00", "Count": 3 }, { "Date": "2016-07-27T00:00:00", "Count": 3 }, { "Date": "2016-07-28T00:00:00", "Count": 3 }, { "Date": "2016-07-29T00:00:00", "Count": 3 }, { "Date": "2016-07-30T00:00:00", "Count": 3 }, { "Date": "2016-07-31T00:00:00", "Count": 3 }, { "Date": "2016-08-01T00:00:00", "Count": 3 }, { "Date": "2016-08-02T00:00:00", "Count": 3 }, { "Date": "2016-08-03T00:00:00", "Count": 4 }, { "Date": "2016-08-04T00:00:00", "Count": 3 }, { "Date": "2016-08-05T00:00:00", "Count": 3 }, { "Date": "2016-08-06T00:00:00", "Count": 3 }]
         };
 
+    }
+
+    export function getMockDetailsForDomain(): any {
+        return { "domainName": "facebook.com", "isOffensive": false, "domainId": 2, "bingdexRank": 2, "alexaRank": 3 };
     }
 
     export function getMockFiltersData(): any {

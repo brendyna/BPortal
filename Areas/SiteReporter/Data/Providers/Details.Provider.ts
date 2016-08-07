@@ -17,6 +17,7 @@ import Table = require("Areas/Shared/Controls/Table");
 import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
 import BugsForDomainRepository = require("../Repositories/BugsForDomain.Repository");
 import BugTrendsRepository = require("../Repositories/BugTrends.Repository");
+import DetailsForDomainRepository = require("../Repositories/DetailsForDomain.Repository");
 import GetBuiltWithDataRepository = require("../Repositories/GetBuiltWithData.Repository");
 import TrendsForDomainRepository = require("../Repositories/TrendsForDomain.Repository");
 
@@ -164,30 +165,6 @@ module Main {
                     content: `<img class="summary--favicon" data-bind="attr: { src: $vm.src }" />`,
                     contentViewModel: {
                         src: "http://www.google.com/s2/favicons?domain_url=facebook.com"
-                    }
-                }]
-            };
-        }
-
-        public getBingdexDescriptionPair(): DescriptionList.IDescriptionPairData {
-            return {
-                term: "Bingdex rank",
-                descriptions: [{
-                    content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
-                    contentViewModel: {
-                        text: "#1"
-                    }
-                }]
-            };
-        }
-
-        public getAlexaDescriptionPair(): DescriptionList.IDescriptionPairData {
-            return {
-                term: "Alexa rank",
-                descriptions: [{
-                    content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
-                    contentViewModel: {
-                        text: "#1"
                     }
                 }]
             };
@@ -462,6 +439,10 @@ module Main {
             this._bugTypeMap[BugType.SwitchRisk] = "SwitchRisk";
         }
 
+        public get isSwitchRisk(): boolean {
+            return this.repository.resultData.IsSwitchRisk;
+        }
+
         public getBugTableData(): Array<any> {
             return KnockoutUtil.convertToCamelCase(this.repository.resultData.Bugs);
         }
@@ -528,6 +509,43 @@ module Main {
         }
     }
 
+    export class DetailsForDomainProvider extends BaseProvider.DynamicProvider<DetailsForDomainRepository.DataTransferObject>
+        implements BaseProvider.IDynamicProvider {
+
+        constructor(repository: DetailsForDomainRepository.IRepository) {
+            super(repository);
+        }
+
+        public get isOffensive(): boolean {
+            return this.repository.resultData.isOffensive;
+        }
+
+        public getBingdexDescriptionPair(): DescriptionList.IDescriptionPairData {
+            return {
+                term: "Bingdex rank",
+                descriptions: [{
+                    content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
+                    contentViewModel: {
+                        text: "#" + this.repository.resultData.bingdexRank
+                    }
+                }]
+            };
+        }
+
+        public getAlexaDescriptionPair(): DescriptionList.IDescriptionPairData {
+            return {
+                term: "Alexa rank",
+                descriptions: [{
+                    content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
+                    contentViewModel: {
+                        text: "#" + this.repository.resultData.alexaRank
+                    }
+                }]
+            };
+        }
+    }
+
+
     export class TrendsProvider extends BaseProvider.DynamicProvider<TrendsForDomainRepository.DataTransferObject>
         implements BaseProvider.IDynamicProvider {
         private _typeMap: Array<string>;
@@ -558,7 +576,8 @@ module Main {
         }
     }
 
-    export class BuiltWithProvider extends BaseProvider.DynamicProvider<GetBuiltWithDataRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {
+    export class BuiltWithProvider extends BaseProvider.DynamicProvider<GetBuiltWithDataRepository.DataTransferObject>
+        implements BaseProvider.IDynamicProvider {
         constructor(repository: GetBuiltWithDataRepository.IRepository) {
             super(repository);
         }

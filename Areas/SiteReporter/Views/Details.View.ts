@@ -14,6 +14,7 @@ import BugsForDomainRepository = require("../Data/Repositories/BugsForDomain.Rep
 import BugsForDomainBlobUrlRepository = require("../Data/Repositories/BugsForDomainBlobUrl.Repository");
 import BugTrendsRepository = require("../Data/Repositories/BugTrends.Repository");
 import BugTrendsBlobUrlRepository = require("../Data/Repositories/BugTrendsBlobUrl.Repository");
+import DetailsForDomainRepository = require("../Data/Repositories/DetailsForDomain.Repository");
 import FiltersRepository = require("../Data/Repositories/Filters.Repository");
 import GetBuiltWithDataRepository = require("../Data/Repositories/GetBuiltWithData.Repository");
 import ScanTimeRepository = require("../Data/Repositories/ScanTime.Repository");
@@ -65,6 +66,8 @@ module Main {
         private _bugTrendsProvider: DetailsProvider.BugTrendsProvider;
         private _builtWithRepo: GetBuiltWithDataRepository.IRepository;
         private _builtWithProvider: DetailsProvider.BuiltWithProvider;
+        private _detailsForDomainRepo: DetailsForDomainRepository.IRepository;
+        private _detailsForDomainProvider: DetailsProvider.DetailsForDomainProvider;
         private _filtersRepo: FiltersRepository.IRepository;
         private _filtersProvider: SharedProvider.FiltersProvider;
         private _scantimeRepo: ScanTimeRepository.IRepository;
@@ -183,6 +186,7 @@ module Main {
             this._bugsForDomainRepo = new BugsForDomainRepository.Repository();
             this._bugTrendsBlobUrlRepo = new BugTrendsBlobUrlRepository.Repository($.extend({}, repoSettings));
             this._bugTrendsRepo = new BugTrendsRepository.Repository();
+            this._detailsForDomainRepo = new DetailsForDomainRepository.Repository($.extend({}, repoSettings));
             this._filtersRepo = new FiltersRepository.Repository($.extend({}, repoSettings));
             this._trendsForDomainRepo = new TrendsForDomainRepository.Repository($.extend({}, repoSettings));
             this._builtWithRepo = new GetBuiltWithDataRepository.Repository($.extend({}, repoSettings));
@@ -216,10 +220,13 @@ module Main {
 
             // When the complete set of data is ready, render the sidebar
             $.when<any>(
-                this._bugsForDomainRepo.getPromise())
+                this._bugsForDomainRepo.getPromise(),
+                this._detailsForDomainRepo.getPromise())
             .done(() => {
                 this.applySidebarData();
             });
+
+            this._detailsForDomainRepo.load();
 
             this._filtersRepo.load().done(() => {
                 this.applyFiltersData();
@@ -302,22 +309,32 @@ module Main {
 
         private applySidebarData(): void {
             let descriptionPairs = [];
+            this._detailsForDomainProvider = new DetailsProvider.DetailsForDomainProvider(this._detailsForDomainRepo);
 
-            if (this._bugsForDomainRepo.resultData.IsSwitchRisk) {
+            if (!this._bugsForDomainProvider) {
+                this._bugsForDomainProvider = new DetailsProvider.BugsProvider(this._bugsForDomainRepo);
+            }
+
+            if (this._bugsForDomainProvider.isSwitchRisk) {
                 descriptionPairs.push(this._staticProvider.getSwitchRiskDescriptionPair());
             }
 
-            descriptionPairs.push(this._staticProvider.getOffensiveContentDescriptionPair());
+            if (this._detailsForDomainProvider.isOffensive) {
+                descriptionPairs.push(this._staticProvider.getOffensiveContentDescriptionPair());
+            }
+
             descriptionPairs.push(this._staticProvider.getFavIconDescriptionPair());
-            descriptionPairs.push(this._staticProvider.getBingdexDescriptionPair());
-            descriptionPairs.push(this._staticProvider.getAlexaDescriptionPair());
+            descriptionPairs.push(this._detailsForDomainProvider.getBingdexDescriptionPair());
+            descriptionPairs.push(this._detailsForDomainProvider.getAlexaDescriptionPair());
 
             this.snapshot.vm.loading(false);
             this.snapshot.vm.descriptionPairs(descriptionPairs);
         }
 
         private applyBugsData(): void {
-            this._bugsForDomainProvider = new DetailsProvider.BugsProvider(this._bugsForDomainRepo);
+            if (!this._bugsForDomainProvider) {
+                this._bugsForDomainProvider = new DetailsProvider.BugsProvider(this._bugsForDomainRepo);
+            }
 
             this.bugsFilters.vm.loading(false);
             this.bugsFilters.vm.selectData(this._bugsForDomainProvider.getFilterSelectData());
