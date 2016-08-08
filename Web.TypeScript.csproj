@@ -175,7 +175,7 @@
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForTag.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForDomainBlobUrl.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForTagBlobUrl.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\GetBuiltWithData.Repository.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BuiltWithDataForDomain.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\Filters.Repository.ts" />
     <TypeScriptCompile Include="Areas\Shared\Data\Request.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\ScanTime.Repository.ts" />

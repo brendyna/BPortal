@@ -9,6 +9,7 @@ module Main {
         public static BugTrends = "bugtrends";
         public static BugsForDomain = "bugsfordomain";
         public static BugsForTag = "bugsfortag";
+        public static BuiltWithDataForDomain = "builtwithdatafordomain";
         public static DetailsForDomain = "detailsfordomain";
         public static Filters = "filter";
         public static GetBuildWithData = "getbuiltwithdata";
@@ -68,8 +69,6 @@ module Main {
         public static LearnMore = "https://osgwiki.com/wiki/SiteReporter";
         public static SummaryPage = '/sitereporter/summary?';
         public static DetailsPage = '/sitereporter/details?';
-        public static DetailsPageBase = isPortalDebugMode() ?
-            "http://localhost:61484/sitereporter/details" : "http://wptportal.corp.microsoft.com/sitereporter/details";
         public static SiteReporterApi = "https://sitereporter-api.azurewebsites.net/api";
     }
 

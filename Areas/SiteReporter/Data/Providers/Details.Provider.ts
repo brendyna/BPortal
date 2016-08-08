@@ -18,8 +18,8 @@ import Badge = require("Areas/Shared/Controls/Badge");
 import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
 import BugsForDomainRepository = require("../Repositories/BugsForDomain.Repository");
 import BugTrendsRepository = require("../Repositories/BugTrends.Repository");
+import BuiltWithDataForDomainRepository = require("../Repositories/BuiltWithDataForDomain.Repository");
 import DetailsForDomainRepository = require("../Repositories/DetailsForDomain.Repository");
-import GetBuiltWithDataRepository = require("../Repositories/GetBuiltWithData.Repository");
 import TrendsForDomainRepository = require("../Repositories/TrendsForDomain.Repository");
 
 export = Main;
@@ -593,16 +593,16 @@ module Main {
         }
     }
 
-    export class BuiltWithProvider extends BaseProvider.DynamicProvider<GetBuiltWithDataRepository.DataTransferObject>
+    export class BuiltWithDataForDomainProvider extends BaseProvider.DynamicProvider<BuiltWithDataForDomainRepository.DataTransferObject>
         implements BaseProvider.IDynamicProvider {
-        constructor(repository: GetBuiltWithDataRepository.IRepository) {
+        constructor(repository: BuiltWithDataForDomainRepository.IRepository) {
             super(repository);
         }
 
         public getTechnologies(): string {
             let technologies = [];
 
-            this.repository.resultData.technologies.forEach((tech: GetBuiltWithDataRepository.Technology) => {
+            this.repository.resultData.technologies.forEach((tech: BuiltWithDataForDomainRepository.Technology) => {
                 technologies.push(tech.name);
             });
 

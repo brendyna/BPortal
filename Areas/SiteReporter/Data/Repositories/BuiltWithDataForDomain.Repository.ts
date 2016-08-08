@@ -46,9 +46,9 @@ module Main {
 
     export class Repository extends BaseRepository.Repository<DataTransferObject> implements IRepository {
         constructor(settings: BaseRepository.IRepositorySettings = {}, params?: BaseRepository.RepositoryParams) {
-            settings.baseUrl = Config.Urls.DetailsPageBase;
-            settings.endpoint = Config.Endpoints.GetBuildWithData;
-            settings.authorize = false;
+            settings.baseUrl = Config.Urls.SiteReporterApi;
+            settings.endpoint = Config.Endpoints.BuiltWithDataForDomain;
+            settings.authorize = true;
             settings.request = settings.request || {};
             settings.request.data = settings.request.data || params || {};
 
