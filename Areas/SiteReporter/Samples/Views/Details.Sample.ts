@@ -922,7 +922,17 @@ module Main {
     }
 
     export function getMockDetailsForDomain(): any {
-        return { "domainName": "facebook.com", "isOffensive": false, "domainId": 2, "bingdexRank": 2, "alexaRank": 3 };
+        return {
+            "domainName": "facebook.com",
+            "isOffensive": false,
+            "domainId": 2,
+            "bingdexRank": 2,
+            "alexaRank": 3,
+            "tags": [
+                { "id": 1, "text": "jquery", "type": 1 },
+                { "id": 1, "text": "angular2", "type": 2 }
+            ]
+        };
     }
 
     export function getMockFiltersData(): any {
