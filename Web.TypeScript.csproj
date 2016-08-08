@@ -143,6 +143,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Areas\Shared\Config.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Navigation.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Badge.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Navigation.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Navigation.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.Template.ts" />
