@@ -4,12 +4,19 @@ import Config = require("../../Config");
 export = Main;
 
 module Main {
+    export type Tag = {
+        id: number;
+        text: string;
+        type: number;
+    }
+
     export type DomainDetails = {
         domainName: string;
         isOffensive: boolean;
         domainId: number;
         bingdexRank: number;
         alexaRank: number;
+        tags: Array<Tag>;
     }
 
     export type DataTransferObject = DomainDetails;
