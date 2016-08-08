@@ -59,8 +59,8 @@ module Main {
 
         // Get builtwith data
         $.mockjax({
-            url: [Config.Urls.DetailsPageBase, Config.Endpoints.GetBuildWithData].join("/"),
-            responseText: getMockBuiltWithData(),
+            url: [Config.Urls.SiteReporterApi, Config.Endpoints.BuiltWithDataForDomain].join("/"),
+            responseText: getMockBuiltWithDataForDomain(),
             data: (data) => {
                 return data.domain === facebookParams.domain;
             }
@@ -132,7 +132,7 @@ module Main {
         };
     }
 
-    export function getMockBuiltWithData(): any {
+    export function getMockBuiltWithDataForDomain(): any {
         return {
             "identifier": "facebook.com",
             "metadata": {

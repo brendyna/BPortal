@@ -14,9 +14,9 @@ import BugsForDomainRepository = require("../Data/Repositories/BugsForDomain.Rep
 import BugsForDomainBlobUrlRepository = require("../Data/Repositories/BugsForDomainBlobUrl.Repository");
 import BugTrendsRepository = require("../Data/Repositories/BugTrends.Repository");
 import BugTrendsBlobUrlRepository = require("../Data/Repositories/BugTrendsBlobUrl.Repository");
+import BuiltWithDataForDomainRepository = require("../Data/Repositories/BuiltWithDataForDomain.Repository");
 import DetailsForDomainRepository = require("../Data/Repositories/DetailsForDomain.Repository");
 import FiltersRepository = require("../Data/Repositories/Filters.Repository");
-import GetBuiltWithDataRepository = require("../Data/Repositories/GetBuiltWithData.Repository");
 import ScanTimeRepository = require("../Data/Repositories/ScanTime.Repository");
 import TrendsForDomainRepository = require("../Data/Repositories/TrendsForDomain.Repository");
 
@@ -64,8 +64,8 @@ module Main {
         private _bugTrendsRepo: BugTrendsRepository.IRepository;
         private _bugTrendsBlobUrlRepo: BugTrendsBlobUrlRepository.IRepository;
         private _bugTrendsProvider: DetailsProvider.BugTrendsProvider;
-        private _builtWithRepo: GetBuiltWithDataRepository.IRepository;
-        private _builtWithProvider: DetailsProvider.BuiltWithProvider;
+        private _buildWithDataForDomainRepo: BuiltWithDataForDomainRepository.IRepository;
+        private _buildWithDataForDomainProvider: DetailsProvider.BuiltWithDataForDomainProvider;
         private _detailsForDomainRepo: DetailsForDomainRepository.IRepository;
         private _detailsForDomainProvider: DetailsProvider.DetailsForDomainProvider;
         private _filtersRepo: FiltersRepository.IRepository;
@@ -183,7 +183,7 @@ module Main {
             this._detailsForDomainRepo = new DetailsForDomainRepository.Repository(this.getRepoSettings());
             this._filtersRepo = new FiltersRepository.Repository(this.getRepoSettings());
             this._trendsForDomainRepo = new TrendsForDomainRepository.Repository(this.getRepoSettings());
-            this._builtWithRepo = new GetBuiltWithDataRepository.Repository(this.getRepoSettings());
+            this._buildWithDataForDomainRepo = new BuiltWithDataForDomainRepository.Repository(this.getRepoSettings());
             this._scantimeRepo = new ScanTimeRepository.Repository();
         }
 
@@ -229,7 +229,7 @@ module Main {
                 });
             });
 
-            this._builtWithRepo.load().done(() => {
+            this._buildWithDataForDomainRepo.load().done(() => {
                 this.applyBuiltWithData();
             });
 
@@ -245,7 +245,7 @@ module Main {
             $.when<any>(
                 this._bugsForDomainRepo.getPromise(),
                 this._bugTrendsRepo.getPromise(),
-                this._builtWithRepo.getPromise(),
+                this._buildWithDataForDomainRepo.getPromise(),
                 this._filtersRepo.getPromise(),
                 this._scantimeRepo.getPromise(),
                 this._trendsForDomainRepo.getPromise())
@@ -404,10 +404,10 @@ module Main {
         }
 
         private applyBuiltWithData(): void {
-            this._builtWithProvider = new DetailsProvider.BuiltWithProvider(this._builtWithRepo);
+            this._buildWithDataForDomainProvider = new DetailsProvider.BuiltWithDataForDomainProvider(this._buildWithDataForDomainRepo);
 
             this.tech.vm.loading(false);
-            this.tech.vm.bodyViewModel().builtwith(this._builtWithProvider.getTechnologies());
+            this.tech.vm.bodyViewModel().builtwith(this._buildWithDataForDomainProvider.getTechnologies());
         }
 
         private applyScantimeData(): void {
