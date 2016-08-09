@@ -555,7 +555,12 @@ module Main {
                                     <span data-bind="wpsBadge: $data"></span>
                                   <!-- /ko -->`,
                         contentViewModel: {
-                            badges: this.repository.resultData.tags
+                            badges: this.repository.resultData.tags.map(tag => {
+                                return {
+                                    text: tag.text,
+                                    type: Badge.Type.Default
+                                };
+                            })
                         }
                     }
                 ]
