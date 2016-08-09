@@ -9,7 +9,6 @@ import Header = require("Areas/Shared/Controls/Header");
 import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Table = require("Areas/Shared/Controls/Table");
-import Badge = require("Areas/Shared/Controls/Badge");
 
 import BugsForDomainRepository = require("../Data/Repositories/BugsForDomain.Repository");
 import BugsForDomainBlobUrlRepository = require("../Data/Repositories/BugsForDomainBlobUrl.Repository");
@@ -34,7 +33,6 @@ module Main {
     Filters;
     Section;
     Table;
-    Badge;
 
     export interface IParams extends Base.IParams {
         domain: string;
