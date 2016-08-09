@@ -361,6 +361,7 @@ module Main {
             descriptionPairs.push(this._staticProvider.getFavIconDescriptionPair((<IParams>this.defaults.viewContext.params).domain));
             descriptionPairs.push(this._detailsForDomainProvider.getBingdexDescriptionPair());
             descriptionPairs.push(this._detailsForDomainProvider.getAlexaDescriptionPair());
+            descriptionPairs.push(this._detailsForDomainProvider.getTagsDescriptionPair());
 
             this.snapshot.vm.loading(false);
             this.snapshot.vm.descriptionPairs(descriptionPairs);
