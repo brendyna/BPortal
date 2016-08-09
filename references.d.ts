@@ -27,6 +27,7 @@ interface KnockoutBindingHandlers {
     wpsSection: KnockoutBindingHandler;
     wpsTable: KnockoutBindingHandler;
     wpsTabs: KnockoutBindingHandler;
+    wpsBadge: KnockoutBindingHandler;
 }
 
 interface PortalAuthResponse {

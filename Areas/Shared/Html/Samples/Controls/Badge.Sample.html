@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Badge - Samples</title>
+    <link rel="stylesheet" href="http://edgecore.azurewebsites.net/min/indigo.full.min.css" />
+    <link rel="stylesheet" href="/Content/css/samples.css" />
+    <script type="text/javascript" src="/Lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="/require.web.config.js"></script>
+    <script>
+        require(["Areas/Shared/Samples/Controls/Badge.Sample"]);
+    </script>
+</head>
+
+<body>
+    <h1>Samples: Badge</h1>
+    <section>
+        Indigo CSS Library reference:
+        <a href="http://edgecore.azurewebsites.net/components/badge/badge.html" target="_blank">http://edgecore.azurewebsites.net/components/badge/badge.html</a>
+    </section>
+    <section>
+        <h2>Default Badge</h2>
+        <span class="default"></span>
+
+        <h2>Warning</h2>
+        <span class="warning"></span>
+
+        <h2>Error</h2>
+        <span class="error"></span>
+
+        <h2>Primary</h2>
+        <span class="primary"></span>
+
+        <h2>Rendered via Custom Binding</h2>
+        <span class="custom-binding" data-bind="wpsBadge: defaults"></span>
+    </section>
+</body>
+</html>
+

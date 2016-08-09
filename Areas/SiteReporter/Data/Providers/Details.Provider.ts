@@ -13,6 +13,7 @@ import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Select = require("Areas/Shared/Controls/Select");
 import Table = require("Areas/Shared/Controls/Table");
+import Badge = require("Areas/Shared/Controls/Badge");
 
 import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
 import BugsForDomainRepository = require("../Repositories/BugsForDomain.Repository");
@@ -26,6 +27,7 @@ export = Main;
 module Main {
     DescriptionList;
     KnockoutUtil;
+    Badge;
 
     export enum BugType {
         All,
@@ -555,6 +557,27 @@ module Main {
                         text: "#" + this.repository.resultData.alexaRank
                     }
                 }]
+            };
+        }
+
+        public getTagsDescriptionPair(): DescriptionList.IDescriptionPairData {
+            return {
+                term: "Tags",
+                descriptions: [
+                    {
+                        content: `<!-- ko foreach: $vm.badges -->
+                                    <span data-bind="wpsBadge: $data"></span>
+                                  <!-- /ko -->`,
+                        contentViewModel: {
+                            badges: this.repository.resultData.tags.map(tag => {
+                                return {
+                                    text: tag.text,
+                                    type: Badge.Type.Default
+                                };
+                            })
+                        }
+                    }
+                ]
             };
         }
     }
