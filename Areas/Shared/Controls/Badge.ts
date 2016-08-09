@@ -7,7 +7,10 @@ export = Main;
 
 module Main {
     export enum Type {
-        Basic
+        Default,
+        Warning,
+        Error,
+        Primary
     }
 
     export interface IViewModelData extends Base.IViewModelData {
@@ -34,7 +37,7 @@ module Main {
         constructor(data: IViewModelData = {}) {
             super(data);
             this._text = ko.observable(data.text || "");
-            this._type = ko.observable(data.type || Type.Basic);
+            this._type = ko.observable(data.type || Type.Default);
         }
 
         public get text(): KnockoutObservable<string> {
@@ -49,15 +52,30 @@ module Main {
     export class Widget extends Base.Widget implements IWidget {
         public static widgetClass = "badge";
 
-        _basic: KnockoutComputed<boolean>;
+        _default: KnockoutComputed<boolean>;
+        _warning: KnockoutComputed<boolean>;
+        _error: KnockoutComputed<boolean>;
+        _primary: KnockoutComputed<boolean>;
 
         constructor(element: JQuery, defaults?: IWidgetDefaults) {
             super(element, ViewModel, defaults);
 
             this._template = "";
 
-            this._basic = ko.computed(() => {
-                return this.viewModel.type() === Type.Basic;
+            this._default = ko.computed(() => {
+                return this.viewModel.type() === Type.Default;
+            });
+
+            this._warning = ko.computed(() => {
+                return this.viewModel.type() === Type.Warning;
+            });
+
+            this._error = ko.computed(() => {
+                return this.viewModel.type() === Type.Error;
+            });
+
+            this._primary = ko.computed(() => {
+                return this.viewModel.type() === Type.Primary;
             });
 
             this._setupElement();
@@ -65,7 +83,10 @@ module Main {
 
         public destroy(): void {
             super.destroy();
-            this._basic.dispose();
+            this._default.dispose();
+            this._warning.dispose();
+            this._error.dispose();
+            this._primary.dispose();
         }
 
         public get viewModel(): IViewModel {
@@ -74,7 +95,9 @@ module Main {
 
         public _setupElement(): void {
             super._addBinding("text", "vm.text");
-            super._addBinding("css", "'badge': widget._basic");
+            super._addBinding("css", "'badge--warning': widget._warning");
+            super._addBinding("css", "'badge--error': widget._error");
+            super._addBinding("css", "'badge--primary': widget._primary");
 
             super._setupElement();
 
