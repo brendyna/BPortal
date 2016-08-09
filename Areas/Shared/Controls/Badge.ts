@@ -62,19 +62,19 @@ module Main {
 
             this._template = "";
 
-            this._default = ko.computed(() => {
+            this._default = ko.pureComputed(() => {
                 return this.viewModel.type() === Type.Default;
             });
 
-            this._warning = ko.computed(() => {
+            this._warning = ko.pureComputed(() => {
                 return this.viewModel.type() === Type.Warning;
             });
 
-            this._error = ko.computed(() => {
+            this._error = ko.pureComputed(() => {
                 return this.viewModel.type() === Type.Error;
             });
 
-            this._primary = ko.computed(() => {
+            this._primary = ko.pureComputed(() => {
                 return this.viewModel.type() === Type.Primary;
             });
 
