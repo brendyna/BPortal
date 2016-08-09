@@ -42,10 +42,6 @@ module Main {
         Navigations
     }
 
-    export enum TagType {
-        Sitelist
-    }
-
     export interface IStaticProvider {
         getNavigationViewModelData: Navigation.IViewModelData;
         getHeaderViewModelData: Header.IViewModelData;
