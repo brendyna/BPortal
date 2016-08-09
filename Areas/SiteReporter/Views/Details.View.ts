@@ -103,7 +103,10 @@ module Main {
 
             if (!this._defaults.disableAutoRender) {
                 super.render();
-                this.loadData();
+
+                if (this.disabledPlaceholder() === "") {
+                    this.loadData();
+                }
             }
         }
 

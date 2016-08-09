@@ -145,6 +145,7 @@
     <TypeScriptCompile Include="Areas\Shared\Controls\Navigation.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Navigation.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Navigation.Template.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.DisabledWrapper.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Navigation.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Util\Knockout.ts" />
@@ -201,6 +202,7 @@
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Section.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Table.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Tabs.Template.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Templates\SiteDisabled.Template.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Templates\Views\Details.Template.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Templates\Views\Summary.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Base.Test.ts" />

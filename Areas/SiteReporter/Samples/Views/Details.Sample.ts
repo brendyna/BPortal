@@ -1,5 +1,7 @@
 ﻿import Config = require("../../Config");
-import DetailsView = require("../../Views/Details.View");
+import View = require("../../Views/Details.View");
+
+import SiteDisabledTemplate = require("../../Templates/SiteDisabled.Template");
 
 export = Main;
 
@@ -13,11 +15,17 @@ module Main {
     $((): void => {
         setupMockjax();
 
-        let details = new DetailsView.Widget($("#sample"), {
+        let defaults: View.IWidgetDefaults = {
             viewContext: {
                 params: $.extend({}, facebookParams)
             }
-        });
+        };
+
+        if (Config.Window.SiteReporterDisabled) {
+            defaults.disabledPlaceholder = SiteDisabledTemplate;
+        }
+
+        let details = new View.Widget($("#sample"), defaults);
     });
 
     export function setupMockjax(): void {

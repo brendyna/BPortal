@@ -1,5 +1,7 @@
 ﻿import Config = require("../../Config");
-import SummaryView = require("../../Views/Summary.View");
+import View = require("../../Views/Summary.View");
+
+import SiteDisabledTemplate = require("../../Templates/SiteDisabled.Template");
 
 export = Main;
 
@@ -15,11 +17,17 @@ module Main {
     $((): void => {
         setupMockjax();
 
-        let summary = new SummaryView.Widget($("#sample"), {
+        let defaults: View.IWidgetDefaults = {
             viewContext: {
                 params: $.extend({}, bingdexParams)
             }
-        });
+        };
+
+        if (Config.Window.SiteReporterDisabled) {
+            defaults.disabledPlaceholder = SiteDisabledTemplate;
+        }
+
+        let summary = new View.Widget($("#sample"), defaults);
     });
 
     export function setupMockjax(): void {

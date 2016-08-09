@@ -78,6 +78,7 @@ module Main {
         public static ApiPassword = window.API_PASSWORD;
         public static Breadcrumb = window.BREADCRUMB;
         public static DebugMode = isDebugMode();
+        public static SiteReporterDisabled = window.SITEREPORTER_DISABLED;
     }
 
     export function isDebugMode(): boolean {

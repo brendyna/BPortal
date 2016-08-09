@@ -5,6 +5,7 @@ import Header = require("Areas/Shared/Controls/Header");
 import Navigation = require("Areas/Shared/Controls/Navigation");
 
 import DefaultTemplate = require("../Templates/Views/Base.View.Template");
+import DisabledWrapperTemplate = require("../Templates/Views/Base.View.DisabledWrapper.Template");
 
 window.ko = ko; // enables easy debugging w/ko not bound to require
 
@@ -31,6 +32,7 @@ module Main {
         viewModelData?: IViewModelData;
         template?: string;
         disableAutoRender?: boolean;
+        disabledPlaceholder?: string;
     }
 
     export interface IWidget {
@@ -45,6 +47,7 @@ module Main {
         loadRepos: () => void;
         initializeLoading: () => void;
         setStaticViewModelData: () => void;
+        disabledPlaceholder: KnockoutObservable<string>;
         destroy: () => void;
     }
 
@@ -56,12 +59,14 @@ module Main {
         _loadDeferred: JQueryDeferred<void>;
         _subscriptions: Array<KnockoutSubscription>;
         _staticViewModelData: IViewModelData;
+        _disabledPlaceholder: KnockoutObservable<string>;
 
         constructor(element: JQuery, defaults: IWidgetDefaults, viewModelData: IViewModelData = {}) {
             this._element = element;
             this._defaults = <IWidgetDefaults>defaults;
             this._loadDeferred = $.Deferred<void>();
             this._subscriptions = [];
+            this._disabledPlaceholder = ko.observable(this._defaults.disabledPlaceholder || "");
 
             this._defaults.template = this._defaults.template || DefaultTemplate;
             if (this._defaults.template !== DefaultTemplate) {
@@ -75,7 +80,7 @@ module Main {
 
             this._controlClasses = {};
 
-            this.element.html(this._defaults.template);
+            this.element.html(DisabledWrapperTemplate.replace("{VIEW_TEMPLATE}", this._defaults.template));
         }
 
         public get controlClasses(): IDictionary<string> {
@@ -88,6 +93,10 @@ module Main {
 
         public get defaults(): IWidgetDefaults {
             return this._defaults;
+        }
+
+        public get disabledPlaceholder(): KnockoutObservable<string> {
+            return this._disabledPlaceholder;
         }
 
         public get element(): JQuery {

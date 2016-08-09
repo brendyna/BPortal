@@ -50,4 +50,5 @@ interface Window {
     API_PASSWORD: string;
     BREADCRUMB: any;
     ko: KnockoutStatic;
+    SITEREPORTER_DISABLED: string;
 }
