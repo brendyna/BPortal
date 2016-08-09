@@ -30,6 +30,7 @@ module Main {
         altHeader?: boolean;
         body?: string;
         bodyViewModel?: any;
+        bodyPlaceholder?: string;
         subsections?: Array<ISubSectionData>;
     }
 
@@ -39,6 +40,7 @@ module Main {
         altHeader: KnockoutObservable<boolean>;
         body: KnockoutObservable<string>;
         bodyViewModel: KnockoutObservable<any>;
+        bodyPlaceholder: KnockoutObservable<string>;
         subsections: KnockoutObservableArray<ISubSection>;
     }
 
@@ -92,6 +94,7 @@ module Main {
         private _altHeader: KnockoutObservable<boolean>;
         private _body: KnockoutObservable<string>;
         private _bodyViewModel: KnockoutObservable<any>;
+        private _bodyPlaceholder: KnockoutObservable<string>;
         private _subsections: KnockoutObservableArray<ISubSection>;
 
         constructor(data: IViewModelData = {}) {
@@ -102,6 +105,7 @@ module Main {
             this._altHeader = ko.observable(data.altHeader || false);
             this._body = ko.observable(data.body || "");
             this._bodyViewModel = ko.observable(data.bodyViewModel || {});
+            this._bodyPlaceholder = ko.observable(data.bodyPlaceholder || "");
             this._subsections = ko.observableArray<SubSection>(Base.createFromDefaults(data.subsections, SubSection));
         }
 
@@ -123,6 +127,10 @@ module Main {
 
         public get bodyViewModel(): KnockoutObservable<any> {
             return this._bodyViewModel;
+        }
+
+        public get bodyPlaceholder(): KnockoutObservable<string> {
+            return this._bodyPlaceholder;
         }
 
         public get subsections(): KnockoutObservableArray<ISubSection> {

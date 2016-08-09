@@ -53,6 +53,7 @@ module Main {
         viewModelData?: IViewModelData;
         template?: string;
         strings?: {};
+        hidden?: boolean;
     }
 
     export interface IWidget {
@@ -60,6 +61,7 @@ module Main {
         element: JQuery;
         defaults: IWidgetDefaults;
         viewModel: IViewModel;
+        hidden: KnockoutObservable<boolean>;
         destroy: () => void;
         _setupElement: () => void;
         _applyBindings: () => void;
@@ -120,6 +122,7 @@ module Main {
     export class Widget implements IWidget {
         public static widgetClass = "control";
         public static disabledWidgetClass = "control--disabled";
+        public static hiddenWidgetClass = "hidden";
 
         public static resolveDefaults(defaults: IWidgetDefaults | IViewModelData, template?: string): IWidgetDefaults {
             if (!defaults) {
@@ -151,6 +154,7 @@ module Main {
         private _loadingElement: JQuery;
         private _labelElement: JQuery;
         private _defaults: IWidgetDefaults;
+        private _hidden: KnockoutObservable<boolean>;
 
         constructor(element: JQuery, viewModelType: { new (data: IViewModelData): IViewModel }, defaults?: IWidgetDefaults) {
             this._element = element;
@@ -160,6 +164,7 @@ module Main {
             this._viewModel = createFromDefaults<IViewModelData, IViewModel>(<IViewModelData>this._defaults.viewModelData, viewModelType)[0];
             this._childWidgets = [];
             this._bindings = {};
+            this._hidden = ko.observable(this._defaults.hidden || false);
 
             this._addClass(this.viewModel.classes(), true);
         }
@@ -194,6 +199,10 @@ module Main {
 
         public get defaults(): IWidgetDefaults {
             return this._defaults;
+        }
+
+        public get hidden(): KnockoutObservable<boolean> {
+            return this._hidden;
         }
 
         public get viewModel(): IViewModel {
@@ -267,6 +276,10 @@ module Main {
                     this._setupLabelElement();
                     this._applyLabelBindings();
                 }
+            }));
+
+            this._subscriptions.push(this.hidden.subscribe((hidden: boolean) => {
+                this.element.toggleClass(Widget.hiddenWidgetClass, hidden); 
             }));
         }
 

@@ -12,18 +12,23 @@ module Main {
                 <!-- /ko -->
 	        </header>
         <!-- /ko -->
-	    <div class="section__body">
-            <!-- ko ifnot: vm.body() === "" -->
-		        <div data-bind="html: vm.body, customViewModel: vm.bodyViewModel"></div>
-            <!-- /ko -->
-            <!-- ko foreach: vm.subsections -->
-		        <section class="subsection" data-bind="css: $data.classes">
-                    <!-- ko ifnot: $data.header() === "" -->
-			            <h3 class="subsection__header" data-bind="text: $data.header, css: { 'header--alt': $data.altHeader }"></h3>
-                    <!-- /ko -->
-			        <div class="subsection__body" data-bind="html: $data.body, customViewModel: $data.bodyViewModel"></div>
-		        </section>
-            <!-- /ko -->
-	    </div>
+        <!-- ko if: vm.bodyPlaceholder() === "" -->
+	        <div class="section__body">
+                <!-- ko ifnot: vm.body() === "" -->
+		            <div data-bind="html: vm.body, customViewModel: vm.bodyViewModel"></div>
+                <!-- /ko -->
+                <!-- ko foreach: vm.subsections -->
+		            <section class="subsection" data-bind="css: $data.classes">
+                        <!-- ko ifnot: $data.header() === "" -->
+			                <h3 class="subsection__header" data-bind="text: $data.header, css: { 'header--alt': $data.altHeader }"></h3>
+                        <!-- /ko -->
+			            <div class="subsection__body" data-bind="html: $data.body, customViewModel: $data.bodyViewModel"></div>
+		            </section>
+                <!-- /ko -->
+	        </div>
+        <!-- /ko -->
+        <!-- ko ifnot: vm.bodyPlaceholder() === "" -->
+            <div class="body-placeholder" data-bind="html: vm.bodyPlaceholder"></div>
+        <!-- /ko -->
     `;
 }

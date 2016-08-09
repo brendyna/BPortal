@@ -267,7 +267,8 @@ module Main {
                     info: false,
                     language: <any>{
                         search: "",
-                        searchPlaceholder: "Filter table"
+                        searchPlaceholder: "Filter table",
+                        emptyTable: "No bugs to show for this site"
                     },
                     order: [
                         [
@@ -329,6 +330,9 @@ module Main {
                     height: 300
                 },
                 title: { text: "Trends" },
+                lang: {
+                    noData: "No bug trend data to display"
+                },
                 xAxis: {
                     type: 'datetime',
                     labels: {
@@ -417,6 +421,13 @@ module Main {
 
             return multiSeriesArray;
         }
+
+        public isBugTrendDataEmpty(): boolean {
+            return this.repository.resultData.AllBugs.length === 0
+                && this.repository.resultData.CurrentReleaseBugs.length === 0
+                && this.repository.resultData.OutreachBugs.length === 0
+                && this.repository.resultData.SwitchRiskBugs.length === 0;
+        }
     }
 
     export class BugsProvider extends BaseProvider.DynamicProvider<BugsForDomainRepository.DataTransferObject>
@@ -433,6 +444,13 @@ module Main {
             this._bugTypeMap[BugType.Release] = "ReleaseBug";
             this._bugTypeMap[BugType.Outreach] = "OutreachBug";
             this._bugTypeMap[BugType.SwitchRisk] = "SwitchRisk";
+        }
+
+        public isBugDataEmpty(): boolean {
+            return this.repository.resultData.Bugs.length === 0
+                && this.repository.resultData.CurrentReleaseBugs.length === 0
+                && this.repository.resultData.OutreachBugs.length === 0
+                && this.repository.resultData.SwitchRiskBugs.length === 0;
         }
 
         public get isSwitchRisk(): boolean {
@@ -555,15 +573,29 @@ module Main {
         }
 
         public getChartDataByType(type: ChartType): Array<TrendsForDomainRepository.DataPoint> {
-            let data = [];
+            return formatChartPoints(this.getChart(type).dataPoints);
+        }
+
+        public isAllDataEmpty(): boolean {
+            return this.isDataEmpty(ChartType.Frownies)
+                && this.isDataEmpty(ChartType.FocusTime)
+                && this.isDataEmpty(ChartType.Navigations);
+        }
+        
+        public isDataEmpty(type: ChartType): boolean {
+            return this.getChart(type).dataPoints.length === 0;
+        }
+
+        private getChart(type: ChartType): TrendsForDomainRepository.Chart {
+            let retChart: TrendsForDomainRepository.Chart;
 
             this.charts.forEach((chart: TrendsForDomainRepository.Chart) => {
                 if (this._typeMap[type] === chart.id) {
-                    data = chart.dataPoints;
+                    retChart = chart;
                 }
             });
 
-            return formatChartPoints(data);
+            return retChart;
         }
 
         private get charts(): Array<TrendsForDomainRepository.Chart> {
@@ -585,6 +617,11 @@ module Main {
             });
 
             return technologies.join(", ");
+        }
+
+        public isDataEmpty(): boolean {
+            return this.repository.resultData === null
+                || this.getTechnologies().length === 0;
         }
     }
 

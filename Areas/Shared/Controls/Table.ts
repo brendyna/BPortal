@@ -166,7 +166,11 @@ module Main {
         public _tableDrawComplete(): void {
             let wrapper = this.element.parent().parent();
             let pages = wrapper.find(".dataTables_paginate span a.paginate_button").length;
-            if (pages === 1) {
+            let table = $(this.element).DataTable();
+
+            // Clean up the UI if there are a few number of/no pages
+
+            if (pages <= 1) {
                 wrapper.find(".dataTables_paginate").hide();
             } else {
                 wrapper.find(".dataTables_paginate").show();

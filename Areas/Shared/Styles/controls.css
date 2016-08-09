@@ -3,6 +3,10 @@
     position: relative;
 }
 
+.control.hidden {
+    display: none;
+}
+
 .control__input {
 	padding-right: 5px;
 	padding-left: 5px;
@@ -69,6 +73,17 @@ section.control.sidebar,
 section.control .sidebar {
     background-color: #f4f4f4;
     padding: 2.4rem;
+}
+
+section.control .body-placeholder {
+    padding: 1.6rem;
+    background-color: hsla(0, 0%, 0%, .05);
+}
+
+@media (max-width: 60em) and (min-width: 33.75em) {
+    section.control .layout--quarters .module {
+        margin-top: 0;
+    }
 }
 
 @media all and (min-width:33.75em) {

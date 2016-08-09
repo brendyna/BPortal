@@ -278,19 +278,27 @@ module Main {
         }
 
         private initializeBugSubscriptions(): void {
-            this._subscriptions.push(this.bugsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
-                this.bugsTable.widget.data(this._bugsForDomainProvider.getBugTableDataByType(newValue[DetailsProvider.BugsProvider.SelectName]));
-                this.updateBugTrendsChart(newValue[DetailsProvider.BugsProvider.SelectName]);
-            }));
+            // If the bugs section has loaded with no data (hence the placeholder)
+            // don't subscribe as there are no changes to subscribe to
+            if (this.bugs.vm.bodyPlaceholder() === "") {
+                this._subscriptions.push(this.bugsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
+                    this.bugsTable.widget.data(this._bugsForDomainProvider.getBugTableDataByType(newValue[DetailsProvider.BugsProvider.SelectName]));
+                    this.updateBugTrendsChart(newValue[DetailsProvider.BugsProvider.SelectName]);
+                }));
+            }
         }
 
         private initializeTrendsSubscriptions(): void {
-            this._subscriptions.push(this.trendsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
-                $.extend(this._trendsForDomainRepo.settings.request.data, newValue);
+            // If the trends section has loaded with no data (hence the placeholder)
+            // don't subscribe as there are no changes to subscribe to
+            if (this.trends.vm.bodyPlaceholder() === "") {
+                this._subscriptions.push(this.trendsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
+                    $.extend(this._trendsForDomainRepo.settings.request.data, newValue);
 
-                this.initializeTrendsLoading();
-                this.loadTrendsRepo();
-            }));
+                    this.initializeTrendsLoading();
+                    this.loadTrendsRepo();
+                }));
+            }
         }
 
         public setStaticViewModelData(): void {
@@ -364,50 +372,89 @@ module Main {
             }
 
             this.bugsFilters.vm.loading(false);
-            this.bugsFilters.vm.selectData(this._bugsForDomainProvider.getFilterSelectData());
-
             this.bugsTable.vm.loading(false);
-            this.bugsTable.widget.data(this._bugsForDomainProvider.getBugTableData());
+
+            if (this._bugsForDomainProvider.isBugDataEmpty()) {
+                this.bugs.vm.bodyPlaceholder("No bugs to show for this site");
+            } else {
+                this.bugsFilters.vm.selectData(this._bugsForDomainProvider.getFilterSelectData());
+                this.bugsTable.widget.data(this._bugsForDomainProvider.getBugTableData());
+            }
         }
 
         private applyBugTrendsData(): void {
             this._bugTrendsProvider = new DetailsProvider.BugTrendsProvider(this._bugTrendsRepo);
 
-            this.bugTrendsChart.vm.loading(false);
-            this.bugTrendsChart.widget.data(this._bugTrendsProvider.getChartSeriesData());
+            // If the bugs section has loaded with no data (hence the placeholder)
+            // don't subscribe as there are no changes to subscribe to
+            if (this.bugs.vm.bodyPlaceholder() === "") {
+                if (this._bugTrendsProvider.isBugTrendDataEmpty()) {
+                    this.bugTrendsChart.widget.hidden(true);
+                } else {
+                    this.bugTrendsChart.widget.data(this._bugTrendsProvider.getChartSeriesData());
+                }
+
+                this.bugTrendsChart.vm.loading(false);
+            }
         }
 
         private applyTrendsData(): void {
             this._trendsForDomainProvider = new DetailsProvider.TrendsProvider(this._trendsForDomainRepo);
 
-            this.focusTimeChart.vm.loading(false);
-            this.focusTimeChart.widget.data(
-                this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.FocusTime));
+            if (this._trendsForDomainProvider.isDataEmpty(DetailsProvider.ChartType.FocusTime)) {
+                this.focusTimeChart.widget.hidden(true);
+            } else {
+                this.focusTimeChart.widget.data(
+                    this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.FocusTime));
+                this.focusTimeChart.widget.hidden(false);
+                this.focusTimeChart.vm.loading(false);
+            }
 
-            this.frowniesChart.vm.loading(false);
-            this.frowniesChart.widget.data(
-                this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.Frownies));
+            if (this._trendsForDomainProvider.isDataEmpty(DetailsProvider.ChartType.Frownies)) {
+                this.frowniesChart.widget.hidden(true);
+            } else {
+                this.frowniesChart.widget.data(
+                    this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.Frownies));
+                this.frowniesChart.widget.hidden(false);
+                this.frowniesChart.vm.loading(false);
+            }
 
-            this.navigationsChart.vm.loading(false);
-            this.navigationsChart.widget.data(
-                this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.Navigations));
+            if (this._trendsForDomainProvider.isDataEmpty(DetailsProvider.ChartType.Navigations)) {
+                this.navigationsChart.widget.hidden(true);
+            } else {
+                this.navigationsChart.widget.data(
+                    this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.Navigations));
+                this.navigationsChart.widget.hidden(false);
+                this.navigationsChart.vm.loading(false);
+            }
+
+            if (this._trendsForDomainProvider.isAllDataEmpty()) {
+                this.trends.vm.bodyPlaceholder("No trends to show for this site");
+            }
         }
 
         private applyFiltersData(): void {
             this._filtersProvider = new SharedProvider.FiltersProvider(this._filtersRepo);
-            
-            this.trendsFilters.vm.loading(false);
-            this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SharedProvider.FiltersType.TrendsDetails, {
-                platform: (<IParams>this.defaults.viewContext.params).platform,
-                release: (<IParams>this.defaults.viewContext.params).release
-            }));
+
+            if (this.trends.vm.bodyPlaceholder() === "") {
+                this.trendsFilters.vm.loading(false);
+                this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SharedProvider.FiltersType.TrendsDetails, {
+                    platform: (<IParams>this.defaults.viewContext.params).platform,
+                    release: (<IParams>this.defaults.viewContext.params).release
+                }));
+            }
         }
 
         private applyBuiltWithData(): void {
             this._buildWithDataForDomainProvider = new DetailsProvider.BuiltWithDataForDomainProvider(this._buildWithDataForDomainRepo);
 
             this.tech.vm.loading(false);
-            this.tech.vm.bodyViewModel().builtwith(this._buildWithDataForDomainProvider.getTechnologies());
+
+            if (this._buildWithDataForDomainProvider.isDataEmpty()) {
+                this.tech.vm.bodyPlaceholder("No technologies to show for this site");
+            } else {
+                this.tech.vm.bodyViewModel().builtwith(this._buildWithDataForDomainProvider.getTechnologies());
+            }
         }
 
         private applyScantimeData(): void {
