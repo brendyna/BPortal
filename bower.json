@@ -1,0 +1,27 @@
+{
+  "name": "WPTPortal Web TypeScript",
+  "version": "1.0.0",
+  "description": "Web TypeScript for WPTPortal",
+  "keywords": [
+    "Web Platform Portal",
+    "TypeScript"
+  ],
+  "authors": [
+    "ieportalext@microsoft.com"
+  ],
+  "license": "MIT",
+  "homepage": "http://wptportal",
+  "dependencies": {
+    "jquery-mockjax": "^2.2.0",
+    "jquery": "2.1.1",
+    "knockout": "3.2.0",
+    "datatables": "1.10.6",
+    "highcharts": "4.0.4",
+    "highcharts-legend-highlighter": "^1.0.1",
+    "moment": "^2.14.1",
+    "requirejs": "2.1.17",
+    "qunit": "1.20.0",
+    "humanize-plus": "^1.8.2"
+  },
+  "devDependencies": {}
+}

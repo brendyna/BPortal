@@ -2,7 +2,6 @@
 /// <amd-dependency path="highcharts.more" />
 /// <amd-dependency path="highcharts.ieportal" />
 /// <amd-dependency path="highcharts.legend.highlighter" />
-/// <amd-dependency path="commoncharting" />
 
 import $ = require("jquery");
 import ko = require("knockout");

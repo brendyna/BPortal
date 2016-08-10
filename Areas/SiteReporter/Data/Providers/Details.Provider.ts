@@ -580,6 +580,11 @@ module Main {
                 ]
             };
         }
+
+        public isTagsDataEmpty(): boolean {
+            return this.repository.resultData.tags === undefined
+                || this.repository.resultData.tags.length === 0;
+        }
     }
 
     export class TrendsProvider extends BaseProvider.DynamicProvider<TrendsForDomainRepository.DataTransferObject>

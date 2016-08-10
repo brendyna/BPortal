@@ -4,7 +4,7 @@
     "TestHarnessReferenceMode": "AMD",
     "TestHarnessLocationMode": "SettingsFileAdjacent",
     "References": [
-        { "Path": "./Lib/requirejs/require.js" },
+        { "Path": "./bower_components/requirejs/require.js" },
         { "Path": "require.chutzpah.config.js" }
     ]
 }

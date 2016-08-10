@@ -54,7 +54,6 @@
     <Content Include="Areas\SiteReporter\Html\Tests\Views\Details.Test.html" />
     <Content Include="Areas\SiteReporter\Html\Tests\Views\Summary.Test.html" />
     <Content Include="Areas\Shared\Styles\controls.css" />
-    <Content Include="Content\css\qunit.css" />
     <Content Include="Content\css\samples.css" />
     <Content Include="Content\css\spinner.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -63,8 +62,6 @@
       <DependentUpon>spinner.css</DependentUpon>
     </Content>
     <Content Include="Areas\SiteReporter\Styles\styles.css" />
-    <Content Include="Lib\chutzpah_boot.js" />
-    <Content Include="Lib\qunit.js" />
     <Content Include="require.chutzpah.config.js" />
     <Content Include="Web\Content\Images\ajax-loader-black.gif" />
     <Content Include="Web\Content\Images\ajax-loader-white.gif" />
@@ -95,29 +92,8 @@
     <Content Include="Web\Content\Images\select-arrow.svg" />
     <Content Include="Web\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Index.html" />
-    <Content Include="Lib\commoncharting.js" />
-    <Content Include="Lib\DataTables\jquery.dataTables.css" />
-    <Content Include="Lib\DataTables\jquery.dataTables.js" />
-    <Content Include="Lib\DataTables\sort_asc.png" />
-    <Content Include="Lib\DataTables\sort_asc_disabled.png" />
-    <Content Include="Lib\DataTables\sort_both.png" />
-    <Content Include="Lib\DataTables\sort_desc.png" />
-    <Content Include="Lib\DataTables\sort_desc_disabled.png" />
-    <Content Include="Lib\Highcharts-4.0.4\highcharts-more.js" />
-    <Content Include="Lib\Highcharts-4.0.4\highcharts-more.src.js" />
-    <Content Include="Lib\Highcharts-4.0.4\highcharts.js" />
-    <Content Include="Lib\Highcharts-4.0.4\highcharts.src.js" />
-    <Content Include="Lib\Highcharts-4.0.4\modules\data.js" />
-    <Content Include="Lib\Highcharts-4.0.4\modules\drilldown.js" />
-    <Content Include="Lib\Highcharts-4.0.4\themes\ieportal.js" />
-    <Content Include="Lib\highcharts-legend-highlighter.src.js" />
-    <Content Include="Lib\humanize\humanize.min.js" />
+    <Content Include="Lib\highcharts\themes\ieportal.js" />
     <Content Include="Lib\jQuery.Extensions.js" />
-    <Content Include="Lib\jquery.mockjax.js" />
-    <Content Include="Lib\jquery\jquery-2.1.1.js" />
-    <Content Include="Lib\knockout-3.2.0.js" />
-    <Content Include="Lib\moment\moment.js" />
-    <Content Include="Lib\requirejs\require.js" />
     <Content Include="Lib\wps.portal.min.js" />
     <Content Include="require.web.config.js" />
     <Content Include="web.config" />
@@ -135,12 +111,14 @@
     <Content Include="Web\fonts\PlatMDL2-061016.ttf" />
     <Content Include="Web\fonts\PlatMDL2-061016.woff" />
     <Content Include="Web\fonts\PlatMDL2-061016.woff2" />
+    <Content Include="bower.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
     <None Include="web.Release.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
+    <Content Include="Web\Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Areas\Shared\Config.ts" />
@@ -231,9 +209,7 @@
     <TypeScriptCompile Include="Areas\SiteReporter\Views\Summary.View.ts" />
     <TypeScriptCompile Include="references.d.ts" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\js\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
   </PropertyGroup>

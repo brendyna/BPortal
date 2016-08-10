@@ -3,32 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <title>Table - QUnit Tests</title>
-    <link rel="stylesheet" type="text/css" href="/Content/css/qunit.css" />
+    <link rel="stylesheet" type="text/css" href="/bower_components/qunit/qunit/qunit.css" />
     <link rel="stylesheet" href="/Content/css/samples.css" />
     <link rel="stylesheet" href="/Areas/Shared/Styles/controls.css" />
-    <script type="text/javascript" src="/Lib/chutzpah_boot.js"></script>
-    <script type="text/javascript" src="/Lib/qunit.js"></script>
-    <script type="text/javascript" src="/Lib/requirejs/require.js"></script>
+    <script type="text/javascript" src="/bower_components/qunit/qunit/qunit.js"></script>
+    <script type="text/javascript" src="/bower_components/requirejs/require.js"></script>
     <script type="text/javascript" src="/require.web.config.js"></script>
     <script>
-        var amdTestPaths = ["Areas/Shared/Tests/Controls/Table.Test"];
-        window.chutzpah.boot(amdTestPaths);
-
-        if (window.chutzpah.usingModuleLoader) {
-            window.QUnit.config.autostart = false;
-            window.chutzpah.amdStart = function() {
-                window.chutzpah.amdImport(amdTestPaths, function () {
-                    console.log("!!_!! Starting QUnit from inline AMD call...");
-                    if (!window._Chutzpah_covobj_name) {
-                        window.QUnit.start();
-                    }
-                });
-            }
-
-            if(window.chutzpah.amdAutoStart) {
-                window.chutzpah.amdStart();
-            }
-        }
+        require(["Areas/Shared/Tests/Controls/Table.Test"]);
     </script>
 </head>
 
