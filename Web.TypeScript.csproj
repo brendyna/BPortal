@@ -239,26 +239,61 @@
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="AfterBuild">
+    <!--<CallTarget Targets="TestTypeScript;PackageTypeScript" />-->
+    <CallTarget Targets="PackageTypeScript" />
+  </Target>
+  <Target Name="TestTypeScript">
     <ItemGroup>
       <!-- DON'T DELETE: Keeping a commented version of these as the csproj keeps overwriting them -->
-      <!--<ChutzpahTestFiles Include=".\Areas\**\*.Test.js" />
-      <SharedTypeScriptFiles Include=".\Areas\Shared\**\*.js" Exclude=".\Areas\Shared\**\*.Test.js;.\Areas\Shared\**\*.Sample.js" />
-      <SiteReporterTypeScriptFiles Include=".\Areas\SiteReporter\**\*.js" Exclude=".\Areas\SiteReporter\**\*.Test.js;.\Areas\SharedSiteReporter\**\*.Sample.js" />-->
+      <!--<ChutzpahTestFiles Include=".\Areas\**\*.Test.js" />-->
       <ChutzpahTestFiles Include=".\Areas\**\*.Test.js" />
-      <SharedTypeScriptFiles Include=".\Areas\Shared\**\*.js" Exclude=".\Areas\Shared\**\*.Test.js;.\Areas\Shared\**\*.Sample.js" />
-      <SharedCssFiles Include=".\Areas\Shared\Styles\controls.css" />
-      <SiteReporterTypeScriptFiles Include=".\Areas\SiteReporter\**\*.js" Exclude=".\Areas\SiteReporter\**\*.Test.js;.\Areas\SiteReporter\**\*.Sample.js" />
-      <SiteReporterCssFiles Include=".\Areas\SiteReporter\Styles\styles.css" />
     </ItemGroup>
     <!-- Test TS files before copying them to deployment locations -->
     <Copy SourceFiles="@(ChutzpahTestFiles)" DestinationFiles="@(ChutzpahTestFiles->'.\Areas.chutzpah\%(RecursiveDir)%(Filename).js')" />
     <Exec Command="$(SolutionDir)\packages\Chutzpah.4.2.3\tools\chutzpah.console.exe .\Areas.chutzpah\ /nologo /vsoutput /silent /showFailureReport" />
     <RemoveDir Directories=".\Areas.chutzpah\" />
-    <!-- Copy TS-generated JS files to Web project -->
-    <Copy SourceFiles="@(SharedTypeScriptFiles)" DestinationFiles="@(SharedTypeScriptFiles->'..\Web\Areas\Shared\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(SiteReporterTypeScriptFiles)" DestinationFiles="@(SiteReporterTypeScriptFiles->'..\Web\Areas\SiteReporter\Content\js\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <!-- Copy styles to Web project -->
-    <Copy SourceFiles="@(SharedCssFiles)" DestinationFiles="@(SharedCssFiles->'..\Web\Content\Styles\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(SiteReporterCssFiles)" DestinationFiles="@(SiteReporterCssFiles->'..\Web\Areas\SiteReporter\Content\css\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+  <ItemGroup>
+    <TypeScriptAreas Include="$([System.IO.Directory]::GetDirectories(&quot;.\Areas&quot;))" />
+  </ItemGroup>
+  <Target Name="PackageTypeScript" Inputs="@(TypeScriptAreas)" Outputs="./out/packages/%(TypeScriptAreas.Filename).nupkg">
+    <PropertyGroup>
+      <AreaName>%(TypeScriptAreas.Filename)</AreaName>
+      <TempOutput>.\out\packages.temp\$(AreaName)</TempOutput>
+      <PackageOutput>.\out\packages\</PackageOutput>
+      <BasePackageOutput>$(TempOutput)\content\Areas\$(AreaName)</BasePackageOutput>
+      <NuSpec>IEPortal.TypeScript.$(AreaName).nuspec</NuSpec>
+    </PropertyGroup>
+    <ItemGroup>
+      <TypeScriptFiles Include=".\Areas\$(AreaName)\**\*.js"
+                       Exclude=".\Areas\$(AreaName)\**\*.Test.js;.\Areas\$(AreaName)\**\*.Sample.js" />
+      <CssFiles Include=".\Areas\$(AreaName)\Styles\**\*.css" />
+    </ItemGroup>
+
+    <MakeDir Directories="$(PackageOutput)" />
+    <MakeDir Directories="$(TempOutput)" />
+    <MakeDir Directories="$(TempOutput)\content" />
+
+    <Copy SourceFiles="./$(NuSpec)" DestinationFolder="$(TempOutput)" />
+
+    <!-- Shared components -->
+    <Copy SourceFiles="@(TypeScriptFiles)"
+          DestinationFolder="$(BasePackageOutput)\%(TypeScriptFiles.RecursiveDir)"
+          Condition="$(AreaName) == 'Shared' "/>
+    <Copy SourceFiles="@(CssFiles)"
+          DestinationFolder="$(BasePackageOutput)\Styles\%(CssFiles.RecursiveDir)"
+          Condition="$(AreaName) == 'Shared' "/>
+
+    <!-- Area-specific components -->
+    <Copy SourceFiles="@(TypeScriptFiles)"
+          DestinationFolder="$(BasePackageOutput)\Content\js\%(TypeScriptFiles.RecursiveDir)"
+          Condition="$(AreaName) != 'Shared' "/>
+    <Copy SourceFiles="@(CssFiles)"
+          DestinationFolder="$(BasePackageOutput)\Content\css\%(CssFiles.RecursiveDir)"
+          Condition="$(AreaName) != 'Shared' "/>
+
+    <Exec Command="nuget pack $(TempOutput)\$(NuSpec) -OutputDirectory $(PackageOutput) -BasePath $(TempOutput)" />
+
+    <RemoveDir Directories=".\out\packages.temp" />
   </Target>
 </Project>
