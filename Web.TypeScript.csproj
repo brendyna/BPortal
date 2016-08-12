@@ -239,8 +239,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="AfterBuild">
-    <!--<CallTarget Targets="TestTypeScript;PackageTypeScript" />-->
-    <CallTarget Targets="PackageTypeScript" />
+    <CallTarget Targets="TestTypeScript;PackageTypeScript" />
   </Target>
   <Target Name="TestTypeScript">
     <ItemGroup>
@@ -254,8 +253,11 @@
     <RemoveDir Directories=".\Areas.chutzpah\" />
   </Target>
   <ItemGroup>
-    <TypeScriptAreas Include="$([System.IO.Directory]::GetDirectories(&quot;.\Areas&quot;))" />
+    <TypeScriptAreas Include="$([System.IO.Directory]::GetDirectories('$(AreasRoot)'))" />
   </ItemGroup>
+  <PropertyGroup>
+    <AreasRoot>$(SolutionDir)\Web.TypeScript\Areas</AreasRoot>
+  </PropertyGroup>
   <Target Name="PackageTypeScript" Inputs="@(TypeScriptAreas)" Outputs="./out/packages/%(TypeScriptAreas.Filename).nupkg">
     <PropertyGroup>
       <AreaName>%(TypeScriptAreas.Filename)</AreaName>
@@ -265,9 +267,9 @@
       <NuSpec>IEPortal.TypeScript.$(AreaName).nuspec</NuSpec>
     </PropertyGroup>
     <ItemGroup>
-      <TypeScriptFiles Include=".\Areas\$(AreaName)\**\*.js"
-                       Exclude=".\Areas\$(AreaName)\**\*.Test.js;.\Areas\$(AreaName)\**\*.Sample.js" />
-      <CssFiles Include=".\Areas\$(AreaName)\Styles\**\*.css" />
+      <TypeScriptFiles Include="$(AreasRoot)\$(AreaName)\**\*.js"
+                       Exclude="$(AreasRoot)\$(AreaName)\**\*.Test.js;.\Areas\$(AreaName)\**\*.Sample.js" />
+      <CssFiles Include="$(AreasRoot)\$(AreaName)\Styles\**\*.css" />
     </ItemGroup>
 
     <MakeDir Directories="$(PackageOutput)" />
