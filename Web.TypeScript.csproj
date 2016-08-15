@@ -280,7 +280,7 @@
       <BasePackageOutput>$(TempOutput)\content\Areas\$(AreaName)</BasePackageOutput>
     </PropertyGroup>
     <ItemGroup>
-      <TypeScriptFiles Include="$(AreasRoot)\$(AreaName)\**\*.js" Exclude="$(AreasRoot)\$(AreaName)\**\*.Test.js;.\Areas\$(AreaName)\**\*.Sample.js" />
+      <TypeScriptFiles Include="$(AreasRoot)\$(AreaName)\**\*.js" Exclude="$(AreasRoot)\$(AreaName)\**\*.Test.js;$(AreasRoot)\$(AreaName)\**\*.Sample.js" />
       <CssFiles Include="$(AreasRoot)\$(AreaName)\Styles\**\*.css" />
     </ItemGroup>
     <MakeDir Directories="$(PackagesOutput)" />
