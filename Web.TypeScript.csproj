@@ -306,6 +306,7 @@
   </Target>
   <Target Name="PackPackage">
     <CallTarget Targets="GetVersion" />
+    <CallTarget Targets="UpdateAssemblyInfo" />
     <Copy SourceFiles=".\$(NuSpec)" DestinationFolder="$(TempOutput)" />
     <Exec WorkingDirectory="$(TempOutput)" Command="nuget pack .\$(NuSpec) -OutputDirectory ..\..\..\$(PackagesOutput) -version $(GitVersion_NuGetVersion)" />
   </Target>

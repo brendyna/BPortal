@@ -2,7 +2,7 @@
 
 module Main {
     export class Html {
-        public static EditableElements = "input,textarea,select,button";
+        public static EditableElements = "input,textarea,select,button,keygen";
     }
 
     export class Strings {
