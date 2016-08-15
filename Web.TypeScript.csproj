@@ -240,6 +240,13 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\GitVersionTask.4.0.0-beta0005\build\dotnet\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.4.0.0-beta0005\build\dotnet\GitVersionTask.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\GitVersionTask.4.0.0-beta0005\build\dotnet\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.4.0.0-beta0005\build\dotnet\GitVersionTask.targets'))" />
+  </Target>
   <Target Name="AfterBuild">
     <CallTarget Targets="TestTypeScript;StagePackage;MinifyPackage;PackPackage;CleanPackageStage" />
   </Target>
@@ -253,13 +260,6 @@
     <Copy SourceFiles="@(ChutzpahTestFiles)" DestinationFiles="@(ChutzpahTestFiles->'.\Areas.chutzpah\%(RecursiveDir)%(Filename).js')" />
     <Exec Command="$(SolutionDir)\packages\Chutzpah.4.2.3\tools\chutzpah.console.exe .\Areas.chutzpah\ /nologo /vsoutput /silent /showFailureReport" />
     <RemoveDir Directories=".\Areas.chutzpah\" />
-  </Target>
-  <Import Project="..\packages\GitVersionTask.3.6.2\build\dotnet\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.3.6.2\build\dotnet\GitVersionTask.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\GitVersionTask.3.6.2\build\dotnet\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.3.6.2\build\dotnet\GitVersionTask.targets'))" />
   </Target>
   <ItemGroup>
     <TypeScriptAreas Include="$([System.IO.Directory]::GetDirectories('$(AreasRoot)'))" />
@@ -309,6 +309,20 @@
     <CallTarget Targets="UpdateAssemblyInfo" />
     <Copy SourceFiles=".\$(NuSpec)" DestinationFolder="$(TempOutput)" />
     <Exec WorkingDirectory="$(TempOutput)" Command="nuget pack .\$(NuSpec) -OutputDirectory ..\..\..\$(PackagesOutput) -version $(GitVersion_NuGetVersion)" />
+    <Message Text="GitVersion_BuildMetaData : $(GitVersion_BuildMetaData)" />
+    <Message Text="GitVersion_FullBuildMetaData : $(GitVersion_FullBuildMetaData)" />
+    <Message Text="GitVersion_SemVer : $(GitVersion_SemVer)" />
+    <Message Text="GitVersion_LegacySemVer : $(GitVersion_LegacySemVer)" />
+    <Message Text="GitVersion_AssemblySemVer : $(GitVersion_AssemblySemVer)" />
+    <Message Text="GitVersion_FullSemVer : $(GitVersion_FullSemVer)" />
+    <Message Text="GitVersion_PreReleaseTag : $(GitVersion_PreReleaseTag)" />
+    <Message Text="GitVersion_PreReleaseLabel : $(GitVersion_PreReleaseLabel)" />
+    <Message Text="GitVersion_PreReleaseNumber : $(GitVersion_PreReleaseNumber)" />
+    <Message Text="GitVersion_InformationalVersion : $(GitVersion_InformationalVersion)" />
+    <Message Text="GitVersion_CommitDate : $(GitVersion_CommitDate)" />
+    <Message Text="GitVersion_CommitsSinceVersionSource : $(GitVersion_CommitsSinceVersionSource)" />
+    <Message Text="GitVersion_NuGetVersion : $(GitVersion_NuGetVersion)" />
+    <Message Text="GitVersion_NuGetPreReleaseTag : $(GitVersion_NuGetPreReleaseTag)" />
   </Target>
   <Target Name="CleanPackageStage">
     <RemoveDir Directories="$(PackagesTemp)" />
