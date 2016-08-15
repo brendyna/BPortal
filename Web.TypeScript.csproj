@@ -283,6 +283,7 @@
       <TypeScriptFiles Include="$(AreasRoot)\$(AreaName)\**\*.js" Exclude="$(AreasRoot)\$(AreaName)\**\*.Test.js;$(AreasRoot)\$(AreaName)\**\*.Sample.js" />
       <CssFiles Include="$(AreasRoot)\$(AreaName)\Styles\**\*.css" />
     </ItemGroup>
+    <RemoveDir Directories="$(PackagesOutput)" />
     <MakeDir Directories="$(PackagesOutput)" />
     <MakeDir Directories="$(TempOutput)" />
     <MakeDir Directories="$(TempOutput)\content" />
@@ -305,24 +306,14 @@
     <CssCompressorTask SourceFiles="@(PackageCssFiles)" OutputFile="$(TempOutput)\%(PackageCssFiles.RecursiveDir)\%(PackageCssFiles.Filename).css" LoggingType="None" />
   </Target>
   <Target Name="PackPackage">
+    <ItemGroup>
+      <Version Include="$(GitVersion_NuGetVersion)" />
+      <Version Include="$(GitVersion_BuildMetaData)" />
+    </ItemGroup>
     <CallTarget Targets="GetVersion" />
     <CallTarget Targets="UpdateAssemblyInfo" />
     <Copy SourceFiles=".\$(NuSpec)" DestinationFolder="$(TempOutput)" />
-    <Exec WorkingDirectory="$(TempOutput)" Command="nuget pack .\$(NuSpec) -OutputDirectory ..\..\..\$(PackagesOutput) -version $(GitVersion_NuGetVersion)" />
-    <Message Text="GitVersion_BuildMetaData : $(GitVersion_BuildMetaData)" />
-    <Message Text="GitVersion_FullBuildMetaData : $(GitVersion_FullBuildMetaData)" />
-    <Message Text="GitVersion_SemVer : $(GitVersion_SemVer)" />
-    <Message Text="GitVersion_LegacySemVer : $(GitVersion_LegacySemVer)" />
-    <Message Text="GitVersion_AssemblySemVer : $(GitVersion_AssemblySemVer)" />
-    <Message Text="GitVersion_FullSemVer : $(GitVersion_FullSemVer)" />
-    <Message Text="GitVersion_PreReleaseTag : $(GitVersion_PreReleaseTag)" />
-    <Message Text="GitVersion_PreReleaseLabel : $(GitVersion_PreReleaseLabel)" />
-    <Message Text="GitVersion_PreReleaseNumber : $(GitVersion_PreReleaseNumber)" />
-    <Message Text="GitVersion_InformationalVersion : $(GitVersion_InformationalVersion)" />
-    <Message Text="GitVersion_CommitDate : $(GitVersion_CommitDate)" />
-    <Message Text="GitVersion_CommitsSinceVersionSource : $(GitVersion_CommitsSinceVersionSource)" />
-    <Message Text="GitVersion_NuGetVersion : $(GitVersion_NuGetVersion)" />
-    <Message Text="GitVersion_NuGetPreReleaseTag : $(GitVersion_NuGetPreReleaseTag)" />
+    <Exec WorkingDirectory="$(TempOutput)" Command="nuget pack .\$(NuSpec) -OutputDirectory ..\..\..\$(PackagesOutput) -version @(Version, '-')" />
   </Target>
   <Target Name="CleanPackageStage">
     <RemoveDir Directories="$(PackagesTemp)" />
