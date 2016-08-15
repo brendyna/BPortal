@@ -241,7 +241,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="AfterBuild">
-    <CallTarget Targets="TestTypeScript;StagePackage;PackPackage;CleanPackageStage" />
+    <CallTarget Targets="TestTypeScript;StagePackage;MinifyPackage;PackPackage;CleanPackageStage" />
   </Target>
   <Target Name="TestTypeScript">
     <ItemGroup>
@@ -292,6 +292,17 @@
     <!-- Area-specific components -->
     <Copy SourceFiles="@(TypeScriptFiles)" DestinationFolder="$(BasePackageOutput)\Content\js\%(TypeScriptFiles.RecursiveDir)" Condition="$(AreaName) != 'Shared' " />
     <Copy SourceFiles="@(CssFiles)" DestinationFolder="$(BasePackageOutput)\Content\css\%(CssFiles.RecursiveDir)" Condition="$(AreaName) != 'Shared' " />
+  </Target>
+  <UsingTask TaskName="CssCompressorTask" AssemblyFile="..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll" />
+  <UsingTask TaskName="JavaScriptCompressorTask" AssemblyFile="..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll" />
+  <Target Name="MinifyPackage">
+    <ItemGroup>
+      <PackageJsFiles Include="$(TempOutput)\**\*.js" />
+      <PackageCssFiles Include="$(TempOutput)\**\*.css" />
+    </ItemGroup>
+    <!-- Overwrite existing files w/their minified versions -->
+    <JavaScriptCompressorTask SourceFiles="@(PackageJsFiles)" ObfuscateJavaScript="False" OutputFile="$(TempOutput)\%(PackageJsFiles.RecursiveDir)\%(PackageJsFiles.Filename).js" LoggingType="None" />
+    <CssCompressorTask SourceFiles="@(PackageCssFiles)" OutputFile="$(TempOutput)\%(PackageCssFiles.RecursiveDir)\%(PackageCssFiles.Filename).css" LoggingType="None" />
   </Target>
   <Target Name="PackPackage">
     <CallTarget Targets="GetVersion" />
