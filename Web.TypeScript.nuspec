@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>IEPortal.Web.TypeScript</id>
+    <version>$version$</version>
+    <title>Web Platform Portal TypeScript framework</title>
+    <authors>Web Platform Services</authors>
+    <owners>Microsoft</owners>
+    <projectUrl>http://wptportal.corp.microsoft.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>TypeScript framework for Web Platform Portal</description>
+    <copyright>Copyright Microsoft 2016</copyright>
+    <tags>Web Platform Portal</tags>
+  </metadata>
+</package>
