@@ -131,29 +131,6 @@ module Main {
                     }
                 },
                 initComplete: function () {
-                    //var tableId = "#sample";
-                    //var search = $(tableId + '_filter label input').attr("id",
-                    //    tableId.replace('#', '') + 'dataTables_filter--input');
-
-                    //$(tableId + '_filter').append(search);
-                    //$(tableId + '_filter label').text("Search").attr("for",
-                    //    tableId + "dataTables_filter--input");
-                    //$(tableId + '_filter').children("label:first").remove();
-                    //$(tableId + 'dataTables_filter--input').attr('placeholder', 'filter table');
-
-                    //var selectFilterDiv = $('<div>').addClass('dataTables_filter');
-                    //var selectFilter = $('<select>').attr('id', bugTableFilterId).addClass('bug__select__filter');
-
-                    //selectFilterDiv.append(selectFilter);
-                    //$(tableId + '_filter').after(selectFilterDiv);
-
-                    //$(selectFilter).change(function () {
-                    //    var valueSelected = this.value;
-                    //    filterBugData(valueSelected, jsonData);
-                    //});
-
-                    //getLastUpdatedTime(tableId);
-                    //SiteReporter.AI.TrackDataLoaded("bugs");
                 }
             }
         };
