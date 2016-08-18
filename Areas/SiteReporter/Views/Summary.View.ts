@@ -99,19 +99,9 @@ module Main {
             }
         }
 
-        public get sidebar(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
-            return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
-                (super.getDataFor("#" + this.controlIds["sidebar"]));
-        }
-
         public get bugs(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
             return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
                 (super.getDataFor("#" + this.controlIds["bugs"]));
-        }
-
-        public get trends(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
-            return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
-                (super.getDataFor("#" + this.controlIds["trends"]));
         }
 
         public get bugsFilters(): BaseControl.IControl<Filters.ViewModel, Filters.Widget> {
@@ -127,6 +117,16 @@ module Main {
         public get bugsTable(): BaseControl.IControl<Table.ViewModel, Table.Widget> {
             return <BaseControl.IControl<Table.ViewModel, Table.Widget>>
                 (super.getDataFor("." + this.controlClasses["bugList"]));
+        }
+
+        public get sidebar(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
+            return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
+                (super.getDataFor("#" + this.controlIds["sidebar"]));
+        }
+
+        public get trends(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
+            return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
+                (super.getDataFor("#" + this.controlIds["trends"]));
         }
 
         public get trendsFilters(): BaseControl.IControl<Filters.ViewModel, Filters.Widget> {

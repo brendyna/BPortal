@@ -1,5 +1,4 @@
 ﻿import $ = require("jquery");
-import moment = require("moment");
 
 import Config = require("../Config");
 
@@ -13,7 +12,7 @@ module Main {
         credentials?: PortalCredentials;
     }
 
-    export function getJSON<T>(url: string, settings: Settings = {}): JQueryPromise<T> {
+    export function getData<T>(url: string, settings: Settings = {}): JQueryPromise<T> {
         let deferred = $.Deferred<T>();
         let getFunc = $.getJSON;
 

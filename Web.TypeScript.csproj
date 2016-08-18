@@ -113,6 +113,7 @@
     <Content Include="Web\fonts\PlatMDL2-061016.woff2" />
     <Content Include="bower.json" />
     <Content Include="packages.config" />
+    <Content Include="Readme.md" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -161,7 +162,7 @@
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForTagBlobUrl.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BuiltWithDataForDomain.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\Filters.Repository.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Data\Request.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Util\Request.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\ScanTime.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\TrendsForDomain.Repository.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\DetailsForDomain.Repository.ts" />

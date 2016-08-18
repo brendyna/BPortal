@@ -1,4 +1,4 @@
-﻿import Request = require("../Request");
+﻿import Request = require("../../Util/Request");
 
 export = Main;
 
@@ -56,7 +56,7 @@ module Main {
         }
 
         public load(): JQueryPromise<T> {
-            Request.getJSON<T>(this.getRequestUrl(), {
+            Request.getData<T>(this.getRequestUrl(), {
                     authorize: this.settings.authorize,
                     options: this.settings.request,
                     plainGet: this.settings.plainGet

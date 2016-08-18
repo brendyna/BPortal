@@ -1,6 +1,7 @@
 ﻿/// <amd-dependency path="jquery.extensions" />
 
 import $ = require("jquery");
+import BaseConfig = require("Areas/Shared/Config");
 
 export = Main;
 
@@ -36,7 +37,7 @@ module Main {
         public static Tag = "tag";
         public static Platform = "platform";
         public static Release = "release";
-        public static DetailsDefaults = isDebugMode() ? {
+        public static DetailsDefaults = BaseConfig.isDebugMode() ? {
             domain: "facebook.com",
             platform: "Desktop",
             release: "RS1"
@@ -45,7 +46,7 @@ module Main {
             platform: $.getUrlVar("platform"),
             release: $.getUrlVar("release").toUpperCase()
         };
-        public static SummaryDefaults = isDebugMode() ? {
+        public static SummaryDefaults = BaseConfig.isDebugMode() ? {
             tag: "BingdexTop100",
             platform: "Desktop",
             release: "RS1"
@@ -77,15 +78,7 @@ module Main {
         public static ApiUsername = window.API_USERNAME;
         public static ApiPassword = window.API_PASSWORD;
         public static Breadcrumb = window.BREADCRUMB;
-        public static DebugMode = isDebugMode();
+        public static DebugMode = BaseConfig.isDebugMode();
         public static SiteReporterDisabled = window.SITEREPORTER_DISABLED;
-    }
-
-    export function isDebugMode(): boolean {
-        return document.location.href.indexOf("localhost:1305") !== -1;
-    }
-
-    export function isPortalDebugMode(): boolean {
-        return document.location.href.indexOf("localhost:61484") !== -1;
     }
 }

@@ -15,4 +15,12 @@ module Main {
         public static ApiPassword = window.API_PASSWORD;
         public static DebugMode = document.location.href.indexOf("localhost:1305") !== -1;
     }
+
+    export function isDebugMode(): boolean {
+        return document.location.href.indexOf("localhost:1305") !== -1;
+    }
+
+    export function isPortalDebugMode(): boolean {
+        return document.location.href.indexOf("localhost:61484") !== -1;
+    }
 }
