@@ -113,6 +113,7 @@
     <Content Include="Web\fonts\PlatMDL2-061016.woff2" />
     <Content Include="bower.json" />
     <Content Include="packages.config" />
+    <Content Include="README.md" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
