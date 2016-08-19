@@ -251,8 +251,11 @@
     <Error Condition="!Exists('..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Yahoo.Yui.Compressor.dll')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Yahoo.Yui.Compressor.dll'))" />
     <Error Condition="!Exists('..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll'))" />
   </Target>
-  <Target Name="AfterBuild">
-    <CallTarget Targets="TestTypeScript;StagePackage;MinifyPackage;PackPackage;CleanPackageStage" />
+  <Target Name="Test">
+    <CallTarget Targets="TestTypeScript" />
+  </Target>
+  <Target Name="Package">
+    <CallTarget Targets="StagePackage;MinifyPackage;PrepPackageMetadata;PackPackage;CleanPackageStage" />
   </Target>
   <Target Name="TestTypeScript">
     <ItemGroup>
@@ -309,13 +312,16 @@
     <JavaScriptCompressorTask SourceFiles="@(PackageJsFiles)" ObfuscateJavaScript="False" OutputFile="$(TempOutput)\%(PackageJsFiles.RecursiveDir)\%(PackageJsFiles.Filename).js" LoggingType="None" />
     <CssCompressorTask SourceFiles="@(PackageCssFiles)" OutputFile="$(TempOutput)\%(PackageCssFiles.RecursiveDir)\%(PackageCssFiles.Filename).css" LoggingType="None" />
   </Target>
+  <Target Name="PrepPackageMetadata">
+    <!-- Call these before PackPackage so the version info is available -->
+    <CallTarget Targets="UpdateAssemblyInfo" />
+    <CallTarget Targets="GetVersion" />
+  </Target>
   <Target Name="PackPackage">
     <ItemGroup>
       <Version Include="$(GitVersion_NuGetVersion)" />
       <Version Include="$(GitVersion_BuildMetaData)" />
     </ItemGroup>
-    <CallTarget Targets="GetVersion" />
-    <CallTarget Targets="UpdateAssemblyInfo" />
     <Copy SourceFiles=".\$(NuSpec)" DestinationFolder="$(TempOutput)" />
     <Exec WorkingDirectory="$(TempOutput)" Command="nuget pack .\$(NuSpec) -OutputDirectory ..\..\..\$(PackagesOutput) -version @(Version, '-')" />
   </Target>
