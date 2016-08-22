@@ -322,7 +322,7 @@
       <Version Include="$(GitVersion_NuGetVersion)" />
       <Version Include="$(GitVersion_BuildMetaData)" />
     </ItemGroup>
-    <Copy SourceFiles=".\$(NuSpec)" DestinationFolder="$(TempOutput)" />
+    <Copy SourceFiles=".\.nuget\$(NuSpec)" DestinationFolder="$(TempOutput)" />
     <Exec WorkingDirectory="$(TempOutput)" Command="nuget pack .\$(NuSpec) -OutputDirectory ..\..\..\$(PackagesOutput) -version @(Version, '-')" />
   </Target>
   <Target Name="CleanPackageStage">
