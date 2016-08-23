@@ -1,0 +1,17 @@
+<<<<<<< HEAD
+param($installPath, $toolsPath, $package, $project)
+
+$src = "$installPath\content\*"
+$dest = "$installPath\..\..\Web"
+
+Copy-Item $src $dest -Recurse -Force
+=======
+Param(
+    [Parameter(Mandatory=$true)] [string] $repoRoot
+)
+
+$src = "..\content\*"
+$dest = "$repoRoot\Web"
+
+Copy-Item $src $dest -Recurse
+>>>>>>> 7b1416a6b6f7e7126b2124cba8e99e6039bfecdb
