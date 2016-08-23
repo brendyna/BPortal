@@ -273,10 +273,10 @@
   <Target Name="MinifyGeneratedFiles">
     <ItemGroup>
       <PackageJsFiles Include="Areas\**\*.js" />
-      <PackageCssFiles Include="Areas\**\*.css" />
+      <PackageCssFiles Include="Areas\**\*.css" Exclude="Areas\**\*.min.css" />
     </ItemGroup>
     <!-- Overwrite existing files w/their minified versions -->
     <JavaScriptCompressorTask SourceFiles="@(PackageJsFiles)" ObfuscateJavaScript="False" OutputFile="Areas\%(PackageJsFiles.RecursiveDir)\%(PackageJsFiles.Filename).js" LoggingType="None" />
-    <!--<CssCompressorTask SourceFiles="@(PackageCssFiles)" OutputFile="Areas\%(PackageCssFiles.RecursiveDir)\%(PackageCssFiles.Filename).css" LoggingType="None" />-->
+    <CssCompressorTask SourceFiles="@(PackageCssFiles)" OutputFile="Areas\%(PackageCssFiles.RecursiveDir)\%(PackageCssFiles.Filename).min.css" LoggingType="None" />
   </Target>
 </Project>

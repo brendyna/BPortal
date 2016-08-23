@@ -256,3 +256,6 @@ Portal.TypeScript/Areas/**/*.js.map
 
 # Build Tools
 .tools/
+
+# Minified files
+Portal.TypeScript/Areas/**/*.min.css

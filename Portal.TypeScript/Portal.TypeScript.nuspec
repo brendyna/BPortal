@@ -14,8 +14,8 @@
   </metadata>
   <files>
     <file src="Areas\Shared\**\*.js" target="content\Areas\Shared" exclude="Areas\Shared\**\*.Sample.js;Areas\Shared\**\*.Test.js" />
-    <file src="Areas\Shared\**\*.css" target="content\Areas\Shared" />
+    <file src="Areas\Shared\**\*.min.css" target="content\Areas\Shared" />
     <file src="Areas\SiteReporter\**\*.js" target="content\Areas\SiteReporter\Content\js" exclude="Areas\SiteReporter\**\*.Sample.js;Areas\SiteReporter\**\*.Test.js" />
-    <file src="Areas\SiteReporter\Styles\*.css" target="content\Areas\SiteReporter\Content\css" />
+    <file src="Areas\SiteReporter\Styles\*.min.css" target="content\Areas\SiteReporter\Content\css" />
   </files>
 </package>
