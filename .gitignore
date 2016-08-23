@@ -253,3 +253,6 @@ bower_components/
 # TypeScript-generated files
 Portal.TypeScript/Areas/**/*.js
 Portal.TypeScript/Areas/**/*.js.map
+
+# Build Tools
+.tools/

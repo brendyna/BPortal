@@ -1,15 +1,21 @@
 <?xml version="1.0"?>
-<package>
+<package >
   <metadata>
-    <id>$id$</id>
+    <id>Microsoft.WebPlatform.Portal.TypeScript</id>
     <version>$version$</version>
     <title>Web Platform Portal TypeScript framework</title>
-    <authors>Web Platform Services</authors>
+    <description>TypeScript framework for Web Platform Portal</description>
+    <authors>Microsoft</authors>
     <owners>Microsoft</owners>
     <projectUrl>http://wptportal.corp.microsoft.com</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>TypeScript framework for Web Platform Portal</description>
-    <copyright>Copyright Microsoft 2016</copyright>
-    <tags>Web Platform Portal</tags>
+    <tags>IEPortal</tags>
+    <copyright>Copyright © 2013-2022, Microsoft. All rights reserved.</copyright>
+    <dependencies />
   </metadata>
+  <files>
+    <file src="Areas\Shared\**\*.js" target="content\Areas\Shared" exclude="Areas\Shared\**\*.Sample.js;Areas\Shared\**\*.Test.js" />
+    <file src="Areas\Shared\**\*.css" target="content\Areas\Shared" />
+    <file src="Areas\SiteReporter\**\*.js" target="content\Areas\SiteReporter\Content\js" exclude="Areas\SiteReporter\**\*.Sample.js;Areas\SiteReporter\**\*.Test.js" />
+    <file src="Areas\SiteReporter\Styles\*.css" target="content\Areas\SiteReporter\Content\css" />
+  </files>
 </package>

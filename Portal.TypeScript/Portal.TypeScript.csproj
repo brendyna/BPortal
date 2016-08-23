@@ -114,6 +114,8 @@
     <Content Include="bower.json" />
     <Content Include="packages.config" />
     <Content Include="README.md" />
+    <Content Include="Portal.TypeScript.nuspec" />
+    <Content Include="GitVersion.yml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
