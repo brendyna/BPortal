@@ -250,11 +250,14 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\GitVersionTask.4.0.0-beta0005\build\dotnet\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.4.0.0-beta0005\build\dotnet\GitVersionTask.targets'))" />
+    <Error Condition="!Exists('..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Yahoo.Yui.Compressor.dll')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Yahoo.Yui.Compressor.dll'))" />
+    <Error Condition="!Exists('..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll'))" />
+
   </Target>
   <Target Name="AfterBuild">
-    <CallTarget Targets="TestTypeScript" />
+    <CallTarget Targets="TestGeneratedFiles;MinifyGeneratedFiles" />
   </Target>
-  <Target Name="TestTypeScript">
+  <Target Name="TestGeneratedFiles">
     <ItemGroup>
       <!-- DON'T DELETE: Keeping a commented version of these as the csproj keeps overwriting them -->
       <!--<ChutzpahTestFiles Include=".\Areas\**\*.Test.js" />-->
@@ -264,5 +267,16 @@
     <Copy SourceFiles="@(ChutzpahTestFiles)" DestinationFiles="@(ChutzpahTestFiles->'.\Areas.chutzpah\%(RecursiveDir)%(Filename).js')" />
     <Exec Command="$(SolutionDir)\packages\Chutzpah.4.2.3\tools\chutzpah.console.exe .\Areas.chutzpah\ /nologo /vsoutput /silent /showFailureReport" />
     <RemoveDir Directories=".\Areas.chutzpah\" />
+  </Target>
+  <UsingTask TaskName="CssCompressorTask" AssemblyFile="..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll" />
+  <UsingTask TaskName="JavaScriptCompressorTask" AssemblyFile="..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll" />
+  <Target Name="MinifyGeneratedFiles">
+    <ItemGroup>
+      <PackageJsFiles Include="Areas\**\*.js" />
+      <PackageCssFiles Include="Areas\**\*.css" />
+    </ItemGroup>
+    <!-- Overwrite existing files w/their minified versions -->
+    <JavaScriptCompressorTask SourceFiles="@(PackageJsFiles)" ObfuscateJavaScript="False" OutputFile="Areas\%(PackageJsFiles.RecursiveDir)\%(PackageJsFiles.Filename).js" LoggingType="None" />
+    <!--<CssCompressorTask SourceFiles="@(PackageCssFiles)" OutputFile="Areas\%(PackageCssFiles.RecursiveDir)\%(PackageCssFiles.Filename).css" LoggingType="None" />-->
   </Target>
 </Project>
