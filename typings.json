@@ -1,0 +1,13 @@
+{
+  "dependencies": {},
+  "globalDependencies": {
+    "highcharts": "registry:dt/highcharts#4.1.9+20160620223616",
+    "jquery": "registry:dt/jquery#1.10.0+20160417213236",
+    "jquery-mockjax": "registry:dt/jquery-mockjax#2.0.1+20160316155526",
+    "jquery.datatables": "registry:dt/jquery.datatables#0.0.0+20160317120654",
+    "knockout": "registry:dt/knockout#0.0.0+20160428162840",
+    "moment": "registry:dt/moment-node#2.11.1+20160511043338",
+    "qunit": "registry:dt/qunit#1.16.0+20160514172809",
+    "require": "registry:dt/require#2.1.20+20160316155526"
+  }
+}
