@@ -248,7 +248,7 @@ ModelManifest.xml
 bower_components/
 
 # Typings files (TypeScript definitions)
-typings/
+#typings/
 
 # TypeScript-generated files
 Portal.TypeScript/Areas/**/*.js

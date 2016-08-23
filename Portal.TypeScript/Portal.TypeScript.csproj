@@ -246,11 +246,8 @@
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-      <!-- Cheating and adding a required Node package into this check -->
-      <TypingsErrorText>You need to globally install Typings (https://www.npmjs.com/package/typings) and run `typings install` in the root repository directory.</TypingsErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\GitVersionTask.4.0.0-beta0005\build\dotnet\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.4.0.0-beta0005\build\dotnet\GitVersionTask.targets'))" />
-    <Error Condition="!Exists('..\typings\index.d.ts')" Text="$([System.String]::Format('$(TypingsErrorText)', '..\typings\index.d.ts'))" />
   </Target>
   <Target Name="AfterBuild">
     <CallTarget Targets="TestTypeScript" />
