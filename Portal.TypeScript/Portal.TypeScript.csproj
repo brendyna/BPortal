@@ -28,6 +28,7 @@
     <Content Include="Areas\Shared\Html\Samples\Controls\Badge.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Button.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Chart.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\List.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\DescriptionList.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Filters.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Navigation.Sample.html" />
@@ -39,6 +40,7 @@
     <Content Include="Areas\Shared\Html\Samples\Controls\Table.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Tabs.Sample.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Badge.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\List.Test.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Navigation.Test.html" />
     <Content Include="Areas\SiteReporter\Html\Samples\Views\Details.Sample.html" />
     <Content Include="Areas\SiteReporter\Html\Samples\Views\Summary.Sample.html" />
@@ -127,14 +129,18 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Areas\Shared\Config.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\List.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Navigation.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Badge.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Badge.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\List.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Navigation.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Controls\List.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Navigation.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.DisabledWrapper.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Badge.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\List.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Navigation.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Util\Knockout.ts" />
     <TypeScriptCompile Include="Areas\Shared\Views\Base.View.ts" />

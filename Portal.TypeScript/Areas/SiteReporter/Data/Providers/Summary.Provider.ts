@@ -9,6 +9,7 @@ import Header = require("Areas/Shared/Controls/Header");
 import Icon = require("Areas/Shared/Controls/Icon");
 import Input = require("Areas/Shared/Controls/Input");
 import KnockoutUtil = require("Areas/Shared/Util/Knockout");
+import List = require("Areas/Shared/Controls/List");
 import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Select = require("Areas/Shared/Controls/Select");
@@ -30,6 +31,7 @@ module Main {
     Icon;
     Input;
     KnockoutUtil;
+    List;
     Section;
     Table;
 
@@ -82,6 +84,23 @@ module Main {
                     }
                 },
                 subsections: [
+                    {
+                        header: "Sections",
+                        body: `<ul data-bind="wpsList: $vm.sections"></ul>`,
+                        bodyViewModel: {
+                            sections: <List.IViewModelData>{
+                                type: List.Type.Links,
+                                items: [
+                                    {
+                                        content: '<a href="#Bugs">Bugs</a>'
+                                    },
+                                    {
+                                        content: '<a href="#Trends">Trends</a>'
+                                    }
+                                ]
+                            }
+                        }
+                    },
                     {
                         header: "Bug snapshot",
                         body: `<dl data-bind="wpsDescriptionList: $vm.summary"></dl>`,
@@ -137,6 +156,7 @@ module Main {
             return {
                 title: "Bugs",
                 altHeader: true,
+                anchor: "Bugs",
                 body: `
                     <div data-bind="wpsFilters: $vm.filters"></div>
                     <table data-bind="wpsTable: $vm.table"></table>
@@ -152,6 +172,7 @@ module Main {
             let trendsData = <Section.IViewModelData>{
                 title: "Trends",
                 altHeader: true,
+                anchor: "Trends",
                 body: `
                     <div data-bind="wpsFilters: $vm.filters"></div>
                     <table data-bind="wpsTable: $vm.table"></table>

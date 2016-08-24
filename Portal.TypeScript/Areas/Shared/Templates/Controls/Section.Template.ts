@@ -2,6 +2,9 @@
 
 module Main {
     export let template = `
+        <!-- ko ifnot: vm.anchor() === "" -->
+            <a data-bind="attr: { name: vm.anchor }"></a>
+        <!-- /ko -->
         <!-- ko ifnot: vm.title() === "" && vm.subtitle() === "" -->
 	        <header class="section__header">
                 <!-- ko ifnot: vm.title() === "" -->

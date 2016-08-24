@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>List - Sample</title>
+        <link rel="stylesheet" href="http://edgecore.azurewebsites.net/min/indigo.full.min.css" />
+        <link rel="stylesheet" href="/Content/css/samples.css" />
+        <link rel="stylesheet" href="/Areas/Shared/Styles/controls.css" />
+        <script type="text/javascript" src="/bower_components/requirejs/require.js"></script>
+        <script type="text/javascript" src="/require.web.config.js"></script>
+        <script>
+            require(["Areas/Shared/Samples/Controls/List.Sample"])
+        </script>
+    </head>
+
+    <body>
+        <h1>Sample: List</h1>
+        <section>
+            Indigo CSS Library references: http://edgecore.azurewebsites.net/core/lists.html
+        </section>
+        <section class="content">
+            <h2>Basic</h2>
+            <ul id="sample"></ul>
+
+            <h2>Links list</h2>
+            <ul id="sample-links"></ul>
+
+            <h2>Custom binding handler</h2>
+            <ul id="sample-custom-binding" data-bind="wpsList: defaults"></ul>
+        </section>
+    </body>
+</html>
+

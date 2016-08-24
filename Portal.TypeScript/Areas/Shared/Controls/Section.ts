@@ -28,6 +28,7 @@ module Main {
         title?: string;
         subtitle?: string;
         altHeader?: boolean;
+        anchor?: string;
         body?: string;
         bodyViewModel?: any;
         bodyPlaceholder?: string;
@@ -38,6 +39,7 @@ module Main {
         title: KnockoutObservable<string>;
         subtitle: KnockoutObservable<string>;
         altHeader: KnockoutObservable<boolean>;
+        anchor: KnockoutObservable<string>;
         body: KnockoutObservable<string>;
         bodyViewModel: KnockoutObservable<any>;
         bodyPlaceholder: KnockoutObservable<string>;
@@ -92,6 +94,7 @@ module Main {
         private _title: KnockoutObservable<string>;
         private _subtitle: KnockoutObservable<string>;
         private _altHeader: KnockoutObservable<boolean>;
+        private _anchor: KnockoutObservable<string>;
         private _body: KnockoutObservable<string>;
         private _bodyViewModel: KnockoutObservable<any>;
         private _bodyPlaceholder: KnockoutObservable<string>;
@@ -103,6 +106,7 @@ module Main {
             this._title = ko.observable(data.title || "");
             this._subtitle = ko.observable(data.subtitle || "");
             this._altHeader = ko.observable(data.altHeader || false);
+            this._anchor = ko.observable(data.anchor || "");
             this._body = ko.observable(data.body || "");
             this._bodyViewModel = ko.observable(data.bodyViewModel || {});
             this._bodyPlaceholder = ko.observable(data.bodyPlaceholder || "");
@@ -111,6 +115,10 @@ module Main {
 
         public get altHeader(): KnockoutObservable<boolean> {
             return this._altHeader;
+        }
+
+        public get anchor(): KnockoutObservable<string> {
+            return this._anchor;
         }
 
         public get title(): KnockoutObservable<string> {
