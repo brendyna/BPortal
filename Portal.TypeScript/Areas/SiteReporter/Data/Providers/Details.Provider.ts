@@ -99,7 +99,6 @@ module Main {
                 },
                 subsections: [
                     {
-                        header: "Sections",
                         body: `<ul data-bind="wpsList: $vm.sections"></ul>`,
                         bodyViewModel: {
                             sections: <List.IViewModelData>{
