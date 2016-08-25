@@ -44,6 +44,7 @@ module Main {
     }
 
     export interface IWidget extends Base.IWidget {
+        viewModel: IViewModel;
     }
 
     export class Item implements IItem {
@@ -87,6 +88,11 @@ module Main {
 
     export class Widget extends Base.Widget implements IWidget {
         public static widgetClass = "list";
+        public static widgetLinksListClass = "list--links";
+        public static widgetIconsListClass = "list--icons";
+        public static widgetSiteSectionLinksListClass = "list--site-section-links";
+        public static widgetAvatarsListClass = "list--avatars";
+        public static widgetBiosListClass = "list--bios";
 
         _linksList: KnockoutComputed<boolean>;
         _iconsList: KnockoutComputed<boolean>;
@@ -129,11 +135,11 @@ module Main {
         }
 
         public _setupElement(): void {
-            super._addBinding("css", "'list--links': widget._linksList");
-            super._addBinding("css", "'list--icons': widget._iconsList");
-            super._addBinding("css", "'list--site-section-links': widget._siteSectionLinksList");
-            super._addBinding("css", "'list--avatars': widget._avatarsList");
-            super._addBinding("css", "'list--bios': widget._biosList");
+            super._addBinding("css", "'" + Widget.widgetLinksListClass + "': widget._linksList");
+            super._addBinding("css", "'" + Widget.widgetIconsListClass + "': widget._iconsList");
+            super._addBinding("css", "'" + Widget.widgetSiteSectionLinksListClass + "': widget._siteSectionLinksList");
+            super._addBinding("css", "'" + Widget.widgetAvatarsListClass + "': widget._avatarsList");
+            super._addBinding("css", "'" + Widget.widgetBiosListClass + "': widget._biosList");
 
             super._setupElement();
 

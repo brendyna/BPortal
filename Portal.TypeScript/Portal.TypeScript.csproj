@@ -142,6 +142,7 @@
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Badge.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\List.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Navigation.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Helpers\Controls.Helper.ts" />
     <TypeScriptCompile Include="Areas\Shared\Util\Knockout.ts" />
     <TypeScriptCompile Include="Areas\Shared\Views\Base.View.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Config.ts" />
