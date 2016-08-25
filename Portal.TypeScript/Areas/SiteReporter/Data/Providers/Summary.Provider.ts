@@ -126,14 +126,14 @@ module Main {
                                     {
                                         descriptions: [
                                             {
-                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url }"></a>`,
+                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
                                                     text: "Learn about our data",
                                                     url: "https://osgwiki.com/wiki/SiteReporter"
                                                 }
                                             },
                                             {
-                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url }"></a>`,
+                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
                                                     text: "Install Edge extension",
                                                     url: "file://iefs/Users/brendyna/SiteReporterEdgeExtension"
