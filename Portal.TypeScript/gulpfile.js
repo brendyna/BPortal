@@ -3,7 +3,8 @@
       pattern: [
         'gulp-*',
         'gulp.*',
-        'del'
+        'del',
+        'install'
       ]
   });
 
