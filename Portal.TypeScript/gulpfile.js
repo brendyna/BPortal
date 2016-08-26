@@ -24,12 +24,7 @@ gulp.task('bower-clean', function (cb) {
 
 // Gulp task to install bower packages
 gulp.task('bower-install', function () {
-    return gulp.src(config.bowerPaths)
-      .pipe($.install())
-      .pipe($.notify({
-          onLast: true,
-          message: 'Hosted: Restored bower packages'
-      }));
+    return gulp.src(config.bowerPaths).pipe($.install());
 });
 
 gulp.task("default", ["bower-clean", "bower-install"]);

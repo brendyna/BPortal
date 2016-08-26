@@ -6,6 +6,7 @@
   "author": "Microsoft",
   "license": "ISC",
   "dependencies": {
+    "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-load-plugins": "^1.2.4"
   }
