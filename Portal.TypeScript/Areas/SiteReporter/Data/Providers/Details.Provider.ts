@@ -569,24 +569,32 @@ module Main {
         }
 
         public getBingdexDescriptionPair(): DescriptionList.IDescriptionPairData {
+            let text = this.repository.resultData.bingdexRank === 0 ?
+                ">750,000" :
+                "#" + this.repository.resultData.bingdexRank;
+
             return {
                 term: "Bingdex rank",
                 descriptions: [{
                     content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
                     contentViewModel: {
-                        text: "#" + this.repository.resultData.bingdexRank
+                        text: text
                     }
                 }]
             };
         }
 
         public getAlexaDescriptionPair(): DescriptionList.IDescriptionPairData {
+            let text = this.repository.resultData.alexaRank === 0 ?
+                ">1,000" :
+                "#" + this.repository.resultData.alexaRank;
+
             return {
                 term: "Alexa rank",
                 descriptions: [{
                     content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
                     contentViewModel: {
-                        text: "#" + this.repository.resultData.alexaRank
+                        text: text
                     }
                 }]
             };
