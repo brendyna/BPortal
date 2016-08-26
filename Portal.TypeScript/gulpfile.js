@@ -31,3 +31,5 @@ gulp.task('bower-install', function () {
           message: 'Hosted: Restored bower packages'
       }));
 });
+
+gulp.task("default", ["bower-clean", "bower-install"]);
