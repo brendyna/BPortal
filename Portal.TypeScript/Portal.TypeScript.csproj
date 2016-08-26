@@ -68,6 +68,7 @@
       <DependentUpon>spinner.css</DependentUpon>
     </Content>
     <Content Include="Areas\SiteReporter\Styles\styles.css" />
+    <Content Include="gulpfile.js" />
     <Content Include="require.chutzpah.config.js" />
     <Content Include="Web\Content\Images\ajax-loader-black.gif" />
     <Content Include="Web\Content\Images\ajax-loader-white.gif" />
@@ -120,6 +121,7 @@
     <Content Include="Portal.TypeScript.nuspec" />
     <Content Include="GitVersion.yml" />
     <Content Include="tools\Install.ps1" />
+    <Content Include="package.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

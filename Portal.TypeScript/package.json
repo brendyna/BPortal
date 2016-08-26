@@ -1,0 +1,11 @@
+{
+  "name": "portal.typescript",
+  "version": "1.0.0",
+  "description": "Web Platform Portal TypeScript-generated files",
+  "main": "gulpfile.js",
+  "author": "Microsoft",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  }
+}
