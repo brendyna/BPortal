@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\MSBuild.Bower.0.5.1\build\MSBuild.Bower.props" Condition="Exists('..\packages\MSBuild.Bower.0.5.1\build\MSBuild.Bower.props')" />
-  <Import Project="..\packages\MSBuild.Node.0.5.1\build\MSBuild.Node.props" Condition="Exists('..\packages\MSBuild.Node.0.5.1\build\MSBuild.Node.props')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -237,8 +235,6 @@
   <Import Project="..\packages\JSLintNet.MSBuild.2.0.3\build\JSLintNet.MSBuild.targets" Condition="Exists('..\packages\JSLintNet.MSBuild.2.0.3\build\JSLintNet.MSBuild.targets')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
-  <Import Project="..\packages\MSBuild.Node.0.5.1\build\MSBuild.Node.targets" Condition="Exists('..\packages\MSBuild.Node.0.5.1\build\MSBuild.Node.targets')" />
-  <Import Project="..\packages\MSBuild.Bower.0.5.1\build\MSBuild.Bower.targets" Condition="Exists('..\packages\MSBuild.Bower.0.5.1\build\MSBuild.Bower.targets')" />
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
@@ -265,14 +261,10 @@
     <Error Condition="!Exists('..\packages\GitVersionTask.4.0.0-beta0005\build\dotnet\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.4.0.0-beta0005\build\dotnet\GitVersionTask.targets'))" />
     <Error Condition="!Exists('..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Yahoo.Yui.Compressor.dll')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Yahoo.Yui.Compressor.dll'))" />
     <Error Condition="!Exists('..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll'))" />
-    <Error Condition="!Exists('..\packages\MSBuild.Node.0.5.1\build\MSBuild.Node.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.Node.0.5.1\build\MSBuild.Node.props'))" />
-    <Error Condition="!Exists('..\packages\MSBuild.Node.0.5.1\build\MSBuild.Node.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.Node.0.5.1\build\MSBuild.Node.targets'))" />
-    <Error Condition="!Exists('..\packages\MSBuild.Bower.0.5.1\build\MSBuild.Bower.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.Bower.0.5.1\build\MSBuild.Bower.props'))" />
-    <Error Condition="!Exists('..\packages\MSBuild.Bower.0.5.1\build\MSBuild.Bower.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.Bower.0.5.1\build\MSBuild.Bower.targets'))" />
+    <Error Condition="!Exists('.bin\bower.cmd')" Text="$([System.String]::Format('$(ErrorText)', '.bin\bower.cmd'))" />
   </Target>
-  <Target Name="BeforeBuild" BeforeTargets="Build">
-    <CallTarget Targets="RunBower">
-    </CallTarget>
+  <Target Name="EnsureBowerInstall" AfterTargets="EnsureNuGetPackageBuildImports">
+    <Exec Command=".bin\bower install" />
   </Target>
   <Target Name="AfterBuild">
     <CallTarget Targets="TestGeneratedFiles;MinifyGeneratedFiles" />
