@@ -1,12 +1,10 @@
 ﻿var gulp = require('gulp'),
-  $ = require('gulp-load-plugins')({
-      pattern: [
-        'gulp-*',
-        'gulp.*',
-        'del',
-        'install'
-      ]
-  });
+    bower = require('gulp-bower'),
+    $ = require('gulp-load-plugins')({
+        pattern: [
+        'del'
+        ]
+    });
 
 // Path settings for Gulp
 var config = {
@@ -25,7 +23,7 @@ gulp.task('bower-clean', function (cb) {
 
 // Gulp task to install bower packages
 gulp.task('bower-install', function () {
-    return gulp.src(config.bowerPaths).pipe($.install());
+    return bower();
 });
 
 gulp.task("default", ["bower-clean", "bower-install"]);
