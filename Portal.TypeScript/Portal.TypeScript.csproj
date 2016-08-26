@@ -261,10 +261,6 @@
     <Error Condition="!Exists('..\packages\GitVersionTask.4.0.0-beta0005\build\dotnet\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.4.0.0-beta0005\build\dotnet\GitVersionTask.targets'))" />
     <Error Condition="!Exists('..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Yahoo.Yui.Compressor.dll')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Yahoo.Yui.Compressor.dll'))" />
     <Error Condition="!Exists('..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll'))" />
-    <Error Condition="!Exists('.bin\bower.cmd')" Text="$([System.String]::Format('$(ErrorText)', '.bin\bower.cmd'))" />
-  </Target>
-  <Target Name="EnsureBowerInstall" AfterTargets="EnsureNuGetPackageBuildImports">
-    <Exec Command=".bin\bower install" />
   </Target>
   <Target Name="AfterBuild">
     <CallTarget Targets="TestGeneratedFiles;MinifyGeneratedFiles" />
