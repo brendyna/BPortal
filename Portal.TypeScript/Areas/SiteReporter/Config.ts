@@ -66,11 +66,12 @@ module Main {
     }
 
     export class Urls {
-        public static ExtensionLocation = "file:\\iefs\Users\brendyna\SiteReporterEdgeExtension";
+        public static ExtensionLocation = "https://microsoft.sharepoint.com/teams/wdg_core_wpt/pm/_layouts/15/guestaccess.aspx?guestaccesstoken=kFftvLzg%2bOZxqumVHR%2bu9YA3chCfgBoj559xlGowiXw%3d&docid=2_0e1e04756b4f94e568a4c74d8c5b6d4cb&rev=1";
         public static LearnMore = "https://osgwiki.com/wiki/SiteReporter";
         public static SummaryPage = '/sitereporter/summary?';
         public static DetailsPage = '/sitereporter/details?';
         public static SiteReporterApi = "https://sitereporter-api.azurewebsites.net/api";
+        public static SiteReporterWiki = "https://osgwiki.com/wiki/SiteReporter";
     }
 
     export class Window {
