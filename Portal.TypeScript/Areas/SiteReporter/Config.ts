@@ -24,8 +24,8 @@ module Main {
         public static DefaultTag = "BingdexTop100";
         public static DefaultPlatform = "Desktop";
         public static DefaultRelease = "RS1";
-        public static Trends = ["tag", "platform", "release"];
-        public static TrendsDetails = ["platform", "release"];
+        public static Trends = ["tag", "release"];
+        public static TrendsDetails = ["release"];
     }
 
     export class Html {

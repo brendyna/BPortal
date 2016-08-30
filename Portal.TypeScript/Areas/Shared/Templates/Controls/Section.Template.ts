@@ -25,7 +25,12 @@ module Main {
                         <!-- ko ifnot: $data.header() === "" -->
 			                <h3 class="subsection__header" data-bind="text: $data.header, css: { 'header--alt': $data.altHeader }"></h3>
                         <!-- /ko -->
-			            <div class="subsection__body" data-bind="html: $data.body, customViewModel: $data.bodyViewModel"></div>
+                        <!-- ko if: $data.bodyPlaceholder() === "" -->
+			                <div class="subsection__body" data-bind="html: $data.body, customViewModel: $data.bodyViewModel"></div>
+                        <!-- /ko -->
+                        <!-- ko ifnot: $data.bodyPlaceholder() === "" -->
+			                <div class="body-placeholder" data-bind="html: $data.bodyPlaceholder"></div>
+                        <!-- /ko -->
 		            </section>
                 <!-- /ko -->
 	        </div>

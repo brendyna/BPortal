@@ -223,32 +223,39 @@ module Main {
                 title: "Trends",
                 altHeader: true,
                 anchor: "Trends",
-                body: `
-                    <div data-bind="wpsFilters: $vm.filters"></div>
-                    <div class="layout layout--halves">
-                        <div data-bind="wpsChart: $vm.frownies"s></div>
-                        <div data-bind="wpsChart: $vm.navigations"></div>
-                        <div data-bind="wpsChart: $vm.focustime"></div>
-                    </div>
-                `,
+                body: `<div data-bind="wpsFilters: $vm.filters"></div>`,
                 bodyViewModel: {
                     filters: <Filters.IViewModelData>{
                         classes: "trends__filters",
                         hideButtons: true
-                    },
-                    frownies: <Chart.IViewModelData>{
-                        classes: "module trends__frownies",
-                        options: this.getTrendChartOptions("Frownies")
-                    },
-                    navigations: <Chart.IViewModelData>{
-                        classes: "module trends__navigations",
-                        options: this.getTrendChartOptions("Navigations")
-                    },
-                    focustime: <Chart.IViewModelData>{
-                        classes: "module trends__focustime",
-                        options: this.getTrendChartOptions("Focus Time")
                     }
-                }
+                },
+                subsections: [
+                    {
+                        body: `<div data-bind="wpsChart: $vm"s></div>`,
+                        classes: "section__frownies",
+                        bodyViewModel: <Chart.IViewModelData>{
+                            classes: "trends__frownies",
+                            options: this.getTrendChartOptions("Frownies")
+                        }
+                    },
+                    {
+                        body: `<div data-bind="wpsChart: $vm"></div>`,
+                        classes: "section__navigations",
+                        bodyViewModel: <Chart.IViewModelData>{
+                            classes: "trends__navigations",
+                            options: this.getTrendChartOptions("Navigations")
+                        }
+                    },
+                    {
+                        body: `<div data-bind="wpsChart: $vm"></div>`,
+                        classes: "section__focustime",
+                        bodyViewModel: <Chart.IViewModelData>{
+                            classes: "trends__focustime",
+                            options: this.getTrendChartOptions("Focus Time")
+                        }
+                    }
+                ]
             };
 
             return trendsData;
