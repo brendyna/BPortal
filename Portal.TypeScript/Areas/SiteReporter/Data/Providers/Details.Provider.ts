@@ -133,17 +133,17 @@ module Main {
                                     {
                                         descriptions: [
                                             {
-                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url }"></a>`,
+                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
                                                     text: "Learn about our data",
-                                                    url: "https://osgwiki.com/wiki/SiteReporter"
+                                                    url: Config.Urls.SiteReporterWiki
                                                 }
                                             },
                                             {
-                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url }"></a>`,
+                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
                                                     text: "Install Edge extension",
-                                                    url: "file://iefs/Users/brendyna/SiteReporterEdgeExtension"
+                                                    url: Config.Urls.ExtensionLocation
                                                 }
                                             }
                                         ]
@@ -223,32 +223,39 @@ module Main {
                 title: "Trends",
                 altHeader: true,
                 anchor: "Trends",
-                body: `
-                    <div data-bind="wpsFilters: $vm.filters"></div>
-                    <div class="layout layout--halves">
-                        <div data-bind="wpsChart: $vm.frownies"s></div>
-                        <div data-bind="wpsChart: $vm.navigations"></div>
-                        <div data-bind="wpsChart: $vm.focustime"></div>
-                    </div>
-                `,
+                body: `<div data-bind="wpsFilters: $vm.filters"></div>`,
                 bodyViewModel: {
                     filters: <Filters.IViewModelData>{
                         classes: "trends__filters",
                         hideButtons: true
-                    },
-                    frownies: <Chart.IViewModelData>{
-                        classes: "module trends__frownies",
-                        options: this.getTrendChartOptions("Frownies")
-                    },
-                    navigations: <Chart.IViewModelData>{
-                        classes: "module trends__navigations",
-                        options: this.getTrendChartOptions("Navigations")
-                    },
-                    focustime: <Chart.IViewModelData>{
-                        classes: "module trends__focustime",
-                        options: this.getTrendChartOptions("Focus Time")
                     }
-                }
+                },
+                subsections: [
+                    {
+                        body: `<div data-bind="wpsChart: $vm"s></div>`,
+                        classes: "section__frownies",
+                        bodyViewModel: <Chart.IViewModelData>{
+                            classes: "trends__frownies",
+                            options: this.getTrendChartOptions("Frownies")
+                        }
+                    },
+                    {
+                        body: `<div data-bind="wpsChart: $vm"></div>`,
+                        classes: "section__navigations",
+                        bodyViewModel: <Chart.IViewModelData>{
+                            classes: "trends__navigations",
+                            options: this.getTrendChartOptions("Navigations")
+                        }
+                    },
+                    {
+                        body: `<div data-bind="wpsChart: $vm"></div>`,
+                        classes: "section__focustime",
+                        bodyViewModel: <Chart.IViewModelData>{
+                            classes: "trends__focustime",
+                            options: this.getTrendChartOptions("Focus Time")
+                        }
+                    }
+                ]
             };
 
             return trendsData;
@@ -569,24 +576,32 @@ module Main {
         }
 
         public getBingdexDescriptionPair(): DescriptionList.IDescriptionPairData {
+            let text = this.repository.resultData.bingdexRank === 0 ?
+                ">750,000" :
+                "#" + this.repository.resultData.bingdexRank;
+
             return {
                 term: "Bingdex rank",
                 descriptions: [{
                     content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
                     contentViewModel: {
-                        text: "#" + this.repository.resultData.bingdexRank
+                        text: text
                     }
                 }]
             };
         }
 
         public getAlexaDescriptionPair(): DescriptionList.IDescriptionPairData {
+            let text = this.repository.resultData.alexaRank === 0 ?
+                ">1,000" :
+                "#" + this.repository.resultData.alexaRank;
+
             return {
                 term: "Alexa rank",
                 descriptions: [{
                     content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
                     contentViewModel: {
-                        text: "#" + this.repository.resultData.alexaRank
+                        text: text
                     }
                 }]
             };

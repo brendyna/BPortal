@@ -14,6 +14,7 @@ module Main {
         classes?: string;
         body?: string;
         bodyViewModel?: any;
+        bodyPlaceholder?: string;
     }
 
     export interface ISubSection {
@@ -22,6 +23,7 @@ module Main {
         classes: KnockoutObservable<string>;
         body: KnockoutObservable<string>;
         bodyViewModel: KnockoutObservable<any>;
+        bodyPlaceholder: KnockoutObservable<string>;
     }
 
     export interface IViewModelData extends Base.IViewModelData {
@@ -59,6 +61,7 @@ module Main {
         private _classes: KnockoutObservable<string>;
         private _body: KnockoutObservable<string>;
         private _bodyViewModel: KnockoutObservable<any>;
+        private _bodyPlaceholder: KnockoutObservable<string>;
 
         constructor(data: ISubSectionData = {}) {
             this._header = ko.observable(data.header || "");
@@ -66,6 +69,7 @@ module Main {
             this._classes = ko.observable(data.classes || "");
             this._body = ko.observable(data.body || "");
             this._bodyViewModel = ko.observable(data.bodyViewModel || {});
+            this._bodyPlaceholder = ko.observable(data.bodyPlaceholder || "");
         }
 
         public get altHeader(): KnockoutObservable<boolean> {
@@ -82,6 +86,10 @@ module Main {
 
         public get body(): KnockoutObservable<string> {
             return this._body;
+        }
+
+        public get bodyPlaceholder(): KnockoutObservable<string> {
+            return this._bodyPlaceholder;
         }
 
         public get bodyViewModel(): KnockoutObservable<any> {

@@ -94,8 +94,11 @@ module Main {
                 bugTrends: "bug__trends",
                 domainSnapshot: "domain__snapshot",
                 trendFilters: "trends__filters",
+                trendsFocusTimeSection: "section__focustime",
                 trendsFocusTime: "trends__focustime",
+                trendsNavigationsSection: "section__navigations",
                 trendsNavigations: "trends__navigations",
+                trendsFrowniesSection: "section__frownies",
                 trendsFrownies: "trends__frownies"
             }, this._controlClasses);
 
@@ -135,9 +138,17 @@ module Main {
                 (super.getDataFor("." + this.controlClasses["trendsFocusTime"]));
         }
 
+        public get focusTimeSubSection(): Section.ISubSection {
+            return <Section.ISubSection>(ko.dataFor($("." + this.controlClasses["trendsFocusTimeSection"])[0]));
+        }
+
         public get frowniesChart(): BaseControl.IControl<Chart.IViewModel, Chart.IWidget> {
             return <BaseControl.IControl<Chart.IViewModel, Chart.IWidget>>
                 (super.getDataFor("." + this.controlClasses["trendsFrownies"]));
+        }
+
+        public get frowniesSubSection(): Section.ISubSection {
+            return <Section.ISubSection>(ko.dataFor($("." + this.controlClasses["trendsFrowniesSection"])[0]));
         }
 
         public get snapshot(): BaseControl.IControl<DescriptionList.ViewModel, DescriptionList.Widget> {
@@ -148,6 +159,10 @@ module Main {
         public get navigationsChart(): BaseControl.IControl<Chart.IViewModel, Chart.IWidget> {
             return <BaseControl.IControl<Chart.IViewModel, Chart.IWidget>>
                 (super.getDataFor("." + this.controlClasses["trendsNavigations"]));
+        }
+
+        public get navigationsSubSection(): Section.ISubSection {
+            return <Section.ISubSection>(ko.dataFor($("." + this.controlClasses["trendsNavigationsSection"])[0]));
         }
 
         public get sidebar(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
@@ -323,9 +338,17 @@ module Main {
         }
 
         private initializeTrendsLoading(): void {
+            this.resetTrendsPlaceholders();
+
             this.frowniesChart.vm.loading(true);
             this.navigationsChart.vm.loading(true);
             this.focusTimeChart.vm.loading(true);
+        }
+
+        private resetTrendsPlaceholders(): void {
+            this.focusTimeSubSection.bodyPlaceholder("");
+            this.frowniesSubSection.bodyPlaceholder("");
+            this.navigationsSubSection.bodyPlaceholder("");
         }
 
         private loadBugsRepo(): void {
@@ -408,8 +431,9 @@ module Main {
         private applyTrendsData(): void {
             this._trendsForDomainProvider = new DetailsProvider.TrendsProvider(this._trendsForDomainRepo);
 
+            // Focus Time
             if (this._trendsForDomainProvider.isDataEmpty(DetailsProvider.ChartType.FocusTime)) {
-                this.focusTimeChart.widget.hidden(true);
+                this.focusTimeSubSection.bodyPlaceholder("No Focus Time data to show for this site");
             } else {
                 this.focusTimeChart.widget.data(
                     this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.FocusTime));
@@ -417,8 +441,9 @@ module Main {
                 this.focusTimeChart.vm.loading(false);
             }
 
+            // Frownies
             if (this._trendsForDomainProvider.isDataEmpty(DetailsProvider.ChartType.Frownies)) {
-                this.frowniesChart.widget.hidden(true);
+                this.frowniesSubSection.bodyPlaceholder("No Frownies data to show for this site");
             } else {
                 this.frowniesChart.widget.data(
                     this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.Frownies));
@@ -426,17 +451,14 @@ module Main {
                 this.frowniesChart.vm.loading(false);
             }
 
+            // Navigations
             if (this._trendsForDomainProvider.isDataEmpty(DetailsProvider.ChartType.Navigations)) {
-                this.navigationsChart.widget.hidden(true);
+                this.navigationsSubSection.bodyPlaceholder("No Navigations data to show for this site");
             } else {
                 this.navigationsChart.widget.data(
                     this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.Navigations));
                 this.navigationsChart.widget.hidden(false);
                 this.navigationsChart.vm.loading(false);
-            }
-
-            if (this._trendsForDomainProvider.isAllDataEmpty()) {
-                this.trends.vm.bodyPlaceholder("No trends to show for this site");
             }
         }
 
@@ -467,7 +489,11 @@ module Main {
         private applyScantimeData(): void {
             this._scantimeProvider = new SharedProvider.ScanTimeProvider(this._scantimeRepo);
 
-            this.bugsTable.vm.metadata("Updated " + this._scantimeProvider.getLastScannedTime());
+            // Only update scantime value if there are bugs present (aka the table isn't hidden
+            // because of the section placeholder)
+            if (this.bugs.vm.bodyPlaceholder() === "") {
+                this.bugsTable.vm.metadata("Updated " + this._scantimeProvider.getLastScannedTime());
+            }
         }
 
         private updateBugTrendsChart(visibleSeriesName: string): void {
