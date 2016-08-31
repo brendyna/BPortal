@@ -489,7 +489,11 @@ module Main {
         private applyScantimeData(): void {
             this._scantimeProvider = new SharedProvider.ScanTimeProvider(this._scantimeRepo);
 
-            this.bugsTable.vm.metadata("Updated " + this._scantimeProvider.getLastScannedTime());
+            // Only update scantime value if there are bugs present (aka the table isn't hidden
+            // because of the section placeholder)
+            if (this.bugs.vm.bodyPlaceholder() === "") {
+                this.bugsTable.vm.metadata("Updated " + this._scantimeProvider.getLastScannedTime());
+            }
         }
 
         private updateBugTrendsChart(visibleSeriesName: string): void {
