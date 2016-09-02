@@ -578,7 +578,7 @@ module Main {
         public getBingdexDescriptionPair(): DescriptionList.IDescriptionPairData {
             let text = this.repository.resultData.bingdexRank === 0 ?
                 ">750,000" :
-                "#" + this.repository.resultData.bingdexRank;
+                "#" + Humanize.intComma(this.repository.resultData.bingdexRank);
 
             return {
                 term: "Bingdex rank",
@@ -594,7 +594,7 @@ module Main {
         public getAlexaDescriptionPair(): DescriptionList.IDescriptionPairData {
             let text = this.repository.resultData.alexaRank === 0 ?
                 ">1,000" :
-                "#" + this.repository.resultData.alexaRank;
+                "#" + Humanize.intComma(this.repository.resultData.alexaRank);
 
             return {
                 term: "Alexa rank",
