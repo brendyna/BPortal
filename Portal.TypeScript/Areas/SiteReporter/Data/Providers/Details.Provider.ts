@@ -1,4 +1,6 @@
-﻿import moment = require("moment");
+﻿/// <amd-dependency path="humanize" />
+
+import moment = require("moment");
 
 import Base = require("Areas/Shared/Controls/Base");
 import Chart = require("Areas/Shared/Controls/Chart");
