@@ -169,7 +169,7 @@ module Main {
         } else if (data === 0) {
             value = 'n/a';
         } else {
-            value = data;
+            value = Humanize.intComma(data);
         }
         return value;
     }
