@@ -58,6 +58,8 @@ module Main {
     }
 
     export class Widget extends Base.Widget implements IWidget {
+        public static widgetClass = "view--details";
+
         private _bugsForDomainRepo: BugsForDomainRepository.IRepository;
         private _bugsForDomainBlobUrlRepo: BugsForDomainBlobUrlRepository.IRepository;
         private _bugsForDomainProvider: DetailsProvider.BugsProvider;
@@ -103,14 +105,21 @@ module Main {
             }, this._controlClasses);
 
             this.setStaticViewModelData();
+            this.element.addClass(Widget.widgetClass);
 
             if (!this._defaults.disableAutoRender) {
                 super.render();
 
-                if (this.disabledPlaceholder() === "") {
+                if (!this._defaults.disableAutoLoad && this.disabledPlaceholder() === "") {
                     this.loadData();
                 }
             }
+        }
+
+        public destroy(): void {
+            super.destroy();
+
+            this.element.removeClass(Widget.widgetClass);
         }
 
         public get bugs(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {

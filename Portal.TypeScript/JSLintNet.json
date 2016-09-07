@@ -3,6 +3,7 @@
   "output": "Error",
   "ignore": [
     "\\Lib",
+    "gulpfile.js",
     "require.web.config.js",
     "require.chutzpah.config.js"
   ],

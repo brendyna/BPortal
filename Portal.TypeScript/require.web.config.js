@@ -12,6 +12,7 @@
         "moment": "/bower_components/moment/min/moment.min",
         "jquery.extensions": "/Lib/jQuery.Extensions", // How to share w/Web?
         "highcharts.ieportal": "/Lib/highcharts/themes/ieportal", // How to share w/Web?
+        "qunit": "/bower_components/qunit/qunit/qunit",
         "wps.portal": "/Lib/wps.portal.min" // How to share w/Web?
     },
     shim: {

@@ -1,5 +1,5 @@
 ﻿require.config({
-    baseUrl: "./Areas.chutzpah/",
+    baseUrl: "./",
     paths: {
         jquery: "./bower_components/jquery/dist/jquery.min",
         knockout: "./bower_components/knockout/dist/knockout",
@@ -12,6 +12,7 @@
         "moment": "./bower_components/moment/min/moment.min",
         "jquery.extensions": "./Lib/jQuery.Extensions", // How to share w/Web?
         "highcharts.ieportal": "./Lib/highcharts/themes/ieportal", // How to share w/Web?
+        "qunit": "./bower_components/qunit/qunit/qunit",
         "wps.portal": "./Lib/wps.portal.min" // How to share w/Web?
     },
     shim: {
@@ -25,7 +26,3 @@
         "highcharts.legend.highlighter": ["highcharts"]
     }
 });
-
-require([
-    "jquery.extensions", "jquery.mockjax", "humanize", "moment", "wps.portal"
-]);

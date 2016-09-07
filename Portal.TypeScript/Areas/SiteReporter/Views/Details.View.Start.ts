@@ -10,7 +10,7 @@ module Main {
     $((): void => {
         let defaults: View.IWidgetDefaults = {
             viewContext: {
-                params: $.extend({}, $.extend({}, Config.Params.DetailsDefaults))
+                params: $.extend({}, Config.Params.DetailsDefaults)
             }
         };
 

@@ -166,7 +166,7 @@ module Main {
             this._bindings = {};
             this._hidden = ko.observable(this._defaults.hidden || false);
 
-            this._addClass(this.viewModel.classes(), true);
+            this._addClass(this.viewModel.classes(), false);
         }
 
         public destroy(): void {

@@ -99,6 +99,7 @@ module Main {
                 },
                 subsections: [
                     {
+                        classes: "table-of-contents",
                         body: `<ul data-bind="wpsList: $vm.sections"></ul>`,
                         bodyViewModel: {
                             sections: <List.IViewModelData>{
@@ -118,6 +119,7 @@ module Main {
                         }
                     },
                     {
+                        classes: "snapshot",
                         body: `<dl data-bind="wpsDescriptionList: $vm.highlights"></dl>`,
                         bodyViewModel: {
                             highlights: <DescriptionList.IViewModelData>{
@@ -126,6 +128,7 @@ module Main {
                         }
                     },
                     {
+                        classes: "learn-more-links",
                         body: `<dl data-bind="wpsDescriptionList: $vm.links"></dl>`,
                         bodyViewModel: {
                             links: <DescriptionList.IViewModelData>{
@@ -202,6 +205,7 @@ module Main {
                 title: "Bugs",
                 altHeader: true,
                 anchor: "Bugs",
+                classes: "details--bugs",
                 body: `
                     <div data-bind="wpsFilters: $vm.filters"></div>
                     <table data-bind="wpsTable: $vm.table"></table>
@@ -223,6 +227,7 @@ module Main {
                 title: "Trends",
                 altHeader: true,
                 anchor: "Trends",
+                classes: "details--trends",
                 body: `<div data-bind="wpsFilters: $vm.filters"></div>`,
                 bodyViewModel: {
                     filters: <Filters.IViewModelData>{
@@ -266,6 +271,7 @@ module Main {
                 title: "Technologies",
                 altHeader: true,
                 anchor: "Technologies",
+                classes: "details--technologies",
                 body: `
                     <div data-bind="text: $vm.builtwith"></div>
                 `,

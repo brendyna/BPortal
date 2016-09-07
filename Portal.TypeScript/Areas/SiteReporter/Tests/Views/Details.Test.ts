@@ -1,11 +1,211 @@
-﻿import $ = require("jquery");
+﻿import "jquery";
+import "qunit";
+
+import Config = require("Areas/SiteReporter/Config");
+import View = require("Areas/SiteReporter/Views/Details.View");
+
+import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
+import Header = require("Areas/Shared/Controls/Header");
+import Input = require("Areas/Shared/Controls/Input");
+import List = require("Areas/Shared/Controls/List");
+import Navigation = require("Areas/Shared/Controls/Navigation");
+
+import DetailsMocks = require("Areas/SiteReporter/Samples/Helpers/Details.Mocks");
 
 export = Main;
 
 module Main {
-    $((): void => {
-        // Tests to write (share mock data w/samples to make tests easier to create from sample):
-        // * When scantime arrives after bugs and there are no bugs, no errors are thrown
-        //      (use responseTime and mock data to simulate this scenario)
+    QUnit.start();
+
+    //setupMockjax();
+
+    // ### Exists ###
+    QUnit.module("Details View: Exists", (hooks) => {
+        QUnit.test("Control exists", (assert) => {
+            // Assert
+            assert.ok(View, "View loaded");
+            assert.equal(typeof (View.Widget), "function", "Widget defined");
+        });
     });
+
+    QUnit.module("Details View: Basics", (hooks) => {
+        let widget: View.IWidget;
+            
+        hooks.before((assert) => {
+            widget = beforeEach(getDisableLoadWidgetDefaults());
+        });
+
+        hooks.after((assert) => {
+            afterEach(widget);
+        });
+
+        QUnit.test("Control renders correctly", (assert) => {
+            // Assert
+            assert.equal(widget.element.hasClass(View.Widget.widgetClass), true, "Widget class is present");
+            assert.ok(widget.element.children().length > 0, "There are child elements");
+        });
+
+        QUnit.test("Control destroys correctly", (assert) => {
+            // Act
+            widget.destroy();
+
+            // Assert
+            assert.equal(widget.element.hasClass(View.Widget.widgetClass), false, "Widget class is not present");
+            assert.equal(widget.element.children().length, 0, "There are no child elements");
+        });
+    });
+
+    QUnit.module("Details View: Static", (hooks) => {
+        let widget: View.IWidget;
+
+        hooks.before((assert) => {
+            widget = beforeEach(getDisableLoadWidgetDefaults());
+        });
+
+        hooks.after((assert) => {
+            afterEach(widget);
+        });
+
+        QUnit.test("Breadcrumb renders correctly", (assert) => {
+            let nav = $(classify(Navigation.Widget.widgetClass));
+            let navVM: Navigation.IViewModel = ko.dataFor(nav[0]).vm;
+            let breadcrumbs = nav.find("li");
+
+            // Act
+
+            // Assert
+            assert.equal(breadcrumbs.length, navVM.breadcrumb().length, "The correct number of crumbs are present");
+            for (let i = 0; i < breadcrumbs.length; i++) {
+                assert.equal($(breadcrumbs.get(i)).text(), navVM.breadcrumb()[i].text(), "Crumb " + i + " has correct text");
+            }
+        });
+
+        QUnit.test("Header renders correctly", (assert) => {
+            let header = $(classify(Header.Widget.widgetClass));
+            let headerVM: Header.IViewModel = ko.dataFor(header[0]).vm;
+
+            // Assert
+            assert.equal(header.find("h1").text(), headerVM.title(), "The header title is correct");
+        });
+
+        QUnit.test("Site search box renders correctly", (assert) => {
+            let input = widget.sidebar.widget.element.find("input[type=text]");
+            let inputVM: Input.IViewModel = ko.dataFor(input[0]).vm;
+
+            // Assert
+            assert.equal(input.length, 1, "There's on input present");
+            assert.equal(input.attr("placeholder"), inputVM.placeholder(), "Input placeholder is correct");
+        });
+
+        QUnit.test("Table of contents renders correctly", (assert) => {
+            let tocSubsection = widget.sidebar.vm.subsections()[0];
+            let tocSection = widget.sidebar.widget.element.find(classify(tocSubsection.classes()));
+            let tocSectionItems = tocSection.find("li");
+            let tocSectionVMItems: Array<List.IItemData> = (<List.IViewModelData>tocSubsection.bodyViewModel().sections).items;
+
+            // Assert
+            assert.equal(tocSectionItems.length, tocSectionVMItems.length, "Correct number of TOC items");
+            for (let i = 0; i < tocSectionItems.length; i++) {
+                let itemAnchor = $(tocSectionItems.get(i)).find("a");
+                let tocListItem = $(tocSectionVMItems[i].content);
+
+                itemAnchor.click();
+
+                assert.equal(itemAnchor.text(), tocListItem.text(), "TOC item " + i + " text matches VM item");
+                assert.equal(itemAnchor.attr("href"), tocListItem.attr("href"), "TOC item " + i + " href matches VM item");
+            }
+        });
+
+        QUnit.test("Snapshot description list renders correctly", (assert) => {
+            let snapshotSubsection = widget.sidebar.vm.subsections()[1];
+            let snapshotSection = widget.sidebar.widget.element.find(classify(snapshotSubsection.classes()));
+            let snapshotList = snapshotSection.find("dl");
+            let snapshotDts = snapshotList.find("dt");
+            let snapshotDds = snapshotList.find("dd");
+
+            // Assert
+            assert.equal(snapshotDts.length, 1, "There's one DT initially");
+            assert.equal($(snapshotDts.get(0)).text(), "", "The DT text is empty");
+            assert.equal(snapshotDds.length, 1, "There's one DD initially");
+            assert.equal($(snapshotDds.get(0)).text(), "", "The DD text is empty");
+        });
+
+        QUnit.test("Learn more links content renders correctly", (assert) => {
+            let learnMoreSubsection = widget.sidebar.vm.subsections()[2];
+            let learnMoreSection = widget.sidebar.widget.element.find(classify(learnMoreSubsection.classes()));
+            let learnMoreDL = learnMoreSection.find("dl");
+            let learnMoreDLVM: DescriptionList.IViewModel = ko.dataFor(learnMoreDL[0]).vm;
+            let learnMoreDLDds = learnMoreDL.find("dd");
+
+            // Assert
+            for (let i = 0; i < learnMoreDLDds.length; i++) {
+                let ddAnchor = $(learnMoreDLDds.get(i)).find("a");
+                let ddAnchorVM: { text: string; url: string } = learnMoreDLVM.descriptionPairs()[0].descriptions()[i].contentViewModel();
+
+                assert.equal(ddAnchor.text(), ddAnchorVM.text, "Learn more link " + i + " text matches VM text");
+                assert.equal(ddAnchor.attr("href"), ddAnchorVM.url, "Learn more link " + i + " href matches VM href");
+            }
+        });
+
+        QUnit.test("Sections render correctly", (assert) => {
+            let bugSection = $(classify(widget.bugs.vm.classes()));
+            let techSection = $(classify(widget.tech.vm.classes()));
+            let trendsSection = $(classify(widget.trends.vm.classes()));
+
+            // Assert
+            assert.equal(bugSection.find("h2").text(), widget.bugs.vm.title(), "Bugs section title is correct");
+            assert.equal(techSection.find("h2").text(), widget.tech.vm.title(), "Technologies section title is correct");
+            assert.equal(trendsSection.find("h2").text(), widget.trends.vm.title(), "Trends section title is correct");
+        });
+    });
+
+    // ### Dynamic content ###
+    //QUnit.module("Details View: Dynamic content");
+
+    function setupMockjax(): void {
+        DetailsMocks.setupDetailsForDomainMock();
+        DetailsMocks.setupFiltersMock();
+        DetailsMocks.setupBugsForDomainBlobUrlMock();
+        DetailsMocks.setupBugsForDomainMock();
+        DetailsMocks.setupScanTimeMock();
+        DetailsMocks.setupBuildWithDataForDomainMock();
+        DetailsMocks.setupBugTrendsBlobUrlMock();
+        DetailsMocks.setupBugTrendsMock();
+        DetailsMocks.setupTrendsForDomainMock();
+        DetailsMocks.setupTrendsForDomainTh2Mock();
+    }
+
+    function classify(selector: string): string {
+        return "." + selector.replace(" ", ".");
+    }
+
+    function beforeEach(customDefaults?: View.IWidgetDefaults): View.IWidget {
+        // Create a random fixture so we can parallelize tests
+        let fixtures = $("#qunit-fixtures");
+        let randFixtureId = Math.round(Math.random() * 1000);
+        let randFixture = $('<div id="fixture-' + randFixtureId + '"></div>');
+        fixtures.append(randFixture);
+
+        return new View.Widget(randFixture, customDefaults || getWidgetDefaults());
+    }
+
+    function afterEach(widget: View.IWidget): void {
+        // Act
+        widget.destroy();
+    }
+
+    function getWidgetDefaults(): View.IWidgetDefaults {
+        return {
+            viewContext: {
+                params: $.extend({}, Config.Params.DetailsDefaults)
+            }
+        };
+    }
+
+    function getDisableLoadWidgetDefaults(): View.IWidgetDefaults {
+        let defaults = getWidgetDefaults();
+        defaults.disableAutoLoad = true;
+
+        return defaults;
+    }
 }

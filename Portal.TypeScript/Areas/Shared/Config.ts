@@ -23,4 +23,8 @@ module Main {
     export function isPortalDebugMode(): boolean {
         return document.location.href.indexOf("localhost:61484") !== -1;
     }
+
+    export function isTestRunnerMode(): boolean {
+        return (<any>window).chutzpah !== undefined;
+    }
 }

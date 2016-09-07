@@ -37,7 +37,7 @@ module Main {
         public static Tag = "tag";
         public static Platform = "platform";
         public static Release = "release";
-        public static DetailsDefaults = BaseConfig.isDebugMode() ? {
+        public static DetailsDefaults = (BaseConfig.isDebugMode() || BaseConfig.isTestRunnerMode()) ? {
             domain: "facebook.com",
             platform: "Desktop",
             release: "RS1"
@@ -46,7 +46,7 @@ module Main {
             platform: $.getUrlVar("platform"),
             release: $.getUrlVar("release").toUpperCase()
         };
-        public static SummaryDefaults = BaseConfig.isDebugMode() ? {
+        public static SummaryDefaults = (BaseConfig.isDebugMode() || BaseConfig.isTestRunnerMode()) ? {
             tag: "BingdexTop100",
             platform: "Desktop",
             release: "RS1"
