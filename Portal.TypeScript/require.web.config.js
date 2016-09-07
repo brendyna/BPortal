@@ -27,6 +27,8 @@
     }
 });
 
+// TODO: Remove these and ensure each file includes what it needs (this defeats
+// the points of AMD a bit)
 require([
     "jquery.extensions", "jquery.mockjax", "humanize", "moment", "wps.portal"
 ]);

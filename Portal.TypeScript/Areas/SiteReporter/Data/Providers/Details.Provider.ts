@@ -215,7 +215,7 @@ module Main {
                     filters: this.getBugFilterData(),
                     table: this.getBugTableData(),
                     bugs: <Chart.IViewModelData>{
-                        classes: "bug__trends",
+                        classes: Config.Classes.DetailsBugsTrendsChart,
                         options: this.getBugTrendChartOptions()
                     }
                 }
@@ -240,24 +240,24 @@ module Main {
                         body: `<div data-bind="wpsChart: $vm"s></div>`,
                         classes: "section__frownies",
                         bodyViewModel: <Chart.IViewModelData>{
-                            classes: "trends__frownies",
-                            options: this.getTrendChartOptions("Frownies")
+                            classes: Config.Classes.DetailsTrendsFrowniesChart,
+                            options: this.getTrendChartOptions(Config.Strings.DetailsTrendsFrowniesTitle)
                         }
                     },
                     {
                         body: `<div data-bind="wpsChart: $vm"></div>`,
                         classes: "section__navigations",
                         bodyViewModel: <Chart.IViewModelData>{
-                            classes: "trends__navigations",
-                            options: this.getTrendChartOptions("Navigations")
+                            classes: Config.Classes.DetailsTrendsNavigationsChart,
+                            options: this.getTrendChartOptions(Config.Strings.DetailsTrendsNavigationsTitle)
                         }
                     },
                     {
                         body: `<div data-bind="wpsChart: $vm"></div>`,
                         classes: "section__focustime",
                         bodyViewModel: <Chart.IViewModelData>{
-                            classes: "trends__focustime",
-                            options: this.getTrendChartOptions("Focus Time")
+                            classes: Config.Classes.DetailsTrendsFocusTimeChart,
+                            options: this.getTrendChartOptions(Config.Strings.DetailsTrendsFocusTimeTitle)
                         }
                     }
                 ]
@@ -290,7 +290,7 @@ module Main {
 
         private getBugTableData(): Table.IViewModelData {
             return {
-                classes: "bug__list",
+                classes: Config.Classes.DetailsBugsTable,
                 headers: [
                     { text: "Id" },
                     { text: "AreaPath" },
@@ -305,7 +305,7 @@ module Main {
                     { text: "Tags" },
                     { text: "Title" }
                 ],
-                metadata: "Updated...",
+                metadata: Config.Strings.DetailsBugsTableScanTimePlaceholder,
                 settings: <DataTables.Settings>{
                     lengthChange: false,
                     searchDelay: 500,
@@ -315,7 +315,7 @@ module Main {
                     language: <any>{
                         search: "",
                         searchPlaceholder: "Filter table",
-                        emptyTable: "No bugs to show for this site"
+                        emptyTable: Config.Strings.DetailsBugsTableNoDataMessage
                     },
                     order: [
                         [

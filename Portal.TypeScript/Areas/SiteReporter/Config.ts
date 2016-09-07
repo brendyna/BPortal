@@ -6,6 +6,17 @@ import BaseConfig = require("Areas/Shared/Config");
 export = Main;
 
 module Main {
+    export class Classes {
+        public static DataTablesEmpty = "dataTables_empty";
+        public static DataTablesMetadata = "dataTables__filter__metadata";
+        public static DetailsBugsTable = "bug__list";
+        public static DetailsBugsTrendsChart = "bug__trends";
+        public static DetailsTrendsFocusTimeChart = "trends__focustime";
+        public static DetailsTrendsFrowniesChart = "trends__frownies";
+        public static DetailsTrendsNavigationsChart = "trends__navigations";
+        public static HighchartsTitle = "highcharts-title";
+    }
+
     export class Endpoints {
         public static BugTrends = "bugtrends";
         public static BugsForDomain = "bugsfordomain";
@@ -59,6 +70,12 @@ module Main {
 
     export class Strings {
         public static BingdexDescription = "Top sites according to the Bingdex heuristic created by the Bing team (https://www.bingwiki.com/Bingdex_Rank)";
+        public static DetailsBugsTableScanTimePlaceholder = "Updated...";
+        public static DetailsBugsTableNoDataMessage = "No bugs to show for this site";
+        public static DetailsBugsTrendsTitle = "Trends";
+        public static DetailsTrendsFrowniesTitle = "Frownies";
+        public static DetailsTrendsNavigationsTitle = "Navigations";
+        public static DetailsTrendsFocusTimeTitle = "Focus Time";
         public static ExtensionInstall = "Install Edge extension";
         public static LearnMore = "Learn about our data";
         public static SummaryPageTitle = "Site Reporter";

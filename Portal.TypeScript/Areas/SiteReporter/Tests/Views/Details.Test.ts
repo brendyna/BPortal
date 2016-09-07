@@ -149,13 +149,31 @@ module Main {
 
         QUnit.test("Sections render correctly", (assert) => {
             let bugSection = $(classify(widget.bugs.vm.classes()));
+            let bugSectionTable = bugSection.find(classify(Config.Classes.DetailsBugsTable));
+            let bugSectionTrendsChart = bugSection.find(classify(Config.Classes.DetailsBugsTrendsChart));
             let techSection = $(classify(widget.tech.vm.classes()));
             let trendsSection = $(classify(widget.trends.vm.classes()));
+            let trendsSectionFrowniesChart = trendsSection.find(classify(Config.Classes.DetailsTrendsFrowniesChart));
+            let trendsSectionNavigationsChart = trendsSection.find(classify(Config.Classes.DetailsTrendsNavigationsChart));
+            let trendsSectionFocusTimeChart = trendsSection.find(classify(Config.Classes.DetailsTrendsFocusTimeChart));
+            let highchartsTitleClass = classify(Config.Classes.HighchartsTitle);
 
             // Assert
             assert.equal(bugSection.find("h2").text(), widget.bugs.vm.title(), "Bugs section title is correct");
+            assert.equal(bugSection.find(classify(Config.Classes.DataTablesMetadata)).text(),
+                Config.Strings.DetailsBugsTableScanTimePlaceholder, "Bugs section table scan time placeholder is correct");
+            assert.equal(bugSectionTable.find(classify(Config.Classes.DataTablesEmpty)).text(),
+                Config.Strings.DetailsBugsTableNoDataMessage, "Bugs section empty table placeholder is shown");
+            assert.equal(bugSectionTrendsChart.find(highchartsTitleClass).text(),
+                Config.Strings.DetailsBugsTrendsTitle, "Bugs section trends chart title is correct");
             assert.equal(techSection.find("h2").text(), widget.tech.vm.title(), "Technologies section title is correct");
             assert.equal(trendsSection.find("h2").text(), widget.trends.vm.title(), "Trends section title is correct");
+            assert.equal(trendsSectionFrowniesChart.find(highchartsTitleClass).text(),
+                Config.Strings.DetailsTrendsFrowniesTitle, "Bugs section frownies trends chart title is correct");
+            assert.equal(trendsSectionNavigationsChart.find(highchartsTitleClass).text(),
+                Config.Strings.DetailsTrendsNavigationsTitle, "Bugs section navigations trends chart title is correct");
+            assert.equal(trendsSectionFocusTimeChart.find(highchartsTitleClass).text(),
+                Config.Strings.DetailsTrendsFocusTimeTitle, "Bugs section focus time trends chart title is correct");
         });
     });
 

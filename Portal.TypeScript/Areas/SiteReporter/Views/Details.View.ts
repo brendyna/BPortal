@@ -1,5 +1,6 @@
-﻿import $ = require("jquery");
-import ko = require("knockout");
+﻿import "jquery";
+import "knockout";
+
 import Base = require("Areas/Shared/Views/Base.View");
 import BaseControl = require("Areas/Shared/Controls/Base");
 import Chart = require("Areas/Shared/Controls/Chart");
@@ -53,7 +54,12 @@ module Main {
     export interface IWidget extends Base.IWidget {
         sidebar: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
         bugs: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        bugsTable: BaseControl.IControl<Table.ViewModel, Table.Widget>;
+        bugTrendsChart: BaseControl.IControl<Chart.IViewModel, Chart.IWidget>
         trends: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        focusTimeChart: BaseControl.IControl<Chart.IViewModel, Chart.IWidget>;
+        frowniesChart: BaseControl.IControl<Chart.IViewModel, Chart.IWidget>;
+        navigationsChart: BaseControl.IControl<Chart.IViewModel, Chart.IWidget>;
         tech: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
     }
 
