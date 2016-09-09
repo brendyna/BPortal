@@ -1,4 +1,5 @@
-﻿import $ = require("jquery");
+﻿import "jquery";
+import "wps.portal";
 
 import Config = require("../Config");
 

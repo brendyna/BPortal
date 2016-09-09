@@ -192,7 +192,7 @@ module Main {
         public getFavIconDescriptionPair(domain: string): DescriptionList.IDescriptionPairData {
             return {
                 descriptions: [{
-                    content: `<img class="summary--favicon" data-bind="attr: { src: $vm.src }" />`,
+                    content: `<img class="${Config.Classes.SiteFavIcon}" data-bind="attr: { src: $vm.src }" />`,
                     contentViewModel: {
                         src: "http://www.google.com/s2/favicons?domain_url=" + domain
                     }

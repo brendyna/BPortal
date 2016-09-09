@@ -13,11 +13,13 @@ module Main {
     export class Window {
         public static ApiUsername = window.API_USERNAME;
         public static ApiPassword = window.API_PASSWORD;
-        public static DebugMode = document.location.href.indexOf("localhost:1305") !== -1;
+        public static DebugMode = document.location.href.indexOf("localhost:1305") !== -1
+            || (<any>window).chutzpah !== undefined;
     }
 
     export function isDebugMode(): boolean {
-        return document.location.href.indexOf("localhost:1305") !== -1;
+        return document.location.href.indexOf("localhost:1305") !== -1
+            || (<any>window).chutzpah !== undefined;
     }
 
     export function isPortalDebugMode(): boolean {

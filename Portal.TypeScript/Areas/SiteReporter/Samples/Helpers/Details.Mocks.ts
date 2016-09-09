@@ -1,4 +1,6 @@
-﻿import Config = require("../../Config");
+﻿import "jquery.mockjax";
+
+import Config = require("../../Config");
 
 export = Main;
 
@@ -8,6 +10,8 @@ module Main {
     export let facebookTh2Params = {
         release: "TH2"
     };
+
+    $.mockjaxSettings.logging = false;
 
     export function setupDetailsForDomainMock(): void {
         // Get details for domain
@@ -934,10 +938,10 @@ module Main {
     export function getMockDetailsForDomain(): any {
         return {
             "domainName": "facebook.com",
-            "isOffensive": false,
+            "isOffensive": true,
             "domainId": 2,
-            "bingdexRank": 2,
-            "alexaRank": 3,
+            "bingdexRank": 1748,
+            "alexaRank": 588,
             "tags": [
                 { "id": 1, "text": "jquery", "type": 1 },
                 { "id": 1, "text": "angular2", "type": 2 }

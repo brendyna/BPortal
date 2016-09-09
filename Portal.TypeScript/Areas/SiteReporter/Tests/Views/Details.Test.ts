@@ -15,9 +15,9 @@ import DetailsMocks = require("Areas/SiteReporter/Samples/Helpers/Details.Mocks"
 export = Main;
 
 module Main {
-    QUnit.start();
+    setupMockjax();
 
-    //setupMockjax();
+    QUnit.start();
 
     // ### Exists ###
     QUnit.module("Details View: Exists", (hooks) => {
@@ -32,11 +32,11 @@ module Main {
         let widget: View.IWidget;
             
         hooks.before((assert) => {
-            widget = beforeEach(getDisableLoadWidgetDefaults());
+            widget = beforeModule(getDisableLoadWidgetDefaults());
         });
 
         hooks.after((assert) => {
-            afterEach(widget);
+            afterModule(widget);
         });
 
         QUnit.test("Control renders correctly", (assert) => {
@@ -59,11 +59,11 @@ module Main {
         let widget: View.IWidget;
 
         hooks.before((assert) => {
-            widget = beforeEach(getDisableLoadWidgetDefaults());
+            widget = beforeModule(getDisableLoadWidgetDefaults());
         });
 
         hooks.after((assert) => {
-            afterEach(widget);
+            afterModule(widget);
         });
 
         QUnit.test("Breadcrumb renders correctly", (assert) => {
@@ -177,8 +177,116 @@ module Main {
         });
     });
 
-    // ### Dynamic content ###
-    //QUnit.module("Details View: Dynamic content");
+    QUnit.module("Details View: Load start", (hooks) => {
+        let widget: View.IWidget;
+
+        hooks.before((assert) => {
+            widget = beforeModule(getDisableLoadWidgetDefaults());
+            widget.initializeRepos();
+            widget.initializeLoading();
+        });
+
+        hooks.after((assert) => {
+            afterModule(widget);
+        });
+
+        QUnit.test("Indicators appear for dynamic elements", (assert) => {
+            let loadingElements = {
+                "snapshot": widget.snapshot.widget.element,
+                "bugs filters": widget.bugsFilters.widget.element,
+                "bugs table": widget.bugsTable.widget.element,
+                "bugs trends chart": widget.bugTrendsChart.widget.element,
+                "technologies": widget.tech.widget.element,
+                "frownies chart": widget.frowniesChart.widget.element,
+                "navigations chart": widget.navigationsChart.widget.element,
+                "focus time chart": widget.focusTimeChart.widget.element
+            };
+
+            for (var elemName in loadingElements) {
+                assert.equal(loadingElements[elemName].find(classify(Config.Classes.LoadingOverlay)).length,
+                    1, "The loading overlay is present for " + elemName);
+            }
+        });
+    });
+
+    QUnit.module("Details View: Load complete", (hooks) => {
+        let widget: View.IWidget;
+
+        hooks.before((assert) => {
+            widget = beforeModule(getDisableLoadWidgetDefaults());
+        });
+
+        hooks.after((assert) => {
+            afterModule(widget);
+        });
+
+        QUnit.test("Data promise is resolved when load completes", (assert) => {
+            let loadPromise = widget.loadData();
+            let done1 = assert.async();
+            
+            loadPromise.done(() => {
+                assert.ok(true, "Data load promise resolves correctly");
+                done1();
+            });
+        });
+    });
+
+    QUnit.module("Details View: Dynamic common", (hooks) => {
+        let widget: View.IWidget;
+        let loadPromise: JQueryPromise<void>;
+
+        hooks.before((assert) => {
+            widget = beforeModule(getDisableLoadWidgetDefaults());
+            loadPromise = widget.loadData();
+        });
+
+        hooks.after((assert) => {
+            afterModule(widget);
+        });
+
+        QUnit.test("Sidebar content renders correctly", (assert) => {
+            let done = assert.async();
+
+            loadPromise.done(() => {
+                // Favicon is present
+                assert.equal(widget.sidebar.widget.element.find(classify(Config.Classes.SiteFavIcon)).length,
+                    1, "The site favicon renders");
+                // Switch risk is present when a site is a switch risk
+                // Potentially offensive content present when a site is potentially offensive
+                // Bingdex rank shows the #<rank>(humanized) when a rank is present
+                // Alexa rank shows the #<rank>(humanized) when a rank is present
+                // Tags shows a list of tags when tags are present
+                done();
+            });
+        });
+    });
+
+    QUnit.module("Details View: Dynamic edge", (hooks) => {
+        let widget: View.IWidget;
+        let loadPromise: JQueryPromise<void>;
+
+        hooks.before((assert) => {
+            widget = beforeModule(getDisableLoadWidgetDefaults());
+            loadPromise = widget.loadData();
+        });
+
+        hooks.after((assert) => {
+            afterModule(widget);
+        });
+
+        QUnit.test("Sidebar content renders correctly", (assert) => {
+            let done = assert.async();
+
+            loadPromise.done(() => {
+                // Switch risk is not present when site isn't one
+                // Potentially offensive content not present when it isn't
+                // Bingdex rank shows >750,000 when rank is 0
+                // Alexa rank shows >1,000 when rank is 0
+                // Tags description pair is hidden when there are no tags
+                done();
+            });
+        });
+    });
 
     function setupMockjax(): void {
         DetailsMocks.setupDetailsForDomainMock();
@@ -197,7 +305,7 @@ module Main {
         return "." + selector.replace(" ", ".");
     }
 
-    function beforeEach(customDefaults?: View.IWidgetDefaults): View.IWidget {
+    function beforeModule(customDefaults?: View.IWidgetDefaults): View.IWidget {
         // Create a random fixture so we can parallelize tests
         let fixtures = $("#qunit-fixtures");
         let randFixtureId = Math.round(Math.random() * 1000);
@@ -207,7 +315,7 @@ module Main {
         return new View.Widget(randFixture, customDefaults || getWidgetDefaults());
     }
 
-    function afterEach(widget: View.IWidget): void {
+    function afterModule(widget: View.IWidget): void {
         // Act
         widget.destroy();
     }

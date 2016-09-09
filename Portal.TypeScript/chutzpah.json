@@ -3,6 +3,7 @@
     "TestHarnessReferenceMode": "AMD",
     "TestHarnessLocationMode": "SettingsFileAdjacent",
     "CustomTestHarnessPath": "chutzpah.harness.html",
+    "IgnoreResourceLoadingErrors": true,
     "References": [
         { "Path": "./bower_components/requirejs/require.js" },
         { "Path": "require.chutzpah.config.js" }

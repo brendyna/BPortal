@@ -52,8 +52,10 @@ module Main {
     }
 
     export interface IWidget extends Base.IWidget {
+        getDataLoadPromise: () => JQueryPromise<void>;
         sidebar: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
         bugs: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        bugsFilters: BaseControl.IControl<Filters.ViewModel, Filters.Widget>;
         bugsTable: BaseControl.IControl<Table.ViewModel, Table.Widget>;
         bugTrendsChart: BaseControl.IControl<Chart.IViewModel, Chart.IWidget>
         trends: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
@@ -61,6 +63,7 @@ module Main {
         frowniesChart: BaseControl.IControl<Chart.IViewModel, Chart.IWidget>;
         navigationsChart: BaseControl.IControl<Chart.IViewModel, Chart.IWidget>;
         tech: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        snapshot: BaseControl.IControl<DescriptionList.ViewModel, DescriptionList.Widget>;
     }
 
     export class Widget extends Base.Widget implements IWidget {
@@ -205,6 +208,10 @@ module Main {
             this.initializeLoading();
             this.loadRepos();
 
+            return this._loadDeferred.promise();
+        }
+
+        public getDataLoadPromise(): JQueryPromise<void> {
             return this._loadDeferred.promise();
         }
 
