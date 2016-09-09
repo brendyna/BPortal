@@ -1,6 +1,5 @@
-﻿/// <amd-dependency path="humanize" />
-
-import moment = require("moment");
+﻿import "humanize";
+import "moment";
 
 import Base = require("Areas/Shared/Controls/Base");
 import Chart = require("Areas/Shared/Controls/Chart");
@@ -170,7 +169,7 @@ module Main {
                     contentViewModel: {
                         icon: <Icon.IViewModelData>{
                             type: Icon.Type.Flag,
-                            classes: "subtitle metrics__measurements__icon--switchRisk"
+                            classes: "subtitle " + Config.Classes.DetailsSwitchRiskIcon
                         }
                     }
                 }]
@@ -184,7 +183,7 @@ module Main {
                     contentViewModel: {
                         icon: <Icon.IViewModelData>{
                             type: Icon.Type.Blocked,
-                            classes: "sitereporter__tile__delta--Sad"
+                            classes: "sitereporter__tile__delta--Sad " + Config.Classes.DetailsPotentiallyOffensive
                         }
                     }
                 }]
@@ -585,15 +584,16 @@ module Main {
 
         public getBingdexDescriptionPair(): DescriptionList.IDescriptionPairData {
             let text = this.repository.resultData.bingdexRank === 0 ?
-                ">750,000" :
+                Config.Strings.BingdexOutOfBounds :
                 "#" + Humanize.intComma(this.repository.resultData.bingdexRank);
 
             return {
                 term: "Bingdex rank",
                 descriptions: [{
-                    content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
+                    content: `<span data-bind="text: $vm.text, css: $vm.classes"></span>`,
                     contentViewModel: {
-                        text: text
+                        text: text,
+                        classes: "subtitle " + Config.Classes.SiteBingdexRank
                     }
                 }]
             };
@@ -601,15 +601,16 @@ module Main {
 
         public getAlexaDescriptionPair(): DescriptionList.IDescriptionPairData {
             let text = this.repository.resultData.alexaRank === 0 ?
-                ">1,000" :
+                Config.Strings.AlexaOutOfBounds :
                 "#" + Humanize.intComma(this.repository.resultData.alexaRank);
 
             return {
                 term: "Alexa rank",
                 descriptions: [{
-                    content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
+                    content: `<span data-bind="text: $vm.text, css: $vm.classes"></span>`,
                     contentViewModel: {
-                        text: text
+                        text: text,
+                        classes: "subtitle " + Config.Classes.SiteAlexaRank
                     }
                 }]
             };
@@ -621,7 +622,7 @@ module Main {
                 descriptions: [
                     {
                         content: `<!-- ko foreach: $vm.badges -->
-                                    <span data-bind="wpsBadge: $data"></span>
+                                    <span class="${Config.Classes.SiteTag}" data-bind="wpsBadge: $data"></span>
                                   <!-- /ko -->`,
                         contentViewModel: {
                             badges: this.repository.resultData.tags.map(tag => {

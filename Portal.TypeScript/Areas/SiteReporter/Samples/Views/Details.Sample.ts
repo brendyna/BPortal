@@ -12,7 +12,6 @@ module Main {
         setupMockjax();
 
         let defaults: View.IWidgetDefaults = {
-            disableAutoLoad: true,
             viewContext: {
                 params: $.extend({}, DetailsMocks.facebookParams)
             }
@@ -27,14 +26,23 @@ module Main {
 
     export function setupMockjax(): void {
         DetailsMocks.setupDetailsForDomainMock();
+        DetailsMocks.setupDetailsForDomainEdgeMock();
         DetailsMocks.setupFiltersMock();
+        DetailsMocks.setupFiltersEdgeMock();
         DetailsMocks.setupBugsForDomainBlobUrlMock();
+        DetailsMocks.setupBugsForDomainBlobUrlEdgeMock();
         DetailsMocks.setupBugsForDomainMock();
+        DetailsMocks.setupBugsForDomainEdgeMock();
         DetailsMocks.setupScanTimeMock();
+        DetailsMocks.setupScanTimeEdgeMock();
         DetailsMocks.setupBuildWithDataForDomainMock();
+        DetailsMocks.setupBuildWithDataForDomainEdgeMock();
         DetailsMocks.setupBugTrendsBlobUrlMock();
+        DetailsMocks.setupBugTrendsBlobUrlEdgeMock();
         DetailsMocks.setupBugTrendsMock();
+        DetailsMocks.setupBugTrendsEdgeMock();
         DetailsMocks.setupTrendsForDomainMock();
+        DetailsMocks.setupTrendsForDomainEdgeMock();
         DetailsMocks.setupTrendsForDomainTh2Mock();
     }
 }

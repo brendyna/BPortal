@@ -1,5 +1,6 @@
 ﻿import "jquery";
 import "qunit";
+import "humanize";
 
 import Config = require("Areas/SiteReporter/Config");
 import View = require("Areas/SiteReporter/Views/Details.View");
@@ -11,6 +12,8 @@ import List = require("Areas/Shared/Controls/List");
 import Navigation = require("Areas/Shared/Controls/Navigation");
 
 import DetailsMocks = require("Areas/SiteReporter/Samples/Helpers/Details.Mocks");
+import DetailsForDomainRepo = require("../../Data/Repositories/DetailsForDomain.Repository");
+import BugsForDomainRepo = require("../../Data/Repositories/BugsForDomain.Repository");
 
 export = Main;
 
@@ -177,7 +180,7 @@ module Main {
         });
     });
 
-    QUnit.module("Details View: Load start", (hooks) => {
+    QUnit.module("Details View: Load started", (hooks) => {
         let widget: View.IWidget;
 
         hooks.before((assert) => {
@@ -209,7 +212,7 @@ module Main {
         });
     });
 
-    QUnit.module("Details View: Load complete", (hooks) => {
+    QUnit.module("Details View: Load done", (hooks) => {
         let widget: View.IWidget;
 
         hooks.before((assert) => {
@@ -244,21 +247,38 @@ module Main {
             afterModule(widget);
         });
 
-        QUnit.test("Sidebar content renders correctly", (assert) => {
+        QUnit.test("Sidebar section renders correctly", (assert) => {
             let done = assert.async();
+            let domainDetailsMockData = DetailsMocks.getMockDetailsForDomain();
+            let bugsForDomainMockData = DetailsMocks.getMockBugsForDomain();
 
             loadPromise.done(() => {
-                // Favicon is present
-                assert.equal(widget.sidebar.widget.element.find(classify(Config.Classes.SiteFavIcon)).length,
-                    1, "The site favicon renders");
-                // Switch risk is present when a site is a switch risk
-                // Potentially offensive content present when a site is potentially offensive
-                // Bingdex rank shows the #<rank>(humanized) when a rank is present
-                // Alexa rank shows the #<rank>(humanized) when a rank is present
-                // Tags shows a list of tags when tags are present
+                testDynamicSidebarContent(assert, widget, domainDetailsMockData, bugsForDomainMockData);
                 done();
             });
         });
+
+        //QUnit.test("Bugs section renders correctly", (assert) => {
+        //    let done = assert.async();
+
+        //    loadPromise.done(() => {
+        //        // Verify the select filter for different bug types renders correctly
+        //        // Verify the last scan time is rendered correctly
+        //        // Verify entering text in the filter input filters the table to the expected items/ count
+        //        // - Verify the nothing found placeholder is shown when the filter isn't found in the table contents
+        //        // Verify the table renders correctly
+        //        // - Verify the correct columns are present
+        //        // - Verify first bug matches data
+        //        // - Verify bug numbers are links
+        //        // - Verify if there's one page, no navigation is shown
+        //        // - Verify previous/ next / pages are shown when there are multiple pages
+        //        // Verify the chart shows the multiseries when there are trends (verify first and last data points for each series)
+        //        // - Verify the title is correct
+        //        // - Verify the legend is present
+
+        //        done();
+        //    });
+        //});
     });
 
     QUnit.module("Details View: Dynamic edge", (hooks) => {
@@ -266,7 +286,7 @@ module Main {
         let loadPromise: JQueryPromise<void>;
 
         hooks.before((assert) => {
-            widget = beforeModule(getDisableLoadWidgetDefaults());
+            widget = beforeModule(getEdgeWidgetDefaults());
             loadPromise = widget.loadData();
         });
 
@@ -274,30 +294,77 @@ module Main {
             afterModule(widget);
         });
 
-        QUnit.test("Sidebar content renders correctly", (assert) => {
+        QUnit.test("Sidebar section renders correctly", (assert) => {
             let done = assert.async();
+            let domainDetailsMockData = DetailsMocks.getMockDetailsForDomainEdge();
+            let bugsForDomainMockData = DetailsMocks.getMockBugsForDomainEdge();
 
             loadPromise.done(() => {
-                // Switch risk is not present when site isn't one
-                // Potentially offensive content not present when it isn't
-                // Bingdex rank shows >750,000 when rank is 0
-                // Alexa rank shows >1,000 when rank is 0
-                // Tags description pair is hidden when there are no tags
+                testDynamicSidebarContent(assert, widget, domainDetailsMockData, bugsForDomainMockData);
                 done();
             });
         });
+
+        //QUnit.test("Bugs section renders correctly", (assert) => {
+        //    let done = assert.async();
+
+        //    loadPromise.done(() => {
+        //        // Verify bodyPlaceholder is shown when there are no bugs to show
+        //        // Verify the table renders correctly
+        //        // - Verify if there's one page, no navigation is shown
+        //        // Verify the trends charts show empty placeholders when there are no bug trends
+
+        //        done();
+        //    });
+        //});
     });
+
+    function testDynamicSidebarContent(
+        assert: QUnitAssert,
+        widget: View.IWidget,
+        domainDetailsMockData: DetailsForDomainRepo.DataTransferObject,
+        bugsForDomainMockData: BugsForDomainRepo.DataTransferObject): void {
+        let sidebarElem = widget.sidebar.widget.element;
+        let expectedSwitchRiskCount = bugsForDomainMockData.IsSwitchRisk ? 1 : 0;
+        let expectedOffensiveCount = domainDetailsMockData.isOffensive ? 1 : 0;
+        let expectedAlexaRank = domainDetailsMockData.alexaRank === 0 ? Config.Strings.AlexaOutOfBounds
+            : "#" + Humanize.intComma(domainDetailsMockData.alexaRank);
+        let expectedBingdexRank = domainDetailsMockData.bingdexRank === 0 ? Config.Strings.BingdexOutOfBounds
+            : "#" + Humanize.intComma(domainDetailsMockData.bingdexRank);
+
+        assert.equal(sidebarElem.find(classify(Config.Classes.SiteFavIcon)).length,
+            1, "The site favicon renders");
+        assert.equal(sidebarElem.find(classify(Config.Classes.DetailsSwitchRiskIcon)).length,
+            expectedSwitchRiskCount, "The switch risk indicator is present");
+        assert.equal(sidebarElem.find(classify(Config.Classes.DetailsPotentiallyOffensive)).length,
+            expectedOffensiveCount, "The potentially offensive indicator is present");
+        assert.equal(sidebarElem.find(classify(Config.Classes.SiteBingdexRank)).text(),
+            expectedBingdexRank, "Bingdex rank renders correctly");
+        assert.equal(sidebarElem.find(classify(Config.Classes.SiteAlexaRank)).text(),
+            expectedAlexaRank, "Alexa rank renders correctly");
+        assert.equal(sidebarElem.find(classify(Config.Classes.SiteTag)).length,
+            domainDetailsMockData.tags.length, "Correct number of tags rendered");
+    }
 
     function setupMockjax(): void {
         DetailsMocks.setupDetailsForDomainMock();
+        DetailsMocks.setupDetailsForDomainEdgeMock();
         DetailsMocks.setupFiltersMock();
+        DetailsMocks.setupFiltersEdgeMock();
         DetailsMocks.setupBugsForDomainBlobUrlMock();
+        DetailsMocks.setupBugsForDomainBlobUrlEdgeMock();
         DetailsMocks.setupBugsForDomainMock();
+        DetailsMocks.setupBugsForDomainEdgeMock();
         DetailsMocks.setupScanTimeMock();
+        DetailsMocks.setupScanTimeEdgeMock();
         DetailsMocks.setupBuildWithDataForDomainMock();
+        DetailsMocks.setupBuildWithDataForDomainEdgeMock();
         DetailsMocks.setupBugTrendsBlobUrlMock();
+        DetailsMocks.setupBugTrendsBlobUrlEdgeMock();
         DetailsMocks.setupBugTrendsMock();
+        DetailsMocks.setupBugTrendsEdgeMock();
         DetailsMocks.setupTrendsForDomainMock();
+        DetailsMocks.setupTrendsForDomainEdgeMock();
         DetailsMocks.setupTrendsForDomainTh2Mock();
     }
 
@@ -309,7 +376,7 @@ module Main {
         // Create a random fixture so we can parallelize tests
         let fixtures = $("#qunit-fixtures");
         let randFixtureId = Math.round(Math.random() * 1000);
-        let randFixture = $('<div id="fixture-' + randFixtureId + '"></div>');
+        let randFixture = $('<div class="qunit-fixture" id="fixture-' + randFixtureId + '"></div>');
         fixtures.append(randFixture);
 
         return new View.Widget(randFixture, customDefaults || getWidgetDefaults());
@@ -333,5 +400,14 @@ module Main {
         defaults.disableAutoLoad = true;
 
         return defaults;
+    }
+
+    function getEdgeWidgetDefaults(): View.IWidgetDefaults {
+        return {
+            disableAutoLoad: true,
+            viewContext: {
+                params: $.extend({}, Config.Params.DetailsDefaultsEdge)
+            }
+        };
     }
 }

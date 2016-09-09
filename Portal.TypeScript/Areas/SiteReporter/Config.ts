@@ -11,12 +11,17 @@ module Main {
         public static DataTablesMetadata = "dataTables__filter__metadata";
         public static DetailsBugsTable = "bug__list";
         public static DetailsBugsTrendsChart = "bug__trends";
+        public static DetailsPotentiallyOffensive = "site--potentially-offensive";
+        public static DetailsSwitchRiskIcon = "metrics__measurements__icon--switchRisk";
         public static DetailsTrendsFocusTimeChart = "trends__focustime";
         public static DetailsTrendsFrowniesChart = "trends__frownies";
         public static DetailsTrendsNavigationsChart = "trends__navigations";
         public static HighchartsTitle = "highcharts-title";
         public static LoadingOverlay = "content__async__loading-overlay";
+        public static SiteAlexaRank = "site--alexa-rank";
+        public static SiteBingdexRank = "site--bingdex-rank";
         public static SiteFavIcon = "site--favicon";
+        public static SiteTag = "site-tag";
     }
 
     export class Endpoints {
@@ -59,6 +64,11 @@ module Main {
             platform: $.getUrlVar("platform"),
             release: $.getUrlVar("release").toUpperCase()
         };
+        public static DetailsDefaultsEdge = {
+            domain: "randomsite.com",
+            platform: "Desktop",
+            release: "RS1"
+        };
         public static SummaryDefaults = (BaseConfig.isDebugMode() || BaseConfig.isTestRunnerMode()) ? {
             tag: "BingdexTop100",
             platform: "Desktop",
@@ -71,7 +81,9 @@ module Main {
     }
 
     export class Strings {
+        public static AlexaOutOfBounds = ">1,000";
         public static BingdexDescription = "Top sites according to the Bingdex heuristic created by the Bing team (https://www.bingwiki.com/Bingdex_Rank)";
+        public static BingdexOutOfBounds = ">750,000";
         public static DetailsBugsTableScanTimePlaceholder = "Updated...";
         public static DetailsBugsTableNoDataMessage = "No bugs to show for this site";
         public static DetailsBugsTrendsTitle = "Trends";
