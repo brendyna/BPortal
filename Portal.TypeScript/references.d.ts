@@ -2,6 +2,7 @@
 
 interface HumanizeStatic {
     compactInteger: (num: number, precision: number) => number;
+    intComma: (num: number) => number;
 }
 declare var Humanize: HumanizeStatic;
 

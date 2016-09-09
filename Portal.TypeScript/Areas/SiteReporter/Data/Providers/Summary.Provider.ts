@@ -1,4 +1,6 @@
-﻿import moment = require("moment");
+﻿/// <amd-dependency path="humanize" />
+
+import moment = require("moment");
 
 import Base = require("Areas/Shared/Controls/Base");
 import Chart = require("Areas/Shared/Controls/Chart");
@@ -658,7 +660,7 @@ module Main {
         } else if (data === 0) {
             value = 'n/a';
         } else {
-            value = data;
+            value = Humanize.intComma(data);
         }
         return value;
     }
