@@ -16,6 +16,7 @@ import BugsForDomainBlobUrlRepository = require("../Data/Repositories/BugsForDom
 import BugTrendsRepository = require("../Data/Repositories/BugTrends.Repository");
 import BugTrendsBlobUrlRepository = require("../Data/Repositories/BugTrendsBlobUrl.Repository");
 import BuiltWithDataForDomainRepository = require("../Data/Repositories/BuiltWithDataForDomain.Repository");
+import Config = require("../Config");
 import DetailsForDomainRepository = require("../Data/Repositories/DetailsForDomain.Repository");
 import FiltersRepository = require("../Data/Repositories/Filters.Repository");
 import ScanTimeRepository = require("../Data/Repositories/ScanTime.Repository");
@@ -52,18 +53,22 @@ module Main {
     }
 
     export interface IWidget extends Base.IWidget {
-        getDataLoadPromise: () => JQueryPromise<void>;
-        sidebar: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
         bugs: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
         bugsFilters: BaseControl.IControl<Filters.ViewModel, Filters.Widget>;
         bugsTable: BaseControl.IControl<Table.ViewModel, Table.Widget>;
-        bugTrendsChart: BaseControl.IControl<Chart.IViewModel, Chart.IWidget>
-        trends: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        bugTrendsChart: BaseControl.IControl<Chart.IViewModel, Chart.IWidget>;
         focusTimeChart: BaseControl.IControl<Chart.IViewModel, Chart.IWidget>;
+        focusTimeSubSection: Section.ISubSection;
         frowniesChart: BaseControl.IControl<Chart.IViewModel, Chart.IWidget>;
+        frowniesSubSection: Section.ISubSection;
+        getDataLoadPromise: () => JQueryPromise<void>;
         navigationsChart: BaseControl.IControl<Chart.IViewModel, Chart.IWidget>;
-        tech: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        navigationsSubSection: Section.ISubSection;
+        sidebar: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
         snapshot: BaseControl.IControl<DescriptionList.ViewModel, DescriptionList.Widget>;
+        tech: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        trends: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        trendsFilters: BaseControl.IControl<Filters.ViewModel, Filters.Widget>;
     }
 
     export class Widget extends Base.Widget implements IWidget {
@@ -93,24 +98,24 @@ module Main {
             super(element, defaults, viewModelData);
 
             this._controlIds = $.extend({
-                sidebar: "details-sidebar",
-                bugs: "details-bugs",
-                trends: "details-trends",
-                tech: "details-tech"
+                sidebar: Config.Ids.DetailsSidebar,
+                bugs: Config.Ids.DetailsBugs,
+                trends: Config.Ids.DetailsTrends,
+                tech: Config.Ids.DetailsTech
             }, this._controlIds);
 
             this._controlClasses = $.extend({
-                bugFilters: "bug__filters",
-                bugList: "bug__list",
-                bugTrends: "bug__trends",
-                domainSnapshot: "domain__snapshot",
-                trendFilters: "trends__filters",
-                trendsFocusTimeSection: "section__focustime",
-                trendsFocusTime: "trends__focustime",
-                trendsNavigationsSection: "section__navigations",
-                trendsNavigations: "trends__navigations",
-                trendsFrowniesSection: "section__frownies",
-                trendsFrownies: "trends__frownies"
+                bugFilters: Config.Classes.DetailsBugsFilters,
+                bugList: Config.Classes.DetailsBugsTable,
+                bugTrends: Config.Classes.DetailsBugsTrendsChart,
+                domainSnapshot: Config.Classes.DetailsDomainSnapshot,
+                trendFilters: Config.Classes.TrendsFilters,
+                trendsFocusTimeSection: Config.Classes.DetailsTrendsFocusTimeSubsection,
+                trendsFocusTime: Config.Classes.DetailsTrendsFocusTimeChart,
+                trendsNavigationsSection: Config.Classes.DetailsTrendsNavigationsSubsection,
+                trendsNavigations: Config.Classes.DetailsTrendsNavigationsChart,
+                trendsFrowniesSection: Config.Classes.DetailsTrendsFrowniesSubsection,
+                trendsFrownies: Config.Classes.DetailsTrendsFrowniesChart
             }, this._controlClasses);
 
             this.setStaticViewModelData();
@@ -290,6 +295,8 @@ module Main {
                 this._scantimeRepo.getPromise(),
                 this._trendsForDomainRepo.getPromise())
             .done(() => {
+                this.initializeBugSubscriptions();
+                this.initializeTrendsSubscriptions();
                 this._loadDeferred.resolve();
             });
 
@@ -299,21 +306,6 @@ module Main {
                 this._detailsForDomainRepo.getPromise())
             .done(() => {
                 this.applySidebarData();
-            });
-
-            $.when<any>(
-                this._filtersRepo.getPromise(),
-                this._bugsForDomainRepo.getPromise(),
-                this._bugTrendsRepo.getPromise())
-            .done(() => {
-                this.initializeBugSubscriptions();
-            });
-
-            $.when<any>(
-                this._filtersRepo.getPromise(),
-                this._trendsForDomainRepo.getPromise())
-            .done(() => {
-                this.initializeTrendsSubscriptions();
             });
         }
 
@@ -427,7 +419,7 @@ module Main {
             this.bugsTable.vm.loading(false);
 
             if (this._bugsForDomainProvider.isBugDataEmpty()) {
-                this.bugs.vm.bodyPlaceholder("No bugs to show for this site");
+                this.bugs.vm.bodyPlaceholder(Config.Strings.DetailsBugsTableNoDataMessage);
             } else {
                 this.bugsFilters.vm.selectData(this._bugsForDomainProvider.getFilterSelectData());
                 this.bugsTable.widget.data(this._bugsForDomainProvider.getBugTableData());
@@ -455,7 +447,7 @@ module Main {
 
             // Focus Time
             if (this._trendsForDomainProvider.isDataEmpty(DetailsProvider.ChartType.FocusTime)) {
-                this.focusTimeSubSection.bodyPlaceholder("No Focus Time data to show for this site");
+                this.focusTimeSubSection.bodyPlaceholder(Config.Strings.DetailsTrendsFocusTimeNoDataMessage);
             } else {
                 this.focusTimeChart.widget.data(
                     this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.FocusTime));
@@ -465,7 +457,7 @@ module Main {
 
             // Frownies
             if (this._trendsForDomainProvider.isDataEmpty(DetailsProvider.ChartType.Frownies)) {
-                this.frowniesSubSection.bodyPlaceholder("No Frownies data to show for this site");
+                this.frowniesSubSection.bodyPlaceholder(Config.Strings.DetailsTrendsFrowniesNoDataMessage);
             } else {
                 this.frowniesChart.widget.data(
                     this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.Frownies));
@@ -475,7 +467,7 @@ module Main {
 
             // Navigations
             if (this._trendsForDomainProvider.isDataEmpty(DetailsProvider.ChartType.Navigations)) {
-                this.navigationsSubSection.bodyPlaceholder("No Navigations data to show for this site");
+                this.navigationsSubSection.bodyPlaceholder(Config.Strings.DetailsTrendsNavigationsNoDataMessage);
             } else {
                 this.navigationsChart.widget.data(
                     this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.Navigations));
@@ -502,7 +494,7 @@ module Main {
             this.tech.vm.loading(false);
 
             if (this._buildWithDataForDomainProvider.isDataEmpty()) {
-                this.tech.vm.bodyPlaceholder("No technologies to show for this site");
+                this.tech.vm.bodyPlaceholder(Config.Strings.DetailsTechNoDataMessage);
             } else {
                 this.tech.vm.bodyViewModel().builtwith(this._buildWithDataForDomainProvider.getTechnologies());
             }
@@ -514,34 +506,36 @@ module Main {
             // Only update scantime value if there are bugs present (aka the table isn't hidden
             // because of the section placeholder)
             if (this.bugs.vm.bodyPlaceholder() === "") {
-                this.bugsTable.vm.metadata("Updated " + this._scantimeProvider.getLastScannedTime());
+                this.bugsTable.vm.metadata(`${Config.Strings.DetailsBugsTableScanTimePrefix} ${this._scantimeProvider.getLastScannedTime()}`);
             }
         }
 
         private updateBugTrendsChart(visibleSeriesName: string): void {
             let chart = $(this.bugTrendsChart.widget.element).highcharts();
 
-            chart.series.forEach((series: HighchartsSeriesObject, index: number) => {
-                series.hide();
-            });
+            if (chart.series.length > 0) {
+                chart.series.forEach((series: HighchartsSeriesObject, index: number) => {
+                    series.hide();
+                });
 
-            switch (visibleSeriesName) {
-                case this._bugsForDomainProvider.bugTypeMap[DetailsProvider.BugType.Release]:
-                    chart.series[3].show();
-                    break;
+                switch (visibleSeriesName) {
+                    case this._bugsForDomainProvider.bugTypeMap[DetailsProvider.BugType.Release]:
+                        chart.series[3].show();
+                        break;
 
-                case this._bugsForDomainProvider.bugTypeMap[DetailsProvider.BugType.Outreach]:
-                    chart.series[2].show();
-                    break;
+                    case this._bugsForDomainProvider.bugTypeMap[DetailsProvider.BugType.Outreach]:
+                        chart.series[2].show();
+                        break;
 
-                case this._bugsForDomainProvider.bugTypeMap[DetailsProvider.BugType.SwitchRisk]:
-                    chart.series[1].show();
-                    break;
+                    case this._bugsForDomainProvider.bugTypeMap[DetailsProvider.BugType.SwitchRisk]:
+                        chart.series[1].show();
+                        break;
 
-                case this._bugsForDomainProvider.bugTypeMap[DetailsProvider.BugType.All]:
-                default:
-                    chart.series[0].show();
-                    break;
+                    case this._bugsForDomainProvider.bugTypeMap[DetailsProvider.BugType.All]:
+                    default:
+                        chart.series[0].show();
+                        break;
+                }
             }
         }
     }

@@ -6,7 +6,7 @@ export = Main;
 module Main {
     export type Option = {
         disabled: boolean;
-        group: any;
+        group?: any;
         selected: boolean;
         text: string;
         value: string;

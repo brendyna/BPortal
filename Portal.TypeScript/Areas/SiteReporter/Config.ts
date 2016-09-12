@@ -7,21 +7,23 @@ export = Main;
 
 module Main {
     export class Classes {
-        public static DataTablesEmpty = "dataTables_empty";
-        public static DataTablesMetadata = "dataTables__filter__metadata";
+        public static DetailsBugsFilters = "bug__filters";
         public static DetailsBugsTable = "bug__list";
         public static DetailsBugsTrendsChart = "bug__trends";
+        public static DetailsDomainSnapshot = "domain__snapshot";
         public static DetailsPotentiallyOffensive = "site--potentially-offensive";
         public static DetailsSwitchRiskIcon = "metrics__measurements__icon--switchRisk";
+        public static DetailsTrendsFrowniesSubsection = "section__frownies";
+        public static DetailsTrendsFocusTimeSubsection = "section__focustime";
+        public static DetailsTrendsNavigationsSubsection = "section__navigations";
         public static DetailsTrendsFocusTimeChart = "trends__focustime";
         public static DetailsTrendsFrowniesChart = "trends__frownies";
         public static DetailsTrendsNavigationsChart = "trends__navigations";
-        public static HighchartsTitle = "highcharts-title";
-        public static LoadingOverlay = "content__async__loading-overlay";
         public static SiteAlexaRank = "site--alexa-rank";
         public static SiteBingdexRank = "site--bingdex-rank";
         public static SiteFavIcon = "site--favicon";
         public static SiteTag = "site-tag";
+        public static TrendsFilters = "trends__filters";
     }
 
     export class Endpoints {
@@ -48,6 +50,13 @@ module Main {
 
     export class Html {
         public static EditableElements = "input,textarea,select,button";
+    }
+
+    export class Ids {
+        public static DetailsBugs = "details-bugs";
+        public static DetailsSidebar = "details-sidebar";
+        public static DetailsTech = "details-tech";
+        public static DetailsTrends = "details-trends";
     }
 
     export class Params {
@@ -84,12 +93,21 @@ module Main {
         public static AlexaOutOfBounds = ">1,000";
         public static BingdexDescription = "Top sites according to the Bingdex heuristic created by the Bing team (https://www.bingwiki.com/Bingdex_Rank)";
         public static BingdexOutOfBounds = ">750,000";
+        public static DetailsBugsTableScanTimePrefix = "Updated";
         public static DetailsBugsTableScanTimePlaceholder = "Updated...";
         public static DetailsBugsTableNoDataMessage = "No bugs to show for this site";
+        public static DetailsBugsTableNoResultsMessage = "No bugs found";
         public static DetailsBugsTrendsTitle = "Trends";
+        public static DetailsFiltersAllBugs = "All bugs";
+        public static DetailsFiltersSwitchRiskBugs = "Switch risk bugs";
+        public static DetailsFiltersOutreachBugs = "Outreach bugs";
+        public static DetailsTechNoDataMessage = "No technologies to show for this site";
+        public static DetailsTrendsFrowniesNoDataMessage = "No Frownies data to show for this site";
         public static DetailsTrendsFrowniesTitle = "Frownies";
         public static DetailsTrendsNavigationsTitle = "Navigations";
+        public static DetailsTrendsNavigationsNoDataMessage = "No Navigations data to show for this site";
         public static DetailsTrendsFocusTimeTitle = "Focus Time";
+        public static DetailsTrendsFocusTimeNoDataMessage = "No Focus Time data to show for this site";
         public static ExtensionInstall = "Install Edge extension";
         public static LearnMore = "Learn about our data";
         public static SummaryPageTitle = "Site Reporter";

@@ -34,7 +34,7 @@ module Main {
 
     export type DataTransferObject = {
         identifier: string;
-        metadata: Metadata;
+        metadata?: Metadata;
         technologies: Array<Technology>;
     }
 

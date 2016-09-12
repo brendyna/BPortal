@@ -1,5 +1,4 @@
 ﻿import "humanize";
-import "moment";
 
 import Base = require("Areas/Shared/Controls/Base");
 import Chart = require("Areas/Shared/Controls/Chart");
@@ -124,7 +123,7 @@ module Main {
                         body: `<dl data-bind="wpsDescriptionList: $vm.highlights"></dl>`,
                         bodyViewModel: {
                             highlights: <DescriptionList.IViewModelData>{
-                                classes: "domain__snapshot"
+                                classes: Config.Classes.DetailsDomainSnapshot
                             }
                         }
                     },
@@ -232,7 +231,7 @@ module Main {
                 body: `<div data-bind="wpsFilters: $vm.filters"></div>`,
                 bodyViewModel: {
                     filters: <Filters.IViewModelData>{
-                        classes: "trends__filters",
+                        classes: Config.Classes.TrendsFilters,
                         hideButtons: true
                     }
                 },
@@ -284,7 +283,7 @@ module Main {
 
         private getBugFilterData(): Filters.IViewModelData {
             return {
-                classes: "bug__filters",
+                classes: Config.Classes.DetailsBugsFilters,
                 hideButtons: true
             };
         }
@@ -316,7 +315,8 @@ module Main {
                     language: <any>{
                         search: "",
                         searchPlaceholder: "Filter table",
-                        emptyTable: Config.Strings.DetailsBugsTableNoDataMessage
+                        emptyTable: Config.Strings.DetailsBugsTableNoDataMessage,
+                        zeroRecords: Config.Strings.DetailsBugsTableNoResultsMessage
                     },
                     order: [
                         [
@@ -471,10 +471,17 @@ module Main {
         }
 
         public isBugTrendDataEmpty(): boolean {
-            return this.repository.resultData.AllBugs.length === 0
+            let objHasProperties = false;
+            for (var prop in this.repository.resultData) {
+                if (this.repository.resultData.hasOwnProperty(prop)) {
+                    objHasProperties = true;
+                }
+            }   
+
+            return !objHasProperties || (this.repository.resultData.AllBugs.length === 0
                 && this.repository.resultData.CurrentReleaseBugs.length === 0
                 && this.repository.resultData.OutreachBugs.length === 0
-                && this.repository.resultData.SwitchRiskBugs.length === 0;
+                && this.repository.resultData.SwitchRiskBugs.length === 0);
         }
     }
 
@@ -540,10 +547,10 @@ module Main {
             data.push({
                 name: BugsProvider.SelectName,
                 options: [
-                    { text: "All bugs (" + this.bugs.length + ")", value: this._bugTypeMap[BugType.All] },
-                    { text: "Switch risk bugs (" + this.switchRiskBugs.length + ")", value: this._bugTypeMap[BugType.SwitchRisk] },
-                    { text: "Outreach bugs (" + this.outreachBugs.length + ")", value: this._bugTypeMap[BugType.Outreach] },
-                    { text: (this.releaseBugs[0] && this.releaseBugs[0].Release || "Current release") + " bugs (" + this.releaseBugs.length + ")", value: this._bugTypeMap[BugType.Release] }
+                    { text: `${Config.Strings.DetailsFiltersAllBugs} (${this.bugs.length})`, value: this._bugTypeMap[BugType.All] },
+                    { text: `${Config.Strings.DetailsFiltersSwitchRiskBugs} (${this.switchRiskBugs.length})`, value: this._bugTypeMap[BugType.SwitchRisk] },
+                    { text: `${Config.Strings.DetailsFiltersOutreachBugs} (${this.outreachBugs.length})`, value: this._bugTypeMap[BugType.Outreach] },
+                    { text: `${(this.releaseBugs[0] && this.releaseBugs[0].Release || "Current release")} bugs (${this.releaseBugs.length})`, value: this._bugTypeMap[BugType.Release] }
                 ]
             });
 
@@ -667,7 +674,9 @@ module Main {
         }
         
         public isDataEmpty(type: ChartType): boolean {
-            return this.getChart(type).dataPoints.length === 0;
+            let chart = this.getChart(type);
+
+            return chart === undefined || this.getChart(type).dataPoints.length === 0;
         }
 
         private getChart(type: ChartType): TrendsForDomainRepository.Chart {

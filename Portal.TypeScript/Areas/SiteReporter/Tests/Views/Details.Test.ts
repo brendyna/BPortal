@@ -1,19 +1,26 @@
 ﻿import "jquery";
 import "qunit";
 import "humanize";
+import "moment";
 
+import moment = require("moment");
+
+import BaseConfig = require("Areas/Shared/Config");
 import Config = require("Areas/SiteReporter/Config");
 import View = require("Areas/SiteReporter/Views/Details.View");
 
+import Chart = require("Areas/Shared/Controls/Chart");
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 import Header = require("Areas/Shared/Controls/Header");
 import Input = require("Areas/Shared/Controls/Input");
 import List = require("Areas/Shared/Controls/List");
 import Navigation = require("Areas/Shared/Controls/Navigation");
 
+import BugsForDomainRepo = require("../../Data/Repositories/BugsForDomain.Repository");
+import BuiltWithDataForDomainRepo = require("../../Data/Repositories/BuiltWithDataForDomain.Repository");
 import DetailsMocks = require("Areas/SiteReporter/Samples/Helpers/Details.Mocks");
 import DetailsForDomainRepo = require("../../Data/Repositories/DetailsForDomain.Repository");
-import BugsForDomainRepo = require("../../Data/Repositories/BugsForDomain.Repository");
+import FiltersRepo = require("../../Data/Repositories/Filters.Repository");
 
 export = Main;
 
@@ -70,7 +77,7 @@ module Main {
         });
 
         QUnit.test("Breadcrumb renders correctly", (assert) => {
-            let nav = $(classify(Navigation.Widget.widgetClass));
+            let nav = widget.element.find(classify(Navigation.Widget.widgetClass));
             let navVM: Navigation.IViewModel = ko.dataFor(nav[0]).vm;
             let breadcrumbs = nav.find("li");
 
@@ -159,13 +166,13 @@ module Main {
             let trendsSectionFrowniesChart = trendsSection.find(classify(Config.Classes.DetailsTrendsFrowniesChart));
             let trendsSectionNavigationsChart = trendsSection.find(classify(Config.Classes.DetailsTrendsNavigationsChart));
             let trendsSectionFocusTimeChart = trendsSection.find(classify(Config.Classes.DetailsTrendsFocusTimeChart));
-            let highchartsTitleClass = classify(Config.Classes.HighchartsTitle);
+            let highchartsTitleClass = classify(BaseConfig.Classes.ChartTitle);
 
             // Assert
             assert.equal(bugSection.find("h2").text(), widget.bugs.vm.title(), "Bugs section title is correct");
-            assert.equal(bugSection.find(classify(Config.Classes.DataTablesMetadata)).text(),
+            assert.equal(bugSection.find(classify(BaseConfig.Classes.TableMetadata)).text(),
                 Config.Strings.DetailsBugsTableScanTimePlaceholder, "Bugs section table scan time placeholder is correct");
-            assert.equal(bugSectionTable.find(classify(Config.Classes.DataTablesEmpty)).text(),
+            assert.equal(bugSectionTable.find(classify(BaseConfig.Classes.TableEmpty)).text(),
                 Config.Strings.DetailsBugsTableNoDataMessage, "Bugs section empty table placeholder is shown");
             assert.equal(bugSectionTrendsChart.find(highchartsTitleClass).text(),
                 Config.Strings.DetailsBugsTrendsTitle, "Bugs section trends chart title is correct");
@@ -206,7 +213,7 @@ module Main {
             };
 
             for (var elemName in loadingElements) {
-                assert.equal(loadingElements[elemName].find(classify(Config.Classes.LoadingOverlay)).length,
+                assert.equal(loadingElements[elemName].find(classify(BaseConfig.Classes.LoadingOverlay)).length,
                     1, "The loading overlay is present for " + elemName);
             }
         });
@@ -258,27 +265,149 @@ module Main {
             });
         });
 
-        //QUnit.test("Bugs section renders correctly", (assert) => {
-        //    let done = assert.async();
+        QUnit.test("Bugs section renders correctly", (assert) => {
+            let done = assert.async();
+            let tableFilterUpdateDone = assert.async();
+            let tableSearchUpdateDone = assert.async();
+            let tableSearchNoResultUpdateDone = assert.async();
+            let trendChartDone = assert.async();
+            let bugSectionElem = widget.bugs.widget.element;
+            let bugSectionFiltersElem = widget.bugsFilters.widget.element;
+            let bugSectionTableElem = widget.bugsTable.widget.element;
+            let bugSectionChartElem = widget.bugTrendsChart.widget.element;
+            let bugsForDomainMockData = DetailsMocks.getMockBugsForDomain();
 
-        //    loadPromise.done(() => {
-        //        // Verify the select filter for different bug types renders correctly
-        //        // Verify the last scan time is rendered correctly
-        //        // Verify entering text in the filter input filters the table to the expected items/ count
-        //        // - Verify the nothing found placeholder is shown when the filter isn't found in the table contents
-        //        // Verify the table renders correctly
-        //        // - Verify the correct columns are present
-        //        // - Verify first bug matches data
-        //        // - Verify bug numbers are links
-        //        // - Verify if there's one page, no navigation is shown
-        //        // - Verify previous/ next / pages are shown when there are multiple pages
-        //        // Verify the chart shows the multiseries when there are trends (verify first and last data points for each series)
-        //        // - Verify the title is correct
-        //        // - Verify the legend is present
+            // Verify chart data loads as expected
+            // (This test needs to stay outside the general loadPromise.done() as chart rendering happens
+            // quickly enough that we'd get the promise after it's been resolved already)
+            widget.bugTrendsChart.widget.getDataUpdatePromise().done(() => {
+                assert.equal(bugSectionChartElem.find(classify(BaseConfig.Classes.ChartSeries)).length,
+                    bugSectionFiltersElem.find("option").length, "The number of chart series matches the table filter option count");
 
-        //        done();
-        //    });
-        //});
+                trendChartDone();
+            });
+
+            loadPromise.done(() => {
+                let filterSelects = bugSectionElem.find(classify(Config.Classes.DetailsBugsFilters)).find("select");
+                let bugsFilter = $(filterSelects.get(0));
+                let bugsFilterOptions = bugsFilter.find("option");
+                let bugSearchFilter = bugSectionElem.find(classify(BaseConfig.Classes.TableFilter));
+                let expectedAllBugs = `${Config.Strings.DetailsFiltersAllBugs} (${bugsForDomainMockData.Bugs.length})`;
+                let expectedSwitchRiskBugs = `${Config.Strings.DetailsFiltersSwitchRiskBugs} (${bugsForDomainMockData.SwitchRiskBugs.length})`;
+                let expectedOutreachBugs = `${Config.Strings.DetailsFiltersOutreachBugs} (${bugsForDomainMockData.OutreachBugs.length})`;
+                let expectedReleaseBugs = `${bugsForDomainMockData.CurrentReleaseBugs[0].Release} bugs (${bugsForDomainMockData.CurrentReleaseBugs.length})`;
+                let expectedScanTime = `${Config.Strings.DetailsBugsTableScanTimePrefix} ${moment(DetailsMocks.getMockScanTime()).fromNow()}`;
+                let initialFirstCellValue = $($(bugSectionTableElem.find("tbody tr").get(0)).find("td").get(0)).text();
+                let postFilterChangeFirstCellValue: string;
+                let expectedPostFilterChangeFirstCellValue = bugsForDomainMockData.SwitchRiskBugs[0].Id;
+                
+                assert.equal(filterSelects.length, 1, "The correct number of filters are present");
+                assert.equal($(bugsFilterOptions.get(0)).text(), expectedAllBugs, "All bugs filter option is correct");
+                assert.equal($(bugsFilterOptions.get(1)).text(), expectedSwitchRiskBugs, "Switch risk bugs filter option is correct");
+                assert.equal($(bugsFilterOptions.get(2)).text(), expectedOutreachBugs, "Outreach bugs filter option is correct");
+                assert.equal($(bugsFilterOptions.get(3)).text(), expectedReleaseBugs, "Release bugs filter option is correct");
+                assert.equal(bugSectionElem.find(classify(BaseConfig.Classes.TableMetadata)).text(),
+                    expectedScanTime, "The scan time value is correct");
+                assert.equal($(bugSectionTableElem.find("tbody tr td").get(0)).find("a").length, 1, "Bug numbers are links");
+
+                // Change dropdown and validate table bug list updates
+                widget.bugsTable.widget.getDataUpdatePromise().done(() => {
+                    postFilterChangeFirstCellValue = $($(bugSectionTableElem.find("tbody tr").get(0)).find("td").get(0)).text();
+                    assert.notEqual(initialFirstCellValue, postFilterChangeFirstCellValue, "Cell values have changed when filter changed");
+                    assert.equal(postFilterChangeFirstCellValue, expectedPostFilterChangeFirstCellValue, "Expected value present after filter change");
+
+                    tableFilterUpdateDone();
+                });
+                widget.bugsFilters.vm.value({ "bug": "SwitchRisk" });
+
+                // Verify table search filter works as expected
+                widget.bugsTable.widget.getDataUpdatePromise().done(() => {
+                    let rows = bugSectionElem.find("tbody tr");
+                    assert.equal(rows.length, 1, "Search filter returned one result");
+                    assert.equal($($(rows.get(0)).find("td").get(0)).text(), "5736611", "Search filter returned the expected result");
+
+                    // Verify empty message is shown correctly when no results available
+                    widget.bugsTable.widget.getDataUpdatePromise().done(() => {
+                        let rows = bugSectionElem.find("tbody tr");
+                        assert.equal(rows.length, 1, "Search filter shows one row when search string not found");
+                        assert.equal($($(rows.get(0)).find("td").get(0)).text(),
+                            Config.Strings.DetailsBugsTableNoResultsMessage, "Search filter shows empty message when search string not found");
+
+                        tableSearchNoResultUpdateDone();
+                    });
+                    bugSearchFilter.find("input").val("asdfasdfasdf").trigger("keyup");
+                        
+                    tableSearchUpdateDone();
+                });
+                bugSearchFilter.find("input").val("Edge F12").trigger("keyup");
+
+                done();
+            });
+        });
+
+        QUnit.test("Technologies section renders correctly", (assert) => {
+            let done = assert.async();
+            let domainTechMockData = DetailsMocks.getMockBuiltWithDataForDomain();
+            let domainTechElem = widget.tech.widget.element;
+
+            loadPromise.done(() => {
+                let technologies = [];
+                domainTechMockData.technologies.forEach((tech: BuiltWithDataForDomainRepo.Technology) => {
+                    technologies.push(tech.name);
+                });
+
+                assert.equal($.trim(domainTechElem.find(classify(BaseConfig.Classes.SectionBody)).text()),
+                    technologies.join(", "), "The set of rendered technologies is correct");
+
+                done();
+            });
+        });
+
+        QUnit.test("Trends section renders correctly", (assert) => {
+            let done = assert.async();
+            let chartFilterUpdateDone = assert.async();
+            let domainTrendsMockDataRs1 = DetailsMocks.getMockTrendsForDomainDataRs1();
+            let domainTrendsMockDataTh2 = DetailsMocks.getMockTrendsForDomainDataTh2();
+            let filtersMockData = DetailsMocks.getMockFiltersData();
+            let trendsSectionElem = widget.trends.widget.element;
+            let trendsSectionFirstChartElem = $(trendsSectionElem.find(classify(Chart.Widget.widgetClass)).get(0));
+            let trendsSectionFilterElem = widget.trendsFilters.widget.element;
+
+            loadPromise.done(() => {
+                let trendFilterDataValues = [];
+                let trendFilterValues = [];
+                let firstPointDataValue = domainTrendsMockDataRs1["charts"][0].dataPoints[0].count;
+                let frowniesChart: HighchartsChartObject = trendsSectionFirstChartElem.highcharts();
+                let firstPointValue = frowniesChart.series[0].data[0].y;
+
+                filtersMockData["release"].forEach((filter: FiltersRepo.Option) => {
+                    trendFilterDataValues.push(filter.value);
+                });
+
+                trendsSectionFilterElem.find("option").each((i: number, elem: Element) => {
+                    trendFilterValues.push($(elem).val());
+                });
+                
+                assert.deepEqual(trendFilterValues, trendFilterDataValues, "Rendered filter values match data");
+                assert.equal(trendsSectionElem.find(classify(Chart.Widget.widgetClass)).length,
+                    3, "All charts render correctly");
+                assert.equal(firstPointValue, firstPointDataValue, "The first data point for the first chart matches the data");
+
+                widget.frowniesChart.widget.getDataUpdatePromise().done(() => {
+                    let firstPointDataValueAfterFilterChange = domainTrendsMockDataTh2["charts"][0].dataPoints[0].count
+                    let frowniesChartAfterFilterChange: HighchartsChartObject = trendsSectionFirstChartElem.highcharts();
+                    let firstPointValueAfterFilterChange = frowniesChartAfterFilterChange.series[0].data[0].y;
+
+                    assert.equal(firstPointValueAfterFilterChange, firstPointDataValueAfterFilterChange,
+                        "The first data point for the first chart matches the data after the chart filter changes");
+
+                    chartFilterUpdateDone();
+                });
+                widget.trendsFilters.vm.value({ "release": "TH2" });
+
+                done();
+            });
+        });
     });
 
     QUnit.module("Details View: Dynamic edge", (hooks) => {
@@ -305,18 +434,42 @@ module Main {
             });
         });
 
-        //QUnit.test("Bugs section renders correctly", (assert) => {
-        //    let done = assert.async();
+        QUnit.test("Bugs section renders correctly", (assert) => {
+            let done = assert.async();
 
-        //    loadPromise.done(() => {
-        //        // Verify bodyPlaceholder is shown when there are no bugs to show
-        //        // Verify the table renders correctly
-        //        // - Verify if there's one page, no navigation is shown
-        //        // Verify the trends charts show empty placeholders when there are no bug trends
+            loadPromise.done(() => {
+                assert.equal(widget.bugs.widget.element.find(classify(BaseConfig.Classes.SectionBodyPlaceholder)).text(),
+                    Config.Strings.DetailsBugsTableNoDataMessage, "Section placeholder is shown when no bug data is available");
 
-        //        done();
-        //    });
-        //});
+                done();
+            });
+        });
+
+        QUnit.test("Technologies section renders correctly", (assert) => {
+            let done = assert.async();
+
+            loadPromise.done(() => {
+                assert.equal(widget.tech.widget.element.find(classify(BaseConfig.Classes.SectionBodyPlaceholder)).text(),
+                    Config.Strings.DetailsTechNoDataMessage, "Section placeholder is shown when no bug data is available");
+
+                done();
+            });
+        });
+
+        QUnit.test("Trends section renders correctly", (assert) => {
+            let done = assert.async();
+
+            loadPromise.done(() => {
+                assert.equal($.trim(widget.trends.widget.element.find(classify(Config.Classes.DetailsTrendsFrowniesSubsection)).text()),
+                    Config.Strings.DetailsTrendsFrowniesNoDataMessage, "Frownies chart placeholder is shown when no frownies data is available");
+                assert.equal($.trim(widget.trends.widget.element.find(classify(Config.Classes.DetailsTrendsFocusTimeSubsection)).text()),
+                    Config.Strings.DetailsTrendsFocusTimeNoDataMessage, "Focus Time chart placeholder is shown when no frownies data is available");
+                assert.equal($.trim(widget.trends.widget.element.find(classify(Config.Classes.DetailsTrendsNavigationsSubsection)).text()),
+                    Config.Strings.DetailsTrendsNavigationsNoDataMessage, "Navigations chart placeholder is shown when no frownies data is available");
+
+                done();
+            });
+        });
     });
 
     function testDynamicSidebarContent(

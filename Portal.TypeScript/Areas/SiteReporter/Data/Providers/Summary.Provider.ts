@@ -326,7 +326,7 @@ module Main {
 
         private getTrendsFilterData(): Filters.IViewModelData {
             return {
-                classes: "trends__filters",
+                classes: Config.Classes.TrendsFilters,
                 hideButtons: true
             };
         }
