@@ -1,9 +1,12 @@
 ﻿import "humanize";
 import "jquery";
+import "moment";
 import "qunit";
 
+import moment = require("moment");
 import BaseConfig = require("Areas/Shared/Config");
 import BugsForTagRepo = require("Areas/SiteReporter/Data/Repositories/BugsForTag.Repository");
+import FiltersRepo = require("Areas/SiteReporter/Data/Repositories/Filters.Repository");
 import TrendsForTagRepo = require("Areas/SiteReporter/Data/Repositories/TrendsForTag.Repository");
 import Config = require("Areas/SiteReporter/Config");
 import View = require("Areas/SiteReporter/Views/Summary.View");
@@ -248,51 +251,62 @@ module Main {
             let switchRiskPercent = 0;
 
             loadPromise.done(() => {
-                widget.bugsSnapshots.vm.loading.subscribe((loading: boolean) => {
-                    if (!loading) {
-                        let snapshotSubsection = widget.sidebar.vm.subsections()[1];
-                        let snapshotSection = widget.sidebar.widget.element.find(classify(snapshotSubsection.classes()));
-                        let snapshotList = snapshotSection.find("dl");
-                        let snapshotDts = snapshotList.find("dt");
-                        let snapshotDds = snapshotList.find("dd");
+                // There's a race condition here, so checking for both states
+                // of loading to determine when to execute the tests
+                if (widget.bugsSnapshots.vm.loading()) {
+                    let loadingSub = widget.bugsSnapshots.vm.loading.subscribe((loading: boolean) => {
+                        if (!loading) {
+                            testSidebarBugsSnapshot();
+                            loadingSub.dispose();
+                            done();
+                        }
+                    });
+                } else {
+                    testSidebarBugsSnapshot();
+                    done();
+                }
+            });
 
-                        mockBugsForTagData.forEach((summary: BugsForTagRepo.SiteBugSummary) => {
-                            outreachBugCount += summary.OutreachBugCount;
-                            releaseBugCount += summary.CurrentReleaseBugCount;
-                            totalBugCount += summary.ActiveBugCount;
+            function testSidebarBugsSnapshot(): void {
+                let snapshotSubsection = widget.sidebar.vm.subsections()[1];
+                let snapshotSection = widget.sidebar.widget.element.find(classify(snapshotSubsection.classes()));
+                let snapshotList = snapshotSection.find("dl");
+                let snapshotDts = snapshotList.find("dt");
+                let snapshotDds = snapshotList.find("dd");
 
-                            if (summary.IsSwitchRisk) {
-                                switchRiskCount++;
-                            }
-                        });
-                        switchRiskPercent = (switchRiskCount / mockBugsForTagData.length) * 100;
+                mockBugsForTagData.forEach((summary: BugsForTagRepo.SiteBugSummary) => {
+                    outreachBugCount += summary.OutreachBugCount;
+                    releaseBugCount += summary.CurrentReleaseBugCount;
+                    totalBugCount += summary.ActiveBugCount;
 
-                        [
-                            {
-                                expectedTitle: Config.Strings.SummaryBugSnapshotSwitchRiskTitle,
-                                expectedValue: Humanize.compactInteger(switchRiskPercent, 1) + "%"
-                            },
-                            {
-                                expectedTitle: Config.Strings.SummaryBugSnapshotOutreachTitle,
-                                expectedValue: Humanize.compactInteger(outreachBugCount, 1)
-                            },
-                            {
-                                expectedTitle: Config.Strings.SummaryBugSnapshotReleaseTitle,
-                                expectedValue: Humanize.compactInteger(releaseBugCount, 1)
-                            },
-                            {
-                                expectedTitle: Config.Strings.SummaryBugSnapshotTotalTitle,
-                                expectedValue: Humanize.compactInteger(totalBugCount, 1)
-                            }
-                        ].forEach((item, i: number) => {
-                            assert.equal($.trim($(snapshotDts[i]).text()), item.expectedTitle, `${item.expectedTitle} title is correct`);
-                            assert.equal($.trim($(snapshotDds[i]).text()), item.expectedValue, `${item.expectedTitle} value is correct`);
-                        });
-
-                        done();
+                    if (summary.IsSwitchRisk) {
+                        switchRiskCount++;
                     }
                 });
-            });
+                switchRiskPercent = (switchRiskCount / mockBugsForTagData.length) * 100;
+
+                [
+                    {
+                        expectedTitle: Config.Strings.SummaryBugSnapshotSwitchRiskTitle,
+                        expectedValue: Humanize.compactInteger(switchRiskPercent, 1) + "%"
+                    },
+                    {
+                        expectedTitle: Config.Strings.SummaryBugSnapshotOutreachTitle,
+                        expectedValue: Humanize.compactInteger(outreachBugCount, 1)
+                    },
+                    {
+                        expectedTitle: Config.Strings.SummaryBugSnapshotReleaseTitle,
+                        expectedValue: Humanize.compactInteger(releaseBugCount, 1)
+                    },
+                    {
+                        expectedTitle: Config.Strings.SummaryBugSnapshotTotalTitle,
+                        expectedValue: Humanize.compactInteger(totalBugCount, 1)
+                    }
+                ].forEach((item, i: number) => {
+                    assert.equal($.trim($(snapshotDts[i]).text()), item.expectedTitle, `${item.expectedTitle} title is correct`);
+                    assert.equal($.trim($(snapshotDds[i]).text()), item.expectedValue, `${item.expectedTitle} value is correct`);
+                });
+            }
         });
 
         QUnit.test("Trend snapshot sidebar section renders correctly", (assert) => {
@@ -302,27 +316,140 @@ module Main {
                 // There's a race condition here, so checking for both states
                 // of loading to determine when to execute the tests
                 if (widget.trendsSnapshots.vm.loading()) {
-                    widget.trendsSnapshots.vm.loading.subscribe((loading: boolean) => {
+                    let loadingSub = widget.trendsSnapshots.vm.loading.subscribe((loading: boolean) => {
                         if (!loading) {
-                            testSidebarTrendsSnapshot(widget, assert);
+                            testSidebarTrendsSnapshot();
+                            loadingSub.dispose();
                             done();
                         }
                     });
                 } else {
-                    testSidebarTrendsSnapshot(widget, assert);
+                    testSidebarTrendsSnapshot();
                     done();
                 }
             });
+
+            function testSidebarTrendsSnapshot(): void {
+                let mockTrendsForTagData = SummaryMocks.getMockTrendsForTagBingdexTop100();
+                let frowniesCount = 0;
+                let navigationsCount = 0;
+                let focusTimeCount = 0;
+                let snapshotSubsection = widget.sidebar.vm.subsections()[2];
+                let snapshotSection = widget.sidebar.widget.element.find(classify(snapshotSubsection.classes()));
+                let snapshotList = snapshotSection.find("dl");
+                let snapshotDts = snapshotList.find("dt");
+                let snapshotDds = snapshotList.find("dd");
+
+                mockTrendsForTagData.data.forEach((summary: TrendsForTagRepo.SiteTrendSummary) => {
+                    frowniesCount += summary.frowny;
+                    navigationsCount += summary.navigation;
+                    focusTimeCount += summary.focusTime;
+                });
+
+                [
+                    {
+                        expectedTitle: Config.Strings.SummaryTrendSnapshotFrowniesTitle,
+                        expectedValue: Humanize.compactInteger(Math.abs(frowniesCount), 1)
+                    },
+                    {
+                        expectedTitle: Config.Strings.SummaryTrendSnapshotNavigationsTitle,
+                        expectedValue: Humanize.compactInteger(Math.abs(navigationsCount), 1)
+                    },
+                    {
+                        expectedTitle: Config.Strings.SummaryTrendSnapshotFocusTimeTitle,
+                        expectedValue: Humanize.compactInteger(Math.abs(focusTimeCount), 1)
+                    }
+                ].forEach((item, i: number) => {
+                    assert.equal($.trim($(snapshotDts[i]).text()), item.expectedTitle, `${item.expectedTitle} title is correct`);
+                    assert.equal($.trim($(snapshotDds[i]).text()), item.expectedValue, `${item.expectedTitle} value is correct`);
+                });
+            }
         });
 
-        //QUnit.test("Bugs section renders correctly", (assert) => {
-        //    let done = assert.async();
+        QUnit.test("Bugs section renders correctly", (assert) => {
+            let done = assert.async();
+            let tableFilterUpdateDone = assert.async();
+            let tableSearchUpdateDone = assert.async();
+            let tableSearchNoResultUpdateDone = assert.async();
+            let bugSectionElem = widget.bugs.widget.element;
+            let bugSectionFiltersElem = widget.bugsFilters.widget.element;
+            let bugSectionTableElem = widget.bugsTable.widget.element;
+            let bugSearchFilter = bugSectionElem.find(classify(BaseConfig.Classes.TableFilter));
 
-        //    loadPromise.done(() => {
+            loadPromise.done(() => {
+                // Using the 3rd row as the first couple rows stay the same when data sets change
+                let initialCellValue = $($(bugSectionTableElem.find("tbody tr").get(2)).find("td").get(1)).text();
+                let filterOptionListFromData = [];
+                let filterOptionListFromDom = [];
+                let expectedScanTime = `${Config.Strings.BugsTableScanTimePrefix} ${moment(SummaryMocks.getMockScanTime()).fromNow()}`;
 
-        //        done();
-        //    });
-        //});
+                SummaryMocks.getMockFiltersData()["tag"].forEach((option: FiltersRepo.Option) => {
+                    filterOptionListFromData.push(option.text);
+                });
+
+                bugSectionFiltersElem.find("option").each((i: number, elem: Element) => {
+                    filterOptionListFromDom.push($(elem).text());
+                });
+
+                assert.deepEqual(filterOptionListFromDom, filterOptionListFromData, "Filter options render correctly");
+                assert.equal(bugSectionElem.find(classify(BaseConfig.Classes.TableMetadata)).text(),
+                    expectedScanTime, "Scan time renders correctly");
+
+                if (widget.bugsTable.vm.loading()) {
+                    let loadingSub = widget.bugsTable.vm.loading.subscribe((loading: boolean) => {
+                        if (!loading) {
+                            testBugSectionFilterTableChange(initialCellValue);
+                            loadingSub.dispose();
+                        }
+                    });
+                } else {
+                    testBugSectionFilterTableChange(initialCellValue);
+                }
+
+                done();
+            });
+
+            function testBugSectionFilterTableChange(initialCellValue: string): void {
+                // Change dropdown and validate table bug list updates
+                widget.bugsTable.widget.getDataUpdatePromise().done(() => {
+                    let postFilterChangeCellValue: string;
+                    let bugsForTagMindtreeMockData = SummaryMocks.getMockBugsForTagMindtreeNotorious();
+                    let expectedPostFilterChangeCellValue = bugsForTagMindtreeMockData[2].DomainName;
+
+                    postFilterChangeCellValue = $($(widget.bugsTable.widget.element.find("tbody tr").get(2)).find("td").get(1)).text();
+                    assert.notEqual(initialCellValue, postFilterChangeCellValue, "Cell values have changed when filter changed");
+                    assert.equal(postFilterChangeCellValue, expectedPostFilterChangeCellValue, "Expected value present after filter change");
+
+                    tableFilterUpdateDone();
+
+                    testBugSectionSearchFilter();
+                });
+                widget.bugsFilters.vm.value({ "tag": "MindTreeNotoriousSites" });
+            }
+
+            function testBugSectionSearchFilter(): void {
+                // Verify table search filter works as expected
+                widget.bugsTable.widget.getDataUpdatePromise().done(() => {
+                    let rows = bugSectionElem.find("tbody tr");
+                    assert.equal(rows.length, 1, "Search filter returned one result");
+                    assert.equal($($(rows.get(0)).find("td").get(1)).text(), "bing.com", "Search filter returned the expected result");
+
+                    // Verify empty message is shown correctly when no results available
+                    widget.bugsTable.widget.getDataUpdatePromise().done(() => {
+                        let rows = bugSectionElem.find("tbody tr");
+                        assert.equal(rows.length, 1, "Search filter shows one row when search string not found");
+                        assert.equal($($(rows.get(0)).find("td").get(0)).text(),
+                            Config.Strings.SummaryTableNoResultsMessage, "Search filter shows empty message when search string not found");
+
+                        tableSearchNoResultUpdateDone();
+                    });
+                    bugSearchFilter.find("input").val("asdfasdfasdf").trigger("keyup");
+
+                    tableSearchUpdateDone();
+                });
+                bugSearchFilter.find("input").val("bing.com").trigger("keyup");
+            }
+        });
 
         //QUnit.test("Trends section renders correctly", (assert) => {
         //    let done = assert.async();
@@ -374,42 +501,6 @@ module Main {
     ////    //    });
     ////    //});
     ////});
-
-    function testSidebarTrendsSnapshot(widget: View.IWidget, assert: QUnitAssert): void {
-        let mockTrendsForTagData = SummaryMocks.getMockTrendsForTagBingdexTop100();
-        let frowniesCount = 0;
-        let navigationsCount = 0;
-        let focusTimeCount = 0;
-        let snapshotSubsection = widget.sidebar.vm.subsections()[2];
-        let snapshotSection = widget.sidebar.widget.element.find(classify(snapshotSubsection.classes()));
-        let snapshotList = snapshotSection.find("dl");
-        let snapshotDts = snapshotList.find("dt");
-        let snapshotDds = snapshotList.find("dd");
-
-        mockTrendsForTagData.data.forEach((summary: TrendsForTagRepo.SiteTrendSummary) => {
-            frowniesCount += summary.frowny;
-            navigationsCount += summary.navigation;
-            focusTimeCount += summary.focusTime;
-        });
-
-        [
-            {
-                expectedTitle: Config.Strings.SummaryTrendSnapshotFrowniesTitle,
-                expectedValue: Humanize.compactInteger(Math.abs(frowniesCount), 1)
-            },
-            {
-                expectedTitle: Config.Strings.SummaryTrendSnapshotNavigationsTitle,
-                expectedValue: Humanize.compactInteger(Math.abs(navigationsCount), 1)
-            },
-            {
-                expectedTitle: Config.Strings.SummaryTrendSnapshotFocusTimeTitle,
-                expectedValue: Humanize.compactInteger(Math.abs(focusTimeCount), 1)
-            }
-        ].forEach((item, i: number) => {
-            assert.equal($.trim($(snapshotDts[i]).text()), item.expectedTitle, `${item.expectedTitle} title is correct`);
-            assert.equal($.trim($(snapshotDds[i]).text()), item.expectedValue, `${item.expectedTitle} value is correct`);
-        });
-    }
 
     function setupMockjax(): void {
         SummaryMocks.setupFiltersMock();

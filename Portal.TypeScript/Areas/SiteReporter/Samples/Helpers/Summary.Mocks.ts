@@ -3,6 +3,7 @@
 import BaseConfig = require("Areas/Shared/Config");
 import Config = require("../../Config");
 import BugsForTagRepo = require("../../Data/Repositories/BugsForTag.Repository");
+import FiltersRepo = require("../../Data/Repositories/Filters.Repository");
 import TrendsForTagRepo = require("../../Data/Repositories/TrendsForTag.Repository");
 
 export = Main;
@@ -138,7 +139,7 @@ module Main {
         };
     }
 
-    export function getMockBugsForTagMindtreeNotorious(): any {
+    export function getMockBugsForTagMindtreeNotorious(): BugsForTagRepo.DataTransferObject {
         return [
             { "DomainId": 1, "DomainName": "google.com", "ActiveBugCount": 69, "OutreachBugCount": 3, "CurrentReleaseBugCount": 4, "IsSwitchRisk": true, "BingdexRank": 1, "IsOffensive": false },
             { "DomainId": 2, "DomainName": "facebook.com", "ActiveBugCount": 67, "OutreachBugCount": 3, "CurrentReleaseBugCount": 3, "IsSwitchRisk": true, "BingdexRank": 2, "IsOffensive": false },
@@ -157,7 +158,7 @@ module Main {
         return "https://iesitereporter.blob.core.windows.net/tags/bugsummaries/mindtreenotorioussites/desktop/rs1?sv=2015-07-08&sr=c&si=readonlypolicy&sig=PxFbcnvF51%2BsSjZtuVp0U10mQVNXctthc2lpGErxE5Y%3D";
     }
 
-    export function getMockFiltersData(): any {
+    export function getMockFiltersData(): FiltersRepo.DataTransferObject {
         return {
             "tag": [
                 { "disabled": false, "selected": true, "text": " Bingdex Top 100", "value": "BingdexTop100" },

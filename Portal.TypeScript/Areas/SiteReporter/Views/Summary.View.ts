@@ -192,9 +192,6 @@ module Main {
         }
 
         public loadRepos(): void {
-            // Setup load state changes for when promises resolve
-            this.initializeRepoLoadActions();
-
             // Begin loading the data
             this.loadBugsRepo();
             this.loadTrendsRepo();
@@ -206,6 +203,9 @@ module Main {
             this._scantimeRepo.load().done(() => {
                 this.applyScantimeData();
             });
+
+            // Setup load state changes for when promises resolve
+            this.initializeRepoLoadActions();
         }
 
         public initializeSubscriptions(): void {
