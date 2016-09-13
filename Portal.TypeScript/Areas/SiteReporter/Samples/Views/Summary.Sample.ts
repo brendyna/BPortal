@@ -12,6 +12,7 @@ module Main {
         setupMockjax();
 
         let defaults: View.IWidgetDefaults = {
+            disableAutoLoad: true,
             viewContext: {
                 params: $.extend({}, SummaryMocks.bingdexParams)
             }
@@ -22,6 +23,7 @@ module Main {
         }
 
         let summary = new View.Widget($("#sample"), defaults);
+        summary.loadData();
     });
 
     export function setupMockjax(): void {

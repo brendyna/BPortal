@@ -59,7 +59,7 @@ module Main {
 
         public getNavigationViewModelData(): Navigation.IViewModelData {
             let navViewModelData: Navigation.IViewModelData = {
-                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.Breadcrumb
+                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.SummaryBreadcrumb
             };
 
             return navViewModelData;
@@ -79,7 +79,7 @@ module Main {
                 bodyViewModel: {
                     siteSearch: <Input.IViewModelData>{
                         type: Input.Type.Text,
-                        placeholder: "Search for any site",
+                        placeholder: Config.Strings.SiteSearch,
                         enterCallback: (domain: string) => {
                             window.open("http://wptportal.corp.microsoft.com/sitereporter/details?domain=" + domain);
                         }
@@ -87,23 +87,25 @@ module Main {
                 },
                 subsections: [
                     {
+                        classes: Config.Classes.TableOfContents,
                         body: `<ul data-bind="wpsList: $vm.sections"></ul>`,
                         bodyViewModel: {
                             sections: <List.IViewModelData>{
                                 type: List.Type.Links,
                                 items: [
                                     {
-                                        content: '<a href="#Bugs">Bugs</a>'
+                                        content: `<a href="#${Config.Strings.BugSectionTitle}">${Config.Strings.BugSectionTitle}</a>`
                                     },
                                     {
-                                        content: '<a href="#Trends">Trends</a>'
+                                        content: `<a href="#${Config.Strings.TrendsSectionTitle}">${Config.Strings.TrendsSectionTitle}</a>`
                                     }
                                 ]
                             }
                         }
                     },
                     {
-                        header: "Bug snapshot",
+                        classes: "snapshot--bug",
+                        header: Config.Strings.SummaryBugSnapshotTitle,
                         body: `<dl data-bind="wpsDescriptionList: $vm.summary"></dl>`,
                         bodyViewModel: {
                             summary: <DescriptionList.IViewModelData>{
@@ -112,7 +114,8 @@ module Main {
                         }
                     },
                     {
-                        header: "Trend snapshot",
+                        classes: "snapshot--trend",
+                        header: Config.Strings.SummaryTrendSnapshotTitle,
                         body: `<dl data-bind="wpsDescriptionList: $vm.summary"></dl>`,
                         bodyViewModel: {
                             summary: <DescriptionList.IViewModelData>{
@@ -121,6 +124,7 @@ module Main {
                         }
                     },
                     {
+                        classes: Config.Classes.LearnMoreLinks,
                         body: `<dl data-bind="wpsDescriptionList: $vm.links"></dl>`,
                         bodyViewModel: {
                             links: <DescriptionList.IViewModelData>{
@@ -130,14 +134,14 @@ module Main {
                                             {
                                                 content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
-                                                    text: "Learn about our data",
+                                                    text: Config.Strings.LearnMore,
                                                     url: Config.Urls.SiteReporterWiki
                                                 }
                                             },
                                             {
                                                 content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
-                                                    text: "Install Edge extension",
+                                                    text: Config.Strings.ExtensionInstall,
                                                     url: Config.Urls.ExtensionLocation
                                                 }
                                             }
@@ -155,9 +159,10 @@ module Main {
 
         public getBugsViewModelData(): Section.IViewModelData {
             return {
-                title: "Bugs",
+                title: Config.Strings.BugSectionTitle,
                 altHeader: true,
-                anchor: "Bugs",
+                anchor: Config.Strings.BugSectionTitle,
+                classes: "summary--bugs",
                 body: `
                     <div data-bind="wpsFilters: $vm.filters"></div>
                     <table data-bind="wpsTable: $vm.table"></table>
@@ -171,9 +176,10 @@ module Main {
 
         public getTrendsViewModelData(): Section.IViewModelData {
             let trendsData = <Section.IViewModelData>{
-                title: "Trends",
+                title: Config.Strings.TrendsSectionTitle,
                 altHeader: true,
-                anchor: "Trends",
+                anchor: Config.Strings.TrendsSectionTitle,
+                classes: "details--trends",
                 body: `
                     <div data-bind="wpsFilters: $vm.filters"></div>
                     <table data-bind="wpsTable: $vm.table"></table>
@@ -196,7 +202,7 @@ module Main {
 
         private getBugTableData(): Table.IViewModelData {
             return {
-                classes: "bugs__site-list",
+                classes: Config.Classes.SummaryBugsTable,
                 headers: [
                     { classes: "table__column__switch" },
                     { hidden: true, text: "DomainId" },
@@ -208,7 +214,7 @@ module Main {
                     { text: "Total", classes: "table__column__bugs total__bugs" },
                     { classes: "table__column__button" }
                 ],
-                metadata: "Updated 15 minutes ago",
+                metadata: Config.Strings.BugsTableScanTimePlaceholder,
                 settings: <DataTables.Settings>{
                     lengthChange: false,
                     searchDelay: 500,
@@ -217,7 +223,9 @@ module Main {
                     info: false,
                     language: <any>{
                         search: "",
-                        searchPlaceholder: "Filter table"
+                        searchPlaceholder: Config.Strings.TableFilterPlaceholder,
+                        emptyTable: Config.Strings.SummaryTableNoDataMessage,
+                        zeroRecords: Config.Strings.SummaryTableNoResultsMessage
                     },
                     order: [
                         [
@@ -333,7 +341,7 @@ module Main {
 
         private getTrendsTableData(): Table.IViewModelData {
             return {
-                classes: "trends__site-list",
+                classes: Config.Classes.SummaryTrendsTable,
                 headers: [
                     { hidden: true, text: "DomainId" },
                     { hidden: true },
@@ -352,7 +360,9 @@ module Main {
                     info: false,
                     language: <any>{
                         search: "",
-                        searchPlaceholder: "Filter table"
+                        searchPlaceholder: Config.Strings.TableFilterPlaceholder,
+                        emptyTable: Config.Strings.SummaryTableNoDataMessage,
+                        zeroRecords: Config.Strings.SummaryTableNoResultsMessage
                     },
                     order: [
                         [
@@ -510,15 +520,35 @@ module Main {
             });
 
             [
-                { term: "Switch risk sites", value: Humanize.compactInteger(((switchRiskCount / this.repository.resultData.length) * 100), 1) + "%", icon: Icon.Type.Flag, classes: "metrics__measurements__icon--switchRisk" },
-                { term: "Outreach bugs", value: Humanize.compactInteger(outreachBugCount, 1), icon: Icon.Type.Bug },
-                { term: "Release bugs", value: Humanize.compactInteger(releaseBugCount, 1), icon: Icon.Type.Bug },
-                { term: "Total bugs", value: Humanize.compactInteger(totalBugCount, 1), icon: Icon.Type.Bug }
+                {
+                    term: Config.Strings.SummaryBugSnapshotSwitchRiskTitle,
+                    value: Humanize.compactInteger(((switchRiskCount / this.repository.resultData.length) * 100), 1) + "%",
+                    icon: Icon.Type.Flag,
+                    classes: "metrics__measurements__icon--switchRisk"
+                },
+                {
+                    term: Config.Strings.SummaryBugSnapshotOutreachTitle,
+                    value: Humanize.compactInteger(outreachBugCount, 1),
+                    icon: Icon.Type.Bug
+                },
+                {
+                    term: Config.Strings.SummaryBugSnapshotReleaseTitle,
+                    value: Humanize.compactInteger(releaseBugCount, 1),
+                    icon: Icon.Type.Bug
+                },
+                {
+                    term: Config.Strings.SummaryBugSnapshotTotalTitle,
+                    value: Humanize.compactInteger(totalBugCount, 1),
+                    icon: Icon.Type.Bug
+                }
             ].forEach((snapshot) => {
                 data.push(new DescriptionList.DescriptionPair({
                     term: snapshot.term,
                     descriptions: [{
-                        content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon, css: $vm.classes"></span>&nbsp;<span data-bind="text: $vm.text"></span></span>`,
+                        content: `<span class="subtitle">
+                                    <span data-bind="wpsIcon: $vm.icon, css: $vm.classes"></span>&nbsp;
+                                    <span data-bind="text: $vm.text"></span>
+                                  </span>`,
                         contentViewModel: {
                             classes: (<any>snapshot).classes || "",
                             text: snapshot.value,

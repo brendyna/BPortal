@@ -70,7 +70,7 @@ module Main {
 
         public getNavigationViewModelData(): Navigation.IViewModelData {
             let navData: Navigation.IViewModelData = {
-                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.Breadcrumb
+                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.DetailsBreadcrumb
             };
 
             return navData;
@@ -91,7 +91,7 @@ module Main {
                 bodyViewModel: {
                     siteSearch: <Input.IViewModelData>{
                         type: Input.Type.Text,
-                        placeholder: "Search for another site",
+                        placeholder: Config.Strings.SiteSearch,
                         enterCallback: (domain: string) => {
                             window.open("http://wptportal.corp.microsoft.com/sitereporter/details?domain=" + domain);
                         }
@@ -99,20 +99,20 @@ module Main {
                 },
                 subsections: [
                     {
-                        classes: "table-of-contents",
+                        classes: Config.Classes.TableOfContents,
                         body: `<ul data-bind="wpsList: $vm.sections"></ul>`,
                         bodyViewModel: {
                             sections: <List.IViewModelData>{
                                 type: List.Type.Links,
                                 items: [
                                     {
-                                        content: '<a href="#Bugs">Bugs</a>'
+                                        content: `<a href="#${Config.Strings.BugSectionTitle}">${Config.Strings.BugSectionTitle}</a>`
                                     },
                                     {
-                                        content: '<a href="#Technologies">Technologies</a>'
+                                        content: `<a href="#${Config.Strings.TechSectionTitle}">${Config.Strings.TechSectionTitle}</a>`
                                     },
                                     {
-                                        content: '<a href="#Trends">Trends</a>'
+                                        content: `<a href="#${Config.Strings.TrendsSectionTitle}">${Config.Strings.TrendsSectionTitle}</a>`
                                     }
                                 ]
                             }
@@ -128,7 +128,7 @@ module Main {
                         }
                     },
                     {
-                        classes: "learn-more-links",
+                        classes: Config.Classes.LearnMoreLinks,
                         body: `<dl data-bind="wpsDescriptionList: $vm.links"></dl>`,
                         bodyViewModel: {
                             links: <DescriptionList.IViewModelData>{
@@ -138,14 +138,14 @@ module Main {
                                             {
                                                 content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
-                                                    text: "Learn about our data",
+                                                    text: Config.Strings.LearnMore,
                                                     url: Config.Urls.SiteReporterWiki
                                                 }
                                             },
                                             {
                                                 content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
-                                                    text: "Install Edge extension",
+                                                    text: Config.Strings.ExtensionInstall,
                                                     url: Config.Urls.ExtensionLocation
                                                 }
                                             }
@@ -305,7 +305,7 @@ module Main {
                     { text: "Tags" },
                     { text: "Title" }
                 ],
-                metadata: Config.Strings.DetailsBugsTableScanTimePlaceholder,
+                metadata: Config.Strings.BugsTableScanTimePlaceholder,
                 settings: <DataTables.Settings>{
                     lengthChange: false,
                     searchDelay: 500,
@@ -314,7 +314,7 @@ module Main {
                     info: false,
                     language: <any>{
                         search: "",
-                        searchPlaceholder: "Filter table",
+                        searchPlaceholder: Config.Strings.TableFilterPlaceholder,
                         emptyTable: Config.Strings.DetailsBugsTableNoDataMessage,
                         zeroRecords: Config.Strings.DetailsBugsTableNoResultsMessage
                     },

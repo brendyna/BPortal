@@ -86,12 +86,12 @@ module Main {
             // Assert
             assert.equal(breadcrumbs.length, navVM.breadcrumb().length, "The correct number of crumbs are present");
             for (let i = 0; i < breadcrumbs.length; i++) {
-                assert.equal($(breadcrumbs.get(i)).text(), navVM.breadcrumb()[i].text(), "Crumb " + i + " has correct text");
+                assert.equal($(breadcrumbs.get(i)).text(), Config.Window.DetailsBreadcrumb[i].text, "Crumb " + i + " has correct text");
             }
         });
 
         QUnit.test("Header renders correctly", (assert) => {
-            let header = $(classify(Header.Widget.widgetClass));
+            let header = $(widget.element.find(classify(Header.Widget.widgetClass)));
             let headerVM: Header.IViewModel = ko.dataFor(header[0]).vm;
 
             // Assert
@@ -103,7 +103,7 @@ module Main {
             let inputVM: Input.IViewModel = ko.dataFor(input[0]).vm;
 
             // Assert
-            assert.equal(input.length, 1, "There's on input present");
+            assert.equal(input.length, 1, "There's one input present");
             assert.equal(input.attr("placeholder"), inputVM.placeholder(), "Input placeholder is correct");
         });
 
@@ -118,8 +118,6 @@ module Main {
             for (let i = 0; i < tocSectionItems.length; i++) {
                 let itemAnchor = $(tocSectionItems.get(i)).find("a");
                 let tocListItem = $(tocSectionVMItems[i].content);
-
-                itemAnchor.click();
 
                 assert.equal(itemAnchor.text(), tocListItem.text(), "TOC item " + i + " text matches VM item");
                 assert.equal(itemAnchor.attr("href"), tocListItem.attr("href"), "TOC item " + i + " href matches VM item");
@@ -140,29 +138,29 @@ module Main {
             assert.equal($(snapshotDds.get(0)).text(), "", "The DD text is empty");
         });
 
-        QUnit.test("Learn more links content renders correctly", (assert) => {
-            let learnMoreSubsection = widget.sidebar.vm.subsections()[2];
-            let learnMoreSection = widget.sidebar.widget.element.find(classify(learnMoreSubsection.classes()));
-            let learnMoreDL = learnMoreSection.find("dl");
-            let learnMoreDLVM: DescriptionList.IViewModel = ko.dataFor(learnMoreDL[0]).vm;
-            let learnMoreDLDds = learnMoreDL.find("dd");
+        QUnit.test("External links content renders correctly", (assert) => {
+            let externalLinkSubsection = widget.sidebar.vm.subsections()[2];
+            let externalLinkSection = widget.sidebar.widget.element.find(classify(externalLinkSubsection.classes()));
+            let externalLinkDL = externalLinkSection.find("dl");
+            let externalLinkDLVM: DescriptionList.IViewModel = ko.dataFor(externalLinkDL[0]).vm;
+            let externalLinkDLDds = externalLinkDL.find("dd");
 
             // Assert
-            for (let i = 0; i < learnMoreDLDds.length; i++) {
-                let ddAnchor = $(learnMoreDLDds.get(i)).find("a");
-                let ddAnchorVM: { text: string; url: string } = learnMoreDLVM.descriptionPairs()[0].descriptions()[i].contentViewModel();
+            for (let i = 0; i < externalLinkDLDds.length; i++) {
+                let ddAnchor = $(externalLinkDLDds.get(i)).find("a");
+                let ddAnchorVM: { text: string; url: string } = externalLinkDLVM.descriptionPairs()[0].descriptions()[i].contentViewModel();
 
-                assert.equal(ddAnchor.text(), ddAnchorVM.text, "Learn more link " + i + " text matches VM text");
-                assert.equal(ddAnchor.attr("href"), ddAnchorVM.url, "Learn more link " + i + " href matches VM href");
+                assert.equal(ddAnchor.text(), ddAnchorVM.text, "External link " + i + " text matches VM text");
+                assert.equal(ddAnchor.attr("href"), ddAnchorVM.url, "External link " + i + " href matches VM href");
             }
         });
 
         QUnit.test("Sections render correctly", (assert) => {
-            let bugSection = $(classify(widget.bugs.vm.classes()));
+            let bugSection = $(widget.element.find(classify(widget.bugs.vm.classes())));
             let bugSectionTable = bugSection.find(classify(Config.Classes.DetailsBugsTable));
             let bugSectionTrendsChart = bugSection.find(classify(Config.Classes.DetailsBugsTrendsChart));
-            let techSection = $(classify(widget.tech.vm.classes()));
-            let trendsSection = $(classify(widget.trends.vm.classes()));
+            let techSection = $(widget.element.find(classify(widget.tech.vm.classes())));
+            let trendsSection = $(widget.element.find(classify(widget.trends.vm.classes())));
             let trendsSectionFrowniesChart = trendsSection.find(classify(Config.Classes.DetailsTrendsFrowniesChart));
             let trendsSectionNavigationsChart = trendsSection.find(classify(Config.Classes.DetailsTrendsNavigationsChart));
             let trendsSectionFocusTimeChart = trendsSection.find(classify(Config.Classes.DetailsTrendsFocusTimeChart));
@@ -171,7 +169,9 @@ module Main {
             // Assert
             assert.equal(bugSection.find("h2").text(), widget.bugs.vm.title(), "Bugs section title is correct");
             assert.equal(bugSection.find(classify(BaseConfig.Classes.TableMetadata)).text(),
-                Config.Strings.DetailsBugsTableScanTimePlaceholder, "Bugs section table scan time placeholder is correct");
+                Config.Strings.BugsTableScanTimePlaceholder, "Bugs section table scan time placeholder is correct");
+            assert.equal(bugSection.find(`${classify(BaseConfig.Classes.TableFilter)} input`).attr("placeholder"),
+                Config.Strings.TableFilterPlaceholder, "Bugs section table filter placeholder is correct");
             assert.equal(bugSectionTable.find(classify(BaseConfig.Classes.TableEmpty)).text(),
                 Config.Strings.DetailsBugsTableNoDataMessage, "Bugs section empty table placeholder is shown");
             assert.equal(bugSectionTrendsChart.find(highchartsTitleClass).text(),
@@ -296,7 +296,7 @@ module Main {
                 let expectedSwitchRiskBugs = `${Config.Strings.DetailsFiltersSwitchRiskBugs} (${bugsForDomainMockData.SwitchRiskBugs.length})`;
                 let expectedOutreachBugs = `${Config.Strings.DetailsFiltersOutreachBugs} (${bugsForDomainMockData.OutreachBugs.length})`;
                 let expectedReleaseBugs = `${bugsForDomainMockData.CurrentReleaseBugs[0].Release} bugs (${bugsForDomainMockData.CurrentReleaseBugs.length})`;
-                let expectedScanTime = `${Config.Strings.DetailsBugsTableScanTimePrefix} ${moment(DetailsMocks.getMockScanTime()).fromNow()}`;
+                let expectedScanTime = `${Config.Strings.BugsTableScanTimePrefix} ${moment(DetailsMocks.getMockScanTime()).fromNow()}`;
                 let initialFirstCellValue = $($(bugSectionTableElem.find("tbody tr").get(0)).find("td").get(0)).text();
                 let postFilterChangeFirstCellValue: string;
                 let expectedPostFilterChangeFirstCellValue = bugsForDomainMockData.SwitchRiskBugs[0].Id;

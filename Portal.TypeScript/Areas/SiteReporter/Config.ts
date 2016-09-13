@@ -19,10 +19,14 @@ module Main {
         public static DetailsTrendsFocusTimeChart = "trends__focustime";
         public static DetailsTrendsFrowniesChart = "trends__frownies";
         public static DetailsTrendsNavigationsChart = "trends__navigations";
+        public static LearnMoreLinks = "learn-more-links";
         public static SiteAlexaRank = "site--alexa-rank";
         public static SiteBingdexRank = "site--bingdex-rank";
         public static SiteFavIcon = "site--favicon";
         public static SiteTag = "site-tag";
+        public static SummaryBugsTable = "bugs__site-list";
+        public static SummaryTrendsTable = "trends__site-list";
+        public static TableOfContents = "table-of-contents";
         public static TrendsFilters = "trends__filters";
     }
 
@@ -87,14 +91,20 @@ module Main {
             platform: $.getUrlVar("platform"),
             release: $.getUrlVar("release").toUpperCase()
         };
+        public static SummaryDefaultsEdge = {
+            tag: "BingdexTop100",
+            platform: "Desktop",
+            release: "RS1"
+        }
     }
 
     export class Strings {
         public static AlexaOutOfBounds = ">1,000";
         public static BingdexDescription = "Top sites according to the Bingdex heuristic created by the Bing team (https://www.bingwiki.com/Bingdex_Rank)";
         public static BingdexOutOfBounds = ">750,000";
-        public static DetailsBugsTableScanTimePrefix = "Updated";
-        public static DetailsBugsTableScanTimePlaceholder = "Updated...";
+        public static BugSectionTitle = "Bugs";
+        public static BugsTableScanTimePrefix = "Updated";
+        public static BugsTableScanTimePlaceholder = "Updated...";
         public static DetailsBugsTableNoDataMessage = "No bugs to show for this site";
         public static DetailsBugsTableNoResultsMessage = "No bugs found";
         public static DetailsBugsTrendsTitle = "Trends";
@@ -112,11 +122,26 @@ module Main {
         public static LearnMore = "Learn about our data";
         public static SummaryPageTitle = "Site Reporter";
         public static SearchBoxPlaceholder = "Search for any site";
+        public static SiteSearch = "Search for another site";
+        public static SummaryBugSnapshotTitle = "Bug snapshot";
+        public static SummaryBugSnapshotOutreachTitle = "Outreach bugs";
+        public static SummaryBugSnapshotReleaseTitle = "Release bugs";
+        public static SummaryBugSnapshotSwitchRiskTitle = "Switch risk sites";
+        public static SummaryBugSnapshotTotalTitle = "Total bugs";
+        public static SummaryTrendSnapshotFrowniesTitle = "Frownies";
+        public static SummaryTrendSnapshotNavigationsTitle = "Navigations";
+        public static SummaryTrendSnapshotFocusTimeTitle = "Hours of Focus Time";
+        public static SummaryTableNoDataMessage = "No sites to show";
+        public static SummaryTableNoResultsMessage = "No sites found";
+        public static SummaryTrendSnapshotTitle = "Trend snapshot";
+        public static TableFilterPlaceholder = "Filter table";
+        public static TechSectionTitle = "Technologies";
+        public static TrendsSectionTitle = "Trends";
     }
 
     export class Urls {
         public static ExtensionLocation = "https://microsoft.sharepoint.com/teams/wdg_core_wpt/pm/_layouts/15/guestaccess.aspx?guestaccesstoken=kFftvLzg%2bOZxqumVHR%2bu9YA3chCfgBoj559xlGowiXw%3d&docid=2_0e1e04756b4f94e568a4c74d8c5b6d4cb&rev=1";
-        public static FavIcon = "http://www.google.com/s2/favicons"; //?domain_url=facebook.com";
+        public static FavIcon = "http://www.google.com/s2/favicons";
         public static LearnMore = "https://osgwiki.com/wiki/SiteReporter";
         public static SummaryPage = '/sitereporter/summary?';
         public static DetailsPage = '/sitereporter/details?';
@@ -128,7 +153,16 @@ module Main {
         public static ApiServer = window.API_SERVER;
         public static ApiUsername = window.API_USERNAME;
         public static ApiPassword = window.API_PASSWORD;
-        public static Breadcrumb = window.BREADCRUMB;
+        public static DetailsBreadcrumb = BaseConfig.isTestRunnerMode() ? [
+            { text: "WPT Portal", url: "javascript:;" },
+            { text: "Site Reporter", url: "javascript:;" },
+            { text: "Details", url: "javascript:;" }
+        ] : window.BREADCRUMB;
+        public static SummaryBreadcrumb = BaseConfig.isTestRunnerMode() ? [
+            { text: "WPT Portal", url: "javascript:;" },
+            { text: "Site Reporter", url: "javascript:;" },
+            { text: "Summary", url: "javascript:;" }
+        ] : window.BREADCRUMB;
         public static DebugMode = BaseConfig.isDebugMode() || BaseConfig.isTestRunnerMode();
         public static SiteReporterDisabled = window.SITEREPORTER_DISABLED;
     }

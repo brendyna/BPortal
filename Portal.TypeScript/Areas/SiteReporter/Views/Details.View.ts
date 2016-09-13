@@ -506,7 +506,7 @@ module Main {
             // Only update scantime value if there are bugs present (aka the table isn't hidden
             // because of the section placeholder)
             if (this.bugs.vm.bodyPlaceholder() === "") {
-                this.bugsTable.vm.metadata(`${Config.Strings.DetailsBugsTableScanTimePrefix} ${this._scantimeProvider.getLastScannedTime()}`);
+                this.bugsTable.vm.metadata(`${Config.Strings.BugsTableScanTimePrefix} ${this._scantimeProvider.getLastScannedTime()}`);
             }
         }
 
