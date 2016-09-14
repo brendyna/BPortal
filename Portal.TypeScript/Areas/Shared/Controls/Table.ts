@@ -41,6 +41,7 @@ module Main {
 
     export interface IWidget extends Base.IWidget {
         data: KnockoutObservable<any>;
+        getDataUpdatePromise: () => JQueryPromise<void>;
     }
 
     export class Header implements IHeader {
@@ -159,7 +160,7 @@ module Main {
                 }));
 
             this._subscriptions.push(this.data.subscribe((newData: any) => {
-                let dataTable = $(this.element).DataTable()
+                let dataTable = $(this.element).DataTable();
                 dataTable.clear();
                 dataTable.rows.add(newData);
                 dataTable.draw();

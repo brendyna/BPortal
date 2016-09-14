@@ -25,9 +25,15 @@ module Main {
         public static SiteFavIcon = "site--favicon";
         public static SiteTag = "site-tag";
         public static SummaryBugsTable = "bugs__site-list";
+        public static SummaryTileDelta = "sitereporter__tile__delta";
         public static SummaryTrendsTable = "trends__site-list";
+        public static SwitchRiskIcon = "icon--flag";
         public static TableOfContents = "table-of-contents";
         public static TrendsFilters = "trends__filters";
+    }
+
+    export class Defaults {
+        public static EmptyBingdex = 9999999; // We only track 750k, but a more extreme value is safer
     }
 
     export class Endpoints {

@@ -238,7 +238,11 @@ module Main {
                         { data: 'domainId' },
                         { data: 'isOffensive' },
                         { data: 'domainName' },
-                        { data: 'bingdexRank' },
+                        {
+                            data: 'bingdexRank',
+                            defaultContent: (<any>Config.Defaults.EmptyBingdex)
+                            
+                        },
                         { data: 'outreachBugCount' },
                         { data: 'currentReleaseBugCount' },
                         { data: 'activeBugCount' },
@@ -374,7 +378,10 @@ module Main {
                         { data: 'domainId' },
                         { data: 'isOffensive' },
                         { data: 'domainName' },
-                        { data: 'bingdexRank' },
+                        {
+                            data: 'bingdexRank',
+                            defaultContent: (<any>Config.Defaults.EmptyBingdex)
+                        },
                         { data: 'frowny' },
                         { data: 'navigation' },
                         { data: 'focusTime' },
@@ -686,7 +693,7 @@ module Main {
     function renderBingdexColumn(data, type) {
         var value;
         if ((type === "sort" || type === "type") && data === 0) {
-            value = (<any>Number).MAX_SAFE_INTEGER;
+            value = Config.Defaults.EmptyBingdex;
         } else if (data === 0) {
             value = 'n/a';
         } else {
