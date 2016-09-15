@@ -485,8 +485,8 @@ module Main {
                         $(row).find('.details-button').on('click', function () {
                             window.open('/SiteReporter/Details?'
                                 + 'domain=' + data.domainName
-                                + '&platform=' + 'Desktop' //window.PLATFORM
-                                + '&release=' + 'RS1') //window.RELEASE);
+                                + '&platform=' + 'Desktop'
+                                + '&release=' + 'RS1')
                         });
 
                         if (data.isOffensive === true) {
@@ -515,6 +515,7 @@ module Main {
             let outreachBugCount = 0;
             let releaseBugCount = 0;
             let totalBugCount = 0;
+            let switchRiskPercent: string;
 
             this.repository.resultData.forEach((summary: BugsForTagRepository.SiteBugSummary) => {
                 outreachBugCount += summary.OutreachBugCount;
@@ -525,28 +526,30 @@ module Main {
                     switchRiskCount++;
                 }
             });
+            switchRiskPercent = (switchRiskCount > 0) ? Humanize.compactInteger(((switchRiskCount / this.repository.resultData.length) * 100), 1) + "%"
+                : Config.Strings.SummarySnapshotNoDataMessage;
 
             [
                 {
                     term: Config.Strings.SummaryBugSnapshotSwitchRiskTitle,
-                    value: Humanize.compactInteger(((switchRiskCount / this.repository.resultData.length) * 100), 1) + "%",
-                    icon: Icon.Type.Flag,
+                    value: switchRiskPercent,
+                    icon: (switchRiskCount > 0) ? Icon.Type.Flag : Icon.Type.Error,
                     classes: "metrics__measurements__icon--switchRisk"
                 },
                 {
                     term: Config.Strings.SummaryBugSnapshotOutreachTitle,
-                    value: Humanize.compactInteger(outreachBugCount, 1),
-                    icon: Icon.Type.Bug
+                    value: (outreachBugCount > 0) ? Humanize.compactInteger(outreachBugCount, 1) : Config.Strings.SummarySnapshotNoDataMessage,
+                    icon: (outreachBugCount > 0) ? Icon.Type.Bug : Icon.Type.Error
                 },
                 {
                     term: Config.Strings.SummaryBugSnapshotReleaseTitle,
-                    value: Humanize.compactInteger(releaseBugCount, 1),
-                    icon: Icon.Type.Bug
+                    value: (releaseBugCount > 0) ? Humanize.compactInteger(releaseBugCount, 1) : Config.Strings.SummarySnapshotNoDataMessage,
+                    icon: (releaseBugCount > 0) ? Icon.Type.Bug : Icon.Type.Error
                 },
                 {
                     term: Config.Strings.SummaryBugSnapshotTotalTitle,
-                    value: Humanize.compactInteger(totalBugCount, 1),
-                    icon: Icon.Type.Bug
+                    value: (totalBugCount > 0) ? Humanize.compactInteger(totalBugCount, 1) : Config.Strings.SummarySnapshotNoDataMessage,
+                    icon: (totalBugCount > 0) ? Icon.Type.Bug : Icon.Type.Error
                 }
             ].forEach((snapshot) => {
                 data.push(new DescriptionList.DescriptionPair({
@@ -659,7 +662,7 @@ module Main {
                     } else {
                         colorClass = "sitereporter__tile__delta--Happy";
                     }
-                } else {
+                } else if (snapshot.value < 0) {
                     if (snapshot.term === "Frownies") {
                         colorClass = "sitereporter__tile__delta--Happy";
                     } else {
@@ -672,9 +675,9 @@ module Main {
                     descriptions: [{
                         content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span>&nbsp;<span data-bind="text: $vm.text"></span></span>`,
                         contentViewModel: {
-                            text: Humanize.compactInteger(Math.abs(snapshot.value), 1),
+                            text: (snapshot.value !== 0) ? Humanize.compactInteger(Math.abs(snapshot.value), 1) : Config.Strings.SummarySnapshotNoDataMessage,
                             icon: <Icon.IViewModelData>{
-                                type: (snapshot.value > 0) ? Icon.Type.Up : Icon.Type.Down,
+                                type: (snapshot.value > 0) ? Icon.Type.Up : ((snapshot.value < 0) ? Icon.Type.Down : Icon.Type.Error),
                                 classes: "subtitle " + colorClass
                             }
                         }

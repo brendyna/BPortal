@@ -14,7 +14,8 @@ module Main {
         let defaults: View.IWidgetDefaults = {
             disableAutoLoad: true,
             viewContext: {
-                params: $.extend({}, SummaryMocks.bingdexParams)
+                // Switch to SummaryMocks.edgeParams to see empty data/edge case UI
+                params: $.extend({}, SummaryMocks.bingdexParams) 
             }
         };
 
@@ -32,9 +33,12 @@ module Main {
         SummaryMocks.setupTokenDataMock();
         SummaryMocks.setupBugsForTagBlobUrlBingdexTop100Mock();
         SummaryMocks.setupBugsForTagBlobUrlMindtreeNotoriousMock();
+        SummaryMocks.setupBugsForTagBlobUrlFakeTagMock();
         SummaryMocks.setupBugsForTagBingdexTop100Mock();
         SummaryMocks.setupBugsForTagMindtreeNotoriousMock();
+        SummaryMocks.setupBugsForTagFakeTagEdgeMock();
         SummaryMocks.setupTrendsForTagBingdexTop100Mock();
         SummaryMocks.setupTrendsForTagMindtreeNotoriousMock();
+        SummaryMocks.setupTrendsForTagFakeTagMock();
     }
 }

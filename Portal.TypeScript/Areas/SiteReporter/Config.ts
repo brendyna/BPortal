@@ -98,7 +98,7 @@ module Main {
             release: $.getUrlVar("release").toUpperCase()
         };
         public static SummaryDefaultsEdge = {
-            tag: "BingdexTop100",
+            tag: "FakeTag",
             platform: "Desktop",
             release: "RS1"
         }
@@ -134,6 +134,7 @@ module Main {
         public static SummaryBugSnapshotReleaseTitle = "Release bugs";
         public static SummaryBugSnapshotSwitchRiskTitle = "Switch risk sites";
         public static SummaryBugSnapshotTotalTitle = "Total bugs";
+        public static SummarySnapshotNoDataMessage = "N/A";
         public static SummaryTrendSnapshotFrowniesTitle = "Frownies";
         public static SummaryTrendSnapshotNavigationsTitle = "Navigations";
         public static SummaryTrendSnapshotFocusTimeTitle = "Hours of Focus Time";

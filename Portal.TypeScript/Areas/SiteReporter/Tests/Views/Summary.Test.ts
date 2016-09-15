@@ -15,6 +15,7 @@ import View = require("Areas/SiteReporter/Views/Summary.View");
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 import Filters = require("Areas/Shared/Controls/Filters");
 import Header = require("Areas/Shared/Controls/Header");
+import Icon = require("Areas/Shared/Controls/Icon");
 import Input = require("Areas/Shared/Controls/Input");
 import List = require("Areas/Shared/Controls/List");
 import Navigation = require("Areas/Shared/Controls/Navigation");
@@ -306,11 +307,6 @@ module Main {
                 if (!loading) {
                     loadingSub1.dispose();
 
-                    // Switch risk is present for row 0 cell 0
-                    // Switch risk is not present for row 4 cell 0
-                    // Icon is present in row 0 cell 1
-                    // Button is present in row 0 6
-
                     // Using the 3rd row as the first couple rows stay the same when data sets change
                     let rows = bugSectionTableElem.find("tbody tr");
                     let initialCellValue = $($(rows.get(2)).find("td").get(1)).text();
@@ -430,46 +426,52 @@ module Main {
         });
     });
 
-    ////QUnit.module("Summary View: Dynamic edge", (hooks) => {
-    ////    let widget: View.IWidget;
-    ////    let loadPromise: JQueryPromise<void>;
+    QUnit.module("Summary View: Dynamic edge", (hooks) => {
+        let widget: View.IWidget;
+        let loadPromise: JQueryPromise<void>;
 
-    ////    hooks.before((assert) => {
-    ////        widget = beforeModule(getEdgeWidgetDefaults());
-    ////        loadPromise = widget.loadData();
-    ////    });
+        hooks.before((assert) => {
+            widget = create(getEdgeWidgetDefaults());
+            loadPromise = widget.loadData();
+        });
 
-    ////    hooks.after((assert) => {
-    ////        afterModule(widget);
-    ////    });
+        hooks.after((assert) => {
+            destroy(widget);
+        });
 
-    ////    //QUnit.test("Sidebar section renders correctly", (assert) => {
-    ////    //    let done = assert.async();
+        QUnit.test("Sidebar section renders correctly when no data is present", (assert) => {
+            let done = assert.async();
+            let mockBugsForTagData = SummaryMocks.getMockBugsForTagFakeTagEdge();
+            let mockTrendsForTagData = SummaryMocks.getMockTrendsForTagFakeTagEdge();
 
-    ////    //    loadPromise.done(() => {
-    ////    //        // If no bug/trend data is present, handle that in sidebar snapshot (TBD for how to do that)
-    ////    //    });
-    ////    //});
+            let loadingSub = widget.bugsSnapshots.vm.loading.subscribe((loading: boolean) => {
+                if (!loading) {
+                    loadingSub.dispose();
 
-    ////    //QUnit.test("Bugs section renders correctly", (assert) => {
-    ////    //    let done = assert.async();
+                    testSidebarBugsSnapshot(widget.sidebar, mockBugsForTagData, assert);
+                    testSidebarTrendsSnapshot(widget.sidebar, mockTrendsForTagData, assert);
 
-    ////    //    loadPromise.done(() => {
-    ////    //        // If no data is present, show empty placeholder string
+                    done();
+                }
+            });
+        });
 
-    ////    //        done();
-    ////    //    });
-    ////    //});
+        QUnit.test("Bugs section renders correctly", (assert) => {
+            let done = assert.async();
 
-    ////    //QUnit.test("Trends section renders correctly", (assert) => {
-    ////    //    let done = assert.async();
+            testEmptyTable(widget.bugsTable, assert).done(() => {
+                done();
+            });
+        });
 
-    ////    //    loadPromise.done(() => {
-    ////    //        // If no data is present, show empty placeholder string
-    ////    //        done();
-    ////    //    });
-    ////    //});
-    ////});
+        QUnit.test("Trends section renders correctly", (assert) => {
+            let done = assert.async();
+
+            testEmptyTable(widget.trendsTable, assert).done(() => {
+                done();
+            });
+        });
+    });
 
     function setupMockjax(): void {
         SummaryMocks.setupFiltersMock();
@@ -477,10 +479,13 @@ module Main {
         SummaryMocks.setupTokenDataMock();
         SummaryMocks.setupBugsForTagBlobUrlBingdexTop100Mock();
         SummaryMocks.setupBugsForTagBlobUrlMindtreeNotoriousMock();
+        SummaryMocks.setupBugsForTagBlobUrlFakeTagMock();
         SummaryMocks.setupBugsForTagBingdexTop100Mock();
         SummaryMocks.setupBugsForTagMindtreeNotoriousMock();
+        SummaryMocks.setupBugsForTagFakeTagEdgeMock();
         SummaryMocks.setupTrendsForTagBingdexTop100Mock();
         SummaryMocks.setupTrendsForTagMindtreeNotoriousMock();
+        SummaryMocks.setupTrendsForTagFakeTagMock();
     }
 
     function testSidebarBugsSnapshot(
@@ -513,22 +518,31 @@ module Main {
         [
             {
                 expectedTitle: Config.Strings.SummaryBugSnapshotSwitchRiskTitle,
-                expectedValue: Humanize.compactInteger(switchRiskPercent, 1) + "%"
+                expectedValue: (switchRiskCount > 0) ? Humanize.compactInteger(switchRiskPercent, 1) + "%"
+                    : Config.Strings.SummarySnapshotNoDataMessage,
+                expectedIcon: (switchRiskCount > 0) ? Icon.Type.Flag : Icon.Type.Error
             },
             {
                 expectedTitle: Config.Strings.SummaryBugSnapshotOutreachTitle,
-                expectedValue: Humanize.compactInteger(outreachBugCount, 1)
+                expectedValue: (outreachBugCount > 0) ? Humanize.compactInteger(outreachBugCount, 1)
+                    : Config.Strings.SummarySnapshotNoDataMessage,
+                expectedIcon: (outreachBugCount > 0) ? Icon.Type.Bug : Icon.Type.Error
             },
             {
                 expectedTitle: Config.Strings.SummaryBugSnapshotReleaseTitle,
-                expectedValue: Humanize.compactInteger(releaseBugCount, 1)
+                expectedValue: (releaseBugCount > 0) ? Humanize.compactInteger(releaseBugCount, 1)
+                    : Config.Strings.SummarySnapshotNoDataMessage,
+                expectedIcon: (releaseBugCount > 0) ? Icon.Type.Bug : Icon.Type.Error
             },
             {
                 expectedTitle: Config.Strings.SummaryBugSnapshotTotalTitle,
-                expectedValue: Humanize.compactInteger(totalBugCount, 1)
+                expectedValue: (totalBugCount > 0) ? Humanize.compactInteger(totalBugCount, 1)
+                    : Config.Strings.SummarySnapshotNoDataMessage,
+                expectedIcon: (totalBugCount > 0) ? Icon.Type.Bug : Icon.Type.Error
             }
         ].forEach((item, i: number) => {
             assert.equal($.trim($(snapshotDts[i]).text()), item.expectedTitle, `Snapshot ${item.expectedTitle} title is correct`);
+            assert.equal($(snapshotDds[i]).find(classify(item.expectedIcon)).length, 1, `Snapshot ${item.expectedTitle} icon is correct`);
             assert.equal($.trim($(snapshotDds[i]).text()), item.expectedValue, `Snapshot ${item.expectedTitle} value is correct`);
         });
     }
@@ -556,18 +570,25 @@ module Main {
         [
             {
                 expectedTitle: Config.Strings.SummaryTrendSnapshotFrowniesTitle,
-                expectedValue: Humanize.compactInteger(Math.abs(frowniesCount), 1)
+                expectedValue: (frowniesCount !== 0) ? Humanize.compactInteger(Math.abs(frowniesCount), 1)
+                    : Config.Strings.SummarySnapshotNoDataMessage,
+                expectedIcon: (frowniesCount > 0) ? Icon.Type.Up : ((frowniesCount < 0) ? Icon.Type.Down : Icon.Type.Error)
             },
             {
                 expectedTitle: Config.Strings.SummaryTrendSnapshotNavigationsTitle,
-                expectedValue: Humanize.compactInteger(Math.abs(navigationsCount), 1)
+                expectedValue: (navigationsCount !== 0) ? Humanize.compactInteger(Math.abs(navigationsCount), 1)
+                    : Config.Strings.SummarySnapshotNoDataMessage,
+                expectedIcon: (navigationsCount > 0) ? Icon.Type.Up : ((navigationsCount < 0) ? Icon.Type.Down : Icon.Type.Error)
             },
             {
                 expectedTitle: Config.Strings.SummaryTrendSnapshotFocusTimeTitle,
-                expectedValue: Humanize.compactInteger(Math.abs(focusTimeCount), 1)
+                expectedValue: (focusTimeCount !== 0) ? Humanize.compactInteger(Math.abs(focusTimeCount), 1)
+                    : Config.Strings.SummarySnapshotNoDataMessage,
+                expectedIcon: (focusTimeCount > 0) ? Icon.Type.Up : ((focusTimeCount < 0) ? Icon.Type.Down : Icon.Type.Error)
             }
         ].forEach((item, i: number) => {
             assert.equal($.trim($(snapshotDts[i]).text()), item.expectedTitle, `Snapshot ${item.expectedTitle} title is correct`);
+            assert.equal($(snapshotDds[i]).find(classify(item.expectedIcon)).length, 1, `Snapshot ${item.expectedTitle} icon is correct`);
             assert.equal($.trim($(snapshotDds[i]).text()), item.expectedValue, `Snapshot ${item.expectedTitle} value is correct`);
         });
     }
@@ -670,6 +691,40 @@ module Main {
         bugSearchFilter.find("input").val(successResultSearchString).trigger("keyup");
 
         return deferred.promise();
+    }
+
+    function testEmptyTable(
+        table: BaseControl.IControl<Table.IViewModel, Table.IWidget>,
+        assert: QUnitAssert
+    ): JQueryPromise<void> {
+        let deferred = $.Deferred<void>();
+
+        if (table.vm.loading()) {
+            let loadingSub = table.vm.loading.subscribe((loading: boolean) => {
+                if (!loading) {
+                    loadingSub.dispose();
+                    runEmptyTableTests(table, assert);
+                    deferred.resolve();
+                }
+            });
+        } else {
+            runEmptyTableTests(table, assert);
+            deferred.resolve();
+        }
+
+        return deferred.promise();
+    }
+
+    function runEmptyTableTests(
+        table: BaseControl.IControl<Table.IViewModel, Table.IWidget>,
+        assert: QUnitAssert
+    ): void {
+        let tableElem = table.widget.element;
+        let rows = tableElem.find("tbody tr");
+
+        assert.equal(rows.length, 1, "Only one row is present when no data loads");
+        assert.equal($($(rows.get(0)).find("td").get(0)).text(),
+            Config.Strings.SummaryTableNoDataMessage, "Empty table placeholder shown");
     }
 
     function classify(selector: string): string {
