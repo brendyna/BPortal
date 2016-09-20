@@ -207,11 +207,12 @@ module Main {
                     { classes: "table__column__switch" },
                     { hidden: true, text: "DomainId" },
                     { hidden: true },
-                    { text: "Site", classes: "table__column__site" },
-                    { text: "Bingdex", classes: "table__column__rank" },
-                    { text: "Outreach", classes: "table__column__bugs outreach__bugs" },
-                    { text: "Current", classes: "table__column__bugs release__bugs" },
-                    { text: "Total", classes: "table__column__bugs total__bugs" },
+                    { text: Config.Strings.SummaryTableSiteColumnHeader, classes: "table__column__site" },
+                    { text: Config.Strings.SummaryTableBingdexColumnHeader, classes: "table__column__rank" },
+                    { text: Config.Strings.SummaryTableAlexaColumnHeader, classes: "table__column__rank" },
+                    { text: Config.Strings.SummaryBugsTableOutreachColumnHeader, classes: "table__column__bugs outreach__bugs" },
+                    { text: Config.Strings.SummaryBugsTableCurrentColumnHeader, classes: "table__column__bugs release__bugs" },
+                    { text: Config.Strings.SummaryBugsTableTotalColumnHeader, classes: "table__column__bugs total__bugs" },
                     { classes: "table__column__button" }
                 ],
                 metadata: Config.Strings.BugsTableScanTimePlaceholder,
@@ -240,8 +241,13 @@ module Main {
                         { data: 'domainName' },
                         {
                             data: 'bingdexRank',
-                            defaultContent: (<any>Config.Defaults.EmptyBingdex)
+                            defaultContent: (<any>Config.Defaults.EmptyRanking)
                             
+                        },
+                        {
+                            data: 'alexaRank',
+                            defaultContent: (<any>Config.Defaults.EmptyRanking)
+
                         },
                         { data: 'outreachBugCount' },
                         { data: 'currentReleaseBugCount' },
@@ -252,7 +258,7 @@ module Main {
                         {
                             targets: 'table__column__rank',
                             width: '16%',
-                            render: renderBingdexColumn
+                            render: renderRankingColumn
                         },
                         {
                             targets: 'table__column__site',
@@ -349,11 +355,12 @@ module Main {
                 headers: [
                     { hidden: true, text: "DomainId" },
                     { hidden: true },
-                    { text: "Site", classes: "table__column__site" },
-                    { text: "Bingdex", classes: "table__column__rank" },
-                    { text: "Frownies", classes: "table__column__delta--Reverse" },
-                    { text: "Navigations", classes: "table__column__delta--Standard" },
-                    { text: "Focus Time", classes: "table__column__delta--Standard" },
+                    { text: Config.Strings.SummaryTableSiteColumnHeader, classes: "table__column__site" },
+                    { text: Config.Strings.SummaryTableBingdexColumnHeader, classes: "table__column__rank" },
+                    { text: Config.Strings.SummaryTableAlexaColumnHeader, classes: "table__column__rank" },
+                    { text: Config.Strings.SummaryTrendTableFrowniesColumnHeader, classes: "table__column__delta--Reverse" },
+                    { text: Config.Strings.SummaryTrendTableNavigationsColumnHeader, classes: "table__column__delta--Standard" },
+                    { text: Config.Strings.SummaryTrendTableFocusTimeColumnHeader, classes: "table__column__delta--Standard" },
                     { classes: "table__column__button" }
                 ],
                 settings: <DataTables.Settings>{
@@ -380,7 +387,11 @@ module Main {
                         { data: 'domainName' },
                         {
                             data: 'bingdexRank',
-                            defaultContent: (<any>Config.Defaults.EmptyBingdex)
+                            defaultContent: (<any>Config.Defaults.EmptyRanking)
+                        },
+                        {
+                            data: 'alexaRank',
+                            defaultContent: (<any>Config.Defaults.EmptyRanking)
                         },
                         { data: 'frowny' },
                         { data: 'navigation' },
@@ -391,7 +402,7 @@ module Main {
                         {
                             targets: 'table__column__rank',
                             width: '15%',
-                            render: renderBingdexColumn
+                            render: renderRankingColumn
                         },
                         {
                             targets: 'table__column__site',
@@ -693,12 +704,12 @@ module Main {
         }
     }
 
-    function renderBingdexColumn(data, type) {
+    function renderRankingColumn(data, type) {
         var value;
         if ((type === "sort" || type === "type") && data === 0) {
-            value = Config.Defaults.EmptyBingdex;
+            value = Config.Defaults.EmptyRanking;
         } else if (data === 0) {
-            value = 'n/a';
+            value = Config.Strings.EmptyRankingPlaceholder;
         } else {
             value = Humanize.intComma(data);
         }

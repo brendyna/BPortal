@@ -299,7 +299,7 @@ module Main {
             let bugSectionFiltersElem = widget.bugsFilters.widget.element;
             let bugSectionTableElem = widget.bugsTable.widget.element;
             let bugsForTagMindtreeMockData = SummaryMocks.getMockBugsForTagMindtreeNotorious();
-            let expectedPostFilterChangeCellValue = bugsForTagMindtreeMockData[2].DomainName;
+            let expectedPostFilterChangeCellValue = bugsForTagMindtreeMockData[0].DomainName;
             let filterOptionListFromData = [];
             let filterOptionListFromDom = [];
             
@@ -309,12 +309,29 @@ module Main {
 
                     // Using the 3rd row as the first couple rows stay the same when data sets change
                     let rows = bugSectionTableElem.find("tbody tr");
+                    let headers = bugSectionTableElem.find("thead tr th");
                     let initialCellValue = $($(rows.get(2)).find("td").get(1)).text();
+                    let expectedHeaders = [
+                        Config.Strings.SummaryTableSiteColumnHeader,
+                        Config.Strings.SummaryTableBingdexColumnHeader,
+                        Config.Strings.SummaryTableAlexaColumnHeader,
+                        Config.Strings.SummaryBugsTableOutreachColumnHeader,
+                        Config.Strings.SummaryBugsTableCurrentColumnHeader,
+                        Config.Strings.SummaryBugsTableTotalColumnHeader
+                    ];
                     let expectedScanTime = `${Config.Strings.BugsTableScanTimePrefix} ${moment(SummaryMocks.getMockScanTime()).fromNow()}`;
+                    let actualHeaders = [
+                        $(headers.get(1)).text(),
+                        $(headers.get(2)).text(),
+                        $(headers.get(3)).text(),
+                        $(headers.get(4)).text(),
+                        $(headers.get(5)).text(),
+                        $(headers.get(6)).text()
+                    ];
                     let actualSwitchRiskIconCount = $(rows.get(0)).find(`td:nth-of-type(1) ${classify(Config.Classes.SwitchRiskIcon)}`).length;
                     let actualNonSwitchRiskIconCount = $(rows.get(4)).find(`td:nth-of-type(1) ${classify(Config.Classes.SwitchRiskIcon)}`).length;
                     let actualFavIconCount = $(rows.get(0)).find(`td:nth-of-type(2) img`).length;
-                    let actualDetailsButtonCount = $(rows.get(0)).find(`td:nth-of-type(7) button`).length;
+                    let actualDetailsButtonCount = $(rows.get(0)).find(`td:nth-of-type(8) button`).length;
 
                     SummaryMocks.getMockFiltersData()["tag"].forEach((option: FiltersRepo.Option) => {
                         filterOptionListFromData.push(option.text);
@@ -325,6 +342,7 @@ module Main {
                     });
 
                     assert.deepEqual(filterOptionListFromDom, filterOptionListFromData, "Filter options render correctly");
+                    assert.deepEqual(actualHeaders, expectedHeaders, "Table column headers are correct");
                     assert.equal(bugSectionElem.find(classify(BaseConfig.Classes.TableMetadata)).text(),
                         expectedScanTime, "Scan time renders correctly");
                     assert.equal(actualSwitchRiskIconCount, 1, "Switch risk icon is present for switch risk site");
@@ -371,12 +389,29 @@ module Main {
 
             this.loadPromise.done(() => {
                 let rows = trendSectionTableElem.find("tbody tr");
+                let headers = trendSectionTableElem.find("thead tr th");
                 let initialCellValue = $($(rows.get(2)).find("td").get(0)).text();
-                let actualFrowniesDeltaIconCount = $(rows.get(0)).find(`td:nth-of-type(3) ${classify(Config.Classes.SummaryTileDelta)}`).length;
-                let actualNavigationsDeltaIconCount = $(rows.get(0)).find(`td:nth-of-type(4) ${classify(Config.Classes.SummaryTileDelta)}`).length;
-                let actualFocusTimeDeltaIconCount = $(rows.get(0)).find(`td:nth-of-type(5) ${classify(Config.Classes.SummaryTileDelta)}`).length;
+                let expectedHeaders = [
+                    Config.Strings.SummaryTableSiteColumnHeader,
+                    Config.Strings.SummaryTableBingdexColumnHeader,
+                    Config.Strings.SummaryTableAlexaColumnHeader,
+                    Config.Strings.SummaryTrendTableFrowniesColumnHeader,
+                    Config.Strings.SummaryTrendTableNavigationsColumnHeader,
+                    Config.Strings.SummaryTrendTableFocusTimeColumnHeader
+                ];
+                let actualHeaders = [
+                    $(headers.get(0)).text(),
+                    $(headers.get(1)).text(),
+                    $(headers.get(2)).text(),
+                    $(headers.get(3)).text(),
+                    $(headers.get(4)).text(),
+                    $(headers.get(5)).text()
+                ];
+                let actualFrowniesDeltaIconCount = $(rows.get(0)).find(`td:nth-of-type(4) ${classify(Config.Classes.SummaryTileDelta)}`).length;
+                let actualNavigationsDeltaIconCount = $(rows.get(0)).find(`td:nth-of-type(5) ${classify(Config.Classes.SummaryTileDelta)}`).length;
+                let actualFocusTimeDeltaIconCount = $(rows.get(0)).find(`td:nth-of-type(6) ${classify(Config.Classes.SummaryTileDelta)}`).length;
                 let actualFavIconCount = $(rows.get(0)).find(`td:nth-of-type(1) img`).length;
-                let actualDetailsButtonCount = $(rows.get(0)).find(`td:nth-of-type(6) button`).length;
+                let actualDetailsButtonCount = $(rows.get(0)).find(`td:nth-of-type(7) button`).length;
                 
                 let filtersMockData = SummaryMocks.getMockFiltersData();
                 let trendSectionFilterSelects = trendSectionFiltersElem.find("select");
@@ -399,6 +434,7 @@ module Main {
 
                 assert.deepEqual(tagFilterOptionListFromDom, tagFilterOptionListFromData, "Tag filter options render correctly");
                 assert.deepEqual(releaseFilterOptionListFromDom, releaseFilterOptionListFromData, "Release filter options render correctly");
+                assert.deepEqual(actualHeaders, expectedHeaders, "Table column headers are correct");
                 assert.equal(actualFavIconCount, 1, "Favicon is present for site");
                 assert.equal(actualDetailsButtonCount, 1, "Details button is present for site");
                 assert.equal(actualFrowniesDeltaIconCount, 1, "Frownies delta icon is present for site");
@@ -406,7 +442,7 @@ module Main {
                 assert.equal(actualFocusTimeDeltaIconCount, 1, "Focus Time delta icon is present for site");
 
                 let filterChangePromise = testSectionTableSelectFilterChange(widget.trendsTable, widget.sidebar, widget.trendsSnapshots, 2, 0, initialCellValue,
-                    trendsForTagMindtreeMockData.data[2].domainName, widget.trendsFilters, { "tag": "MindTreeNotoriousSites", "release": "RS1" },
+                    trendsForTagMindtreeMockData.data[0].domainName, widget.trendsFilters, { "tag": "MindTreeNotoriousSites", "release": "RS1" },
                     testSidebarTrendsSnapshot, trendsForTagMindtreeMockData, assert);
 
                 filterChangePromise.done(() => {

@@ -12,6 +12,7 @@ module Main {
         CurrentReleaseBugCount: number,
         IsSwitchRisk: boolean,
         BingdexRank: number,
+        AlexaRank: number,
         IsOffensive: boolean
     }
 

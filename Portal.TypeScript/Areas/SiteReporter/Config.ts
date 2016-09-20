@@ -33,7 +33,7 @@ module Main {
     }
 
     export class Defaults {
-        public static EmptyBingdex = 9999999; // We only track 750k, but a more extreme value is safer
+        public static EmptyRanking = 9999999; // Set to an extreme value to be safe
     }
 
     export class Endpoints {
@@ -124,6 +124,7 @@ module Main {
         public static DetailsTrendsNavigationsNoDataMessage = "No Navigations data to show for this site";
         public static DetailsTrendsFocusTimeTitle = "Focus Time";
         public static DetailsTrendsFocusTimeNoDataMessage = "No Focus Time data to show for this site";
+        public static EmptyRankingPlaceholder = "--";
         public static ExtensionInstall = "Install Edge extension";
         public static LearnMore = "Learn about our data";
         public static SummaryPageTitle = "Site Reporter";
@@ -134,10 +135,19 @@ module Main {
         public static SummaryBugSnapshotReleaseTitle = "Release bugs";
         public static SummaryBugSnapshotSwitchRiskTitle = "Switch risk sites";
         public static SummaryBugSnapshotTotalTitle = "Total bugs";
+        public static SummaryBugsTableCurrentColumnHeader = "Current";
+        public static SummaryBugsTableOutreachColumnHeader = "Outreach";
+        public static SummaryBugsTableTotalColumnHeader = "Total";
         public static SummarySnapshotNoDataMessage = "N/A";
+        public static SummaryTableAlexaColumnHeader = "Alexa";
+        public static SummaryTableBingdexColumnHeader = "Bingdex";
+        public static SummaryTableSiteColumnHeader = "Site";
         public static SummaryTrendSnapshotFrowniesTitle = "Frownies";
         public static SummaryTrendSnapshotNavigationsTitle = "Navigations";
         public static SummaryTrendSnapshotFocusTimeTitle = "Hours of Focus Time";
+        public static SummaryTrendTableFocusTimeColumnHeader = "Focus Time";
+        public static SummaryTrendTableFrowniesColumnHeader = "Frownies";
+        public static SummaryTrendTableNavigationsColumnHeader = "Navigations";
         public static SummaryTableNoDataMessage = "No sites to show";
         public static SummaryTableNoResultsMessage = "No sites found";
         public static SummaryTrendSnapshotTitle = "Trend snapshot";
