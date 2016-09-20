@@ -3,6 +3,7 @@
 import $ = require("jquery");
 import ko = require("knockout");
 import Base = require("./Base");
+import Config = require("../Config");
 import KnockoutUtil = require("../Util/Knockout");
 
 import DefaultTemplate = require("../Templates/Controls/Table.Template");
@@ -40,6 +41,7 @@ module Main {
 
     export interface IWidget extends Base.IWidget {
         data: KnockoutObservable<any>;
+        getDataUpdatePromise: () => JQueryPromise<void>;
     }
 
     export class Header implements IHeader {
@@ -96,11 +98,13 @@ module Main {
 
         private _data: KnockoutObservable<any>;
         private _metadataElement: JQuery;
+        private _dataUpdateDeferred: JQueryDeferred<void>;
 
         constructor(element: JQuery, defaults?: IWidgetDefaults | IViewModelData) {
             super(element, ViewModel, Widget.resolveDefaults(defaults, DefaultTemplate));
 
             this._data = ko.observable(this.viewModel.settings().data || {});
+            this._dataUpdateDeferred = $.Deferred<void>();
 
             this.wrapDataTablesCallbacks();
 
@@ -120,6 +124,14 @@ module Main {
 
         public get viewModel(): IViewModel {
             return <IViewModel>this._viewModel;
+        }
+
+        public getDataUpdatePromise(): JQueryPromise<void> {
+            if (this._dataUpdateDeferred.state() === "resolved") {
+                this._dataUpdateDeferred = $.Deferred<void>();
+            }
+
+            return this._dataUpdateDeferred.promise();
         }
 
         public _setupElement(): void {
@@ -148,7 +160,7 @@ module Main {
                 }));
 
             this._subscriptions.push(this.data.subscribe((newData: any) => {
-                let dataTable = $(this.element).DataTable()
+                let dataTable = $(this.element).DataTable();
                 dataTable.clear();
                 dataTable.rows.add(newData);
                 dataTable.draw();
@@ -157,7 +169,7 @@ module Main {
 
         public _tableInitComplete(): void {
             this._metadataElement = $('<div data-bind="text: metadata">')
-                .addClass('dataTables_filter dataTables__filter__metadata');
+                .addClass(`dataTables_filter ${Config.Classes.TableMetadata}`);
 
             $(this.element).parent().find(".dataTables_filter").after(this._metadataElement);
             ko.applyBindings({ metadata: this.viewModel.metadata }, this._metadataElement[0]);
@@ -175,6 +187,8 @@ module Main {
             } else {
                 wrapper.find(".dataTables_paginate").show();
             }
+
+            this._dataUpdateDeferred.resolve();
         }
 
         private wrapDataTablesCallbacks(): void {

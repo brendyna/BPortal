@@ -60,6 +60,7 @@
     <Content Include="Areas\SiteReporter\Html\Tests\Views\Details.Test.html" />
     <Content Include="Areas\SiteReporter\Html\Tests\Views\Summary.Test.html" />
     <Content Include="Areas\Shared\Styles\controls.css" />
+    <Content Include="chutzpah.harness.html" />
     <Content Include="Content\css\samples.css" />
     <Content Include="Content\css\spinner.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -143,6 +144,7 @@
     <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.DisabledWrapper.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Badge.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Editable.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\List.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Navigation.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Helpers\Controls.Helper.ts" />
@@ -191,6 +193,8 @@
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Select.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Table.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Tabs.Sample.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Samples\Helpers\Details.Mocks.ts" />
+    <TypeScriptCompile Include="Areas\SiteReporter\Samples\Helpers\Summary.Mocks.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Samples\Views\Details.Sample.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Samples\Views\Summary.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Base.Loading.Template.ts" />

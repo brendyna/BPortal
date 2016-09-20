@@ -1,48 +1,49 @@
-﻿import $ = require("jquery");
+﻿import "jquery";
+import "qunit";
+
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 
 export = Main;
 
 module Main {
-    $((): void => {
-        QUnit.module("DescriptionList");
-        test("Control exists", 3, () => {
-            // Assert
-            ok(DescriptionList, "DescriptionList loaded");
-            equal(typeof (DescriptionList.ViewModel), "function", "ViewModel defined");
-            equal(typeof (DescriptionList.Widget), "function", "Widget defined");
-        });
+    QUnit.start();
+    QUnit.module("DescriptionList");
+    QUnit.test("Control exists", (assert) => {
+        // Assert
+        assert.ok(DescriptionList, "DescriptionList loaded");
+        assert.equal(typeof (DescriptionList.ViewModel), "function", "ViewModel defined");
+        assert.equal(typeof (DescriptionList.Widget), "function", "Widget defined");
+    });
 
-        test("Control renders correctly", 1, () => {
-            // Setup
-            let fixture = $("qunit-fixture");
-            let defaults: DescriptionList.IWidgetDefaults = {
-                viewModelData: {
-                }
-            };
-            let widget = new DescriptionList.Widget($("#qunit-fixture"), defaults);
+    QUnit.test("Control renders correctly", (assert) => {
+        // Setup
+        let fixture = $("qunit-fixture");
+        let defaults: DescriptionList.IWidgetDefaults = {
+            viewModelData: {
+            }
+        };
+        let widget = new DescriptionList.Widget($("#qunit-fixture"), defaults);
 
-            // Act
+        // Act
 
-            // Assert
-            ok(widget.element.hasClass(DescriptionList.Widget.widgetClass), "Widget class is present");
+        // Assert
+        assert.ok(widget.element.hasClass(DescriptionList.Widget.widgetClass), "Widget class is present");
 
-            widget.destroy();
-        });
+        widget.destroy();
+    });
 
-        test("Control destroys correctly", 1, () => {
-            // Setup
-            let defaults: DescriptionList.IWidgetDefaults = {
-                viewModelData: {
-                }
-            };
-            let widget = new DescriptionList.Widget($("#qunit-fixture"), defaults);
+    QUnit.test("Control destroys correctly", (assert) => {
+        // Setup
+        let defaults: DescriptionList.IWidgetDefaults = {
+            viewModelData: {
+            }
+        };
+        let widget = new DescriptionList.Widget($("#qunit-fixture"), defaults);
 
-            // Act
-            widget.destroy();
+        // Act
+        widget.destroy();
 
-            // Assert
-            ok(!widget.element.hasClass(DescriptionList.Widget.widgetClass), "Widget class is present");
-        });
+        // Assert
+        assert.ok(!widget.element.hasClass(DescriptionList.Widget.widgetClass), "Widget class is present");
     });
 }

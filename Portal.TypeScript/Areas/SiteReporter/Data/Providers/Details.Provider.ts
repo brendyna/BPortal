@@ -1,6 +1,4 @@
-﻿/// <amd-dependency path="humanize" />
-
-import moment = require("moment");
+﻿import "humanize";
 
 import Base = require("Areas/Shared/Controls/Base");
 import Chart = require("Areas/Shared/Controls/Chart");
@@ -72,7 +70,7 @@ module Main {
 
         public getNavigationViewModelData(): Navigation.IViewModelData {
             let navData: Navigation.IViewModelData = {
-                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.Breadcrumb
+                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.DetailsBreadcrumb
             };
 
             return navData;
@@ -93,7 +91,7 @@ module Main {
                 bodyViewModel: {
                     siteSearch: <Input.IViewModelData>{
                         type: Input.Type.Text,
-                        placeholder: "Search for another site",
+                        placeholder: Config.Strings.SiteSearch,
                         enterCallback: (domain: string) => {
                             window.open("http://wptportal.corp.microsoft.com/sitereporter/details?domain=" + domain);
                         }
@@ -101,33 +99,36 @@ module Main {
                 },
                 subsections: [
                     {
+                        classes: Config.Classes.TableOfContents,
                         body: `<ul data-bind="wpsList: $vm.sections"></ul>`,
                         bodyViewModel: {
                             sections: <List.IViewModelData>{
                                 type: List.Type.Links,
                                 items: [
                                     {
-                                        content: '<a href="#Bugs">Bugs</a>'
+                                        content: `<a href="#${Config.Strings.BugSectionTitle}">${Config.Strings.BugSectionTitle}</a>`
                                     },
                                     {
-                                        content: '<a href="#Technologies">Technologies</a>'
+                                        content: `<a href="#${Config.Strings.TechSectionTitle}">${Config.Strings.TechSectionTitle}</a>`
                                     },
                                     {
-                                        content: '<a href="#Trends">Trends</a>'
+                                        content: `<a href="#${Config.Strings.TrendsSectionTitle}">${Config.Strings.TrendsSectionTitle}</a>`
                                     }
                                 ]
                             }
                         }
                     },
                     {
+                        classes: "snapshot",
                         body: `<dl data-bind="wpsDescriptionList: $vm.highlights"></dl>`,
                         bodyViewModel: {
                             highlights: <DescriptionList.IViewModelData>{
-                                classes: "domain__snapshot"
+                                classes: Config.Classes.DetailsDomainSnapshot
                             }
                         }
                     },
                     {
+                        classes: Config.Classes.LearnMoreLinks,
                         body: `<dl data-bind="wpsDescriptionList: $vm.links"></dl>`,
                         bodyViewModel: {
                             links: <DescriptionList.IViewModelData>{
@@ -137,14 +138,14 @@ module Main {
                                             {
                                                 content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
-                                                    text: "Learn about our data",
+                                                    text: Config.Strings.LearnMore,
                                                     url: Config.Urls.SiteReporterWiki
                                                 }
                                             },
                                             {
                                                 content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
-                                                    text: "Install Edge extension",
+                                                    text: Config.Strings.ExtensionInstall,
                                                     url: Config.Urls.ExtensionLocation
                                                 }
                                             }
@@ -167,7 +168,7 @@ module Main {
                     contentViewModel: {
                         icon: <Icon.IViewModelData>{
                             type: Icon.Type.Flag,
-                            classes: "subtitle metrics__measurements__icon--switchRisk"
+                            classes: "subtitle " + Config.Classes.DetailsSwitchRiskIcon
                         }
                     }
                 }]
@@ -181,7 +182,7 @@ module Main {
                     contentViewModel: {
                         icon: <Icon.IViewModelData>{
                             type: Icon.Type.Blocked,
-                            classes: "sitereporter__tile__delta--Sad"
+                            classes: "sitereporter__tile__delta--Sad " + Config.Classes.DetailsPotentiallyOffensive
                         }
                     }
                 }]
@@ -191,7 +192,7 @@ module Main {
         public getFavIconDescriptionPair(domain: string): DescriptionList.IDescriptionPairData {
             return {
                 descriptions: [{
-                    content: `<img class="summary--favicon" data-bind="attr: { src: $vm.src }" />`,
+                    content: `<img class="${Config.Classes.SiteFavIcon}" data-bind="attr: { src: $vm.src }" />`,
                     contentViewModel: {
                         src: "http://www.google.com/s2/favicons?domain_url=" + domain
                     }
@@ -204,6 +205,7 @@ module Main {
                 title: "Bugs",
                 altHeader: true,
                 anchor: "Bugs",
+                classes: "details--bugs",
                 body: `
                     <div data-bind="wpsFilters: $vm.filters"></div>
                     <table data-bind="wpsTable: $vm.table"></table>
@@ -213,7 +215,7 @@ module Main {
                     filters: this.getBugFilterData(),
                     table: this.getBugTableData(),
                     bugs: <Chart.IViewModelData>{
-                        classes: "bug__trends",
+                        classes: Config.Classes.DetailsBugsTrendsChart,
                         options: this.getBugTrendChartOptions()
                     }
                 }
@@ -225,10 +227,11 @@ module Main {
                 title: "Trends",
                 altHeader: true,
                 anchor: "Trends",
+                classes: "details--trends",
                 body: `<div data-bind="wpsFilters: $vm.filters"></div>`,
                 bodyViewModel: {
                     filters: <Filters.IViewModelData>{
-                        classes: "trends__filters",
+                        classes: Config.Classes.TrendsFilters,
                         hideButtons: true
                     }
                 },
@@ -237,24 +240,24 @@ module Main {
                         body: `<div data-bind="wpsChart: $vm"s></div>`,
                         classes: "section__frownies",
                         bodyViewModel: <Chart.IViewModelData>{
-                            classes: "trends__frownies",
-                            options: this.getTrendChartOptions("Frownies")
+                            classes: Config.Classes.DetailsTrendsFrowniesChart,
+                            options: this.getTrendChartOptions(Config.Strings.DetailsTrendsFrowniesTitle)
                         }
                     },
                     {
                         body: `<div data-bind="wpsChart: $vm"></div>`,
                         classes: "section__navigations",
                         bodyViewModel: <Chart.IViewModelData>{
-                            classes: "trends__navigations",
-                            options: this.getTrendChartOptions("Navigations")
+                            classes: Config.Classes.DetailsTrendsNavigationsChart,
+                            options: this.getTrendChartOptions(Config.Strings.DetailsTrendsNavigationsTitle)
                         }
                     },
                     {
                         body: `<div data-bind="wpsChart: $vm"></div>`,
                         classes: "section__focustime",
                         bodyViewModel: <Chart.IViewModelData>{
-                            classes: "trends__focustime",
-                            options: this.getTrendChartOptions("Focus Time")
+                            classes: Config.Classes.DetailsTrendsFocusTimeChart,
+                            options: this.getTrendChartOptions(Config.Strings.DetailsTrendsFocusTimeTitle)
                         }
                     }
                 ]
@@ -268,6 +271,7 @@ module Main {
                 title: "Technologies",
                 altHeader: true,
                 anchor: "Technologies",
+                classes: "details--technologies",
                 body: `
                     <div data-bind="text: $vm.builtwith"></div>
                 `,
@@ -279,14 +283,14 @@ module Main {
 
         private getBugFilterData(): Filters.IViewModelData {
             return {
-                classes: "bug__filters",
+                classes: Config.Classes.DetailsBugsFilters,
                 hideButtons: true
             };
         }
 
         private getBugTableData(): Table.IViewModelData {
             return {
-                classes: "bug__list",
+                classes: Config.Classes.DetailsBugsTable,
                 headers: [
                     { text: "Id" },
                     { text: "AreaPath" },
@@ -301,7 +305,7 @@ module Main {
                     { text: "Tags" },
                     { text: "Title" }
                 ],
-                metadata: "Updated...",
+                metadata: Config.Strings.BugsTableScanTimePlaceholder,
                 settings: <DataTables.Settings>{
                     lengthChange: false,
                     searchDelay: 500,
@@ -310,8 +314,9 @@ module Main {
                     info: false,
                     language: <any>{
                         search: "",
-                        searchPlaceholder: "Filter table",
-                        emptyTable: "No bugs to show for this site"
+                        searchPlaceholder: Config.Strings.TableFilterPlaceholder,
+                        emptyTable: Config.Strings.DetailsBugsTableNoDataMessage,
+                        zeroRecords: Config.Strings.DetailsBugsTableNoResultsMessage
                     },
                     order: [
                         [
@@ -466,10 +471,17 @@ module Main {
         }
 
         public isBugTrendDataEmpty(): boolean {
-            return this.repository.resultData.AllBugs.length === 0
+            let objHasProperties = false;
+            for (var prop in this.repository.resultData) {
+                if (this.repository.resultData.hasOwnProperty(prop)) {
+                    objHasProperties = true;
+                }
+            }   
+
+            return !objHasProperties || (this.repository.resultData.AllBugs.length === 0
                 && this.repository.resultData.CurrentReleaseBugs.length === 0
                 && this.repository.resultData.OutreachBugs.length === 0
-                && this.repository.resultData.SwitchRiskBugs.length === 0;
+                && this.repository.resultData.SwitchRiskBugs.length === 0);
         }
     }
 
@@ -535,10 +547,10 @@ module Main {
             data.push({
                 name: BugsProvider.SelectName,
                 options: [
-                    { text: "All bugs (" + this.bugs.length + ")", value: this._bugTypeMap[BugType.All] },
-                    { text: "Switch risk bugs (" + this.switchRiskBugs.length + ")", value: this._bugTypeMap[BugType.SwitchRisk] },
-                    { text: "Outreach bugs (" + this.outreachBugs.length + ")", value: this._bugTypeMap[BugType.Outreach] },
-                    { text: (this.releaseBugs[0] && this.releaseBugs[0].Release || "Current release") + " bugs (" + this.releaseBugs.length + ")", value: this._bugTypeMap[BugType.Release] }
+                    { text: `${Config.Strings.DetailsFiltersAllBugs} (${this.bugs.length})`, value: this._bugTypeMap[BugType.All] },
+                    { text: `${Config.Strings.DetailsFiltersSwitchRiskBugs} (${this.switchRiskBugs.length})`, value: this._bugTypeMap[BugType.SwitchRisk] },
+                    { text: `${Config.Strings.DetailsFiltersOutreachBugs} (${this.outreachBugs.length})`, value: this._bugTypeMap[BugType.Outreach] },
+                    { text: `${(this.releaseBugs[0] && this.releaseBugs[0].Release || "Current release")} bugs (${this.releaseBugs.length})`, value: this._bugTypeMap[BugType.Release] }
                 ]
             });
 
@@ -579,15 +591,16 @@ module Main {
 
         public getBingdexDescriptionPair(): DescriptionList.IDescriptionPairData {
             let text = this.repository.resultData.bingdexRank === 0 ?
-                ">750,000" :
+                Config.Strings.BingdexOutOfBounds :
                 "#" + Humanize.intComma(this.repository.resultData.bingdexRank);
 
             return {
                 term: "Bingdex rank",
                 descriptions: [{
-                    content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
+                    content: `<span data-bind="text: $vm.text, css: $vm.classes"></span>`,
                     contentViewModel: {
-                        text: text
+                        text: text,
+                        classes: "subtitle " + Config.Classes.SiteBingdexRank
                     }
                 }]
             };
@@ -595,15 +608,16 @@ module Main {
 
         public getAlexaDescriptionPair(): DescriptionList.IDescriptionPairData {
             let text = this.repository.resultData.alexaRank === 0 ?
-                ">1,000" :
+                Config.Strings.AlexaOutOfBounds :
                 "#" + Humanize.intComma(this.repository.resultData.alexaRank);
 
             return {
                 term: "Alexa rank",
                 descriptions: [{
-                    content: `<span class="subtitle" data-bind="text: $vm.text"></span>`,
+                    content: `<span data-bind="text: $vm.text, css: $vm.classes"></span>`,
                     contentViewModel: {
-                        text: text
+                        text: text,
+                        classes: "subtitle " + Config.Classes.SiteAlexaRank
                     }
                 }]
             };
@@ -615,7 +629,7 @@ module Main {
                 descriptions: [
                     {
                         content: `<!-- ko foreach: $vm.badges -->
-                                    <span data-bind="wpsBadge: $data"></span>
+                                    <span class="${Config.Classes.SiteTag}" data-bind="wpsBadge: $data"></span>
                                   <!-- /ko -->`,
                         contentViewModel: {
                             badges: this.repository.resultData.tags.map(tag => {
@@ -660,7 +674,9 @@ module Main {
         }
         
         public isDataEmpty(type: ChartType): boolean {
-            return this.getChart(type).dataPoints.length === 0;
+            let chart = this.getChart(type);
+
+            return chart === undefined || this.getChart(type).dataPoints.length === 0;
         }
 
         private getChart(type: ChartType): TrendsForDomainRepository.Chart {

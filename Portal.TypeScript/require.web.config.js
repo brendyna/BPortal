@@ -12,6 +12,7 @@
         "moment": "/bower_components/moment/min/moment.min",
         "jquery.extensions": "/Lib/jQuery.Extensions", // How to share w/Web?
         "highcharts.ieportal": "/Lib/highcharts/themes/ieportal", // How to share w/Web?
+        "qunit": "/bower_components/qunit/qunit/qunit",
         "wps.portal": "/Lib/wps.portal.min" // How to share w/Web?
     },
     shim: {
@@ -26,6 +27,8 @@
     }
 });
 
+// TODO: Remove these and ensure each file includes what it needs (this defeats
+// the points of AMD a bit)
 require([
     "jquery.extensions", "jquery.mockjax", "humanize", "moment", "wps.portal"
 ]);

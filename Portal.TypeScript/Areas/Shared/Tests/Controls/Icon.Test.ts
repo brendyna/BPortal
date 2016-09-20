@@ -1,4 +1,6 @@
-﻿import $ = require("jquery");
+﻿import "jquery";
+import "qunit";
+
 import Base = require("Areas/Shared/Controls/Base");
 import Icon = require("Areas/Shared/Controls/Icon");
 
@@ -17,43 +19,42 @@ module Main {
         return $("#qunit-fixture");
     }
 
-    $((): void => {
-        QUnit.module("Icon");
-        test("Control exists", 3, () => {
-            // Assert
-            ok(Icon, "Icon loaded");
-            equal(typeof (Icon.ViewModel), "function", "ViewModel defined");
-            equal(typeof (Icon.Widget), "function", "Widget defined");
-        });
+    QUnit.start();
+    QUnit.module("Icon");
+    QUnit.test("Control exists", (assert) => {
+        // Assert
+        assert.ok(Icon, "Icon loaded");
+        assert.equal(typeof (Icon.ViewModel), "function", "ViewModel defined");
+        assert.equal(typeof (Icon.Widget), "function", "Widget defined");
+    });
 
-        test("Control renders correctly", 3, () => {
-            // Setup
-            let fixture = setupAndGetFixture();
-            let defaults = getMockDefaults();
-            let widget = new Icon.Widget(fixture, defaults);
+    QUnit.test("Control renders correctly", (assert) => {
+        // Setup
+        let fixture = setupAndGetFixture();
+        let defaults = getMockDefaults();
+        let widget = new Icon.Widget(fixture, defaults);
 
-            // Act
+        // Act
 
-            // Assert
-            ok(widget.element.hasClass(Icon.Widget.widgetClass), "Widget class is present");
-            notEqual(widget.element.attr("data-bind"), undefined, "Data-bind attribute is set");
-            ok(widget.element.hasClass(defaults.viewModelData.type), "The correct icon class is applied");
+        // Assert
+        assert.ok(widget.element.hasClass(Icon.Widget.widgetClass), "Widget class is present");
+        assert.notEqual(widget.element.attr("data-bind"), undefined, "Data-bind attribute is set");
+        assert.ok(widget.element.hasClass(defaults.viewModelData.type), "The correct icon class is applied");
 
-            widget.destroy();
-        });
+        widget.destroy();
+    });
 
-        test("Control destroys correctly", 3, () => {
-            // Setup
-            let defaults = getMockDefaults();
-            let widget = new Icon.Widget(setupAndGetFixture(), defaults);
+    QUnit.test("Control destroys correctly", (assert) => {
+        // Setup
+        let defaults = getMockDefaults();
+        let widget = new Icon.Widget(setupAndGetFixture(), defaults);
 
-            // Act
-            widget.destroy();
+        // Act
+        widget.destroy();
 
-            // Assert
-            ok(!widget.element.hasClass(Icon.Widget.widgetClass), "Widget class is removed");
-            equal(widget.element.attr("data-bind"), undefined, "Data-bind attribute is removed");
-            ok(!widget.element.hasClass(defaults.viewModelData.type), "The icon class is removed");
-        });
+        // Assert
+        assert.ok(!widget.element.hasClass(Icon.Widget.widgetClass), "Widget class is removed");
+        assert.equal(widget.element.attr("data-bind"), undefined, "Data-bind attribute is removed");
+        assert.ok(!widget.element.hasClass(defaults.viewModelData.type), "The icon class is removed");
     });
 }

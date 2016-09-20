@@ -48,12 +48,20 @@ module Main {
     }
 
     export interface IWidget extends Base.IWidget {
-        sidebar: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
         bugs: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        bugsFilters: BaseControl.IControl<Filters.ViewModel, Filters.Widget>;
+        bugsSnapshots: BaseControl.IControl<DescriptionList.ViewModel, DescriptionList.Widget>;
+        bugsTable: BaseControl.IControl<Table.ViewModel, Table.Widget>;
+        sidebar: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
         trends: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        trendsFilters: BaseControl.IControl<Filters.ViewModel, Filters.Widget>;
+        trendsSnapshots: BaseControl.IControl<DescriptionList.ViewModel, DescriptionList.Widget>;
+        trendsTable: BaseControl.IControl<Table.ViewModel, Table.Widget>;
     }
 
     export class Widget extends Base.Widget implements IWidget {
+        public static widgetClass = "view--summary";
+
         private _bugsForTagBlobUrlRepo: BugsForTagBlobUrlRepository.IRepository;
         private _bugsForTagRepo: BugsForTagRepository.IRepository;
         private _bugsForTagProvider: SummaryProvider.BugsProvider;
@@ -89,14 +97,21 @@ module Main {
             }, this._controlClasses);
 
             this.setStaticViewModelData();
+            this.element.addClass(Widget.widgetClass);
 
             if (!this._defaults.disableAutoRender) {
                 super.render();
 
-                if (this.disabledPlaceholder() === "") {
+                if (!this._defaults.disableAutoLoad && this.disabledPlaceholder() === "") {
                     this.loadData();
                 }
             }
+        }
+
+        public destroy(): void {
+            super.destroy();
+
+            this.element.removeClass(Widget.widgetClass);
         }
 
         public get bugs(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
@@ -177,9 +192,6 @@ module Main {
         }
 
         public loadRepos(): void {
-            // Setup load state changes for when promises resolve
-            this.initializeRepoLoadActions();
-
             // Begin loading the data
             this.loadBugsRepo();
             this.loadTrendsRepo();
@@ -191,6 +203,9 @@ module Main {
             this._scantimeRepo.load().done(() => {
                 this.applyScantimeData();
             });
+
+            // Setup load state changes for when promises resolve
+            this.initializeRepoLoadActions();
         }
 
         public initializeSubscriptions(): void {
@@ -217,21 +232,9 @@ module Main {
                 this._trendsForTagRepo.getPromise(),
                 this._scantimeRepo.getPromise())
             .done(() => {
-                this._loadDeferred.resolve();
-            });
-
-            $.when<any>(
-                this._bugsForTagRepo.getPromise(),
-                this._filtersRepo.getPromise())
-            .done(() => {
                 this.initializeBugSubscriptions();
-            });
-
-            $.when<any>(
-                this._trendsForTagRepo.getPromise(),
-                this._filtersRepo.getPromise())
-            .done(() => {
                 this.initializeTrendsSubscriptions();
+                this._loadDeferred.resolve();
             });
         }
 
@@ -283,35 +286,35 @@ module Main {
         private applyBugsData(): void {
             this._bugsForTagProvider = new SummaryProvider.BugsProvider(this._bugsForTagRepo);
 
-            this.bugsSnapshots.vm.loading(false);
-            this.bugsTable.vm.loading(false);
             this.bugsSnapshots.vm.descriptionPairs(this._bugsForTagProvider.getBugSnapshotData());
             this.bugsTable.widget.data(this._bugsForTagProvider.getBugTableData());
+            this.bugsSnapshots.vm.loading(false);
+            this.bugsTable.vm.loading(false);
         }
 
         private applyTrendsData(): void {
             this._trendsForTagProvider = new SummaryProvider.TrendsProvider(this._trendsForTagRepo);
 
-            this.trendsSnapshots.vm.loading(false);
-            this.trendsTable.vm.loading(false);
             this.trendsSnapshots.vm.descriptionPairs(this._trendsForTagProvider.getTrendsSnapshotData());
             this.trendsTable.widget.data(this._trendsForTagProvider.getTrendsTableData());
+            this.trendsSnapshots.vm.loading(false);
+            this.trendsTable.vm.loading(false);
         }
 
         private applyFiltersData(): void {
             this._filtersProvider = new SummaryProvider.FiltersProvider(this._filtersRepo);
 
-            this.bugsFilters.vm.loading(false);
             this.bugsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Bugs, {
                 tag: (<IParams>this.defaults.viewContext.params).tag
             }));
+            this.bugsFilters.vm.loading(false);
 
-            this.trendsFilters.vm.loading(false);
             this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Trends, {
                 tag: (<IParams>this.defaults.viewContext.params).tag,
                 platform: (<IParams>this.defaults.viewContext.params).platform,
                 release: (<IParams>this.defaults.viewContext.params).release
             }));
+            this.trendsFilters.vm.loading(false);
         }
 
         private applyScantimeData(): void {

@@ -1,4 +1,6 @@
-﻿import moment = require("moment");
+﻿import "moment";
+
+import moment = require("moment");
 
 import Base = require("Areas/Shared/Controls/Base");
 import Config = require("../../Config");

@@ -6,7 +6,7 @@ export = Main;
 module Main {
     export type DataPoint = {
         Date: string;
-        Count: string;
+        Count: number;
     }
 
     export type BugTrends = {

@@ -20,8 +20,8 @@
     "highcharts-legend-highlighter": "^1.0.1",
     "moment": "^2.14.1",
     "requirejs": "2.1.17",
-    "qunit": "1.20.0",
-    "humanize-plus": "^1.8.2"
+    "humanize-plus": "^1.8.2",
+    "qunit": "2.0.1"
   },
   "devDependencies": {}
 }

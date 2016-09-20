@@ -32,6 +32,7 @@ module Main {
         viewModelData?: IViewModelData;
         template?: string;
         disableAutoRender?: boolean;
+        disableAutoLoad?: boolean;
         disabledPlaceholder?: string;
     }
 
@@ -150,6 +151,10 @@ module Main {
             this._subscriptions.forEach((sub: KnockoutSubscription) => {
                 sub.dispose();
             });
+
+            this.element.html("");
+
+            ko.cleanNode(this.element[0]);
         }
     }
 }

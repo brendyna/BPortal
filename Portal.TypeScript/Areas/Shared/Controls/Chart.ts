@@ -25,6 +25,7 @@ module Main {
 
     export interface IWidget extends Base.IWidget {
         data: KnockoutObservable<any>;
+        getDataUpdatePromise: () => JQueryPromise<void>;
     }
 
     export class ViewModel extends Base.ViewModel implements IViewModel {
@@ -45,11 +46,15 @@ module Main {
         public static widgetClass = "chart";
 
         private _data: KnockoutObservable<any>;
+        private _dataUpdateDeferred: JQueryDeferred<void>
 
         constructor(element: JQuery, defaults?: IWidgetDefaults | IViewModelData) {
             super(element, ViewModel, Widget.resolveDefaults(defaults));
 
             this._data = ko.observable();
+            this._dataUpdateDeferred = $.Deferred<void>();
+
+            this.wrapHighchartsCallbacks();
 
             this._setupElement();
         }
@@ -64,6 +69,14 @@ module Main {
 
         public get viewModel(): IViewModel {
             return <IViewModel>this._viewModel;
+        }
+
+        public getDataUpdatePromise(): JQueryPromise<void> {
+            if (this._dataUpdateDeferred.state() === "resolved") {
+                this._dataUpdateDeferred = $.Deferred<void>();
+            }
+
+            return this._dataUpdateDeferred.promise();
         }
 
         public _setupElement(): void {
@@ -90,8 +103,13 @@ module Main {
             }));
         }
 
+        public _highchartsDrawComplete(): void {
+            this._dataUpdateDeferred.resolve();
+        }
+
         private updateChartData(newData: any): void {
             let chart = $(this.element).highcharts();
+
             // Check if we're dealing w/a multi-series data set
             if ($.isPlainObject(newData[0])) {
                 (<Array<any>>newData).forEach((newSeriesData: any, index: number) => {
@@ -112,6 +130,23 @@ module Main {
                     }, true, true);
                 }
             } 
+        }
+
+        private wrapHighchartsCallbacks(): void {
+            let options: HighchartsOptions = this.viewModel.options();
+            options.chart = options.chart || {};
+            options.chart.events = options.chart.events || {};
+            let originalDrawCallback = options.chart.events.redraw;
+
+            options.chart.events.redraw = () => {
+                if (originalDrawCallback && (typeof originalDrawCallback === "function")) {
+                    (<any>originalDrawCallback)();
+                }
+
+                this._highchartsDrawComplete();
+            };
+
+            this.viewModel.options(options);
         }
     }
 

@@ -59,7 +59,7 @@ module Main {
 
         public getNavigationViewModelData(): Navigation.IViewModelData {
             let navViewModelData: Navigation.IViewModelData = {
-                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.Breadcrumb
+                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.SummaryBreadcrumb
             };
 
             return navViewModelData;
@@ -79,7 +79,7 @@ module Main {
                 bodyViewModel: {
                     siteSearch: <Input.IViewModelData>{
                         type: Input.Type.Text,
-                        placeholder: "Search for any site",
+                        placeholder: Config.Strings.SiteSearch,
                         enterCallback: (domain: string) => {
                             window.open("http://wptportal.corp.microsoft.com/sitereporter/details?domain=" + domain);
                         }
@@ -87,23 +87,25 @@ module Main {
                 },
                 subsections: [
                     {
+                        classes: Config.Classes.TableOfContents,
                         body: `<ul data-bind="wpsList: $vm.sections"></ul>`,
                         bodyViewModel: {
                             sections: <List.IViewModelData>{
                                 type: List.Type.Links,
                                 items: [
                                     {
-                                        content: '<a href="#Bugs">Bugs</a>'
+                                        content: `<a href="#${Config.Strings.BugSectionTitle}">${Config.Strings.BugSectionTitle}</a>`
                                     },
                                     {
-                                        content: '<a href="#Trends">Trends</a>'
+                                        content: `<a href="#${Config.Strings.TrendsSectionTitle}">${Config.Strings.TrendsSectionTitle}</a>`
                                     }
                                 ]
                             }
                         }
                     },
                     {
-                        header: "Bug snapshot",
+                        classes: "snapshot--bug",
+                        header: Config.Strings.SummaryBugSnapshotTitle,
                         body: `<dl data-bind="wpsDescriptionList: $vm.summary"></dl>`,
                         bodyViewModel: {
                             summary: <DescriptionList.IViewModelData>{
@@ -112,7 +114,8 @@ module Main {
                         }
                     },
                     {
-                        header: "Trend snapshot",
+                        classes: "snapshot--trend",
+                        header: Config.Strings.SummaryTrendSnapshotTitle,
                         body: `<dl data-bind="wpsDescriptionList: $vm.summary"></dl>`,
                         bodyViewModel: {
                             summary: <DescriptionList.IViewModelData>{
@@ -121,6 +124,7 @@ module Main {
                         }
                     },
                     {
+                        classes: Config.Classes.LearnMoreLinks,
                         body: `<dl data-bind="wpsDescriptionList: $vm.links"></dl>`,
                         bodyViewModel: {
                             links: <DescriptionList.IViewModelData>{
@@ -130,14 +134,14 @@ module Main {
                                             {
                                                 content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
-                                                    text: "Learn about our data",
+                                                    text: Config.Strings.LearnMore,
                                                     url: Config.Urls.SiteReporterWiki
                                                 }
                                             },
                                             {
                                                 content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
-                                                    text: "Install Edge extension",
+                                                    text: Config.Strings.ExtensionInstall,
                                                     url: Config.Urls.ExtensionLocation
                                                 }
                                             }
@@ -155,9 +159,10 @@ module Main {
 
         public getBugsViewModelData(): Section.IViewModelData {
             return {
-                title: "Bugs",
+                title: Config.Strings.BugSectionTitle,
                 altHeader: true,
-                anchor: "Bugs",
+                anchor: Config.Strings.BugSectionTitle,
+                classes: "summary--bugs",
                 body: `
                     <div data-bind="wpsFilters: $vm.filters"></div>
                     <table data-bind="wpsTable: $vm.table"></table>
@@ -171,9 +176,10 @@ module Main {
 
         public getTrendsViewModelData(): Section.IViewModelData {
             let trendsData = <Section.IViewModelData>{
-                title: "Trends",
+                title: Config.Strings.TrendsSectionTitle,
                 altHeader: true,
-                anchor: "Trends",
+                anchor: Config.Strings.TrendsSectionTitle,
+                classes: "details--trends",
                 body: `
                     <div data-bind="wpsFilters: $vm.filters"></div>
                     <table data-bind="wpsTable: $vm.table"></table>
@@ -196,7 +202,7 @@ module Main {
 
         private getBugTableData(): Table.IViewModelData {
             return {
-                classes: "bugs__site-list",
+                classes: Config.Classes.SummaryBugsTable,
                 headers: [
                     { classes: "table__column__switch" },
                     { hidden: true, text: "DomainId" },
@@ -208,7 +214,7 @@ module Main {
                     { text: "Total", classes: "table__column__bugs total__bugs" },
                     { classes: "table__column__button" }
                 ],
-                metadata: "Updated 15 minutes ago",
+                metadata: Config.Strings.BugsTableScanTimePlaceholder,
                 settings: <DataTables.Settings>{
                     lengthChange: false,
                     searchDelay: 500,
@@ -217,7 +223,9 @@ module Main {
                     info: false,
                     language: <any>{
                         search: "",
-                        searchPlaceholder: "Filter table"
+                        searchPlaceholder: Config.Strings.TableFilterPlaceholder,
+                        emptyTable: Config.Strings.SummaryTableNoDataMessage,
+                        zeroRecords: Config.Strings.SummaryTableNoResultsMessage
                     },
                     order: [
                         [
@@ -230,7 +238,11 @@ module Main {
                         { data: 'domainId' },
                         { data: 'isOffensive' },
                         { data: 'domainName' },
-                        { data: 'bingdexRank' },
+                        {
+                            data: 'bingdexRank',
+                            defaultContent: (<any>Config.Defaults.EmptyBingdex)
+                            
+                        },
                         { data: 'outreachBugCount' },
                         { data: 'currentReleaseBugCount' },
                         { data: 'activeBugCount' },
@@ -326,14 +338,14 @@ module Main {
 
         private getTrendsFilterData(): Filters.IViewModelData {
             return {
-                classes: "trends__filters",
+                classes: Config.Classes.TrendsFilters,
                 hideButtons: true
             };
         }
 
         private getTrendsTableData(): Table.IViewModelData {
             return {
-                classes: "trends__site-list",
+                classes: Config.Classes.SummaryTrendsTable,
                 headers: [
                     { hidden: true, text: "DomainId" },
                     { hidden: true },
@@ -352,7 +364,9 @@ module Main {
                     info: false,
                     language: <any>{
                         search: "",
-                        searchPlaceholder: "Filter table"
+                        searchPlaceholder: Config.Strings.TableFilterPlaceholder,
+                        emptyTable: Config.Strings.SummaryTableNoDataMessage,
+                        zeroRecords: Config.Strings.SummaryTableNoResultsMessage
                     },
                     order: [
                         [
@@ -364,7 +378,10 @@ module Main {
                         { data: 'domainId' },
                         { data: 'isOffensive' },
                         { data: 'domainName' },
-                        { data: 'bingdexRank' },
+                        {
+                            data: 'bingdexRank',
+                            defaultContent: (<any>Config.Defaults.EmptyBingdex)
+                        },
                         { data: 'frowny' },
                         { data: 'navigation' },
                         { data: 'focusTime' },
@@ -468,8 +485,8 @@ module Main {
                         $(row).find('.details-button').on('click', function () {
                             window.open('/SiteReporter/Details?'
                                 + 'domain=' + data.domainName
-                                + '&platform=' + 'Desktop' //window.PLATFORM
-                                + '&release=' + 'RS1') //window.RELEASE);
+                                + '&platform=' + 'Desktop'
+                                + '&release=' + 'RS1')
                         });
 
                         if (data.isOffensive === true) {
@@ -498,6 +515,7 @@ module Main {
             let outreachBugCount = 0;
             let releaseBugCount = 0;
             let totalBugCount = 0;
+            let switchRiskPercent: string;
 
             this.repository.resultData.forEach((summary: BugsForTagRepository.SiteBugSummary) => {
                 outreachBugCount += summary.OutreachBugCount;
@@ -508,17 +526,39 @@ module Main {
                     switchRiskCount++;
                 }
             });
+            switchRiskPercent = (switchRiskCount > 0) ? Humanize.compactInteger(((switchRiskCount / this.repository.resultData.length) * 100), 1) + "%"
+                : Config.Strings.SummarySnapshotNoDataMessage;
 
             [
-                { term: "Switch risk sites", value: Humanize.compactInteger(((switchRiskCount / this.repository.resultData.length) * 100), 1) + "%", icon: Icon.Type.Flag, classes: "metrics__measurements__icon--switchRisk" },
-                { term: "Outreach bugs", value: Humanize.compactInteger(outreachBugCount, 1), icon: Icon.Type.Bug },
-                { term: "Release bugs", value: Humanize.compactInteger(releaseBugCount, 1), icon: Icon.Type.Bug },
-                { term: "Total bugs", value: Humanize.compactInteger(totalBugCount, 1), icon: Icon.Type.Bug }
+                {
+                    term: Config.Strings.SummaryBugSnapshotSwitchRiskTitle,
+                    value: switchRiskPercent,
+                    icon: (switchRiskCount > 0) ? Icon.Type.Flag : Icon.Type.Error,
+                    classes: "metrics__measurements__icon--switchRisk"
+                },
+                {
+                    term: Config.Strings.SummaryBugSnapshotOutreachTitle,
+                    value: (outreachBugCount > 0) ? Humanize.compactInteger(outreachBugCount, 1) : Config.Strings.SummarySnapshotNoDataMessage,
+                    icon: (outreachBugCount > 0) ? Icon.Type.Bug : Icon.Type.Error
+                },
+                {
+                    term: Config.Strings.SummaryBugSnapshotReleaseTitle,
+                    value: (releaseBugCount > 0) ? Humanize.compactInteger(releaseBugCount, 1) : Config.Strings.SummarySnapshotNoDataMessage,
+                    icon: (releaseBugCount > 0) ? Icon.Type.Bug : Icon.Type.Error
+                },
+                {
+                    term: Config.Strings.SummaryBugSnapshotTotalTitle,
+                    value: (totalBugCount > 0) ? Humanize.compactInteger(totalBugCount, 1) : Config.Strings.SummarySnapshotNoDataMessage,
+                    icon: (totalBugCount > 0) ? Icon.Type.Bug : Icon.Type.Error
+                }
             ].forEach((snapshot) => {
                 data.push(new DescriptionList.DescriptionPair({
                     term: snapshot.term,
                     descriptions: [{
-                        content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon, css: $vm.classes"></span>&nbsp;<span data-bind="text: $vm.text"></span></span>`,
+                        content: `<span class="subtitle">
+                                    <span data-bind="wpsIcon: $vm.icon, css: $vm.classes"></span>&nbsp;
+                                    <span data-bind="text: $vm.text"></span>
+                                  </span>`,
                         contentViewModel: {
                             classes: (<any>snapshot).classes || "",
                             text: snapshot.value,
@@ -622,7 +662,7 @@ module Main {
                     } else {
                         colorClass = "sitereporter__tile__delta--Happy";
                     }
-                } else {
+                } else if (snapshot.value < 0) {
                     if (snapshot.term === "Frownies") {
                         colorClass = "sitereporter__tile__delta--Happy";
                     } else {
@@ -635,9 +675,9 @@ module Main {
                     descriptions: [{
                         content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span>&nbsp;<span data-bind="text: $vm.text"></span></span>`,
                         contentViewModel: {
-                            text: Humanize.compactInteger(Math.abs(snapshot.value), 1),
+                            text: (snapshot.value !== 0) ? Humanize.compactInteger(Math.abs(snapshot.value), 1) : Config.Strings.SummarySnapshotNoDataMessage,
                             icon: <Icon.IViewModelData>{
-                                type: (snapshot.value > 0) ? Icon.Type.Up : Icon.Type.Down,
+                                type: (snapshot.value > 0) ? Icon.Type.Up : ((snapshot.value < 0) ? Icon.Type.Down : Icon.Type.Error),
                                 classes: "subtitle " + colorClass
                             }
                         }
@@ -656,7 +696,7 @@ module Main {
     function renderBingdexColumn(data, type) {
         var value;
         if ((type === "sort" || type === "type") && data === 0) {
-            value = (<any>Number).MAX_SAFE_INTEGER;
+            value = Config.Defaults.EmptyBingdex;
         } else if (data === 0) {
             value = 'n/a';
         } else {

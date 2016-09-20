@@ -1,0 +1,43 @@
+﻿﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>QUnit Tests</title>
+    <script type="text/javascript" src="../packages/Chutzpah.4.2.3/tools/TestFiles/chutzpah_boot.js"></script>
+    <link rel="stylesheet" type="text/css" href="../packages/Chutzpah.4.2.3/tools/TestFiles/QUnit/qunit.css" />
+
+    @@CodeCoverageDependencies@@
+    @@ReferencedCSSFiles@@
+    @@TestHtmlTemplateFiles@@
+    @@ReferencedJSFiles@@
+    @@TestJSFile@@
+
+    <script>
+        var amdTestPath = [@@AMDTestPath@@];
+        if (window.require && typeof window.require === "function" && amdTestPath !== "") {
+            if (window.chutzpah) {
+                window.chutzpah.usingModuleLoader = true;
+            }
+
+            requirejs.config({
+                map: {
+                    '*': {
+                        @@AMDModuleMap@@
+                        }
+                }
+            });
+
+            window.require(amdTestPath);
+        }
+    </script>
+</head>
+
+<body>
+    <h1 id="qunit-header">Unit Tests</h1>
+    <h2 id="qunit-banner"></h2>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>
+    <div id="qunit-fixture"></div>
+    <div id="qunit-fixtures"></div>
+</body>
+</html>
