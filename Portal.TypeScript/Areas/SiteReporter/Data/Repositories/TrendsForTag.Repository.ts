@@ -8,6 +8,7 @@ module Main {
         domainId: number,
         domainName: string,
         bingdexRank: number,
+        alexaRank: number,
         frowny: number,
         crash: number,
         focusTime: number,

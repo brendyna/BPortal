@@ -16,6 +16,7 @@
     <file src="tools\Install.ps1" target="tools" />
     <file src="Areas\Shared\**\*.js" target="content\Areas\Shared" exclude="Areas\Shared\Samples\**\*.js;Areas\Shared\Tests\**\*.js" />
     <file src="Areas\Shared\**\*.min.css" target="content\Areas\Shared" />
+    <file src="Areas\Shared\**\*.png" target="content\Areas\Shared" />
     <file src="Areas\SiteReporter\**\*.js" target="content\Areas\SiteReporter\Content\js" exclude="Areas\SiteReporter\Samples\**\*.js;Areas\SiteReporter\Tests\**\*.js" />
     <file src="Areas\SiteReporter\Styles\*.min.css" target="content\Areas\SiteReporter\Content\css" />
   </files>
