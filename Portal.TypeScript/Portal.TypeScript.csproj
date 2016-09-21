@@ -43,6 +43,11 @@
     <Content Include="Areas\Shared\Html\Tests\Controls\Badge.Test.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\List.Test.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Navigation.Test.html" />
+    <Content Include="Areas\Shared\Images\sort_asc.png" />
+    <Content Include="Areas\Shared\Images\sort_asc_disabled.png" />
+    <Content Include="Areas\Shared\Images\sort_both.png" />
+    <Content Include="Areas\Shared\Images\sort_desc.png" />
+    <Content Include="Areas\Shared\Images\sort_desc_disabled.png" />
     <Content Include="Areas\SiteReporter\Html\Samples\Views\Details.Sample.html" />
     <Content Include="Areas\SiteReporter\Html\Samples\Views\Summary.Sample.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Base.Test.html" />

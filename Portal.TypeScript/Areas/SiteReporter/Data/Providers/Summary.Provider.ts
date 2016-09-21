@@ -401,7 +401,7 @@ module Main {
                     columnDefs: [
                         {
                             targets: 'table__column__rank',
-                            width: '15%',
+                            width: '12%',
                             render: renderRankingColumn
                         },
                         {
@@ -422,7 +422,7 @@ module Main {
                         },
                         {
                             targets: 'table__column__delta--Standard',
-                            width: '15%',
+                            width: '17%',
                             render: function (data, type) {
                                 var value;
 
@@ -454,7 +454,7 @@ module Main {
                         },
                         {
                             targets: 'table__column__delta--Reverse',
-                            width: '15%',
+                            width: '17%',
                             render: function (data, type) {
                                 var value;
 
