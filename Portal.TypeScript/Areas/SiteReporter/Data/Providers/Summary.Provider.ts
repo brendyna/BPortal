@@ -567,7 +567,7 @@ module Main {
                     term: snapshot.term,
                     descriptions: [{
                         content: `<span class="subtitle">
-                                    <span data-bind="wpsIcon: $vm.icon, css: $vm.classes"></span>&nbsp;
+                                    <span data-bind="wpsIcon: $vm.icon, css: $vm.classes"></span>
                                     <span data-bind="text: $vm.text"></span>
                                   </span>`,
                         contentViewModel: {
@@ -587,6 +587,10 @@ module Main {
 
         public getBugTableData(): Array<any> {
             return KnockoutUtil.convertToCamelCase(this.repository.resultData);
+        }
+
+        public isAlexaTag(): boolean {
+            return this.repository.settings.baseUrl.indexOf(Config.Params.SummaryDefaultsAlexa.tag.toLowerCase()) !== -1;
         }
     }
 
@@ -684,7 +688,11 @@ module Main {
                 data.push({
                     term: snapshot.term,
                     descriptions: [{
-                        content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span>&nbsp;<span data-bind="text: $vm.text"></span></span>`,
+                        content: `
+                            <span class="subtitle">
+                                <span data-bind="wpsIcon: $vm.icon"></span>
+                                <span data-bind="text: $vm.text"></span>
+                            </span>`,
                         contentViewModel: {
                             text: (snapshot.value !== 0) ? Humanize.compactInteger(Math.abs(snapshot.value), 1) : Config.Strings.SummarySnapshotNoDataMessage,
                             icon: <Icon.IViewModelData>{
@@ -701,6 +709,10 @@ module Main {
 
         public getTrendsTableData(): Array<any> {
             return KnockoutUtil.convertToCamelCase(this.repository.resultData.data);
+        }
+
+        public isAlexaTag(): boolean {
+            return this.repository.settings.request.data.tag === Config.Params.SummaryDefaultsAlexa.tag;
         }
     }
 

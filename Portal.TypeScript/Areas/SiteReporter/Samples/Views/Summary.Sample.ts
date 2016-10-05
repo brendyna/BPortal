@@ -32,12 +32,15 @@ module Main {
         SummaryMocks.setupScanTimeMock();
         SummaryMocks.setupTokenDataMock();
         SummaryMocks.setupBugsForTagBlobUrlBingdexTop100Mock();
+        SummaryMocks.setupBugsForTagBlobUrlAlexaTop100Mock();
         SummaryMocks.setupBugsForTagBlobUrlMindtreeNotoriousMock();
         SummaryMocks.setupBugsForTagBlobUrlFakeTagMock();
         SummaryMocks.setupBugsForTagBingdexTop100Mock();
+        SummaryMocks.setupBugsForTagAlexaTop100Mock();
         SummaryMocks.setupBugsForTagMindtreeNotoriousMock();
         SummaryMocks.setupBugsForTagFakeTagEdgeMock();
         SummaryMocks.setupTrendsForTagBingdexTop100Mock();
+        SummaryMocks.setupTrendsForTagAlexaTop100Mock();
         SummaryMocks.setupTrendsForTagMindtreeNotoriousMock();
         SummaryMocks.setupTrendsForTagFakeTagMock();
     }

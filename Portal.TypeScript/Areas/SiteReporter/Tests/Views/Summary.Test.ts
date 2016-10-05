@@ -371,6 +371,34 @@ module Main {
             });
         });
 
+        QUnit.test("Bugs section table sorts correctly when AlexaTop100 tag selected", function (assert) {
+            let widget = <View.IWidget>this.widget;
+            let done = assert.async();
+            let tableFilterUpdateDone = assert.async();
+            let bugSectionTableElem = widget.bugsTable.widget.element;
+            let bugsForTagAlexaTop100MockData = SummaryMocks.getMockBugsForTagAlexaTop100();
+            let expectedPostFilterChangeCellValue = bugsForTagAlexaTop100MockData[0].DomainName;
+
+            let loadingSub1 = widget.bugsTable.vm.loading.subscribe((loading: boolean) => {
+                if (!loading) {
+                    loadingSub1.dispose();
+
+                    let rows = bugSectionTableElem.find("tbody tr");
+                    let initialCellValue = $($(rows.get(0)).find("td").get(1)).text();
+
+                    let filterChangePromise = testSectionTableSelectFilterChange(widget.bugsTable, widget.sidebar, widget.bugsSnapshots,
+                        0, 1, initialCellValue, expectedPostFilterChangeCellValue, widget.bugsFilters, { "tag": "AlexaTop100" },
+                        testSidebarBugsSnapshot, bugsForTagAlexaTop100MockData, assert, true);
+
+                    filterChangePromise.done(() => {
+                        tableFilterUpdateDone();
+                    });
+
+                    done();
+                }
+            });
+        });
+
         QUnit.test("Trends section renders correctly", function(assert) {
             let widget = (<View.IWidget>this.widget);
             let done = assert.async();
@@ -460,6 +488,30 @@ module Main {
                 done();
             });
         });
+
+        QUnit.test("Trends section table sorts correctly when AlexaTop100 tag selected", function (assert) {
+            let widget = <View.IWidget>this.widget;
+            let done = assert.async();
+            let tableFilterUpdateDone = assert.async();
+            let trendsSectionTableElem = widget.trendsTable.widget.element;
+            let trendsForTagAlexaTop100MockData = SummaryMocks.getMockTrendsForTagAlexaTop100();
+            let expectedPostFilterChangeCellValue = trendsForTagAlexaTop100MockData.data[0].domainName;
+
+            this.loadPromise.done(() => {
+                let rows = trendsSectionTableElem.find("tbody tr");
+                let initialCellValue = $($(rows.get(0)).find("td").get(1)).text();
+
+                let filterChangePromise = testSectionTableSelectFilterChange(widget.trendsTable, widget.sidebar, widget.trendsSnapshots,
+                    0, 0, initialCellValue, expectedPostFilterChangeCellValue, widget.trendsFilters, { "tag": "AlexaTop100", "release": "RS1" },
+                    testSidebarTrendsSnapshot, trendsForTagAlexaTop100MockData, assert, true);
+
+                filterChangePromise.done(() => {
+                    tableFilterUpdateDone();
+                });
+
+                done();
+            });
+        });
     });
 
     QUnit.module("Summary View: Dynamic edge", (hooks) => {
@@ -514,12 +566,15 @@ module Main {
         SummaryMocks.setupScanTimeMock();
         SummaryMocks.setupTokenDataMock();
         SummaryMocks.setupBugsForTagBlobUrlBingdexTop100Mock();
+        SummaryMocks.setupBugsForTagBlobUrlAlexaTop100Mock();
         SummaryMocks.setupBugsForTagBlobUrlMindtreeNotoriousMock();
         SummaryMocks.setupBugsForTagBlobUrlFakeTagMock();
         SummaryMocks.setupBugsForTagBingdexTop100Mock();
+        SummaryMocks.setupBugsForTagAlexaTop100Mock();
         SummaryMocks.setupBugsForTagMindtreeNotoriousMock();
         SummaryMocks.setupBugsForTagFakeTagEdgeMock();
         SummaryMocks.setupTrendsForTagBingdexTop100Mock();
+        SummaryMocks.setupTrendsForTagAlexaTop100Mock();
         SummaryMocks.setupTrendsForTagMindtreeNotoriousMock();
         SummaryMocks.setupTrendsForTagFakeTagMock();
     }
@@ -645,7 +700,8 @@ module Main {
             assert: QUnitAssert
         ) => void,
         testSnapshotData: any,
-        assert: QUnitAssert
+        assert: QUnitAssert,
+        skipSnapshotTests: boolean = false
     ): JQueryPromise<void> {
         let deferred = $.Deferred<void>();
         let tableDeferred = $.Deferred<void>();
@@ -663,22 +719,32 @@ module Main {
             }
         });
 
-        let snapshotLoadingSub = snapshot.vm.loading.subscribe((loading: boolean) => {
-            if (!loading) {
-                snapshotLoadingSub.dispose();
-                testSnapshot(sidebar, testSnapshotData, assert);
-                snapshotDeferred.resolve();
-            }
-        });
+        if (!skipSnapshotTests) {
+            let snapshotLoadingSub = snapshot.vm.loading.subscribe((loading: boolean) => {
+                if (!loading) {
+                    snapshotLoadingSub.dispose();
+                    testSnapshot(sidebar, testSnapshotData, assert);
+                    snapshotDeferred.resolve();
+                }
+            });
+        }
 
         filters.vm.value(newFilterValue);
 
-        $.when<any>(
-            tableDeferred.promise(),
-            snapshotDeferred.promise()
-        ).done(() => {
-            deferred.resolve();
-        });
+        if (skipSnapshotTests) {
+            $.when<any>(
+                tableDeferred.promise()
+            ).done(() => {
+                deferred.resolve();
+            });
+        } else {
+            $.when<any>(
+                tableDeferred.promise(),
+                snapshotDeferred.promise()
+            ).done(() => {
+                deferred.resolve();
+            });
+        }
 
         return deferred.promise();
     }

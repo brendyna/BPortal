@@ -280,7 +280,7 @@ module Main {
             // Load Trends data
             this._trendsForTagRepo.load().done(() => {
                 this.applyTrendsData();
-            });
+            }); 
         }
 
         private applyBugsData(): void {
@@ -288,6 +288,7 @@ module Main {
 
             this.bugsSnapshots.vm.descriptionPairs(this._bugsForTagProvider.getBugSnapshotData());
             this.bugsTable.widget.data(this._bugsForTagProvider.getBugTableData());
+            this.bugsTable.widget.order(this._bugsForTagProvider.isAlexaTag() ? [5, 'asc'] : [4, 'asc']);
             this.bugsSnapshots.vm.loading(false);
             this.bugsTable.vm.loading(false);
         }
@@ -297,6 +298,7 @@ module Main {
 
             this.trendsSnapshots.vm.descriptionPairs(this._trendsForTagProvider.getTrendsSnapshotData());
             this.trendsTable.widget.data(this._trendsForTagProvider.getTrendsTableData());
+            this.trendsTable.widget.order(this._trendsForTagProvider.isAlexaTag() ? [4, 'asc'] : [3, 'asc']);
             this.trendsSnapshots.vm.loading(false);
             this.trendsTable.vm.loading(false);
         }

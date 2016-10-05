@@ -102,6 +102,12 @@ module Main {
             platform: "Desktop",
             release: "RS1"
         }
+
+        public static SummaryDefaultsAlexa = {
+            tag: "AlexaTop100",
+            platform: "Desktop",
+            release: "RS1"
+        }
     }
 
     export class Strings {
