@@ -588,6 +588,60 @@ module Main {
         public getBugTableData(): Array<any> {
             return KnockoutUtil.convertToCamelCase(this.repository.resultData);
         }
+
+        public getBugTypeData(type: string): Array<BugsForTagRepository.SiteBugSummary> {
+            let data: Array<BugsForTagRepository.SiteBugSummary>;
+
+            switch (type) {
+                case "all":
+                    data = this.repository.resultData || [];
+                    break;
+
+                case "outreach":
+                    data = this.getSitesWithOutreachBugs();
+                    break;
+
+                case "current":
+                    data = this.getSitesWithCurrentBugs();
+                    break;
+
+                case "switchRisk":
+                    data = this.getSitesWithSwitchRiskBugs();
+                    break;
+            }
+
+            return KnockoutUtil.convertToCamelCase(data);
+        }
+
+        public getBugTypeFilterSelectData(): Select.IViewModelData {
+            return {
+                name: "bugType",
+                options: [
+                    { text: `${Config.Strings.SummaryBugTypeFilterAllSites} (${this.repository.resultData.length})`, value: "all" },
+                    { text: `${Config.Strings.SummaryBugTypeFilterOutreachBugSites} (${this.getSitesWithOutreachBugs().length})`, value: "outreach" },
+                    { text: `${Config.Strings.SummaryBugTypeFilterCurrentBugSites} (${this.getSitesWithCurrentBugs().length})`, value: "current" },
+                    { text: `${Config.Strings.SummaryBugTypeFilterSwitchRiskBugSites} (${this.getSitesWithSwitchRiskBugs().length})`, value: "switchRisk" }
+                ]
+            };
+        }
+
+        private getSitesWithOutreachBugs(): Array<BugsForTagRepository.SiteBugSummary> {
+            return this.repository.resultData.filter((summary: BugsForTagRepository.SiteBugSummary) => {
+                return summary.OutreachBugCount > 0;
+            });
+        }
+
+        private getSitesWithCurrentBugs(): Array<BugsForTagRepository.SiteBugSummary> {
+            return this.repository.resultData.filter((summary: BugsForTagRepository.SiteBugSummary) => {
+                return summary.CurrentReleaseBugCount > 0;
+            });
+        }
+
+        private getSitesWithSwitchRiskBugs(): Array<BugsForTagRepository.SiteBugSummary> {
+            return this.repository.resultData.filter((summary: BugsForTagRepository.SiteBugSummary) => {
+                return summary.IsSwitchRisk;
+            });
+        }
     }
 
     export class FiltersProvider extends BaseProvider.DynamicProvider<FiltersRepository.DataTransferObject> implements BaseProvider.IDynamicProvider {

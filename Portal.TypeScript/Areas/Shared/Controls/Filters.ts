@@ -141,10 +141,6 @@ module Main {
             super._initializeSubscriptions();
 
             this._subscriptions.push(this.viewModel.selectData.subscribe((newSelectData: Select.IViewModelData[]) => {
-                this._destroyChildSelectWidgets();
-            }, this, "beforeChange"));
-
-            this._subscriptions.push(this.viewModel.selectData.subscribe((newSelectData: Select.IViewModelData[]) => {
                 this._initializeSelectSubscriptions();
             }));
 

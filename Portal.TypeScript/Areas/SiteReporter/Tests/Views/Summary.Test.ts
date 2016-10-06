@@ -337,7 +337,7 @@ module Main {
                         filterOptionListFromData.push(option.text);
                     });
 
-                    bugSectionFiltersElem.find("option").each((i: number, elem: Element) => {
+                    bugSectionFiltersElem.find("select[name=tag] option").each((i: number, elem: Element) => {
                         filterOptionListFromDom.push($(elem).text());
                     });
 
