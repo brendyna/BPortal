@@ -15,6 +15,8 @@ module Main {
         assert.equal(typeof (Table.Widget), "function", "Widget defined");
     });
 
+    // Add test validating that the order observable works as expected
+
     //QUnit.test("Control renders correctly", (assert) => {
     //    // Setup
     //    let fixture = $("#qunit-fixture");
