@@ -230,8 +230,8 @@ module Main {
                     },
                     order: [
                         [
-                            4,
-                            'asc'
+                            Config.Indexes.SummaryBugsTableBingdexColumn,
+                            Config.Strings.DefaultTableSortOrder
                         ]
                     ],
                     columns: [
@@ -377,8 +377,8 @@ module Main {
                     },
                     order: [
                         [
-                            3,
-                            'asc'
+                            Config.Indexes.SummaryTrendsTableBingdexColumn,
+                            Config.Strings.DefaultTableSortOrder
                         ]
                     ],
                     columns: [

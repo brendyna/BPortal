@@ -69,6 +69,13 @@ module Main {
         public static DetailsTrends = "details-trends";
     }
 
+    export class Indexes {
+        public static SummaryBugsTableAlexaColumn = 5;
+        public static SummaryBugsTableBingdexColumn = 4;
+        public static SummaryTrendsTableAlexaColumn = 4;
+        public static SummaryTrendsTableBingdexColumn = 3;
+    }
+
     export class Params {
         public static Domain = "domain";
         public static Tag = "tag";
@@ -117,6 +124,7 @@ module Main {
         public static BugSectionTitle = "Bugs";
         public static BugsTableScanTimePrefix = "Updated";
         public static BugsTableScanTimePlaceholder = "Updated...";
+        public static DefaultTableSortOrder = "asc";
         public static DetailsBugsTableNoDataMessage = "No bugs to show for this site";
         public static DetailsBugsTableNoResultsMessage = "No bugs found";
         public static DetailsBugsTrendsTitle = "Trends";
