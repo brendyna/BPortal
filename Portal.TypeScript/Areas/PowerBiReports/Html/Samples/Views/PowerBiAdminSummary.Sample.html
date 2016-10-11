@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>PowerBiAdmin - Samples</title>
+    <link rel="stylesheet" href="http://edgecore.azurewebsites.net/min/indigo.full.min.css" />
+    <link rel="stylesheet" href="/Content/css/spinner.css" />
+    <link rel="stylesheet" href="/Areas/Shared/Styles/controls.css" />
+    <link rel="stylesheet" href="/Areas/SiteReporter/Styles/styles.css" />
+    <link rel="stylesheet" href="/Content/css/samples.css" />
+    <script>
+        window.BREADCRUMB = [
+              { text: "WPT Portal", url: "javascript:;" },
+            { text: "PowerBiAdmin", url: "javascript:;" },
+            { text: "Summary", url: "javascript:;" }
+        ] ;
+    </script>
+    <script type="text/javascript" src="/bower_components/requirejs/require.js"></script>
+    <script type="text/javascript" src="/require.web.config.js"></script>
+    <script>
+        require(["Areas/PowerBiReports/Samples/Views/PowerBiAdminSummary.Sample"]);
+    </script>
+</head>
+
+<body>
+    <h1>PowerBiAdmin: Summary</h1>
+    <div class="container">
+        <article id="sample" class="content"></article>
+    </div>
+</body>
+</html>

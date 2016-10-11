@@ -11,11 +11,7 @@ module Main {
         DatasetId: string;
     }
 
-    export type PowerBiDatasetList = {
-        DatasetList: Array<PowerBiDataset>;
-    }
-
-    export type DataTransferObject = PowerBiDatasetList;
+    export type DataTransferObject = Array<PowerBiDataset>;
 
     export interface IRepositorySettings extends BaseRepository.IRepositorySettings {
     }
@@ -28,10 +24,8 @@ module Main {
             settings.baseUrl = Config.Urls.PowerBiAdminBaseUrl;
             settings.endpoint = Config.Endpoints.DatasetsList;
             settings.authorize = false;
-            settings.plainGet = true;
-            settings.request = settings.request || {};
-            settings.request.dataType = "json";
-
+            
+            
             super(settings);
         }
     }

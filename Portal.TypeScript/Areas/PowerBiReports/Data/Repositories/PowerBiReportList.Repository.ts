@@ -11,11 +11,7 @@ module Main {
         WebUrl: string;
     }
 
-    export type PowerBiReportList = {
-        ReportList: Array<PowerBiReport>;
-    }
-
-    export type DataTransferObject = PowerBiReportList;
+    export type DataTransferObject = Array<PowerBiReport>;;
 
     export interface IRepositorySettings extends BaseRepository.IRepositorySettings {
     }
@@ -28,10 +24,7 @@ module Main {
             settings.baseUrl = Config.Urls.ReportsBaseUrl;
             settings.endpoint = Config.Endpoints.ReportsList;
             settings.authorize = false;
-            settings.plainGet = true;
-            settings.request = settings.request || {};
-            settings.request.dataType = "json";
-
+                        
             super(settings);
         }
     }

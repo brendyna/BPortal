@@ -24,10 +24,10 @@ module Main {
             settings.baseUrl = Config.Urls.ReportsBaseUrl;
             settings.endpoint = Config.Endpoints.ReportDetail;
             settings.authorize = false;
-            settings.plainGet = true;
+            
             settings.request = settings.request || {};
             settings.request.data = settings.request.data || params || {};
-            settings.request.dataType = "json";
+            
 
             super(settings);
         }

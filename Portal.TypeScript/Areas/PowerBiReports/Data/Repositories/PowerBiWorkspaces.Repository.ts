@@ -5,15 +5,11 @@ export = Main;
 
 module Main {
     export type PowerBiWorkspace = {
-        WorkspaceCollectionName: string;
-        WorkspaceId: string;
+        workspaceCollectionName: string;
+        workspaceId: string;
     }
 
-    export type PowerBiWorkspaceList = {
-        WorkspaceList: Array<PowerBiWorkspace>;
-    }
-
-    export type DataTransferObject = PowerBiWorkspaceList;
+    export type DataTransferObject = Array<PowerBiWorkspace>;
 
     export interface IRepositorySettings extends BaseRepository.IRepositorySettings {
     }
@@ -26,10 +22,7 @@ module Main {
             settings.baseUrl = Config.Urls.PowerBiAdminBaseUrl;
             settings.endpoint = Config.Endpoints.WorkspaceList;
             settings.authorize = false;
-            settings.plainGet = true;
-            settings.request = settings.request || {};
-            settings.request.dataType = "json";
-
+            
             super(settings);
         }
     }
