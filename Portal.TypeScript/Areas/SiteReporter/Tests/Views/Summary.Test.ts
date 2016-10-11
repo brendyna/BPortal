@@ -20,8 +20,10 @@ import Input = require("Areas/Shared/Controls/Input");
 import List = require("Areas/Shared/Controls/List");
 import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
+import Select = require("Areas/Shared/Controls/Select");
 import SummaryMocks = require("Areas/SiteReporter/Samples/Helpers/Summary.Mocks");
 import Table = require("Areas/Shared/Controls/Table");
+import SummaryProvider = require("Areas/SiteReporter/Data/Providers/Summary.Provider");
 
 export = Main;
 
@@ -298,10 +300,11 @@ module Main {
             let bugSectionElem = widget.bugs.widget.element;
             let bugSectionFiltersElem = widget.bugsFilters.widget.element;
             let bugSectionTableElem = widget.bugsTable.widget.element;
+            let bugsForTagBingdexTop100MockData = SummaryMocks.getMockBugsForTagBingdexTop100();
             let bugsForTagMindtreeMockData = SummaryMocks.getMockBugsForTagMindtreeNotorious();
             let expectedPostFilterChangeCellValue = bugsForTagMindtreeMockData[0].DomainName;
-            let filterOptionListFromData = [];
-            let filterOptionListFromDom = [];
+            let tagFilterOptionListFromData = [];
+            let tagFilterOptionListFromDom = [];
             
             let loadingSub1 = widget.bugsTable.vm.loading.subscribe((loading: boolean) => {
                 if (!loading) {
@@ -334,14 +337,23 @@ module Main {
                     let actualDetailsButtonCount = $(rows.get(0)).find(`td:nth-of-type(8) button`).length;
 
                     SummaryMocks.getMockFiltersData()["tag"].forEach((option: FiltersRepo.Option) => {
-                        filterOptionListFromData.push(option.text);
+                        tagFilterOptionListFromData.push(option.text);
+                    });
+
+                    bugsForTagBingdexTop100MockData.forEach((summary: BugsForTagRepo.SiteBugSummary) => {
+                        
                     });
 
                     bugSectionFiltersElem.find("select[name=tag] option").each((i: number, elem: Element) => {
-                        filterOptionListFromDom.push($(elem).text());
+                        tagFilterOptionListFromDom.push($(elem).text());
                     });
 
-                    assert.deepEqual(filterOptionListFromDom, filterOptionListFromData, "Filter options render correctly");
+                    assert.deepEqual(tagFilterOptionListFromDom, tagFilterOptionListFromData,
+                        "Tag filter options render correctly");
+                    assert.deepEqual(getTypeFilterOptionsFromDom(bugSectionFiltersElem),
+                        getTypeFilterOptionsFromData(bugsForTagBingdexTop100MockData),
+                        "Type filter options render correctly");
+
                     assert.deepEqual(actualHeaders, expectedHeaders, "Table column headers are correct");
                     assert.equal(bugSectionElem.find(classify(BaseConfig.Classes.TableMetadata)).text(),
                         expectedScanTime, "Scan time renders correctly");
@@ -350,12 +362,20 @@ module Main {
                     assert.equal(actualFavIconCount, 1, "Favicon is present for site");
                     assert.equal(actualDetailsButtonCount, 1, "Details button is present for site");
 
+                    widget.bugsFilters.vm.value({ "tag": "BingdexTop100", "bugType": "outreach" });
+                    assert.equal(bugSectionTableElem.find("tbody tr").length, 2,
+                        "Changing bug type filter results in the correct number of rows");
+
                     let filterChangePromise = testSectionTableSelectFilterChange(widget.bugsTable, widget.sidebar, widget.bugsSnapshots,
                         2, 1, initialCellValue, expectedPostFilterChangeCellValue, widget.bugsFilters, { "tag": "MindTreeNotoriousSites" },
                         testSidebarBugsSnapshot, bugsForTagMindtreeMockData, assert);
 
                     filterChangePromise.done(() => {
                         tableFilterUpdateDone();
+
+                        assert.deepEqual(getTypeFilterOptionsFromDom(bugSectionFiltersElem),
+                            getTypeFilterOptionsFromData(bugsForTagMindtreeMockData),
+                            "Type filter options update correctly when filter changed");
 
                         let searchFilterChangePromise = testSectionTableSearchFilterChange(widget.bugs, widget.bugsTable, "bing.com", 0, 1,
                             1, "bing.com", "asdfasdfasdf", 0, 0, 1, Config.Strings.SummaryTableNoResultsMessage, assert);
@@ -524,6 +544,28 @@ module Main {
         SummaryMocks.setupTrendsForTagFakeTagMock();
     }
 
+    function getTypeFilterOptionsFromDom(filterElem: JQuery): Array<string> {
+        let options = [];
+
+        filterElem.find("select[name=bugType] option").each((i: number, elem: Element) => {
+            options.push($(elem).text());
+        });
+
+        return options;
+    }
+
+    function getTypeFilterOptionsFromData(data: BugsForTagRepo.DataTransferObject): Array<string> {
+        let options = [];
+        let tempRepo = new BugsForTagRepo.Repository({ resultData: data });
+        let tempProvider = new SummaryProvider.BugsProvider(tempRepo);
+
+        tempProvider.getBugTypeFilterSelectData().options.forEach((option: Select.IOptionData) => {
+            options.push(option.text);
+        });
+
+        return options;
+    }
+
     function testSidebarBugsSnapshot(
         sidebar: BaseControl.IControl<Section.IViewModel, Section.IWidget>,
         mockBugsForTagData: BugsForTagRepo.DataTransferObject,
@@ -656,6 +698,7 @@ module Main {
                 tableLoadingSub.dispose();
 
                 let actualValue = $($(table.widget.element.find("tbody tr").get(row)).find("td").get(cell)).text();
+
                 assert.notEqual(initialValue, actualValue, "Cell values have changed when filter changed");
                 assert.equal(actualValue, expectedValue, "Expected value present after filter change");
 

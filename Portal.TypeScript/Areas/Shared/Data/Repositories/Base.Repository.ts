@@ -15,6 +15,7 @@ module Main {
         request?: JQueryAjaxSettings;
         authorize?: boolean;
         plainGet?: boolean;
+        resultData?: any;
     }
 
     export interface IRepository<T> {
@@ -35,7 +36,7 @@ module Main {
         constructor(settings: IRepositorySettings = {}) {
             this._settings = settings;
             this._loadDeferred = $.Deferred<T>();
-            this._resultData = <T>{};
+            this._resultData = settings.resultData || <T>{};
         }
 
         public destroy(): void {

@@ -196,14 +196,6 @@ module Main {
             this._scantimeRepo = new ScanTimeRepository.Repository();
         }
 
-        private getRepoSettings(): {} {
-            return {
-                request: {
-                    data: $.extend({}, this.defaults.viewContext.params)
-                }
-            };
-        }
-
         public initializeLoading(): void {
             this.bugsFilters.vm.loading(true);
             this.trendsFilters.vm.loading(true);
@@ -226,7 +218,17 @@ module Main {
             });
 
             // Setup load state changes for when promises resolve
-            this.initializeRepoLoadActions();
+            // There's a random bug here (remove the <any> and see the compiler error)
+            $.when<any>(
+                this._bugsForTagRepo.getPromise(),
+                this._filtersRepo.getPromise(),
+                this._trendsForTagRepo.getPromise(),
+                this._scantimeRepo.getPromise())
+            .done(() => {
+                this.initializeBugSubscriptions();
+                this.initializeTrendsSubscriptions();
+                this._loadDeferred.resolve();
+            });
         }
 
         public initializeSubscriptions(): void {
@@ -245,18 +247,12 @@ module Main {
             }
         }
 
-        private initializeRepoLoadActions(): void {
-            // There's a random bug here (remove the <any> and see the compiler error)
-            $.when<any>(
-                this._bugsForTagRepo.getPromise(),
-                this._filtersRepo.getPromise(),
-                this._trendsForTagRepo.getPromise(),
-                this._scantimeRepo.getPromise())
-            .done(() => {
-                this.initializeBugSubscriptions();
-                this.initializeTrendsSubscriptions();
-                this._loadDeferred.resolve();
-                });
+        private getRepoSettings(): {} {
+            return {
+                request: {
+                    data: $.extend({}, this.defaults.viewContext.params)
+                }
+            };
         }
 
         private initializeBugSubscriptions(): void {
@@ -322,10 +318,10 @@ module Main {
             this.applyBugsTypeTableFilter().done(() => {
                 this.bugsTable.widget.data(this._bugsForTagProvider.getBugTypeData(
                     (<Select.IViewModel>this.bugsFilters.widget.childWidgets[1].viewModel).value()));
-            });
 
-            this.bugsSnapshots.vm.loading(false);
-            this.bugsTable.vm.loading(false);
+                this.bugsSnapshots.vm.loading(false);
+                this.bugsTable.vm.loading(false);
+            });
         }
 
         private applyBugsTypeTableFilter(): JQueryPromise<void> {
