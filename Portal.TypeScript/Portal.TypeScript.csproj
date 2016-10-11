@@ -137,6 +137,12 @@
     <Content Include="Web\Readme.md" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Areas\PowerBiReports\Config.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiAccessToken.Repository.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiDatasetsList.Repository.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiReport.Repository.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiReportList.Repository.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiWorkspaces.Repository.ts" />
     <TypeScriptCompile Include="Areas\Shared\Config.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\List.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Navigation.ts" />
@@ -235,6 +241,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\PowerBiReports\Templates\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
