@@ -9,7 +9,7 @@ import Table = require("Areas/Shared/Controls/Table");
 
 import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
 import WorkspacesRepository = require("../Repositories/PowerBiWorkspaces.Repository");
-import DatasetsRepository = require("../Repositories/PowerBiDatasetsList.Repository");
+import DatasetsRepository = require("../Repositories/PowerBiDatasets.Repository");
 
 export = Main;
 
@@ -23,7 +23,7 @@ module Main {
         getNavigationViewModelData: () => Navigation.IViewModelData;
         getHeaderViewModelData: () => Header.IViewModelData;
         getWorkspacesViewModelData: () => Section.IViewModelData;
-        //getDatasetsViewModelData: () => Section.IViewModelData;
+        getDatasetsViewModelData: () => Section.IViewModelData;
     }
 
     export interface IDynamicProvider extends BaseProvider.IDynamicProvider {
@@ -62,6 +62,20 @@ module Main {
             };
         }
 
+        public getDatasetsViewModelData(): Section.IViewModelData {
+            return {
+                title: Config.Strings.DatasetListTitle,
+                altHeader: true,
+                classes: "summary--datasetstable datasets__section",
+                body: `
+                    <table data-bind="wpsTable: $vm.table"></table>
+                `,
+                bodyViewModel: {
+                    table: this.getDatasetsTableData()
+                }
+            };
+        }
+
         private getWorkspacesTableData(): Table.IViewModelData {
             return {
                 classes: "workspaces__section__table",
@@ -93,12 +107,60 @@ module Main {
                 }
             };
         }
-       
+
+        private getDatasetsTableData(): Table.IViewModelData {
+            return {
+                classes: "datasets__section__table",
+                headers: [
+                    { text: Config.Strings.WorkspaceCollectionNameColumnHeader },
+                    { text: Config.Strings.WorkspaceIdColumnHeader },
+                    { text: Config.Strings.DatasetIdColumnHeader },
+                    { text: Config.Strings.DatasetNameColumnHeader }
+                ],
+
+                settings: <DataTables.Settings>{
+                    lengthChange: false,
+                    autoWidth: false,
+                    info: false,
+                    ordering: false,
+                    searching: false,
+                    paging: false,
+
+                    columns: [
+                        { data: 'workspaceCollectionName', className: "table__column__workspacecollectionname" },
+                        { data: 'workspaceId', className: "table__column__workspaceid" },
+                        { data: 'datasetName', className: "table__column__datasetname" },
+                        { data: 'datasetId', className: "table__column__datasetid" }
+                    ],
+                    columnDefs: [
+                        {
+                            targets: 'table__column__workspacecollectionname'
+                        },
+                        {
+                            targets: 'table__column__workspaceid'
+                        },
+                        {
+                            targets: 'table__column__datasetname'
+                        },
+                        {
+                            targets: 'table__column__datasetid'
+                        }
+                    ]
+                }
+            };
+        }
     }
 
     export class WorkspacesProvider extends BaseProvider.DynamicProvider<WorkspacesRepository.DataTransferObject>
         implements BaseProvider.IDynamicProvider {
         constructor(repository: WorkspacesRepository.IRepository) {
+            super(repository);
+        }
+    }
+
+    export class DatasetsProvider extends BaseProvider.DynamicProvider<WorkspacesRepository.DataTransferObject>
+        implements BaseProvider.IDynamicProvider {
+        constructor(repository: DatasetsRepository.IRepository) {
             super(repository);
         }
     }

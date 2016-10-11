@@ -141,7 +141,7 @@
     <TypeScriptCompile Include="Areas\PowerBiReports\Config.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Providers\PowerBiAdminSummary.Provider.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiAccessToken.Repository.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiDatasetsList.Repository.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiDatasets.Repository.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiReport.Repository.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiReportList.Repository.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiWorkspaces.Repository.ts" />

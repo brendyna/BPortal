@@ -5,10 +5,10 @@ export = Main;
 
 module Main {
     export type PowerBiDataset = {
-        WorkspaceCollectionName: string;
-        WorkspaceId: string;
-        DatasetName: string;
-        DatasetId: string;
+        workspaceCollectionName: string;
+        workspaceId: string;
+        datasetName: string;
+        datasetId: string;
     }
 
     export type DataTransferObject = Array<PowerBiDataset>;

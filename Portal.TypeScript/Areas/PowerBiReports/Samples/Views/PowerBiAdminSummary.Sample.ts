@@ -1,7 +1,7 @@
 ﻿import Config = require("../../Config");
 import View = require("../../Views/PowerBiAdminSummary.View");
 
-import WorkspacesMocks = require("../Helpers/PowerBiAdminSummary.Mocks");
+import PowerBiAdminMocks = require("../Helpers/PowerBiAdminSummary.Mocks");
 
 export = Main;
 
@@ -21,6 +21,7 @@ module Main {
     });
 
     export function setupMockjax(): void {
-        WorkspacesMocks.setupWorkspacesMock();
+        PowerBiAdminMocks.setupWorkspacesMock();
+        PowerBiAdminMocks.setupDatasetsMock();
     }
 }
