@@ -152,6 +152,10 @@ module Main {
         public static SummaryBugsTableCurrentColumnHeader = "Current";
         public static SummaryBugsTableOutreachColumnHeader = "Outreach";
         public static SummaryBugsTableTotalColumnHeader = "Total";
+        public static SummaryBugTypeFilterAllSites = "All sites";
+        public static SummaryBugTypeFilterOutreachBugSites = "Sites with outreach bugs";
+        public static SummaryBugTypeFilterCurrentBugSites = "Sites with current release bugs";
+        public static SummaryBugTypeFilterSwitchRiskBugSites = "Sites with switch risk bugs";
         public static SummarySnapshotNoDataMessage = "N/A";
         public static SummaryTableAlexaColumnHeader = "Alexa";
         public static SummaryTableBingdexColumnHeader = "Bingdex";

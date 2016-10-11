@@ -141,10 +141,6 @@ module Main {
             super._initializeSubscriptions();
 
             this._subscriptions.push(this.viewModel.selectData.subscribe((newSelectData: Select.IViewModelData[]) => {
-                this._destroyChildSelectWidgets();
-            }, this, "beforeChange"));
-
-            this._subscriptions.push(this.viewModel.selectData.subscribe((newSelectData: Select.IViewModelData[]) => {
                 this._initializeSelectSubscriptions();
             }));
 
@@ -206,11 +202,18 @@ module Main {
         }
 
         public _updateViewModelValue(): void {
-            let value: IDictionary<string> = {};
+            let currentValue = this.viewModel.value();
+            let newValue: IDictionary<string> = {};
+
             this.selectWidgets.forEach((widget: Select.IWidget) => {
-                value[widget.viewModel.name()] = widget.viewModel.value();
+                newValue[widget.viewModel.name()] = widget.viewModel.value();
             });
-            this.viewModel.value(value);
+
+            if (JSON.stringify(newValue) !== JSON.stringify(currentValue)) {
+                // Use extend to fill in values for selects that may have been 
+                // omitted in the passed in newValue object
+                this.viewModel.value(newValue);
+            }
         }
     }
 

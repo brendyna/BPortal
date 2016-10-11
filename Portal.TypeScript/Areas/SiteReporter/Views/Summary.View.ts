@@ -6,6 +6,7 @@ import Config = require("../Config");
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 import Filters = require("Areas/Shared/Controls/Filters");
 import Section = require("Areas/Shared/Controls/Section");
+import Select = require("Areas/Shared/Controls/Select");
 import Table = require("Areas/Shared/Controls/Table");
 
 import BugsForTagRepository = require("../Data/Repositories/BugsForTag.Repository");
@@ -112,6 +113,26 @@ module Main {
         public destroy(): void {
             super.destroy();
 
+            if (this._bugsForTagBlobUrlRepo) {
+                this._bugsForTagBlobUrlRepo.destroy();
+            }
+
+            if (this._bugsForTagRepo) {
+                this._bugsForTagRepo.destroy();
+            }
+
+            if (this._filtersRepo) {
+                this._filtersRepo.destroy();
+            }
+
+            if (this._trendsForTagRepo) {
+                this._trendsForTagRepo.destroy();
+            }
+
+            if (this._scantimeRepo) {
+                this._scantimeRepo.destroy();
+            }
+
             this.element.removeClass(Widget.widgetClass);
         }
 
@@ -176,14 +197,6 @@ module Main {
             this._scantimeRepo = new ScanTimeRepository.Repository();
         }
 
-        private getRepoSettings(): {} {
-            return {
-                request: {
-                    data: $.extend({}, this.defaults.viewContext.params)
-                }
-            };
-        }
-
         public initializeLoading(): void {
             this.bugsFilters.vm.loading(true);
             this.trendsFilters.vm.loading(true);
@@ -206,7 +219,17 @@ module Main {
             });
 
             // Setup load state changes for when promises resolve
-            this.initializeRepoLoadActions();
+            // There's a random bug here (remove the <any> and see the compiler error)
+            $.when<any>(
+                this._bugsForTagRepo.getPromise(),
+                this._filtersRepo.getPromise(),
+                this._trendsForTagRepo.getPromise(),
+                this._scantimeRepo.getPromise())
+            .done(() => {
+                this.initializeBugSubscriptions();
+                this.initializeTrendsSubscriptions();
+                this._loadDeferred.resolve();
+            });
         }
 
         public initializeSubscriptions(): void {
@@ -225,26 +248,31 @@ module Main {
             }
         }
 
-        private initializeRepoLoadActions(): void {
-            // There's a random bug here (remove the <any> and see the compiler error)
-            $.when<any>(
-                this._bugsForTagRepo.getPromise(),
-                this._filtersRepo.getPromise(),
-                this._trendsForTagRepo.getPromise(),
-                this._scantimeRepo.getPromise())
-            .done(() => {
-                this.initializeBugSubscriptions();
-                this.initializeTrendsSubscriptions();
-                this._loadDeferred.resolve();
-            });
+        private getRepoSettings(): {} {
+            return {
+                request: {
+                    data: $.extend({}, this.defaults.viewContext.params)
+                }
+            };
         }
 
         private initializeBugSubscriptions(): void {
-            this._subscriptions.push(this.bugsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
-                $.extend(this._bugsForTagBlobUrlRepo.settings.request.data, newValue);
+            let oldFilterValue: IDictionary<string>;
 
-                this.initializeBugsLoading();
-                this.loadBugsRepo();
+            this._subscriptions.push(this.bugsFilters.vm.value.subscribe((previousValue: IDictionary<string>) => {
+                oldFilterValue = previousValue;
+            }, undefined, "beforeChange"));
+
+            this._subscriptions.push(this.bugsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
+                // If just the bugType select changes, don't kick off a reload (just update the table data)
+                if (oldFilterValue["tag"] === newValue["tag"] && oldFilterValue["bugType"] !== newValue["bugType"]) {
+                    this.bugsTable.widget.data(this._bugsForTagProvider.getBugTypeData(newValue["bugType"]));
+                } else {
+                    $.extend(this._bugsForTagBlobUrlRepo.settings.request.data, newValue);
+
+                    this.initializeBugsLoading();
+                    this.loadBugsRepo();
+                }
             }));
         }
 
@@ -288,12 +316,46 @@ module Main {
             this._bugsForTagProvider = new SummaryProvider.BugsProvider(this._bugsForTagRepo);
 
             this.bugsSnapshots.vm.descriptionPairs(this._bugsForTagProvider.getBugSnapshotData());
-            this.bugsTable.widget.data(this._bugsForTagProvider.getBugTableData());
-            this.bugsTable.widget.order(this._bugsForTagProvider.isAlexaTag() ?
-                [Config.Indexes.SummaryBugsTableAlexaColumn, Config.Strings.DefaultTableSortOrder] :
-                [Config.Indexes.SummaryBugsTableBingdexColumn, Config.Strings.DefaultTableSortOrder]);
-            this.bugsSnapshots.vm.loading(false);
-            this.bugsTable.vm.loading(false);
+            this.applyBugsTypeTableFilter().done(() => {
+                this.bugsTable.widget.data(this._bugsForTagProvider.getBugTypeData(
+                    (<Select.IViewModel>this.bugsFilters.widget.childWidgets[1].viewModel).value()));
+                this.bugsTable.widget.order(this._bugsForTagProvider.isAlexaTag() ?
+                    [Config.Indexes.SummaryBugsTableAlexaColumn, Config.Strings.DefaultTableSortOrder] :
+                    [Config.Indexes.SummaryBugsTableBingdexColumn, Config.Strings.DefaultTableSortOrder]);
+
+                this.bugsSnapshots.vm.loading(false);
+                this.bugsTable.vm.loading(false);
+            });
+        }
+
+        private applyBugsTypeTableFilter(): JQueryPromise<void> {
+            let applyDeferred = $.Deferred<void>();
+
+            if (this.bugsFilters.vm.loading()) {
+                let loadingSub = this.bugsFilters.vm.loading.subscribe((loading: boolean) => {
+                    if (!loading) {
+                        loadingSub.dispose();
+                        this.updateBugsFiltersWithTypeSelect();
+                        applyDeferred.resolve();
+                    }
+                });
+            } else {
+                this.updateBugsFiltersWithTypeSelect();
+                applyDeferred.resolve();
+            }
+
+            return applyDeferred.promise();
+        }
+
+        private updateBugsFiltersWithTypeSelect(): void {
+            let selectData = this.bugsFilters.vm.selectData;
+
+            if (selectData().length === 2) {
+                (<Select.IWidget>this.bugsFilters.widget.childWidgets[1]).viewModel.options(
+                    BaseControl.createFromDefaults(this._bugsForTagProvider.getBugTypeFilterSelectData().options, Select.Option));
+            } else {
+                selectData.push(this._bugsForTagProvider.getBugTypeFilterSelectData());
+            }
         }
 
         private applyTrendsData(): void {
