@@ -2,6 +2,7 @@
 import ko = require("knockout");
 import Base = require("Areas/Shared/Views/Base.View");
 import BaseControl = require("Areas/Shared/Controls/Base");
+import Config = require("../Config");
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 import Filters = require("Areas/Shared/Controls/Filters");
 import Section = require("Areas/Shared/Controls/Section");
@@ -308,7 +309,7 @@ module Main {
             // Load Trends data
             this._trendsForTagRepo.load().done(() => {
                 this.applyTrendsData();
-            });
+            }); 
         }
 
         private applyBugsData(): void {
@@ -318,6 +319,9 @@ module Main {
             this.applyBugsTypeTableFilter().done(() => {
                 this.bugsTable.widget.data(this._bugsForTagProvider.getBugTypeData(
                     (<Select.IViewModel>this.bugsFilters.widget.childWidgets[1].viewModel).value()));
+                this.bugsTable.widget.order(this._bugsForTagProvider.isAlexaTag() ?
+                    [Config.Indexes.SummaryBugsTableAlexaColumn, Config.Strings.DefaultTableSortOrder] :
+                    [Config.Indexes.SummaryBugsTableBingdexColumn, Config.Strings.DefaultTableSortOrder]);
 
                 this.bugsSnapshots.vm.loading(false);
                 this.bugsTable.vm.loading(false);
@@ -359,6 +363,9 @@ module Main {
 
             this.trendsSnapshots.vm.descriptionPairs(this._trendsForTagProvider.getTrendsSnapshotData());
             this.trendsTable.widget.data(this._trendsForTagProvider.getTrendsTableData());
+            this.trendsTable.widget.order(this._trendsForTagProvider.isAlexaTag() ?
+                [Config.Indexes.SummaryTrendsTableAlexaColumn, Config.Strings.DefaultTableSortOrder] :
+                [Config.Indexes.SummaryTrendsTableBingdexColumn, Config.Strings.DefaultTableSortOrder]);
             this.trendsSnapshots.vm.loading(false);
             this.trendsTable.vm.loading(false);
         }

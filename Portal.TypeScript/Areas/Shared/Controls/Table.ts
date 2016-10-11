@@ -18,7 +18,7 @@ module Main {
     }
 
     export interface IHeader {
-        text:KnockoutObservable<string>;
+        text: KnockoutObservable<string>;
         classes: KnockoutObservable<string>;
         hidden: KnockoutObservable<boolean>;
     }
@@ -32,7 +32,7 @@ module Main {
     export interface IViewModel extends Base.IViewModel {
         headers: KnockoutObservableArray<IHeader>;
         settings: KnockoutObservable<DataTables.Settings>;
-        metadata: KnockoutObservable<string>
+        metadata: KnockoutObservable<string>;
     }
 
     export interface IWidgetDefaults extends Base.IWidgetDefaults {
@@ -97,14 +97,16 @@ module Main {
         public static widgetClass = "table table--overflow";
 
         private _data: KnockoutObservable<any>;
-        private _metadataElement: JQuery;
         private _dataUpdateDeferred: JQueryDeferred<void>;
+        private _metadataElement: JQuery;
+        private _order: KnockoutObservableArray<any>;
 
         constructor(element: JQuery, defaults?: IWidgetDefaults | IViewModelData) {
             super(element, ViewModel, Widget.resolveDefaults(defaults, DefaultTemplate));
 
             this._data = ko.observable(this.viewModel.settings().data || {});
             this._dataUpdateDeferred = $.Deferred<void>();
+            this._order = ko.observableArray<any>(this.viewModel.settings().order || []);
 
             this.wrapDataTablesCallbacks();
 
@@ -120,6 +122,10 @@ module Main {
 
         public get data(): KnockoutObservable<any> {
             return this._data;
+        }
+
+        public get order(): KnockoutObservableArray<any> {
+            return this._order;
         }
 
         public get viewModel(): IViewModel {
@@ -163,6 +169,12 @@ module Main {
                 let dataTable = $(this.element).DataTable();
                 dataTable.clear();
                 dataTable.rows.add(newData);
+                dataTable.draw();
+            }));
+
+            this._subscriptions.push(this.order.subscribe((order: Array<any>) => {
+                let dataTable = $(this.element).DataTable();
+                dataTable.order(order);
                 dataTable.draw();
             }));
         }
