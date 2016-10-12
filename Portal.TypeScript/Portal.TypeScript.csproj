@@ -288,7 +288,7 @@
     <Error Condition="!Exists('..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll'))" />
   </Target>
   <Target Name="AfterBuild">
-    <!-- <CallTarget Targets="TestGeneratedFiles;MinifyGeneratedFiles" /> -->
+    <CallTarget Targets="TestGeneratedFiles;MinifyGeneratedFiles" /> 
   </Target>
   <Target Name="TestGeneratedFiles">
     <ItemGroup>
