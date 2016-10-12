@@ -5,10 +5,10 @@ export = Main;
 
 module Main {
     export type PowerBiReport = {
-        Id: string;
-        Name: string;
-        EmbedUrl: string;
-        WebUrl: string;
+        id: string;
+        name: string;
+        embedUrl: string;
+        webUrl: string;
     }
 
     export type DataTransferObject = PowerBiReport;
@@ -24,10 +24,8 @@ module Main {
             settings.baseUrl = Config.Urls.ReportsBaseUrl;
             settings.endpoint = Config.Endpoints.ReportDetail;
             settings.authorize = false;
-            
             settings.request = settings.request || {};
             settings.request.data = settings.request.data || params || {};
-            
 
             super(settings);
         }

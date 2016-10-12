@@ -1,9 +1,8 @@
 ﻿import "jquery.mockjax";
-
 import BaseConfig = require("Areas/Shared/Config");
 import Config = require("../../Config");
-import WorkspacesRepo = require("../../Data/Repositories/PowerBiWorkspaces.Repository");
 import DatasetsRepo = require("../../Data/Repositories/PowerBiDatasets.Repository");
+import WorkspacesRepo = require("../../Data/Repositories/PowerBiWorkspaces.Repository");
 
 export = Main;
 

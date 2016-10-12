@@ -1,18 +1,14 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import Base = require("Areas/Shared/Views/Base.View");
 import BaseControl = require("Areas/Shared/Controls/Base");
 import Config = require("../Config");
-
+import DatasetsRepository = require("../Data/Repositories/PowerBiDatasets.Repository");
+import DefaultTemplate = require("../Templates/Views/PowerBiAdminSummary.Template");
+import ko = require("knockout");
+import PowerBiAdminSummaryProvider = require("../Data/Providers/PowerBiAdminSummary.Provider");
 import Section = require("Areas/Shared/Controls/Section");
 import Table = require("Areas/Shared/Controls/Table");
-
 import WorkspacesRepository = require("../Data/Repositories/PowerBiWorkspaces.Repository");
-import DatasetsRepository = require("../Data/Repositories/PowerBiDatasets.Repository");
-
-import PowerBiAdminSummaryProvider = require("../Data/Providers/PowerBiAdminSummary.Provider");
-
-import DefaultTemplate = require("../Templates/Views/PowerBiAdminSummary.Template");
 
 export = Main;
 
@@ -21,8 +17,8 @@ module Main {
     Table;
 
     export interface IViewModelData extends Base.IViewModelData {
-        workspaces?: Section.IViewModelData;
         datasets?: Section.IViewModelData;
+        workspaces?: Section.IViewModelData;
     }
 
     export interface IViewContext extends Base.IViewContext {
@@ -34,22 +30,21 @@ module Main {
     }
 
     export interface IWidget extends Base.IWidget {
-        workspaces: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
-        workspacesTable: BaseControl.IControl<Table.ViewModel, Table.Widget>;
         datasets: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
         datasetsTable: BaseControl.IControl<Table.ViewModel, Table.Widget>;
+        workspaces: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        workspacesTable: BaseControl.IControl<Table.ViewModel, Table.Widget>;
     }
 
     export class Widget extends Base.Widget implements IWidget {
 
         public static widgetClass = "view--summary";
 
-        private _powerBiAdminStaticProvider: PowerBiAdminSummaryProvider.StaticProvider;
-        private _workspacesRepo: WorkspacesRepository.IRepository;
-        private _datasetsRepo: DatasetsRepository.IRepository;
-        private _workspacesProvider: PowerBiAdminSummaryProvider.WorkspacesProvider;
         private _datasetsProvider: PowerBiAdminSummaryProvider.DatasetsProvider;
-
+        private _datasetsRepo: DatasetsRepository.IRepository;
+        private _powerBiAdminStaticProvider: PowerBiAdminSummaryProvider.StaticProvider;
+        private _workspacesProvider: PowerBiAdminSummaryProvider.WorkspacesProvider;
+        private _workspacesRepo: WorkspacesRepository.IRepository;
 
         constructor(element: JQuery, defaults: IWidgetDefaults, viewModelData: IViewModelData = {}) {
             defaults.template = defaults.template || DefaultTemplate;
@@ -57,10 +52,10 @@ module Main {
             super(element, defaults, viewModelData);
 
             this._controlClasses = $.extend({
-                workspaces: "workspaces__section",
-                workspacestable: "workspaces__section__table",
                 datasets: "datasets__section",
-                datasetstable: "datasets__section__table"
+                datasetstable: "datasets__section__table",
+                workspaces: "workspaces__section",
+                workspacestable: "workspaces__section__table"
             }, this._controlClasses);
 
             this.setStaticViewModelData();
@@ -115,14 +110,6 @@ module Main {
 
         }
 
-        //private getRepoSettings(): {} {
-        //    return {
-        //        request: {
-        //            data: $.extend({}, this.defaults.viewContext.params)
-        //        }
-        //    };
-        //}
-
         public initializeLoading(): void {
             this.workspacesTable.vm.loading(true);
             this.datasetsTable.vm.loading(true);
@@ -172,7 +159,7 @@ module Main {
         private applyWorkspacesData(): void {
             this._workspacesProvider = new PowerBiAdminSummaryProvider.WorkspacesProvider(this._workspacesRepo);
 
-            this.workspacesTable.widget.data(this._workspacesProvider.repository.resultData);
+            this.workspacesTable.widget.data(this._workspacesProvider.getTableData());
 
             this.workspacesTable.vm.loading(false);
         }
@@ -180,7 +167,7 @@ module Main {
         private applyDatasetsData(): void {
             this._datasetsProvider = new PowerBiAdminSummaryProvider.DatasetsProvider(this._datasetsRepo);
 
-            this.datasetsTable.widget.data(this._datasetsProvider.repository.resultData);
+            this.datasetsTable.widget.data(this._datasetsProvider.getTableData());
 
             this.datasetsTable.vm.loading(false);
         }

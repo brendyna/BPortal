@@ -10,7 +10,6 @@ module Main {
         setupMockjax();
 
         let defaults: View.IWidgetDefaults = {
-            disableAutoLoad: true,
             viewContext: {
                 params: {}
             }

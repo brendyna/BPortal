@@ -5,10 +5,10 @@ export = Main;
 
 module Main {
     export type PowerBiReport = {
-        Id: string;
-        Name: string;
-        EmbedUrl: string;
-        WebUrl: string;
+        id: string;
+        name: string;
+        embedUrl: string;
+        webUrl: string;
     }
 
     export type DataTransferObject = Array<PowerBiReport>;;

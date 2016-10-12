@@ -1,15 +1,13 @@
-﻿
-import Base = require("Areas/Shared/Controls/Base");
+﻿import Base = require("Areas/Shared/Controls/Base");
+import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
 import Config = require("../../Config");
+import DatasetsRepository = require("../Repositories/PowerBiDatasets.Repository");
 import Header = require("Areas/Shared/Controls/Header");
 import KnockoutUtil = require("Areas/Shared/Util/Knockout");
 import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Table = require("Areas/Shared/Controls/Table");
-
-import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
 import WorkspacesRepository = require("../Repositories/PowerBiWorkspaces.Repository");
-import DatasetsRepository = require("../Repositories/PowerBiDatasets.Repository");
 
 export = Main;
 
@@ -52,7 +50,7 @@ module Main {
             return {
                 title: Config.Strings.WorkspacesListTitle,
                 altHeader: true,
-                classes: "summary--workspacestable workspaces__section",
+                classes: "workspaces__section",
                 body: `
                     <table data-bind="wpsTable: $vm.table"></table>
                 `,
@@ -66,7 +64,7 @@ module Main {
             return {
                 title: Config.Strings.DatasetListTitle,
                 altHeader: true,
-                classes: "summary--datasetstable datasets__section",
+                classes: "datasets__section",
                 body: `
                     <table data-bind="wpsTable: $vm.table"></table>
                 `,
@@ -83,7 +81,6 @@ module Main {
                     { text: Config.Strings.WorkspaceCollectionNameColumnHeader },
                     { text: Config.Strings.WorkspaceIdColumnHeader }
                 ],
-
                 settings: <DataTables.Settings>{
                     lengthChange: false,
                     autoWidth: false,
@@ -91,19 +88,10 @@ module Main {
                     ordering: false,
                     searching: false,
                     paging: false,
-
                     columns: [
                         { data: 'workspaceCollectionName', className: "table__column__workspacecollectionname" },
                         { data: 'workspaceId', className: "table__column__workspaceid" }
-                    ],
-                    columnDefs: [
-                        {
-                            targets: 'table__column__workspacecollectionname'
-                        },
-                        {
-                            targets: 'table__column__workspaceid'
-                        }                        
-                    ]                    
+                    ]             
                 }
             };
         }
@@ -117,7 +105,6 @@ module Main {
                     { text: Config.Strings.DatasetIdColumnHeader },
                     { text: Config.Strings.DatasetNameColumnHeader }
                 ],
-
                 settings: <DataTables.Settings>{
                     lengthChange: false,
                     autoWidth: false,
@@ -125,26 +112,11 @@ module Main {
                     ordering: false,
                     searching: false,
                     paging: false,
-
                     columns: [
                         { data: 'workspaceCollectionName', className: "table__column__workspacecollectionname" },
                         { data: 'workspaceId', className: "table__column__workspaceid" },
                         { data: 'datasetName', className: "table__column__datasetname" },
                         { data: 'datasetId', className: "table__column__datasetid" }
-                    ],
-                    columnDefs: [
-                        {
-                            targets: 'table__column__workspacecollectionname'
-                        },
-                        {
-                            targets: 'table__column__workspaceid'
-                        },
-                        {
-                            targets: 'table__column__datasetname'
-                        },
-                        {
-                            targets: 'table__column__datasetid'
-                        }
                     ]
                 }
             };
@@ -156,12 +128,20 @@ module Main {
         constructor(repository: WorkspacesRepository.IRepository) {
             super(repository);
         }
+
+        public getTableData() {
+            return this.repository.resultData;
+        }
     }
 
-    export class DatasetsProvider extends BaseProvider.DynamicProvider<WorkspacesRepository.DataTransferObject>
+    export class DatasetsProvider extends BaseProvider.DynamicProvider<DatasetsRepository.DataTransferObject>
         implements BaseProvider.IDynamicProvider {
         constructor(repository: DatasetsRepository.IRepository) {
             super(repository);
+        }
+
+        public getTableData() {
+            return this.repository.resultData;
         }
     }
 }

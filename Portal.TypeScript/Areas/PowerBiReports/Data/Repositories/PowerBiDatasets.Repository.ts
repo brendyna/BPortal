@@ -25,7 +25,6 @@ module Main {
             settings.endpoint = Config.Endpoints.DatasetsList;
             settings.authorize = false;
             
-            
             super(settings);
         }
     }
