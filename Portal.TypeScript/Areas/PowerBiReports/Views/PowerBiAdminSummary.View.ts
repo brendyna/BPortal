@@ -126,8 +126,6 @@ module Main {
                 this.applyDatasetsData();
             });
 
-            // Setup load state changes for when promises resolve
-            this.initializeRepoLoadActions();
         }
 
         public initializeSubscriptions(): void {
@@ -143,17 +141,6 @@ module Main {
                 workspaces: this._powerBiAdminStaticProvider.getWorkspacesViewModelData(),
                 datasets: this._powerBiAdminStaticProvider.getDatasetsViewModelData()
             }
-        }
-
-        private initializeRepoLoadActions(): void {
-            // There's a random bug here (remove the <any> and see the compiler error)
-            $.when<any>(
-                this._workspacesRepo.getPromise(),
-                this._datasetsRepo.getPromise()
-            )
-                .done(() => {
-                    this._loadDeferred.resolve()                        
-                });
         }
 
         private applyWorkspacesData(): void {
