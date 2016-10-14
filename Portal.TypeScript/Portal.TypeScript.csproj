@@ -27,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\PowerBiReports\Html\Samples\Views\PowerBiAdminSummary.Sample.html" />
+    <Content Include="Areas\PowerBiReports\Html\Tests\Views\PowerBiAdminSummary.Test.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Badge.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Button.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Chart.Sample.html" />
@@ -148,6 +149,7 @@
     <TypeScriptCompile Include="Areas\PowerBiReports\Samples\Helpers\PowerBiAdminSummary.Mocks.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Samples\Views\PowerBiAdminSummary.Sample.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Templates\Views\PowerBiAdminSummary.Template.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Tests\Views\PowerBiAdminSummary.Test.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Views\PowerBiAdminSummary.View.Start.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Views\PowerBiAdminSummary.View.ts" />
     <TypeScriptCompile Include="Areas\Shared\Config.ts" />
@@ -287,7 +289,7 @@
     <Error Condition="!Exists('..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll'))" />
   </Target>
   <Target Name="AfterBuild">
-    <CallTarget Targets="TestGeneratedFiles;MinifyGeneratedFiles" /> 
+    <CallTarget Targets="TestGeneratedFiles;MinifyGeneratedFiles" />
   </Target>
   <Target Name="TestGeneratedFiles">
     <ItemGroup>

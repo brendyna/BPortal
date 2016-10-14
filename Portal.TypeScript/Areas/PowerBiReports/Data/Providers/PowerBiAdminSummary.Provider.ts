@@ -50,7 +50,7 @@ module Main {
             return {
                 title: Config.Strings.WorkspacesListTitle,
                 altHeader: true,
-                classes: "workspaces__section",
+                classes: Config.Classes.WorkspacesSectionClass,
                 body: `
                     <table data-bind="wpsTable: $vm.table"></table>
                 `,
@@ -64,7 +64,7 @@ module Main {
             return {
                 title: Config.Strings.DatasetListTitle,
                 altHeader: true,
-                classes: "datasets__section",
+                classes: Config.Classes.DatasetsSectionClass,
                 body: `
                     <table data-bind="wpsTable: $vm.table"></table>
                 `,
@@ -76,7 +76,7 @@ module Main {
 
         private getWorkspacesTableData(): Table.IViewModelData {
             return {
-                classes: "workspaces__section__table",
+                classes: Config.Classes.WorkspacesTableClass,
                 headers: [
                     { text: Config.Strings.WorkspaceCollectionNameColumnHeader },
                     { text: Config.Strings.WorkspaceIdColumnHeader }
@@ -88,9 +88,13 @@ module Main {
                     ordering: false,
                     searching: false,
                     paging: false,
+                    language: <any>{
+                        emptyTable: Config.Strings.WorkspaceTableNoDataMessage,
+                        zeroRecords: Config.Strings.WorkspaceTableNoDataMessage
+                    },
                     columns: [
-                        { data: 'workspaceCollectionName', className: "table__column__workspacecollectionname" },
-                        { data: 'workspaceId', className: "table__column__workspaceid" }
+                        { data: 'workspaceCollectionName', className: Config.Classes.TableColumnWorkspaceCollectionNameClass },
+                        { data: 'workspaceId', className: Config.Classes.TableColumnWorkspaceIdClass }
                     ]             
                 }
             };
@@ -98,12 +102,12 @@ module Main {
 
         private getDatasetsTableData(): Table.IViewModelData {
             return {
-                classes: "datasets__section__table",
+                classes: Config.Classes.DatasetsTableClass,
                 headers: [
                     { text: Config.Strings.WorkspaceCollectionNameColumnHeader },
                     { text: Config.Strings.WorkspaceIdColumnHeader },
-                    { text: Config.Strings.DatasetIdColumnHeader },
-                    { text: Config.Strings.DatasetNameColumnHeader }
+                    { text: Config.Strings.DatasetNameColumnHeader },
+                    { text: Config.Strings.DatasetIdColumnHeader }
                 ],
                 settings: <DataTables.Settings>{
                     lengthChange: false,
@@ -112,11 +116,15 @@ module Main {
                     ordering: false,
                     searching: false,
                     paging: false,
+                    language: <any>{
+                        emptyTable: Config.Strings.DatasetsTableNoDataMessage,
+                        zeroRecords: Config.Strings.DatasetsTableNoDataMessage
+                    },
                     columns: [
-                        { data: 'workspaceCollectionName', className: "table__column__workspacecollectionname" },
-                        { data: 'workspaceId', className: "table__column__workspaceid" },
-                        { data: 'datasetName', className: "table__column__datasetname" },
-                        { data: 'datasetId', className: "table__column__datasetid" }
+                        { data: 'workspaceCollectionName', className: Config.Classes.TableColumnWorkspaceCollectionNameClass },
+                        { data: 'workspaceId', className: Config.Classes.TableColumnWorkspaceIdClass },
+                        { data: 'datasetName', className: Config.Classes.TableColumnDatasetNameClass },
+                        { data: 'datasetId', className: Config.Classes.TableColumnDatasetIdClass }
                     ]
                 }
             };

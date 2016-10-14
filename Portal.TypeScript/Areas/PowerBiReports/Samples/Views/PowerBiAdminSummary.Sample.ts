@@ -1,7 +1,6 @@
 ﻿import Config = require("../../Config");
-import View = require("../../Views/PowerBiAdminSummary.View");
-
 import PowerBiAdminMocks = require("../Helpers/PowerBiAdminSummary.Mocks");
+import View = require("../../Views/PowerBiAdminSummary.View");
 
 export = Main;
 
@@ -16,7 +15,7 @@ module Main {
         };
 
         let summary = new View.Widget($("#sample"), defaults);
-        summary.loadData();
+        
     });
 
     export function setupMockjax(): void {

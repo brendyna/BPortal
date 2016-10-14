@@ -52,10 +52,10 @@ module Main {
             super(element, defaults, viewModelData);
 
             this._controlClasses = $.extend({
-                datasets: "datasets__section",
-                datasetstable: "datasets__section__table",
-                workspaces: "workspaces__section",
-                workspacestable: "workspaces__section__table"
+                datasets: Config.Classes.DatasetsSectionClass,
+                datasetstable: Config.Classes.DatasetsTableClass,
+                workspaces: Config.Classes.WorkspacesSectionClass,
+                workspacestable: Config.Classes.WorkspacesTableClass
             }, this._controlClasses);
 
             this.setStaticViewModelData();
@@ -126,6 +126,13 @@ module Main {
                 this.applyDatasetsData();
             });
 
+            $.when<any>(
+                this._workspacesRepo.getPromise(),
+                this._datasetsRepo.getPromise()
+            )
+                .done(() => {
+                    this._loadDeferred.resolve()
+                });
         }
 
         public initializeSubscriptions(): void {
