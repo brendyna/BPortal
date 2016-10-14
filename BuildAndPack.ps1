@@ -2,6 +2,10 @@ Write-Host "Executing build"
 & msbuild /m /t:Rebuild /p:Configuration=Release /v:q /nologo
 Write-Host ""
 
+Write-Host "Executing post-build"
+& msbuild .\Portal.TypeScript\Portal.TypeScript.csproj /t:TestGeneratedFiles,MinifyGeneratedFiles
+Write-Host ""
+
 Write-Host "Calculating version"
 new-item .\.tools -type directory -force | out-null
 nuget install GitVersion.CommandLine -ExcludeVersion -NonInteractive -Prerelease -OutputDirectory .\.tools
