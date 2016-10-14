@@ -273,9 +273,6 @@
     <Error Condition="!Exists('..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Yahoo.Yui.Compressor.dll')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Yahoo.Yui.Compressor.dll'))" />
     <Error Condition="!Exists('..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YUICompressor.NET.MSBuild.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.Build.MsBuild.dll'))" />
   </Target>
-  <Target Name="AfterBuild">
-    <CallTarget Targets="TestGeneratedFiles;MinifyGeneratedFiles" />
-  </Target>
   <Target Name="TestGeneratedFiles">
     <ItemGroup>
       <!-- DON'T DELETE: Keeping a commented version of these as the csproj keeps overwriting them -->
