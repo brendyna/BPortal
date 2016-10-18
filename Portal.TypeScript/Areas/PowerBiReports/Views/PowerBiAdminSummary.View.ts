@@ -37,7 +37,6 @@ module Main {
     }
 
     export class Widget extends Base.Widget implements IWidget {
-
         public static widgetClass = "view--summary";
 
         private _datasetsProvider: PowerBiAdminSummaryProvider.DatasetsProvider;
@@ -107,17 +106,14 @@ module Main {
         public initializeRepos(): void {
             this._workspacesRepo = new WorkspacesRepository.Repository({});
             this._datasetsRepo = new DatasetsRepository.Repository({});
-
         }
 
         public initializeLoading(): void {
             this.workspacesTable.vm.loading(true);
             this.datasetsTable.vm.loading(true);
-
         }
 
         public loadRepos(): void {
-
             this._workspacesRepo.load().done(() => {
                 this.applyWorkspacesData();
             });
@@ -130,9 +126,9 @@ module Main {
                 this._workspacesRepo.getPromise(),
                 this._datasetsRepo.getPromise()
             )
-                .done(() => {
-                    this._loadDeferred.resolve()
-                });
+            .done(() => {
+                this._loadDeferred.resolve()
+            });
         }
 
         public initializeSubscriptions(): void {

@@ -192,8 +192,14 @@ module Main {
                 assert.equal(rows.length, workspacesMockData.length, "Workspaces table number of rows are correct");
 
                 //check the first row content.
-                assert.equal($(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceCollectionNameClass)).text(), firstExpectedDataRow.workspaceCollectionName, "Workspaces table First Row WorkspaceCollectionName is correct");
-                assert.equal($(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceIdClass)).text(), firstExpectedDataRow.workspaceId, "Workspaces table First Row WorkspaceId is correct");
+                assert.equal(
+                    $(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceCollectionNameClass)).text(),
+                    firstExpectedDataRow.workspaceCollectionName,
+                    "Workspaces table First Row WorkspaceCollectionName is correct");
+                assert.equal(
+                    $(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceIdClass)).text(),
+                    firstExpectedDataRow.workspaceId,
+                    "Workspaces table First Row WorkspaceId is correct");
                 
                 done();
             });
@@ -232,10 +238,22 @@ module Main {
                 assert.equal(rows.length, datasetsMock.length, "Datasets table number of rows are correct");
 
                 //check the first row content.
-                assert.equal($(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceCollectionNameClass)).text(), firstExpectedDataRow.workspaceCollectionName, "Dataset table First Row WorkspaceCollectionName is correct");
-                assert.equal($(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceIdClass)).text(), firstExpectedDataRow.workspaceId, "Dataset table First Row WorkspaceId is correct");
-                assert.equal($(firstTableRow).find(classify(Config.Classes.TableColumnDatasetIdClass)).text(), firstExpectedDataRow.datasetId, "Dataset table First Row DatasetId is correct");
-                assert.equal($(firstTableRow).find(classify(Config.Classes.TableColumnDatasetNameClass)).text(), firstExpectedDataRow.datasetName, "Dataset table First Row DatasetName is correct");
+                assert.equal(
+                    $(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceCollectionNameClass)).text(),
+                    firstExpectedDataRow.workspaceCollectionName,
+                    "Dataset table First Row WorkspaceCollectionName is correct");
+                assert.equal(
+                    $(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceIdClass)).text(),
+                    firstExpectedDataRow.workspaceId,
+                    "Dataset table First Row WorkspaceId is correct");
+                assert.equal(
+                    $(firstTableRow).find(classify(Config.Classes.TableColumnDatasetIdClass)).text(),
+                    firstExpectedDataRow.datasetId,
+                    "Dataset table First Row DatasetId is correct");
+                assert.equal(
+                    $(firstTableRow).find(classify(Config.Classes.TableColumnDatasetNameClass)).text(),
+                    firstExpectedDataRow.datasetName,
+                    "Dataset table First Row DatasetName is correct");
 
                 done();
             });

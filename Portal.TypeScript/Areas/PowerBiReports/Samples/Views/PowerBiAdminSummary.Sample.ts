@@ -15,7 +15,6 @@ module Main {
         };
 
         let summary = new View.Widget($("#sample"), defaults);
-        
     });
 
     export function setupMockjax(): void {

@@ -7,7 +7,6 @@ import WorkspacesRepo = require("../../Data/Repositories/PowerBiWorkspaces.Repos
 export = Main;
 
 module Main {
-    
     if (BaseConfig.isTestRunnerMode()) {
         $.mockjaxSettings.logging = false;
     }
@@ -371,5 +370,4 @@ module Main {
             }
         ];
     }
-
 }

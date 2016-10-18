@@ -3,7 +3,6 @@
 export = Main;
 
 module Main {
-
     export class Endpoints {
         public static DatasetsList = "getdatasets";
         public static ReportAccessToken = "getreportaccesstoken";
@@ -46,5 +45,4 @@ module Main {
         public static WorkspacesSectionClass = "workspaces__section";
         public static WorkspacesTableClass = "workspaces__section__table";
     }
-
 }
