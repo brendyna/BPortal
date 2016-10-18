@@ -189,11 +189,11 @@ module Main {
                 ];
 
                 assert.deepEqual(actualHeaders, expectedHeaders, "Workspaces table column headers are correct");
-                assert.deepEqual(rows.length, workspacesMockData.length, "Workspaces table number of rows are correct");
+                assert.equal(rows.length, workspacesMockData.length, "Workspaces table number of rows are correct");
 
                 //check the first row content.
-                assert.deepEqual($(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceCollectionNameClass)).text(), firstExpectedDataRow.workspaceCollectionName, "Workspaces table First Row WorkspaceCollectionName is correct");
-                assert.deepEqual($(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceIdClass)).text(), firstExpectedDataRow.workspaceId, "Workspaces table First Row WorkspaceId is correct");
+                assert.equal($(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceCollectionNameClass)).text(), firstExpectedDataRow.workspaceCollectionName, "Workspaces table First Row WorkspaceCollectionName is correct");
+                assert.equal($(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceIdClass)).text(), firstExpectedDataRow.workspaceId, "Workspaces table First Row WorkspaceId is correct");
                 
                 done();
             });
@@ -203,7 +203,6 @@ module Main {
             let widget = (<View.IWidget>this.widget);
             let done = assert.async();
 
-            let datasetsSectionElem = widget.datasets.widget.element;
             let datasetsSectionTableElem = widget.datasetsTable.widget.element;
 
             let datasetsMock = PowerBiSummaryMocks.getDatasetsTableData();
@@ -230,13 +229,13 @@ module Main {
                 ];
 
                 assert.deepEqual(actualHeaders, expectedHeaders, "Dataset table column headers are correct");
-                assert.deepEqual(rows.length, datasetsMock.length, "Datasets table number of rows are correct");
+                assert.equal(rows.length, datasetsMock.length, "Datasets table number of rows are correct");
 
                 //check the first row content.
-                assert.deepEqual($(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceCollectionNameClass)).text(), firstExpectedDataRow.workspaceCollectionName, "Dataset table First Row WorkspaceCollectionName is correct");
-                assert.deepEqual($(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceIdClass)).text(), firstExpectedDataRow.workspaceId, "Dataset table First Row WorkspaceId is correct");
-                assert.deepEqual($(firstTableRow).find(classify(Config.Classes.TableColumnDatasetIdClass)).text(), firstExpectedDataRow.datasetId, "Dataset table First Row DatasetId is correct");
-                assert.deepEqual($(firstTableRow).find(classify(Config.Classes.TableColumnDatasetNameClass)).text(), firstExpectedDataRow.datasetName, "Dataset table First Row DatasetName is correct");
+                assert.equal($(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceCollectionNameClass)).text(), firstExpectedDataRow.workspaceCollectionName, "Dataset table First Row WorkspaceCollectionName is correct");
+                assert.equal($(firstTableRow).find(classify(Config.Classes.TableColumnWorkspaceIdClass)).text(), firstExpectedDataRow.workspaceId, "Dataset table First Row WorkspaceId is correct");
+                assert.equal($(firstTableRow).find(classify(Config.Classes.TableColumnDatasetIdClass)).text(), firstExpectedDataRow.datasetId, "Dataset table First Row DatasetId is correct");
+                assert.equal($(firstTableRow).find(classify(Config.Classes.TableColumnDatasetNameClass)).text(), firstExpectedDataRow.datasetName, "Dataset table First Row DatasetName is correct");
 
                 done();
             });
@@ -247,40 +246,6 @@ module Main {
     function setupMockjax(): void {
         PowerBiSummaryMocks.setupWorkspacesMock();
         PowerBiSummaryMocks.setupDatasetsMock();
-    }
-
-    function testEmptyTable(
-        table: BaseControl.IControl<Table.IViewModel, Table.IWidget>,
-        assert: QUnitAssert
-    ): JQueryPromise<void> {
-        let deferred = $.Deferred<void>();
-
-        if (table.vm.loading()) {
-            let loadingSub = table.vm.loading.subscribe((loading: boolean) => {
-                if (!loading) {
-                    loadingSub.dispose();
-                    runEmptyTableTests(table, assert);
-                    deferred.resolve();
-                }
-            });
-        } else {
-            runEmptyTableTests(table, assert);
-            deferred.resolve();
-        }
-
-        return deferred.promise();
-    }
-
-    function runEmptyTableTests(
-        table: BaseControl.IControl<Table.IViewModel, Table.IWidget>,
-        assert: QUnitAssert
-    ): void {
-        let tableElem = table.widget.element;
-        let rows = tableElem.find("tbody tr");
-
-        assert.equal(rows.length, 1, "Only one row is present when no data loads");
-        assert.equal($($(rows.get(0)).find("td").get(0)).text(),
-            Config.Strings.WorkspaceTableNoDataMessage, "Empty table placeholder shown");
     }
 
     function classify(selector: string): string {

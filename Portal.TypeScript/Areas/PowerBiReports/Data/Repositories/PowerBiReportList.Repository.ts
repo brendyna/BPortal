@@ -11,7 +11,7 @@ module Main {
         webUrl: string;
     }
 
-    export type DataTransferObject = Array<PowerBiReport>;;
+    export type DataTransferObject = Array<PowerBiReport>;
 
     export interface IRepositorySettings extends BaseRepository.IRepositorySettings {
     }
