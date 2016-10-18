@@ -19,5 +19,6 @@
     <file src="Areas\Shared\**\*.png" target="content\Areas\Shared" />
     <file src="Areas\SiteReporter\**\*.js" target="content\Areas\SiteReporter\Content\js" exclude="Areas\SiteReporter\Samples\**\*.js;Areas\SiteReporter\Tests\**\*.js" />
     <file src="Areas\SiteReporter\Styles\*.min.css" target="content\Areas\SiteReporter\Content\css" />
+    <file src="Areas\PowerBiReports\**\*.js" target="content\Areas\PowerBiReports\Content\js" exclude="Areas\PowerBiReports\Samples\**\*.js;Areas\PowerBiReports\Tests\**\*.js" />
   </files>
 </package>

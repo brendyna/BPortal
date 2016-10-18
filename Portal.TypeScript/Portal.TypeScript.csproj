@@ -26,6 +26,8 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\PowerBiReports\Html\Samples\Views\PowerBiAdminSummary.Sample.html" />
+    <Content Include="Areas\PowerBiReports\Html\Tests\Views\PowerBiAdminSummary.Test.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Badge.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Button.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Chart.Sample.html" />
@@ -137,6 +139,19 @@
     <Content Include="Web\Readme.md" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Areas\PowerBiReports\Config.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Providers\PowerBiAdminSummary.Provider.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiAccessToken.Repository.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiDatasets.Repository.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiReport.Repository.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiReportList.Repository.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiWorkspaces.Repository.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Samples\Helpers\PowerBiAdminSummary.Mocks.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Samples\Views\PowerBiAdminSummary.Sample.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Templates\Views\PowerBiAdminSummary.Template.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Tests\Views\PowerBiAdminSummary.Test.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Views\PowerBiAdminSummary.View.Start.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Views\PowerBiAdminSummary.View.ts" />
     <TypeScriptCompile Include="Areas\Shared\Config.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\List.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Navigation.ts" />
