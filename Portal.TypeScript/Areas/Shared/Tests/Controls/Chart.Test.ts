@@ -1,6 +1,5 @@
 ﻿import "jquery";
 import "qunit";
-
 import Chart = require("Areas/Shared/Controls/Chart");
 
 export = Main;

@@ -1,12 +1,11 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import Base = require("./Base");
 import Button = require("./Button");
 import Config = require("../Config");
-import KnockoutUtil = require("../Util/Knockout");
-import Select = require("./Select");
-
 import DefaultTemplate = require("../Templates/Controls/Filters.Template");
+import KnockoutUtil = require("../Util/Knockout");
+import ko = require("knockout");
+import Select = require("./Select");
 
 export = Main;
 

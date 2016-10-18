@@ -1,24 +1,21 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import Base = require("Areas/Shared/Views/Base.View");
 import BaseControl = require("Areas/Shared/Controls/Base");
+import BugsForTagBlobUrlRepository = require("../Data/Repositories/BugsForTagBlobUrl.Repository");
+import BugsForTagRepository = require("../Data/Repositories/BugsForTag.Repository");
 import Config = require("../Config");
+import DefaultTemplate = require("../Templates/Views/Summary.Template");
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 import Filters = require("Areas/Shared/Controls/Filters");
+import FiltersRepository = require("../Data/Repositories/Filters.Repository");
+import ko = require("knockout");
+import ScanTimeRepository = require("../Data/Repositories/ScanTime.Repository");
 import Section = require("Areas/Shared/Controls/Section");
 import Select = require("Areas/Shared/Controls/Select");
-import Table = require("Areas/Shared/Controls/Table");
-
-import BugsForTagRepository = require("../Data/Repositories/BugsForTag.Repository");
-import BugsForTagBlobUrlRepository = require("../Data/Repositories/BugsForTagBlobUrl.Repository");
-import FiltersRepository = require("../Data/Repositories/Filters.Repository");
-import ScanTimeRepository = require("../Data/Repositories/ScanTime.Repository");
-import TrendsForTagRepository = require("../Data/Repositories/TrendsForTag.Repository");
-
 import SharedProvider = require("../Data/Providers/Shared.Provider");
 import SummaryProvider = require("../Data/Providers/Summary.Provider");
-
-import DefaultTemplate = require("../Templates/Views/Summary.Template");
+import Table = require("Areas/Shared/Controls/Table");
+import TrendsForTagRepository = require("../Data/Repositories/TrendsForTag.Repository");
 
 export = Main;
 

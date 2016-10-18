@@ -1,6 +1,6 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import Header = require("Areas/Shared/Controls/Header");
+import ko = require("knockout");
 
 export = Main;
 

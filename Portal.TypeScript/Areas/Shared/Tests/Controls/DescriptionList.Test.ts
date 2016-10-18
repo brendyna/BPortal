@@ -1,6 +1,5 @@
 ﻿import "jquery";
 import "qunit";
-
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 
 export = Main;

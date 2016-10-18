@@ -1,10 +1,9 @@
 ﻿import "jquery.mockjax";
-
 import BaseConfig = require("Areas/Shared/Config");
-import Config = require("../../Config");
 import BugsForDomainRepo = require("../../Data/Repositories/BugsForDomain.Repository");
 import BugTrendsRepo = require("../../Data/Repositories/BugTrends.Repository");
 import BuiltWithDataForDomainRepo = require("../../Data/Repositories/BuiltWithDataForDomain.Repository");
+import Config = require("../../Config");
 import DetailsForDomainRepo = require("../../Data/Repositories/DetailsForDomain.Repository");
 import FiltersRepo = require("../../Data/Repositories/Filters.Repository");
 import TrendsForDomainRepo = require("../../Data/Repositories/TrendsForDomain.Repository");

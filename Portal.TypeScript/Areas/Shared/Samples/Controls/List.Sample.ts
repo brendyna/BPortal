@@ -1,9 +1,6 @@
 ﻿import $ = require("jquery");
 import ko = require("knockout");
 import List = require("Areas/Shared/Controls/List");
-import Icon = require("Areas/Shared/Controls/Icon");
-import Section = require("Areas/Shared/Controls/Section");
-import Input = require("Areas/Shared/Controls/Input");
 
 export = Main;
 

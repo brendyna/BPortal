@@ -2,28 +2,26 @@
 import "jquery";
 import "moment";
 import "qunit";
-
-import moment = require("moment");
 import BaseConfig = require("Areas/Shared/Config");
 import BaseControl = require("Areas/Shared/Controls/Base");
 import BugsForTagRepo = require("Areas/SiteReporter/Data/Repositories/BugsForTag.Repository");
-import FiltersRepo = require("Areas/SiteReporter/Data/Repositories/Filters.Repository");
-import TrendsForTagRepo = require("Areas/SiteReporter/Data/Repositories/TrendsForTag.Repository");
 import Config = require("Areas/SiteReporter/Config");
-import View = require("Areas/SiteReporter/Views/Summary.View");
-
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 import Filters = require("Areas/Shared/Controls/Filters");
+import FiltersRepo = require("Areas/SiteReporter/Data/Repositories/Filters.Repository");
 import Header = require("Areas/Shared/Controls/Header");
 import Icon = require("Areas/Shared/Controls/Icon");
 import Input = require("Areas/Shared/Controls/Input");
 import List = require("Areas/Shared/Controls/List");
+import moment = require("moment");
 import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Select = require("Areas/Shared/Controls/Select");
 import SummaryMocks = require("Areas/SiteReporter/Samples/Helpers/Summary.Mocks");
-import Table = require("Areas/Shared/Controls/Table");
 import SummaryProvider = require("Areas/SiteReporter/Data/Providers/Summary.Provider");
+import Table = require("Areas/Shared/Controls/Table");
+import TrendsForTagRepo = require("Areas/SiteReporter/Data/Repositories/TrendsForTag.Repository");
+import View = require("Areas/SiteReporter/Views/Summary.View");
 
 export = Main;
 

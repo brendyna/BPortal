@@ -1,12 +1,11 @@
-﻿/// <amd-dependency path="highcharts" />
-/// <amd-dependency path="highcharts.more" />
-/// <amd-dependency path="highcharts.ieportal" />
-/// <amd-dependency path="highcharts.legend.highlighter" />
-
+﻿import "highcharts";
+import "highcharts.ieportal";
+import "highcharts.legend.highlighter";
+import "highcharts.more";
 import $ = require("jquery");
-import ko = require("knockout");
 import Base = require("./Base");
 import KnockoutUtil = require("../Util/Knockout");
+import ko = require("knockout");
 
 export = Main;
 

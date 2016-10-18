@@ -1,5 +1,4 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 import Icon = require("Areas/Shared/Controls/Icon");
 import Input = require("Areas/Shared/Controls/Input");
@@ -49,6 +48,7 @@ module Main {
                 ]
             }
         };
+
         let widget = new Section.Widget($("#sample"), defaults);
 
         // SAMPLE: Render a sample of what we'll include in the Summary page
@@ -166,6 +166,7 @@ module Main {
                 }
             ]
         };
+
         let sectionWidget = new Section.Widget($("#sample-sidebar"), sectionData);
     });
 }

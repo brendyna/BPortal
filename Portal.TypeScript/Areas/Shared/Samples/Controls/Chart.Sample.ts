@@ -1,5 +1,4 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import Chart = require("Areas/Shared/Controls/Chart");
 
 export = Main;
@@ -45,6 +44,7 @@ module Main {
                 legend: { enabled: false }
             }
         };
+
         let widget = new Chart.Widget($("#sample"), data);
     });
 
@@ -58,6 +58,7 @@ module Main {
         'use strict';
 
         var newSeries = series;
+
         $.each(newSeries, function (point, value) {
             var d = new Date(value.date.substr(0, 10));
             newSeries[point] = [
@@ -65,6 +66,7 @@ module Main {
                 value.count
             ];
         });
+
         return newSeries.sort();
     }
 }

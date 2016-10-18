@@ -1,8 +1,7 @@
 ﻿import $ = require("jquery");
 import Config = require("../Config");
-import View = require("./Summary.View");
-
 import SiteDisabledTemplate = require("../Templates/SiteDisabled.Template");
+import View = require("./Summary.View");
 
 export = Main;
 

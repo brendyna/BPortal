@@ -1,6 +1,5 @@
 ﻿import $ = require("jquery");
 import ko = require("knockout");
-
 import LoadingOverlayTemplate = require("../Templates/Controls/Base.Loading.Template");
 
 export = Main;

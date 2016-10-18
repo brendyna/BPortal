@@ -1,12 +1,10 @@
-﻿/// <amd-dependency path="datatables" />
-
+﻿import "datatables";
 import $ = require("jquery");
-import ko = require("knockout");
 import Base = require("./Base");
 import Config = require("../Config");
-import KnockoutUtil = require("../Util/Knockout");
-
 import DefaultTemplate = require("../Templates/Controls/Table.Template");
+import KnockoutUtil = require("../Util/Knockout");
+import ko = require("knockout");
 
 export = Main;
 

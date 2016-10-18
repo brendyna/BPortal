@@ -1,8 +1,7 @@
 ﻿import "jquery.mockjax";
-
 import BaseConfig = require("Areas/Shared/Config");
-import Config = require("../../Config");
 import BugsForTagRepo = require("../../Data/Repositories/BugsForTag.Repository");
+import Config = require("../../Config");
 import FiltersRepo = require("../../Data/Repositories/Filters.Repository");
 import TrendsForTagRepo = require("../../Data/Repositories/TrendsForTag.Repository");
 

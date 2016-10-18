@@ -1,5 +1,4 @@
 ﻿import BaseRepository = require("Areas/Shared/Data/Repositories/Base.Repository");
-import Config = require("../../Config");
 
 export = Main;
 

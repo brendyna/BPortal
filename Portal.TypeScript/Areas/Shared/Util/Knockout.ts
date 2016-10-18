@@ -1,6 +1,6 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import Base = require("../Controls/Base");
+import ko = require("knockout");
 
 export = Main;
 

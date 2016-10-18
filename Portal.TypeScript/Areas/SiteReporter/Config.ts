@@ -1,6 +1,5 @@
 ﻿import "jquery";
 import "jquery.extensions";
-
 import BaseConfig = require("Areas/Shared/Config");
 
 export = Main;

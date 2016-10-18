@@ -1,6 +1,6 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import Badge = require("Areas/Shared/Controls/Badge");
+import ko = require("knockout");
 
 export = Main;
 
