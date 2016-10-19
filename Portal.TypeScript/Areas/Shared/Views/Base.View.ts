@@ -1,11 +1,10 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import Base = require("Areas/Shared/Controls/Base");
-import Header = require("Areas/Shared/Controls/Header");
-import Navigation = require("Areas/Shared/Controls/Navigation");
-
 import DefaultTemplate = require("../Templates/Views/Base.View.Template");
 import DisabledWrapperTemplate = require("../Templates/Views/Base.View.DisabledWrapper.Template");
+import Header = require("Areas/Shared/Controls/Header");
+import ko = require("knockout");
+import Navigation = require("Areas/Shared/Controls/Navigation");
 
 window.ko = ko; // enables easy debugging w/ko not bound to require
 

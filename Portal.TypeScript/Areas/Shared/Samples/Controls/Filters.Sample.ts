@@ -1,6 +1,6 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import Filters = require("Areas/Shared/Controls/Filters");
+import ko = require("knockout");
 
 export = Main;
 

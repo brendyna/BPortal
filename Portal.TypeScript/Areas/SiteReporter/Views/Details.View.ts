@@ -1,31 +1,25 @@
 ﻿import "jquery";
 import "knockout";
-
 import Base = require("Areas/Shared/Views/Base.View");
 import BaseControl = require("Areas/Shared/Controls/Base");
-import Chart = require("Areas/Shared/Controls/Chart");
-import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
-import Filters = require("Areas/Shared/Controls/Filters");
-import Header = require("Areas/Shared/Controls/Header");
-import Navigation = require("Areas/Shared/Controls/Navigation");
-import Section = require("Areas/Shared/Controls/Section");
-import Table = require("Areas/Shared/Controls/Table");
-
-import BugsForDomainRepository = require("../Data/Repositories/BugsForDomain.Repository");
 import BugsForDomainBlobUrlRepository = require("../Data/Repositories/BugsForDomainBlobUrl.Repository");
-import BugTrendsRepository = require("../Data/Repositories/BugTrends.Repository");
+import BugsForDomainRepository = require("../Data/Repositories/BugsForDomain.Repository");
 import BugTrendsBlobUrlRepository = require("../Data/Repositories/BugTrendsBlobUrl.Repository");
+import BugTrendsRepository = require("../Data/Repositories/BugTrends.Repository");
 import BuiltWithDataForDomainRepository = require("../Data/Repositories/BuiltWithDataForDomain.Repository");
+import Chart = require("Areas/Shared/Controls/Chart");
 import Config = require("../Config");
+import DefaultTemplate = require("../Templates/Views/Details.Template");
+import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 import DetailsForDomainRepository = require("../Data/Repositories/DetailsForDomain.Repository");
+import DetailsProvider = require("../Data/Providers/Details.Provider");
+import Filters = require("Areas/Shared/Controls/Filters");
 import FiltersRepository = require("../Data/Repositories/Filters.Repository");
 import ScanTimeRepository = require("../Data/Repositories/ScanTime.Repository");
-import TrendsForDomainRepository = require("../Data/Repositories/TrendsForDomain.Repository");
-
-import DetailsProvider = require("../Data/Providers/Details.Provider");
+import Section = require("Areas/Shared/Controls/Section");
 import SharedProvider = require("../Data/Providers/Shared.Provider");
-
-import DefaultTemplate = require("../Templates/Views/Details.Template");
+import Table = require("Areas/Shared/Controls/Table");
+import TrendsForDomainRepository = require("../Data/Repositories/TrendsForDomain.Repository");
 
 export = Main;
 

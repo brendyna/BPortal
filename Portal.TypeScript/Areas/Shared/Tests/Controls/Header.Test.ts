@@ -1,6 +1,5 @@
 ﻿import "jquery";
 import "qunit";
-
 import Header = require("Areas/Shared/Controls/Header");
 
 export = Main;

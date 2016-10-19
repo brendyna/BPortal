@@ -1,6 +1,6 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import Icon = require("Areas/Shared/Controls/Icon");
+import ko = require("knockout");
 
 export = Main;
 

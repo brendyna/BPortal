@@ -1,9 +1,7 @@
 ﻿import Config = require("../../Config");
-import View = require("../../Views/Details.View");
-
 import DetailsMocks = require("../Helpers/Details.Mocks");
-
 import SiteDisabledTemplate = require("../../Templates/SiteDisabled.Template");
+import View = require("../../Views/Details.View");
 
 export = Main;
 

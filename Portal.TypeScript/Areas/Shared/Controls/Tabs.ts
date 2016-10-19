@@ -1,9 +1,8 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import Base = require("./Base");
-import KnockoutUtil = require("../Util/Knockout");
-
 import DefaultTemplate = require("../Templates/Controls/Tabs.Template");
+import KnockoutUtil = require("../Util/Knockout");
+import ko = require("knockout");
 
 export = Main;
 

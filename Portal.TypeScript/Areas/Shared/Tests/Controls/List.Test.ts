@@ -1,6 +1,5 @@
 ﻿import "jquery";
 import "qunit";
-
 import ControlsTestHelper = require("Areas/Shared/Tests/Helpers/Controls.Helper");
 import List = require("Areas/Shared/Controls/List");
 

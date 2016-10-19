@@ -1,26 +1,22 @@
-﻿import "jquery";
-import "qunit";
-import "humanize";
+﻿import "humanize";
+import "jquery";
 import "moment";
-
-import moment = require("moment");
-
+import "qunit";
 import BaseConfig = require("Areas/Shared/Config");
-import Config = require("Areas/SiteReporter/Config");
-import View = require("Areas/SiteReporter/Views/Details.View");
-
+import BugsForDomainRepo = require("../../Data/Repositories/BugsForDomain.Repository");
+import BuiltWithDataForDomainRepo = require("../../Data/Repositories/BuiltWithDataForDomain.Repository");
 import Chart = require("Areas/Shared/Controls/Chart");
+import Config = require("Areas/SiteReporter/Config");
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
+import DetailsForDomainRepo = require("../../Data/Repositories/DetailsForDomain.Repository");
+import DetailsMocks = require("Areas/SiteReporter/Samples/Helpers/Details.Mocks");
+import FiltersRepo = require("../../Data/Repositories/Filters.Repository");
 import Header = require("Areas/Shared/Controls/Header");
 import Input = require("Areas/Shared/Controls/Input");
 import List = require("Areas/Shared/Controls/List");
+import moment = require("moment");
 import Navigation = require("Areas/Shared/Controls/Navigation");
-
-import BugsForDomainRepo = require("../../Data/Repositories/BugsForDomain.Repository");
-import BuiltWithDataForDomainRepo = require("../../Data/Repositories/BuiltWithDataForDomain.Repository");
-import DetailsMocks = require("Areas/SiteReporter/Samples/Helpers/Details.Mocks");
-import DetailsForDomainRepo = require("../../Data/Repositories/DetailsForDomain.Repository");
-import FiltersRepo = require("../../Data/Repositories/Filters.Repository");
+import View = require("Areas/SiteReporter/Views/Details.View");
 
 export = Main;
 

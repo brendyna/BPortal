@@ -1,15 +1,11 @@
 ﻿import "moment";
-
-import moment = require("moment");
-
-import Base = require("Areas/Shared/Controls/Base");
+import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
 import Config = require("../../Config");
 import Filters = require("Areas/Shared/Controls/Filters");
-import Select = require("Areas/Shared/Controls/Select");
-
-import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
 import FiltersRepository = require("../Repositories/Filters.Repository");
+import moment = require("moment");
 import ScanTimeRepository = require("../Repositories/ScanTime.Repository");
+import Select = require("Areas/Shared/Controls/Select");
 
 export = Main;
 

@@ -1,6 +1,5 @@
 ﻿import "jquery";
 import "qunit";
-
 import Editable = require("Areas/Shared/Controls/Editable");
 
 export = Main;

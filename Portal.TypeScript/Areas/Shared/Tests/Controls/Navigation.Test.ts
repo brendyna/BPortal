@@ -1,6 +1,5 @@
 ﻿import "jquery";
 import "qunit";
-
 import Navigation = require("Areas/Shared/Controls/Navigation");
 
 export = Main;

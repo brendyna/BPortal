@@ -1,12 +1,13 @@
-﻿/// <amd-dependency path="humanize" />
-
-import moment = require("moment");
-
+﻿import "humanize";
+import "moment";
 import Base = require("Areas/Shared/Controls/Base");
+import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
+import BugsForTagRepository = require("../Repositories/BugsForTag.Repository");
 import Chart = require("Areas/Shared/Controls/Chart");
 import Config = require("../../Config");
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
 import Filters = require("Areas/Shared/Controls/Filters");
+import FiltersRepository = require("../Repositories/Filters.Repository");
 import Header = require("Areas/Shared/Controls/Header");
 import Icon = require("Areas/Shared/Controls/Icon");
 import Input = require("Areas/Shared/Controls/Input");
@@ -16,12 +17,7 @@ import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Select = require("Areas/Shared/Controls/Select");
 import Table = require("Areas/Shared/Controls/Table");
-
-import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
-import BugsForTagRepository = require("../Repositories/BugsForTag.Repository");
-import FiltersRepository = require("../Repositories/Filters.Repository");
 import TrendsForTagRepository = require("../Repositories/TrendsForTag.Repository");
-import ScanTimeRepository = require("../Repositories/ScanTime.Repository");
 
 export = Main;
 

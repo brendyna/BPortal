@@ -1,9 +1,13 @@
 ﻿import "humanize";
-
-import Base = require("Areas/Shared/Controls/Base");
+import Badge = require("Areas/Shared/Controls/Badge");
+import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
+import BugsForDomainRepository = require("../Repositories/BugsForDomain.Repository");
+import BugTrendsRepository = require("../Repositories/BugTrends.Repository");
+import BuiltWithDataForDomainRepository = require("../Repositories/BuiltWithDataForDomain.Repository");
 import Chart = require("Areas/Shared/Controls/Chart");
 import Config = require("../../Config");
 import DescriptionList = require("Areas/Shared/Controls/DescriptionList");
+import DetailsForDomainRepository = require("../Repositories/DetailsForDomain.Repository");
 import Filters = require("Areas/Shared/Controls/Filters");
 import Header = require("Areas/Shared/Controls/Header");
 import Icon = require("Areas/Shared/Controls/Icon");
@@ -14,30 +18,23 @@ import Navigation = require("Areas/Shared/Controls/Navigation");
 import Section = require("Areas/Shared/Controls/Section");
 import Select = require("Areas/Shared/Controls/Select");
 import Table = require("Areas/Shared/Controls/Table");
-import Badge = require("Areas/Shared/Controls/Badge");
-
-import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
-import BugsForDomainRepository = require("../Repositories/BugsForDomain.Repository");
-import BugTrendsRepository = require("../Repositories/BugTrends.Repository");
-import BuiltWithDataForDomainRepository = require("../Repositories/BuiltWithDataForDomain.Repository");
-import DetailsForDomainRepository = require("../Repositories/DetailsForDomain.Repository");
 import TrendsForDomainRepository = require("../Repositories/TrendsForDomain.Repository");
 
 export = Main;
 
 module Main {
+    Badge;
+    Chart;
     DescriptionList;
     Filters;
     Header;
     Icon;
+    Input;
     KnockoutUtil;
     List;
     Navigation;
-    Badge;
     Section;
     Table;
-    Input;
-    Chart;
 
     export enum BugType {
         All,

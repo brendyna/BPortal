@@ -1,6 +1,6 @@
 ﻿import $ = require("jquery");
-import ko = require("knockout");
 import Input = require("Areas/Shared/Controls/Input");
+import ko = require("knockout");
 
 export = Main;
 

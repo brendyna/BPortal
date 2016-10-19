@@ -1,8 +1,5 @@
 ﻿import "jquery";
 import "qunit";
-
-import Base = require("Areas/Shared/Controls/Base");
-import Icon = require("Areas/Shared/Controls/Icon");
 import Section = require("Areas/Shared/Controls/Section");
 import Select = require("Areas/Shared/Controls/Select");
 

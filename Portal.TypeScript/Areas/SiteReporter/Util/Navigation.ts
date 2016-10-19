@@ -1,5 +1,4 @@
-﻿import $ = require("jquery");
-import Config = require("../Config");
+﻿import Config = require("../Config");
 
 export = Main;
 

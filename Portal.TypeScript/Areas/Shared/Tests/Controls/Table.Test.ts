@@ -1,6 +1,5 @@
 ﻿import "jquery";
 import "qunit";
-
 import Table = require("Areas/Shared/Controls/Table");
 
 export = Main;
