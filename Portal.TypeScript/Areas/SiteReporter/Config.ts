@@ -80,6 +80,10 @@ module Main {
         public static Tag = "tag";
         public static Platform = "platform";
         public static Release = "release";
+        public static Defaults = {
+            platform: "Desktop",
+            release: "RS2"
+        };
         public static DetailsDefaults = (BaseConfig.isDebugMode() || BaseConfig.isTestRunnerMode()) ? {
             domain: "facebook.com",
             platform: "Desktop",

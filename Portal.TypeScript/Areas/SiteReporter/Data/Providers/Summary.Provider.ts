@@ -322,8 +322,8 @@ module Main {
                         $('td.table__column__details', row).on('click', function () {
                             window.open('/SiteReporter/Details?'
                                 + 'domain=' + (<any>data).domainName
-                                + '&platform=' + "Desktop" //window.PLATFORM
-                                + '&release=' + "RS1"); //window.RELEASE);
+                                + '&platform=' + Config.Params.Defaults.platform
+                                + '&release=' + Config.Params.Defaults.release );
                         });
                         if ((<any>data).isOffensive === true) {
                             var newRowVal = '<span title="May contain offensive content">'
@@ -492,8 +492,8 @@ module Main {
                         $(row).find('.details-button').on('click', function () {
                             window.open('/SiteReporter/Details?'
                                 + 'domain=' + data.domainName
-                                + '&platform=' + 'Desktop'
-                                + '&release=' + 'RS1')
+                                + '&platform=' + Config.Params.Defaults.platform 
+                                + '&release=' + Config.Params.Defaults.release);
                         });
 
                         if (data.isOffensive === true) {
