@@ -41,12 +41,14 @@
     <Content Include="Areas\Shared\Html\Samples\Controls\Icon.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Input.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Section.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\Accordion.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Select.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Table.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Tabs.Sample.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Badge.Test.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\List.Test.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Navigation.Test.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Accordion.Test.html" />
     <Content Include="Areas\Shared\Images\sort_asc.png" />
     <Content Include="Areas\Shared\Images\sort_asc_disabled.png" />
     <Content Include="Areas\Shared\Images\sort_both.png" />
@@ -168,9 +170,12 @@
     <TypeScriptCompile Include="Areas\Shared\Controls\List.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Navigation.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Badge.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Accordion.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Badge.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\List.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Navigation.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Accordion.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Accordion.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\List.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Navigation.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.DisabledWrapper.Template.ts" />
@@ -179,6 +184,7 @@
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Editable.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\List.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Navigation.Test.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Accordion.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Helpers\Controls.Helper.ts" />
     <TypeScriptCompile Include="Areas\Shared\Util\Knockout.ts" />
     <TypeScriptCompile Include="Areas\Shared\Views\Base.View.ts" />

@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Accordion - Samples</title>
+    <link rel="stylesheet" href="http://edgecore.azurewebsites.net/min/indigo.full.min.css" />
+    <link rel="stylesheet" href="/Content/css/samples.css" />
+    <link rel="stylesheet" href="/Areas/Shared/Styles/controls.css" />
+    <script type="text/javascript" src="/bower_components/requirejs/require.js"></script>
+    <script type="text/javascript" src="/require.web.config.js"></script>
+    <script>
+        require(["Areas/Shared/Samples/Controls/Accordion.Sample"])
+    </script>
+</head>
+
+<body>
+    <h1>Samples: Accordion</h1>
+    <section>
+        Indigo CSS Library reference:
+        <a href="http://edgecore.azurewebsites.net/components/accordion/accordion.html" target="_blank">http://edgecore.azurewebsites.net/components/accordion/accordion.html</a>
+    </section>
+    <section>
+        <h2>Basic Accordion</h2>
+        <div class="basic"></div>
+
+        <h2>Rendered via Custom Binding</h2>
+        <div class="custom-binding" data-bind="wpsAccordion: defaults"></div>
+    </section>
+</body>
+</html>
+

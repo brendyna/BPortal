@@ -16,6 +16,7 @@ interface JQueryStatic {
 
 interface KnockoutBindingHandlers {
     customViewModel: KnockoutBindingHandler;
+    wpsAccordion: KnockoutBindingHandler;
     wpsButton: KnockoutBindingHandler;
     wpsChart: KnockoutBindingHandler;
     wpsDescriptionList: KnockoutBindingHandler;
