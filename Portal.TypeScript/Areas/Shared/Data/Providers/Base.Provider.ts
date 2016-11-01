@@ -4,9 +4,17 @@ export = Main;
 
 module Main {
     export interface IDynamicProvider {
+        /**
+         * The repository for the data returned by an API endpoint.
+         */
         repository: BaseRepository.IRepository<any>;
     }
 
+    /**
+     * The dynamic provider encapsulates a repository and acts as
+     * an adapter for it by manipulating and returning data expected
+     * by a View.
+     */
     export class DynamicProvider<DTO> implements IDynamicProvider {
         private _repository: BaseRepository.IRepository<DTO>;
 

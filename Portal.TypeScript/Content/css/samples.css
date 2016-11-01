@@ -3,6 +3,15 @@
     padding: 0;
 }
 
+.getting-started {
+    background-color: #0078d7 !important;
+    color: #fff;
+}
+
+.getting-started a {
+    color: #fff;
+}
+
 /*
     Purposefully overriding/copying edgecore styles
     since including all edgecore styles in tests/samples

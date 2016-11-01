@@ -4,6 +4,11 @@ import Config = require("../../Config");
 export = Main;
 
 module Main {
+    export interface IRepositoryParams {
+        tag: string;
+        release: string;
+    }
+
     export type Tag = {
         id: number;
         text: string;
@@ -21,14 +26,11 @@ module Main {
 
     export type DataTransferObject = DomainDetails;
 
-    export interface IRepositorySettings extends BaseRepository.IRepositorySettings {
-    }
-
     export interface IRepository extends BaseRepository.IRepository<DataTransferObject> {
     }
 
     export class Repository extends BaseRepository.Repository<DataTransferObject> implements IRepository {
-        constructor(settings: BaseRepository.IRepositorySettings = {}, params?: BaseRepository.RepositoryParams) {
+        constructor(settings: BaseRepository.IRepositorySettings = {}, params?: IRepositoryParams) {
             settings.baseUrl = Config.Urls.SiteReporterApi;
             settings.endpoint = Config.Endpoints.DetailsForDomain;
             settings.authorize = true;

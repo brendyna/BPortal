@@ -8,43 +8,45 @@ export = Main;
 
 module Main {
     export interface ISubSectionData {
-        header?: string;
-        altHeader?: boolean;
-        classes?: string;
-        body?: string;
-        bodyViewModel?: any;
-        bodyPlaceholder?: string;
-    }
-
-    export interface ISubSection {
-        header: KnockoutObservable<string>;
-        altHeader: KnockoutObservable<boolean>;
-        classes: KnockoutObservable<string>;
-        body: KnockoutObservable<string>;
-        bodyViewModel: KnockoutObservable<any>;
-        bodyPlaceholder: KnockoutObservable<string>;
-    }
-
-    export interface IViewModelData extends Base.IViewModelData {
-        title?: string;
-        subtitle?: string;
         altHeader?: boolean;
         anchor?: string;
         body?: string;
-        bodyViewModel?: any;
         bodyPlaceholder?: string;
-        subsections?: Array<ISubSectionData>;
+        bodyViewModel?: any;
+        classes?: string;
+        header?: string;
     }
 
-    export interface IViewModel extends Base.IViewModel {
-        title: KnockoutObservable<string>;
-        subtitle: KnockoutObservable<string>;
+    export interface ISubSection {
         altHeader: KnockoutObservable<boolean>;
         anchor: KnockoutObservable<string>;
         body: KnockoutObservable<string>;
-        bodyViewModel: KnockoutObservable<any>;
         bodyPlaceholder: KnockoutObservable<string>;
+        bodyViewModel: KnockoutObservable<any>;
+        classes: KnockoutObservable<string>;
+        header: KnockoutObservable<string>;
+    }
+
+    export interface IViewModelData extends Base.IViewModelData {
+        altHeader?: boolean;
+        anchor?: string;
+        body?: string;
+        bodyPlaceholder?: string;
+        bodyViewModel?: any;
+        subsections?: Array<ISubSectionData>;
+        subtitle?: string;
+        title?: string;
+    }
+
+    export interface IViewModel extends Base.IViewModel {
+        altHeader: KnockoutObservable<boolean>;
+        anchor: KnockoutObservable<string>;
+        body: KnockoutObservable<string>;
+        bodyPlaceholder: KnockoutObservable<string>;
+        bodyViewModel: KnockoutObservable<any>;
         subsections: KnockoutObservableArray<ISubSection>;
+        subtitle: KnockoutObservable<string>;
+        title: KnockoutObservable<string>;
     }
 
     export interface IWidgetDefaults extends Base.IWidgetDefaults {
@@ -55,16 +57,18 @@ module Main {
     }
 
     export class SubSection implements ISubSection {
-        private _header: KnockoutObservable<string>;
         private _altHeader: KnockoutObservable<boolean>;
-        private _classes: KnockoutObservable<string>;
+        private _anchor: KnockoutObservable<string>;
         private _body: KnockoutObservable<string>;
-        private _bodyViewModel: KnockoutObservable<any>;
         private _bodyPlaceholder: KnockoutObservable<string>;
+        private _bodyViewModel: KnockoutObservable<any>;
+        private _classes: KnockoutObservable<string>;
+        private _header: KnockoutObservable<string>;
 
         constructor(data: ISubSectionData = {}) {
             this._header = ko.observable(data.header || "");
             this._altHeader = ko.observable(data.altHeader || false);
+            this._anchor = ko.observable(data.anchor || "");
             this._classes = ko.observable(data.classes || "");
             this._body = ko.observable(data.body || "");
             this._bodyViewModel = ko.observable(data.bodyViewModel || {});
@@ -73,6 +77,10 @@ module Main {
 
         public get altHeader(): KnockoutObservable<boolean> {
             return this._altHeader;
+        }
+
+        public get anchor(): KnockoutObservable<string> {
+            return this._anchor;
         }
 
         public get classes(): KnockoutObservable<string> {
@@ -98,14 +106,14 @@ module Main {
     }
 
     export class ViewModel extends Base.ViewModel implements IViewModel {
-        private _title: KnockoutObservable<string>;
-        private _subtitle: KnockoutObservable<string>;
         private _altHeader: KnockoutObservable<boolean>;
         private _anchor: KnockoutObservable<string>;
         private _body: KnockoutObservable<string>;
-        private _bodyViewModel: KnockoutObservable<any>;
         private _bodyPlaceholder: KnockoutObservable<string>;
+        private _bodyViewModel: KnockoutObservable<any>;
         private _subsections: KnockoutObservableArray<ISubSection>;
+        private _subtitle: KnockoutObservable<string>;
+        private _title: KnockoutObservable<string>;
 
         constructor(data: IViewModelData = {}) {
             super(data);

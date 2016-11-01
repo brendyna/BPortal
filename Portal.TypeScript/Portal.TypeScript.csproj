@@ -26,6 +26,8 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\GettingStarted\Html\Samples\Views\Example.Sample.html" />
+    <Content Include="Areas\GettingStarted\Html\Tests\Views\Example.Test.html" />
     <Content Include="Areas\PowerBiReports\Html\Samples\Views\PowerBiAdminSummary.Sample.html" />
     <Content Include="Areas\PowerBiReports\Html\Tests\Views\PowerBiAdminSummary.Test.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Badge.Sample.html" />
@@ -139,6 +141,16 @@
     <Content Include="Web\Readme.md" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Areas\GettingStarted\Config.ts" />
+    <TypeScriptCompile Include="Areas\GettingStarted\Data\Providers\Example.Provider.ts" />
+    <TypeScriptCompile Include="Areas\GettingStarted\Data\Repositories\Example.Repository.ts" />
+    <TypeScriptCompile Include="Areas\GettingStarted\Samples\Helpers\Example.Mocks.ts" />
+    <TypeScriptCompile Include="Areas\GettingStarted\Samples\Views\Example.Sample.ts" />
+    <TypeScriptCompile Include="Areas\GettingStarted\Templates\Views\Example.Template.ts" />
+    <TypeScriptCompile Include="Areas\GettingStarted\Tests\Views\Example.Test.ts" />
+    <TypeScriptCompile Include="Areas\GettingStarted\Util\Example.ts" />
+    <TypeScriptCompile Include="Areas\GettingStarted\Views\Example.View.Start.ts" />
+    <TypeScriptCompile Include="Areas\GettingStarted\Views\Example.View.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Config.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Providers\PowerBiAdminSummary.Provider.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiAccessToken.Repository.ts" />

@@ -4,6 +4,11 @@ import Config = require("../../Config");
 export = Main;
 
 module Main {
+    export interface IRepositoryParams {
+        tag: string;
+        release: string;
+    }
+
     export type Option = {
         disabled: boolean;
         group?: any;
@@ -14,14 +19,11 @@ module Main {
 
     export type DataTransferObject = IDictionary<Array<Option>>;
 
-    export interface IRepositorySettings extends BaseRepository.IRepositorySettings {
-    }
-
     export interface IRepository extends BaseRepository.IRepository<DataTransferObject> {
     }
 
     export class Repository extends BaseRepository.Repository<DataTransferObject> implements IRepository {
-        constructor(settings: BaseRepository.IRepositorySettings = new Object(), params?: BaseRepository.RepositoryParams) {
+        constructor(settings: BaseRepository.IRepositorySettings = new Object(), params?: IRepositoryParams) {
             settings.baseUrl = Config.Urls.SiteReporterApi;
             settings.endpoint = Config.Endpoints.Filters;
             settings.authorize = true;

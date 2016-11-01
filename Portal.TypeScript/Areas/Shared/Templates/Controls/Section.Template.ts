@@ -22,6 +22,9 @@ module Main {
                 <!-- /ko -->
                 <!-- ko foreach: vm.subsections -->
 		            <section class="subsection" data-bind="css: $data.classes">
+                        <!-- ko ifnot: $data.anchor() === "" -->
+                            <a data-bind="attr: { name: $data.anchor }"></a>
+                        <!-- /ko -->
                         <!-- ko ifnot: $data.header() === "" -->
 			                <h3 class="subsection__header" data-bind="text: $data.header, css: { 'header--alt': $data.altHeader }"></h3>
                         <!-- /ko -->
