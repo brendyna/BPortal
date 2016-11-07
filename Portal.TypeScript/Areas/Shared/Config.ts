@@ -2,6 +2,7 @@
 
 module Main {
     export class Classes {
+        public static CardBody = "module__content__body";
         public static ChartSeries = "highcharts-series";
         public static ChartTitle = "highcharts-title";
         public static LoadingOverlay = "content__async__loading-overlay";

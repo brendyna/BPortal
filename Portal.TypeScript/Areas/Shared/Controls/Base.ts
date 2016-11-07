@@ -4,6 +4,8 @@ import LoadingOverlayTemplate = require("../Templates/Controls/Base.Loading.Temp
 
 export = Main;
 
+window.ko = ko;
+
 module Main {
     /**
      * This function is used to translate ViewModel Data into ViewModels. It does so by using

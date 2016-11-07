@@ -40,11 +40,13 @@
     <Content Include="Areas\Shared\Html\Samples\Controls\Header.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Icon.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Input.Sample.html" />
+    <Content Include="Areas\Shared\Html\Samples\Controls\Card.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Section.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Accordion.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Select.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Table.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Tabs.Sample.html" />
+    <Content Include="Areas\Shared\Html\Tests\Controls\Card.Test.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Badge.Test.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\List.Test.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Navigation.Test.html" />
@@ -81,6 +83,7 @@
     </Content>
     <Content Include="Areas\SiteReporter\Styles\styles.css" />
     <Content Include="gulpfile.js" />
+    <Content Include="Lib\indigo.full.min.css" />
     <Content Include="require.chutzpah.config.js" />
     <Content Include="Web\Content\Images\ajax-loader-black.gif" />
     <Content Include="Web\Content\Images\ajax-loader-white.gif" />
@@ -88,6 +91,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\Content\Images\edge-logo.svg" />
+    <Content Include="Web\Content\Images\happy_kitty.jpg" />
+    <Content Include="Web\Content\Images\happy_puppy.jpg" />
     <Content Include="Web\Content\Images\IELogo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -171,21 +176,26 @@
     <TypeScriptCompile Include="Areas\Shared\Controls\Navigation.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Badge.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Accordion.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Controls\Card.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Badge.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\List.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Navigation.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Accordion.Sample.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Card.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Accordion.Template.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Card.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\List.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Navigation.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.DisabledWrapper.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.Template.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Card.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Badge.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Editable.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\List.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Navigation.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Accordion.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Helpers\Controls.Helper.ts" />
+    <TypeScriptCompile Include="Areas\Shared\Util\Dom.ts" />
     <TypeScriptCompile Include="Areas\Shared\Util\Knockout.ts" />
     <TypeScriptCompile Include="Areas\Shared\Views\Base.View.ts" />
     <TypeScriptCompile Include="Areas\SiteReporter\Config.ts" />

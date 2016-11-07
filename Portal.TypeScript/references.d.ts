@@ -18,6 +18,7 @@ interface KnockoutBindingHandlers {
     customViewModel: KnockoutBindingHandler;
     wpsAccordion: KnockoutBindingHandler;
     wpsButton: KnockoutBindingHandler;
+    wpsCard: KnockoutBindingHandler;
     wpsChart: KnockoutBindingHandler;
     wpsDescriptionList: KnockoutBindingHandler;
     wpsFilters: KnockoutBindingHandler;
