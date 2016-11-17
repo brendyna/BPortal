@@ -9,6 +9,10 @@ module Main {
         name: string;
         embedUrl: string;
         webUrl: string;
+        description: string;
+        group: string;
+        tags: string;
+        contact: string;
     }
 
     export type DataTransferObject = Array<PowerBiReport>;
@@ -21,7 +25,7 @@ module Main {
 
     export class Repository extends BaseRepository.Repository<DataTransferObject> implements IRepository {
         constructor(settings: BaseRepository.IRepositorySettings = {}) {
-            settings.baseUrl = Config.Urls.ReportsBaseUrl;
+            settings.baseUrl = Config.Urls.PowerBiReportsBaseUrl;
             settings.endpoint = Config.Endpoints.ReportsList;
             settings.authorize = false;
                         

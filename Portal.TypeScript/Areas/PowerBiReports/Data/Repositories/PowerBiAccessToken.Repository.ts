@@ -12,7 +12,7 @@ module Main {
 
     export class Repository extends BaseRepository.Repository<DataTransferObject> implements IRepository {
         constructor(settings: BaseRepository.IRepositorySettings = {}, params = {}) {
-            settings.baseUrl = Config.Urls.ReportsBaseUrl;
+            settings.baseUrl = Config.Urls.PowerBiReportsBaseUrl;
             settings.endpoint = Config.Endpoints.ReportAccessToken;
             settings.authorize = false;
             settings.plainGet = true;

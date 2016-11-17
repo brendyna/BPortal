@@ -73,7 +73,7 @@ module Main {
             // Assert
             assert.equal(breadcrumbs.length, navVM.breadcrumb().length, "The correct number of crumbs are present");
             for (let i = 0; i < breadcrumbs.length; i++) {
-                assert.equal($(breadcrumbs.get(i)).text(), Config.Window.SummaryBreadcrumb[i].text, "Crumb " + i + " has correct text");
+                assert.equal($(breadcrumbs.get(i)).text(), Config.Window.PowerBiAdminSummaryBreadcrumb[i].text, "Crumb " + i + " has correct text");
             }
         });
 
@@ -211,7 +211,7 @@ module Main {
 
             let datasetsSectionTableElem = widget.datasetsTable.widget.element;
 
-            let datasetsMock = PowerBiSummaryMocks.getDatasetsTableData();
+            let datasetsMock = PowerBiSummaryMocks.getMockDatasetsTableData();
 
             this.loadPromise.done(() => {
                 let rows = datasetsSectionTableElem.find("tbody tr");

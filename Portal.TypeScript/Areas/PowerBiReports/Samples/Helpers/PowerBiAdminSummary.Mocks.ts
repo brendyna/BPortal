@@ -21,7 +21,7 @@ module Main {
     export function setupDatasetsMock(): void {
         $.mockjax({
             url: [Config.Urls.PowerBiAdminBaseUrl, Config.Endpoints.DatasetsList].join("/"),
-            responseText: getDatasetsTableData()
+            responseText: getMockDatasetsTableData()
         });
     }
 
@@ -54,7 +54,7 @@ module Main {
         ];
     }
 
-    export function getDatasetsTableData(): DatasetsRepo.DataTransferObject {
+    export function getMockDatasetsTableData(): DatasetsRepo.DataTransferObject {
         return [
             {
                 "workspaceCollectionName": "WPT-PBIE-Test",

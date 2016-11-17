@@ -28,7 +28,9 @@
   <ItemGroup>
     <Content Include="Areas\GettingStarted\Html\Samples\Views\Example.Sample.html" />
     <Content Include="Areas\GettingStarted\Html\Tests\Views\Example.Test.html" />
+    <Content Include="Areas\PowerBiReports\Html\Samples\Views\PowerBiReportList.Sample.html" />
     <Content Include="Areas\PowerBiReports\Html\Samples\Views\PowerBiAdminSummary.Sample.html" />
+    <Content Include="Areas\PowerBiReports\Html\Tests\Views\PowerBiReportList.Test.html" />
     <Content Include="Areas\PowerBiReports\Html\Tests\Views\PowerBiAdminSummary.Test.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Badge.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Button.Sample.html" />
@@ -159,16 +161,23 @@
     <TypeScriptCompile Include="Areas\GettingStarted\Views\Example.View.Start.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Views\Example.View.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Config.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Providers\PowerBiReportList.Provider.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Providers\PowerBiAdminSummary.Provider.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiAccessToken.Repository.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiDatasets.Repository.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiReport.Repository.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiReportList.Repository.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiWorkspaces.Repository.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Samples\Helpers\PowerBiReportList.Mocks.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Samples\Helpers\PowerBiAdminSummary.Mocks.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Samples\Views\PowerBiReportList.Sample.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Samples\Views\PowerBiAdminSummary.Sample.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Templates\Views\PowerBiReportList.Template.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Templates\Views\PowerBiAdminSummary.Template.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Tests\Views\PowerBiReportList.Test.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Tests\Views\PowerBiAdminSummary.Test.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Views\PowerBiReportList.View.Start.ts" />
+    <TypeScriptCompile Include="Areas\PowerBiReports\Views\PowerBiReportList.View.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Views\PowerBiAdminSummary.View.Start.ts" />
     <TypeScriptCompile Include="Areas\PowerBiReports\Views\PowerBiAdminSummary.View.ts" />
     <TypeScriptCompile Include="Areas\Shared\Config.ts" />

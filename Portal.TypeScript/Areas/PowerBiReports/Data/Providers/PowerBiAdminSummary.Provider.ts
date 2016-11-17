@@ -33,7 +33,7 @@ module Main {
 
         public getNavigationViewModelData(): Navigation.IViewModelData {
             let navViewModelData: Navigation.IViewModelData = {
-                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.SummaryBreadcrumb
+                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.PowerBiAdminSummaryBreadcrumb
             };
 
             return navViewModelData;
