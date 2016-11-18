@@ -43,6 +43,15 @@
     color: darkorange;
 }
 
+/* CONTROL: Card */
+
+.card .module__content {
+    background-color: #f2f2f2;
+    padding: 1rem;
+}
+
+/* END CONTROL: Card */
+
 /* CONTROL: Filters */
 .control.filters .filters__filter {
     position: relative;
