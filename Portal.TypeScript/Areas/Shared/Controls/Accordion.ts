@@ -92,7 +92,7 @@ module Main {
         public destroy(): void {
             super.destroy();
 
-            this.element.off("click keydown");
+            this.element.off("click keydown", "summary");
         }
 
         public get viewModel(): IViewModel {
@@ -116,7 +116,7 @@ module Main {
         public _initializeEvents(): void {
             super._initializeEvents();
 
-            this.element.on("click keydown", "details", (e: JQueryEventObject) => {
+            this.element.on("click keydown", "summary", (e: JQueryEventObject) => {
                 this.toggleGroup(e, e.target || e.srcElement);
             });
         }
