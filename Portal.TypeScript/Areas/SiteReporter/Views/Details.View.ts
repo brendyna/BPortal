@@ -235,10 +235,10 @@ module Main {
         }
 
         public initializeLoading(): void {
-            this.trendsFilters.vm.loading(true);
-            this.tech.vm.loading(true);
-            this.snapshot.vm.loading(true);
-            this.bugTrendsChart.vm.loading(true);
+            this.trendsFilters.viewModel.loading(true);
+            this.tech.viewModel.loading(true);
+            this.snapshot.viewModel.loading(true);
+            this.bugTrendsChart.viewModel.loading(true);
 
             this.initializeBugsLoading();
             this.initializeTrendsLoading();
@@ -306,8 +306,8 @@ module Main {
         private initializeBugSubscriptions(): void {
             // If the bugs section has loaded with no data (hence the placeholder)
             // don't subscribe as there are no changes to subscribe to
-            if (this.bugs.vm.bodyPlaceholder() === "") {
-                this._subscriptions.push(this.bugsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
+            if (this.bugs.viewModel.bodyPlaceholder() === "") {
+                this._subscriptions.push(this.bugsFilters.viewModel.value.subscribe((newValue: IDictionary<string>) => {
                     this.bugsTable.widget.data(this._bugsForDomainProvider.getBugTableDataByType(newValue[DetailsProvider.BugsProvider.SelectName]));
                     this.updateBugTrendsChart(newValue[DetailsProvider.BugsProvider.SelectName]);
                 }));
@@ -317,8 +317,8 @@ module Main {
         private initializeTrendsSubscriptions(): void {
             // If the trends section has loaded with no data (hence the placeholder)
             // don't subscribe as there are no changes to subscribe to
-            if (this.trends.vm.bodyPlaceholder() === "") {
-                this._subscriptions.push(this.trendsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
+            if (this.trends.viewModel.bodyPlaceholder() === "") {
+                this._subscriptions.push(this.trendsFilters.viewModel.value.subscribe((newValue: IDictionary<string>) => {
                     $.extend(this._trendsForDomainRepo.settings.request.data, newValue);
 
                     this.initializeTrendsLoading();
@@ -341,16 +341,16 @@ module Main {
         }
 
         private initializeBugsLoading(): void {
-            this.bugsTable.vm.loading(true);
-            this.bugsFilters.vm.loading(true);
+            this.bugsTable.viewModel.loading(true);
+            this.bugsFilters.viewModel.loading(true);
         }
 
         private initializeTrendsLoading(): void {
             this.resetTrendsPlaceholders();
 
-            this.frowniesChart.vm.loading(true);
-            this.navigationsChart.vm.loading(true);
-            this.focusTimeChart.vm.loading(true);
+            this.frowniesChart.viewModel.loading(true);
+            this.navigationsChart.viewModel.loading(true);
+            this.focusTimeChart.viewModel.loading(true);
         }
 
         private resetTrendsPlaceholders(): void {
@@ -400,8 +400,8 @@ module Main {
                 descriptionPairs.push(this._detailsForDomainProvider.getTagsDescriptionPair());
             }
 
-            this.snapshot.vm.loading(false);
-            this.snapshot.vm.descriptionPairs(descriptionPairs);
+            this.snapshot.viewModel.loading(false);
+            this.snapshot.viewModel.descriptionPairs(descriptionPairs);
         }
 
         private applyBugsData(): void {
@@ -409,13 +409,13 @@ module Main {
                 this._bugsForDomainProvider = new DetailsProvider.BugsProvider(this._bugsForDomainRepo);
             }
 
-            this.bugsFilters.vm.loading(false);
-            this.bugsTable.vm.loading(false);
+            this.bugsFilters.viewModel.loading(false);
+            this.bugsTable.viewModel.loading(false);
 
             if (this._bugsForDomainProvider.isBugDataEmpty()) {
-                this.bugs.vm.bodyPlaceholder(Config.Strings.DetailsBugsTableNoDataMessage);
+                this.bugs.viewModel.bodyPlaceholder(Config.Strings.DetailsBugsTableNoDataMessage);
             } else {
-                this.bugsFilters.vm.selectData(this._bugsForDomainProvider.getFilterSelectData());
+                this.bugsFilters.viewModel.selectData(this._bugsForDomainProvider.getFilterSelectData());
                 this.bugsTable.widget.data(this._bugsForDomainProvider.getBugTableData());
             }
         }
@@ -425,14 +425,14 @@ module Main {
 
             // If the bugs section has loaded with no data (hence the placeholder)
             // don't subscribe as there are no changes to subscribe to
-            if (this.bugs.vm.bodyPlaceholder() === "") {
+            if (this.bugs.viewModel.bodyPlaceholder() === "") {
                 if (this._bugTrendsProvider.isBugTrendDataEmpty()) {
                     this.bugTrendsChart.widget.hidden(true);
                 } else {
                     this.bugTrendsChart.widget.data(this._bugTrendsProvider.getChartSeriesData());
                 }
 
-                this.bugTrendsChart.vm.loading(false);
+                this.bugTrendsChart.viewModel.loading(false);
             }
         }
 
@@ -446,7 +446,7 @@ module Main {
                 this.focusTimeChart.widget.data(
                     this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.FocusTime));
                 this.focusTimeChart.widget.hidden(false);
-                this.focusTimeChart.vm.loading(false);
+                this.focusTimeChart.viewModel.loading(false);
             }
 
             // Frownies
@@ -456,7 +456,7 @@ module Main {
                 this.frowniesChart.widget.data(
                     this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.Frownies));
                 this.frowniesChart.widget.hidden(false);
-                this.frowniesChart.vm.loading(false);
+                this.frowniesChart.viewModel.loading(false);
             }
 
             // Navigations
@@ -466,16 +466,16 @@ module Main {
                 this.navigationsChart.widget.data(
                     this._trendsForDomainProvider.getChartDataByType(DetailsProvider.ChartType.Navigations));
                 this.navigationsChart.widget.hidden(false);
-                this.navigationsChart.vm.loading(false);
+                this.navigationsChart.viewModel.loading(false);
             }
         }
 
         private applyFiltersData(): void {
             this._filtersProvider = new SharedProvider.FiltersProvider(this._filtersRepo);
 
-            if (this.trends.vm.bodyPlaceholder() === "") {
-                this.trendsFilters.vm.loading(false);
-                this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SharedProvider.FiltersType.TrendsDetails, {
+            if (this.trends.viewModel.bodyPlaceholder() === "") {
+                this.trendsFilters.viewModel.loading(false);
+                this.trendsFilters.viewModel.selectData(this._filtersProvider.getFilterSelectDataByType(SharedProvider.FiltersType.TrendsDetails, {
                     platform: (<IParams>this.defaults.viewContext.params).platform,
                     release: (<IParams>this.defaults.viewContext.params).release
                 }));
@@ -485,12 +485,12 @@ module Main {
         private applyBuiltWithData(): void {
             this._buildWithDataForDomainProvider = new DetailsProvider.BuiltWithDataForDomainProvider(this._buildWithDataForDomainRepo);
 
-            this.tech.vm.loading(false);
+            this.tech.viewModel.loading(false);
 
             if (this._buildWithDataForDomainProvider.isDataEmpty()) {
-                this.tech.vm.bodyPlaceholder(Config.Strings.DetailsTechNoDataMessage);
+                this.tech.viewModel.bodyPlaceholder(Config.Strings.DetailsTechNoDataMessage);
             } else {
-                this.tech.vm.bodyViewModel().builtwith(this._buildWithDataForDomainProvider.getTechnologies());
+                this.tech.viewModel.bodyViewModel().builtwith(this._buildWithDataForDomainProvider.getTechnologies());
             }
         }
 
@@ -499,8 +499,8 @@ module Main {
 
             // Only update scantime value if there are bugs present (aka the table isn't hidden
             // because of the section placeholder)
-            if (this.bugs.vm.bodyPlaceholder() === "") {
-                this.bugsTable.vm.metadata(`${Config.Strings.BugsTableScanTimePrefix} ${this._scantimeProvider.getLastScannedTime()}`);
+            if (this.bugs.viewModel.bodyPlaceholder() === "") {
+                this.bugsTable.viewModel.metadata(`${Config.Strings.BugsTableScanTimePrefix} ${this._scantimeProvider.getLastScannedTime()}`);
             }
         }
 

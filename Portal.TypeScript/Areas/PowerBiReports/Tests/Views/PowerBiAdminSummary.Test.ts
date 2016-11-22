@@ -67,7 +67,7 @@ module Main {
 
         QUnit.test("Breadcrumb renders correctly", (assert) => {
             let nav = widget.element.find(classify(Navigation.Widget.widgetClass));
-            let navVM: Navigation.IViewModel = ko.dataFor(nav[0]).vm;
+            let navVM: Navigation.IViewModel = ko.dataFor(nav[0]).viewModel;
             let breadcrumbs = nav.find("li");
 
             // Assert
@@ -79,26 +79,26 @@ module Main {
 
         QUnit.test("Header renders correctly", (assert) => {
             let header = $(classify(Header.Widget.widgetClass));
-            let headerVM: Header.IViewModel = ko.dataFor(header[0]).vm;
+            let headerVM: Header.IViewModel = ko.dataFor(header[0]).viewModel;
 
             // Assert
             assert.equal(header.find("h1").text(), "", "The header title is empty");
         });
 
         QUnit.test("Sections render correctly", (assert) => {
-            let workspacesSection = $(widget.element.find(classify(widget.workspaces.vm.classes())));
+            let workspacesSection = $(widget.element.find(classify(widget.workspaces.viewModel.classes())));
             let workspacesSectionTable = workspacesSection.find(classify(Config.Classes.WorkspacesTableClass));
 
-            let datasetsSection = $(widget.element.find(classify(widget.datasets.vm.classes())));
+            let datasetsSection = $(widget.element.find(classify(widget.datasets.viewModel.classes())));
             let datasetsSectionTable = datasetsSection.find(classify(Config.Classes.DatasetsTableClass));
 
             // Assert WorkspacesSection
-            assert.equal(workspacesSection.find("h2").text(), widget.workspaces.vm.title(), "Workspaces section title is correct");
+            assert.equal(workspacesSection.find("h2").text(), widget.workspaces.viewModel.title(), "Workspaces section title is correct");
             assert.equal(workspacesSectionTable.find(classify(BaseConfig.Classes.TableEmpty)).text(),
                 Config.Strings.WorkspaceTableNoDataMessage, "Workspaces section empty table placeholder is shown");
 
             // Assert DatasetsSection
-            assert.equal(datasetsSection.find("h2").text(), widget.datasets.vm.title(), "Datasets section title is correct");
+            assert.equal(datasetsSection.find("h2").text(), widget.datasets.viewModel.title(), "Datasets section title is correct");
             assert.equal(datasetsSectionTable.find(classify(BaseConfig.Classes.TableEmpty)).text(),
                 Config.Strings.DatasetsTableNoDataMessage, "Datasets section empty table placeholder is shown");
         });

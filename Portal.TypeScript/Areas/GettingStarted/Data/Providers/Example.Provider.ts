@@ -54,11 +54,11 @@ module Main {
                 // The body template can contain any markup, including any of the custom binding
                 // handlers we expose for the reusable controls.
                 //
-                // To access the properties exposed via bodyViewModel in the template, use the $vm
+                // To access the properties exposed via bodyViewModel in the template, use the viewModel
                 // variable that's passed into the template by Knockout when binding happens.
                 title: "Introduction",
                 anchor: "Intro",
-                body: `<div data-bind="html: $vm.introText"></div>`,
+                body: `<div data-bind="html: viewModel.introText"></div>`,
                 bodyViewModel: {
                     introText: `
                         Welcome to the WPT Portal TypeScript project. This project helps us develop WPT Portal UI separate
@@ -293,7 +293,7 @@ module Main {
         public getSidebarSectionViewModelData(): Section.IViewModelData {
             let exampleSectionData = <Section.IViewModelData>{
                 classes: "sidebar",
-                body: `<ul data-bind="wpsList: $vm.sections"></ul>`,
+                body: `<ul data-bind="wpsList: viewModel.sections"></ul>`,
                 bodyViewModel: {
                     sections: <List.IViewModelData>{
                         type: List.Type.Links,

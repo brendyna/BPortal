@@ -2,28 +2,28 @@
 
 module Main {
 	export let template = `
-		<!-- ko ifnot: vm.image() === "" -->
-            <!-- ko if: vm.imageLink() === "" -->
-			    <img data-bind="attr: { src: vm.image, alt: vm.imageAlt }" />
+		<!-- ko ifnot: viewModel.image() === "" -->
+            <!-- ko if: viewModel.imageLink() === "" -->
+			    <img data-bind="attr: { src: viewModel.image, alt: viewModel.imageAlt }" />
             <!-- /ko -->
-            <!-- ko ifnot: vm.imageLink() === "" -->
-			    <a data-bind="attr: { href: vm.imageLink, target: widget._imageLinkTarget }, css: { 'module__image': true }">
-			        <img data-bind="attr: { src: vm.image, alt: vm.imageAlt }" />
+            <!-- ko ifnot: viewModel.imageLink() === "" -->
+			    <a data-bind="attr: { href: viewModel.imageLink, target: widget._imageLinkTarget }, css: { 'module__image': true }">
+			        <img data-bind="attr: { src: viewModel.image, alt: viewModel.imageAlt }" />
                 </a>
             <!-- /ko -->
 		<!-- /ko -->
 		<div class="module__content">
-			<!-- ko ifnot: vm.title() === "" -->
-			    <!-- ko if: vm.titleLink() === "" -->
-				    <span data-bind="text: vm.title, attr: { title: vm.titleTooltip }, css: { 'subtitle': true }"></span>
+			<!-- ko ifnot: viewModel.title() === "" -->
+			    <!-- ko if: viewModel.titleLink() === "" -->
+				    <span data-bind="text: viewModel.title, attr: { title: viewModel.titleTooltip }, css: { 'subtitle': true }"></span>
 			    <!-- /ko -->
-                <!-- ko ifnot: vm.titleLink() === "" -->
-				    <a data-bind="attr: { href: vm.titleLink, target: widget._titleLinkTarget }">
-                        <span data-bind="text: vm.title, attr: { title: vm.titleTooltip }, css: { 'subtitle': true }"></span>
+                <!-- ko ifnot: viewModel.titleLink() === "" -->
+				    <a data-bind="attr: { href: viewModel.titleLink, target: widget._titleLinkTarget }">
+                        <span data-bind="text: viewModel.title, attr: { title: viewModel.titleTooltip }, css: { 'subtitle': true }"></span>
                     </a>
 			    <!-- /ko -->
             <!-- /ko -->
-			<div class="module__content__body" data-bind="html: vm.body, customViewModel: vm.bodyViewModel"></div>
+			<div class="module__content__body" data-bind="html: viewModel.body, customViewModel: viewModel.bodyViewModel"></div>
 		</div>
 	`;
 }

@@ -2,11 +2,11 @@
 
 module Main {
     export let template = `
-        <!-- ko ifnot: vm.title() === "" -->
-            <h1 data-bind="text: vm.title"></h1>
+        <!-- ko ifnot: viewModel.title() === "" -->
+            <h1 data-bind="text: viewModel.title"></h1>
         <!-- /ko -->
-        <!-- ko if: vm.subtitle -->
-            <p class="subtitle" data-bind="text: vm.subtitle"></p>
+        <!-- ko if: viewModel.subtitle -->
+            <p class="subtitle" data-bind="text: viewModel.subtitle"></p>
         <!-- /ko -->
     `;
 }

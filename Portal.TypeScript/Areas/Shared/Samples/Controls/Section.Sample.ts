@@ -19,7 +19,7 @@ module Main {
                 subtitle: "This is the optional section subtitle. There are two elements in this section header.",
                 body: `
                     <strong>This is the section body.</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    <div><select data-bind="wpsSelect: $vm.select"></select></div>
+                    <div><select data-bind="wpsSelect: viewModel.select"></select></div>
                 `,
                 bodyViewModel: {
                     select: <Select.IViewModelData>{
@@ -35,7 +35,7 @@ module Main {
                     {
                         header: "Subsection",
                         altHeader: true,
-                        body: '<p><strong><span data-bind="wpsIcon: $vm.icon"></span>This is the subsection body.</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>',
+                        body: '<p><strong><span data-bind="wpsIcon: viewModel.icon"></span>This is the subsection body.</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>',
                         bodyViewModel: {
                             icon: <Icon.IViewModelData>{
                                 type: Icon.Type.Document
@@ -55,7 +55,7 @@ module Main {
         let sectionData: Section.IViewModelData = {
             classes: "sidebar",
             title: "Summary",
-            body: `<input data-bind="wpsInput: $vm.siteSearch" />`,
+            body: `<input data-bind="wpsInput: viewModel.siteSearch" />`,
             bodyViewModel: {
                 siteSearch: <Input.IViewModelData>{
                     type: Input.Type.Text,
@@ -68,14 +68,14 @@ module Main {
             subsections: [
                 {
                     header: "Bugs",
-                    body: `<dl data-bind="wpsDescriptionList: $vm.summary"></dl>`,
+                    body: `<dl data-bind="wpsDescriptionList: viewModel.summary"></dl>`,
                     bodyViewModel: {
                         summary: <DescriptionList.IViewModelData>{
                             descriptionPairs: [
                                 {
                                     term: "Switch risk sites",
                                     descriptions: [{
-                                        content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> 50%</span>`,
+                                        content: `<span class="subtitle"><span data-bind="wpsIcon: viewModel.icon"></span> 50%</span>`,
                                         contentViewModel: {
                                             icon: <Icon.IViewModelData>{
                                                 type: Icon.Type.Interop,
@@ -87,7 +87,7 @@ module Main {
                                 {
                                     term: "Outreach bugs",
                                     descriptions: [{
-                                        content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> 26</span>`,
+                                        content: `<span class="subtitle"><span data-bind="wpsIcon: viewModel.icon"></span> 26</span>`,
                                         contentViewModel: {
                                             icon: <Icon.IViewModelData>{
                                                 type: Icon.Type.Bug
@@ -98,7 +98,7 @@ module Main {
                                 {
                                     term: "Release bugs",
                                     descriptions: [{
-                                        content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> 23</span>`,
+                                        content: `<span class="subtitle"><span data-bind="wpsIcon: viewModel.icon"></span> 23</span>`,
                                         contentViewModel: {
                                             icon: <Icon.IViewModelData>{
                                                 type: Icon.Type.Bug
@@ -109,7 +109,7 @@ module Main {
                                 {
                                     term: "Total bugs",
                                     descriptions: [{
-                                        content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> 671</span>`,
+                                        content: `<span class="subtitle"><span data-bind="wpsIcon: viewModel.icon"></span> 671</span>`,
                                         contentViewModel: {
                                             icon: <Icon.IViewModelData>{
                                                 type: Icon.Type.Bug
@@ -123,14 +123,14 @@ module Main {
                 },
                 {
                     header: "Trends",
-                    body: `<dl data-bind="wpsDescriptionList: $vm.summary"></dl>`,
+                    body: `<dl data-bind="wpsDescriptionList: viewModel.summary"></dl>`,
                     bodyViewModel: {
                         summary: <DescriptionList.IViewModelData>{
                             descriptionPairs: <Array<DescriptionList.IDescriptionPairData>>[
                                 {
                                     term: "Frownies",
                                     descriptions: [{
-                                        content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> 715</span>`,
+                                        content: `<span class="subtitle"><span data-bind="wpsIcon: viewModel.icon"></span> 715</span>`,
                                         contentViewModel: {
                                             icon: <Icon.IViewModelData>{
                                                 type: Icon.Type.ChevronDown
@@ -141,7 +141,7 @@ module Main {
                                 {
                                     term: "Navigations",
                                     descriptions: [{
-                                        content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> 6,000</span>`,
+                                        content: `<span class="subtitle"><span data-bind="wpsIcon: viewModel.icon"></span> 6,000</span>`,
                                         contentViewModel: {
                                             icon: <Icon.IViewModelData>{
                                                 type: Icon.Type.ChevronUp
@@ -152,7 +152,7 @@ module Main {
                                 {
                                     term: "Hours of Focus Time",
                                     descriptions: [{
-                                        content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> 2,700</span>`,
+                                        content: `<span class="subtitle"><span data-bind="wpsIcon: viewModel.icon"></span> 2,700</span>`,
                                         contentViewModel: {
                                             icon: <Icon.IViewModelData>{
                                                 type: Icon.Type.ChevronUp

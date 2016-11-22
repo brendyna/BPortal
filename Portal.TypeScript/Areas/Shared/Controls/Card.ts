@@ -179,9 +179,9 @@ module Main {
 
             this._subscriptions.push(this.viewModel.body.subscribe((newBody: string) => {
                 let body = this.element.find(DomUtil.classify(Config.Classes.CardBody));
-                body.attr("data-bind", "html: vm.body, customViewModel: vm.bodyViewModel");
+                body.attr("data-bind", "html: viewModel.body, customViewModel: viewModel.bodyViewModel");
                 ko.cleanNode(body[0]);
-                ko.applyBindings({ vm: this.viewModel }, body[0]);
+                ko.applyBindings({ viewModel: this.viewModel }, body[0]);
             }));
         }
     }

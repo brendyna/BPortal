@@ -2,11 +2,11 @@
 
 module Main {
     export let template = `
-        <!-- ko if: vm.navigation -->
-            <nav id="view-navigation" data-bind="wpsNavigation: vm.navigation"></nav>
+        <!-- ko if: viewModel.navigation -->
+            <nav id="view-navigation" data-bind="wpsNavigation: viewModel.navigation"></nav>
         <!-- /ko -->
-        <!-- ko if: vm.header -->
-            <header id="view-header" data-bind="wpsHeader: vm.header"></header>
+        <!-- ko if: viewModel.header -->
+            <header id="view-header" data-bind="wpsHeader: viewModel.header"></header>
         <!-- /ko -->
     `;
 }

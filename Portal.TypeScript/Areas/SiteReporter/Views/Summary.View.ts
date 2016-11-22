@@ -195,8 +195,8 @@ module Main {
         }
 
         public initializeLoading(): void {
-            this.bugsFilters.vm.loading(true);
-            this.trendsFilters.vm.loading(true);
+            this.bugsFilters.viewModel.loading(true);
+            this.trendsFilters.viewModel.loading(true);
 
             this.initializeBugsLoading();
             this.initializeTrendsLoading();
@@ -256,11 +256,11 @@ module Main {
         private initializeBugSubscriptions(): void {
             let oldFilterValue: IDictionary<string>;
 
-            this._subscriptions.push(this.bugsFilters.vm.value.subscribe((previousValue: IDictionary<string>) => {
+            this._subscriptions.push(this.bugsFilters.viewModel.value.subscribe((previousValue: IDictionary<string>) => {
                 oldFilterValue = previousValue;
             }, undefined, "beforeChange"));
 
-            this._subscriptions.push(this.bugsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
+            this._subscriptions.push(this.bugsFilters.viewModel.value.subscribe((newValue: IDictionary<string>) => {
                 // If just the bugType select changes, don't kick off a reload (just update the table data)
                 if (oldFilterValue["tag"] === newValue["tag"] && oldFilterValue["bugType"] !== newValue["bugType"]) {
                     this.bugsTable.widget.data(this._bugsForTagProvider.getBugTypeData(newValue["bugType"]));
@@ -274,7 +274,7 @@ module Main {
         }
 
         private initializeTrendsSubscriptions(): void {
-            this._subscriptions.push(this.trendsFilters.vm.value.subscribe((newValue: IDictionary<string>) => {
+            this._subscriptions.push(this.trendsFilters.viewModel.value.subscribe((newValue: IDictionary<string>) => {
                 $.extend(this._trendsForTagRepo.settings.request.data, newValue);
 
                 this.initializeTrendsLoading();
@@ -283,13 +283,13 @@ module Main {
         }
 
         private initializeBugsLoading(): void {
-            this.bugsSnapshots.vm.loading(true);
-            this.bugsTable.vm.loading(true);
+            this.bugsSnapshots.viewModel.loading(true);
+            this.bugsTable.viewModel.loading(true);
         }
 
         private initializeTrendsLoading(): void {
-            this.trendsSnapshots.vm.loading(true);
-            this.trendsTable.vm.loading(true);
+            this.trendsSnapshots.viewModel.loading(true);
+            this.trendsTable.viewModel.loading(true);
         }
 
         private loadBugsRepo(): void {
@@ -312,7 +312,7 @@ module Main {
         private applyBugsData(): void {
             this._bugsForTagProvider = new SummaryProvider.BugsProvider(this._bugsForTagRepo);
 
-            this.bugsSnapshots.vm.descriptionPairs(this._bugsForTagProvider.getBugSnapshotData());
+            this.bugsSnapshots.viewModel.descriptionPairs(this._bugsForTagProvider.getBugSnapshotData());
             this.applyBugsTypeTableFilter().done(() => {
                 this.bugsTable.widget.data(this._bugsForTagProvider.getBugTypeData(
                     (<Select.IViewModel>this.bugsFilters.widget.childWidgets[1].viewModel).value()));
@@ -320,16 +320,16 @@ module Main {
                     [Config.Indexes.SummaryBugsTableAlexaColumn, Config.Strings.DefaultTableSortOrder] :
                     [Config.Indexes.SummaryBugsTableBingdexColumn, Config.Strings.DefaultTableSortOrder]);
 
-                this.bugsSnapshots.vm.loading(false);
-                this.bugsTable.vm.loading(false);
+                this.bugsSnapshots.viewModel.loading(false);
+                this.bugsTable.viewModel.loading(false);
             });
         }
 
         private applyBugsTypeTableFilter(): JQueryPromise<void> {
             let applyDeferred = $.Deferred<void>();
 
-            if (this.bugsFilters.vm.loading()) {
-                let loadingSub = this.bugsFilters.vm.loading.subscribe((loading: boolean) => {
+            if (this.bugsFilters.viewModel.loading()) {
+                let loadingSub = this.bugsFilters.viewModel.loading.subscribe((loading: boolean) => {
                     if (!loading) {
                         loadingSub.dispose();
                         this.updateBugsFiltersWithTypeSelect();
@@ -345,7 +345,7 @@ module Main {
         }
 
         private updateBugsFiltersWithTypeSelect(): void {
-            let selectData = this.bugsFilters.vm.selectData;
+            let selectData = this.bugsFilters.viewModel.selectData;
 
             if (selectData().length === 2) {
                 (<Select.IWidget>this.bugsFilters.widget.childWidgets[1]).viewModel.options(
@@ -358,35 +358,35 @@ module Main {
         private applyTrendsData(): void {
             this._trendsForTagProvider = new SummaryProvider.TrendsProvider(this._trendsForTagRepo);
 
-            this.trendsSnapshots.vm.descriptionPairs(this._trendsForTagProvider.getTrendsSnapshotData());
+            this.trendsSnapshots.viewModel.descriptionPairs(this._trendsForTagProvider.getTrendsSnapshotData());
             this.trendsTable.widget.data(this._trendsForTagProvider.getTrendsTableData());
             this.trendsTable.widget.order(this._trendsForTagProvider.isAlexaTag() ?
                 [Config.Indexes.SummaryTrendsTableAlexaColumn, Config.Strings.DefaultTableSortOrder] :
                 [Config.Indexes.SummaryTrendsTableBingdexColumn, Config.Strings.DefaultTableSortOrder]);
-            this.trendsSnapshots.vm.loading(false);
-            this.trendsTable.vm.loading(false);
+            this.trendsSnapshots.viewModel.loading(false);
+            this.trendsTable.viewModel.loading(false);
         }
 
         private applyFiltersData(): void {
             this._filtersProvider = new SummaryProvider.FiltersProvider(this._filtersRepo);
 
-            this.bugsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Bugs, {
+            this.bugsFilters.viewModel.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Bugs, {
                 tag: (<IParams>this.defaults.viewContext.params).tag
             }));
-            this.bugsFilters.vm.loading(false);
+            this.bugsFilters.viewModel.loading(false);
 
-            this.trendsFilters.vm.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Trends, {
+            this.trendsFilters.viewModel.selectData(this._filtersProvider.getFilterSelectDataByType(SummaryProvider.FiltersType.Trends, {
                 tag: (<IParams>this.defaults.viewContext.params).tag,
                 platform: (<IParams>this.defaults.viewContext.params).platform,
                 release: (<IParams>this.defaults.viewContext.params).release
             }));
-            this.trendsFilters.vm.loading(false);
+            this.trendsFilters.viewModel.loading(false);
         }
 
         private applyScantimeData(): void {
             this._scantimeProvider = new SharedProvider.ScanTimeProvider(this._scantimeRepo);
 
-            this.bugsTable.vm.metadata("Updated " + this._scantimeProvider.getLastScannedTime());
+            this.bugsTable.viewModel.metadata("Updated " + this._scantimeProvider.getLastScannedTime());
         }
     }
 }

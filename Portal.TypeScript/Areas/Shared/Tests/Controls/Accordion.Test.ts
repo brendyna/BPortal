@@ -33,7 +33,7 @@ module Main {
                         title: "Group 3",
                         body: `
                             There is some body text here lastly! And:
-                            <button data-bind="wpsButton: $vm.button"></button>
+                            <button data-bind="wpsButton: viewModel.button"></button>
                         `,
                         bodyViewModel: {
                             button: <Button.IViewModelData>{

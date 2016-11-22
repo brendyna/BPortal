@@ -67,7 +67,7 @@ module Main {
 
         QUnit.test("Breadcrumb renders correctly", (assert) => {
             let nav = widget.element.find(DomUtil.classify(Navigation.Widget.widgetClass));
-            let navVM: Navigation.IViewModel = ko.dataFor(nav[0]).vm;
+            let navVM: Navigation.IViewModel = ko.dataFor(nav[0]).viewModel;
             let breadcrumbs = nav.find("li");
 
             // Assert
@@ -79,7 +79,7 @@ module Main {
 
         QUnit.test("Header renders correctly", (assert) => {
             let header = $(DomUtil.classify(Header.Widget.widgetClass));
-            let headerVM: Header.IViewModel = ko.dataFor(header[0]).vm;
+            let headerVM: Header.IViewModel = ko.dataFor(header[0]).viewModel;
 
             // Assert
             assert.equal(header.find("h1").text(), Config.Strings.ReportListTitle, "The header title is correct");

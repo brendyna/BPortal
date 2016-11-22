@@ -38,13 +38,13 @@ module Main {
         let titleParent: JQuery;
         let body = widget.element.find(DomUtil.classify(Config.Classes.CardBody));
         let bodyIcons: JQuery;
-        let vmData = defaults.viewModelData;
+        let viewModelData = defaults.viewModelData;
 
         // Custom binding handlers render correctly in body
 
         // Assert
         assert.ok(widget.element.hasClass(Card.Widget.widgetClass), "Widget class is present");
-        assert.equal(body.html(), vmData.body, "Body renders correctly");
+        assert.equal(body.html(), viewModelData.body, "Body renders correctly");
         assert.equal(image.length, 0, "Image doesn't render if viewmodel property empty");
         assert.equal(title.length, 0, "Title doesn't render if viewmodel property empty");
 
@@ -118,7 +118,7 @@ module Main {
         });
         widget.viewModel.body(`
             In this body I'm rendering some icons (other controls) to show that bodies can be complex and contain as simple or as complicated a layout as is desired.<br /><br />
-            <!-- ko foreach: $vm.icons -->
+            <!-- ko foreach: viewModel.icons -->
                 <span data-bind="wpsIcon: $data"></span>&nbsp;
             <!-- /ko -->
         `);

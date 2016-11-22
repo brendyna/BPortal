@@ -30,7 +30,7 @@ module Main {
         // Track some metadata so we can observe things changes/demo that
         ko.applyBindings({
             basicInputValue: widgetBasicInput.viewModel.value,
-            customBoundInputValue: (<Input.ViewModel>ko.dataFor($(".custom-binding")[0]).vm).value
+            customBoundInputValue: (<Input.ViewModel>ko.dataFor($(".custom-binding")[0]).viewModel).value
         }, $("#sample-metadata")[0]);
     });
 }

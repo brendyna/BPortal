@@ -16,7 +16,7 @@ module Main {
             viewModelData: {
                 body: `
                     <div class="layout layout--thirds">
-                        <!-- ko foreach: $vm.cards -->
+                        <!-- ko foreach: viewModel.cards -->
                             <div data-bind="wpsCard: $data"></div>
                         <!-- /ko -->
                     </div>
@@ -40,7 +40,7 @@ module Main {
                             title: "A complicated titled card body",
                             body: `
                                 In this body I'm rendering some icons (other controls) to show that bodies can be complex and contain as simple or as complicated a layout as is desired.<br /><br />
-                                <!-- ko foreach: $vm.icons -->
+                                <!-- ko foreach: viewModel.icons -->
                                     <span data-bind="wpsIcon: $data"></span>&nbsp;
                                 <!-- /ko -->
                             `,

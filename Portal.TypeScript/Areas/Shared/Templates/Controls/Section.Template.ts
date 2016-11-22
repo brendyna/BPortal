@@ -2,25 +2,25 @@
 
 module Main {
     export let template = `
-        <!-- ko ifnot: vm.anchor() === "" -->
-            <a data-bind="attr: { name: vm.anchor }"></a>
+        <!-- ko ifnot: viewModel.anchor() === "" -->
+            <a data-bind="attr: { name: viewModel.anchor }"></a>
         <!-- /ko -->
-        <!-- ko ifnot: vm.title() === "" && vm.subtitle() === "" -->
+        <!-- ko ifnot: viewModel.title() === "" && viewModel.subtitle() === "" -->
 	        <header class="section__header">
-                <!-- ko ifnot: vm.title() === "" -->
-		            <h2 data-bind="text: vm.title, css: { 'header--alt': vm.altHeader }"></h2>
+                <!-- ko ifnot: viewModel.title() === "" -->
+		            <h2 data-bind="text: viewModel.title, css: { 'header--alt': viewModel.altHeader }"></h2>
                 <!-- /ko -->
-                <!-- ko ifnot: vm.subtitle() === "" -->
-		            <p class="subtitle" data-bind="text: vm.subtitle"></p>
+                <!-- ko ifnot: viewModel.subtitle() === "" -->
+		            <p class="subtitle" data-bind="text: viewModel.subtitle"></p>
                 <!-- /ko -->
 	        </header>
         <!-- /ko -->
-        <!-- ko if: vm.bodyPlaceholder() === "" -->
+        <!-- ko if: viewModel.bodyPlaceholder() === "" -->
 	        <div class="section__body">
-                <!-- ko ifnot: vm.body() === "" -->
-		            <div data-bind="html: vm.body, customViewModel: vm.bodyViewModel"></div>
+                <!-- ko ifnot: viewModel.body() === "" -->
+		            <div data-bind="html: viewModel.body, customViewModel: viewModel.bodyViewModel"></div>
                 <!-- /ko -->
-                <!-- ko foreach: vm.subsections -->
+                <!-- ko foreach: viewModel.subsections -->
 		            <section class="subsection" data-bind="css: $data.classes">
                         <!-- ko ifnot: $data.anchor() === "" -->
                             <a data-bind="attr: { name: $data.anchor }"></a>
@@ -38,8 +38,8 @@ module Main {
                 <!-- /ko -->
 	        </div>
         <!-- /ko -->
-        <!-- ko ifnot: vm.bodyPlaceholder() === "" -->
-            <div class="body-placeholder" data-bind="html: vm.bodyPlaceholder"></div>
+        <!-- ko ifnot: viewModel.bodyPlaceholder() === "" -->
+            <div class="body-placeholder" data-bind="html: viewModel.bodyPlaceholder"></div>
         <!-- /ko -->
     `;
 }

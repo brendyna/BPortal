@@ -37,10 +37,10 @@ module Main {
                 descriptions: [
                     {
                         content: `
-                                <span data-bind="wpsIcon: $vm.icon1"></span>
-                                <span data-bind="wpsIcon: $vm.icon2"></span>
-                                <span data-bind="wpsIcon: $vm.icon3"></span>
-                                <span data-bind="wpsIcon: $vm.icon4"></span>
+                                <span data-bind="wpsIcon: viewModel.icon1"></span>
+                                <span data-bind="wpsIcon: viewModel.icon2"></span>
+                                <span data-bind="wpsIcon: viewModel.icon3"></span>
+                                <span data-bind="wpsIcon: viewModel.icon4"></span>
                             `,
                         contentViewModel: {
                             icon1: <Icon.IViewModelData>{ type: Icon.Type.Articles },

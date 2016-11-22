@@ -84,7 +84,7 @@ module Main {
         public getSidebarViewModelData(): Section.IViewModelData {
             let sidebarData = <Section.IViewModelData>{
                 classes: "sidebar",
-                body: `<input data-bind="wpsInput: $vm.siteSearch" />`,
+                body: `<input data-bind="wpsInput: viewModel.siteSearch" />`,
                 bodyViewModel: {
                     siteSearch: <Input.IViewModelData>{
                         type: Input.Type.Text,
@@ -97,7 +97,7 @@ module Main {
                 subsections: [
                     {
                         classes: Config.Classes.TableOfContents,
-                        body: `<ul data-bind="wpsList: $vm.sections"></ul>`,
+                        body: `<ul data-bind="wpsList: viewModel.sections"></ul>`,
                         bodyViewModel: {
                             sections: <List.IViewModelData>{
                                 type: List.Type.Links,
@@ -117,7 +117,7 @@ module Main {
                     },
                     {
                         classes: "snapshot",
-                        body: `<dl data-bind="wpsDescriptionList: $vm.highlights"></dl>`,
+                        body: `<dl data-bind="wpsDescriptionList: viewModel.highlights"></dl>`,
                         bodyViewModel: {
                             highlights: <DescriptionList.IViewModelData>{
                                 classes: Config.Classes.DetailsDomainSnapshot
@@ -126,21 +126,21 @@ module Main {
                     },
                     {
                         classes: Config.Classes.LearnMoreLinks,
-                        body: `<dl data-bind="wpsDescriptionList: $vm.links"></dl>`,
+                        body: `<dl data-bind="wpsDescriptionList: viewModel.links"></dl>`,
                         bodyViewModel: {
                             links: <DescriptionList.IViewModelData>{
                                 descriptionPairs: [
                                     {
                                         descriptions: [
                                             {
-                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
+                                                content: `<a data-bind="text: viewModel.text, attr: { href: viewModel.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
                                                     text: Config.Strings.LearnMore,
                                                     url: Config.Urls.SiteReporterWiki
                                                 }
                                             },
                                             {
-                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
+                                                content: `<a data-bind="text: viewModel.text, attr: { href: viewModel.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
                                                     text: Config.Strings.ExtensionInstall,
                                                     url: Config.Urls.ExtensionLocation
@@ -161,7 +161,7 @@ module Main {
         public getSwitchRiskDescriptionPair(): DescriptionList.IDescriptionPairData {
             return {
                 descriptions: [{
-                    content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> Switch risk</span>`,
+                    content: `<span class="subtitle"><span data-bind="wpsIcon: viewModel.icon"></span> Switch risk</span>`,
                     contentViewModel: {
                         icon: <Icon.IViewModelData>{
                             type: Icon.Type.Flag,
@@ -175,7 +175,7 @@ module Main {
         public getOffensiveContentDescriptionPair(): DescriptionList.IDescriptionPairData {
             return {
                 descriptions: [{
-                    content: `<span class="subtitle"><span data-bind="wpsIcon: $vm.icon"></span> Potentially offensive content</span>`,
+                    content: `<span class="subtitle"><span data-bind="wpsIcon: viewModel.icon"></span> Potentially offensive content</span>`,
                     contentViewModel: {
                         icon: <Icon.IViewModelData>{
                             type: Icon.Type.Blocked,
@@ -189,7 +189,7 @@ module Main {
         public getFavIconDescriptionPair(domain: string): DescriptionList.IDescriptionPairData {
             return {
                 descriptions: [{
-                    content: `<img class="${Config.Classes.SiteFavIcon}" data-bind="attr: { src: $vm.src }" />`,
+                    content: `<img class="${Config.Classes.SiteFavIcon}" data-bind="attr: { src: viewModel.src }" />`,
                     contentViewModel: {
                         src: "http://www.google.com/s2/favicons?domain_url=" + domain
                     }
@@ -204,9 +204,9 @@ module Main {
                 anchor: "Bugs",
                 classes: "details--bugs",
                 body: `
-                    <div data-bind="wpsFilters: $vm.filters"></div>
-                    <table data-bind="wpsTable: $vm.table"></table>
-                    <div data-bind="wpsChart: $vm.bugs"></div>
+                    <div data-bind="wpsFilters: viewModel.filters"></div>
+                    <table data-bind="wpsTable: viewModel.table"></table>
+                    <div data-bind="wpsChart: viewModel.bugs"></div>
                 `,
                 bodyViewModel: {
                     filters: this.getBugFilterData(),
@@ -225,7 +225,7 @@ module Main {
                 altHeader: true,
                 anchor: "Trends",
                 classes: "details--trends",
-                body: `<div data-bind="wpsFilters: $vm.filters"></div>`,
+                body: `<div data-bind="wpsFilters: viewModel.filters"></div>`,
                 bodyViewModel: {
                     filters: <Filters.IViewModelData>{
                         classes: Config.Classes.TrendsFilters,
@@ -234,7 +234,7 @@ module Main {
                 },
                 subsections: [
                     {
-                        body: `<div data-bind="wpsChart: $vm"s></div>`,
+                        body: `<div data-bind="wpsChart: viewModel"s></div>`,
                         classes: "section__frownies",
                         bodyViewModel: <Chart.IViewModelData>{
                             classes: Config.Classes.DetailsTrendsFrowniesChart,
@@ -242,7 +242,7 @@ module Main {
                         }
                     },
                     {
-                        body: `<div data-bind="wpsChart: $vm"></div>`,
+                        body: `<div data-bind="wpsChart: viewModel"></div>`,
                         classes: "section__navigations",
                         bodyViewModel: <Chart.IViewModelData>{
                             classes: Config.Classes.DetailsTrendsNavigationsChart,
@@ -250,7 +250,7 @@ module Main {
                         }
                     },
                     {
-                        body: `<div data-bind="wpsChart: $vm"></div>`,
+                        body: `<div data-bind="wpsChart: viewModel"></div>`,
                         classes: "section__focustime",
                         bodyViewModel: <Chart.IViewModelData>{
                             classes: Config.Classes.DetailsTrendsFocusTimeChart,
@@ -270,7 +270,7 @@ module Main {
                 anchor: "Technologies",
                 classes: "details--technologies",
                 body: `
-                    <div data-bind="text: $vm.builtwith"></div>
+                    <div data-bind="text: viewModel.builtwith"></div>
                 `,
                 bodyViewModel: {
                     builtwith: ko.observable("")
@@ -594,7 +594,7 @@ module Main {
             return {
                 term: "Bingdex rank",
                 descriptions: [{
-                    content: `<span data-bind="text: $vm.text, css: $vm.classes"></span>`,
+                    content: `<span data-bind="text: viewModel.text, css: viewModel.classes"></span>`,
                     contentViewModel: {
                         text: text,
                         classes: "subtitle " + Config.Classes.SiteBingdexRank
@@ -611,7 +611,7 @@ module Main {
             return {
                 term: "Alexa rank",
                 descriptions: [{
-                    content: `<span data-bind="text: $vm.text, css: $vm.classes"></span>`,
+                    content: `<span data-bind="text: viewModel.text, css: viewModel.classes"></span>`,
                     contentViewModel: {
                         text: text,
                         classes: "subtitle " + Config.Classes.SiteAlexaRank
@@ -625,7 +625,7 @@ module Main {
                 term: "Tags",
                 descriptions: [
                     {
-                        content: `<!-- ko foreach: $vm.badges -->
+                        content: `<!-- ko foreach: viewModel.badges -->
                                     <span class="${Config.Classes.SiteTag}" data-bind="wpsBadge: $data"></span>
                                   <!-- /ko -->`,
                         contentViewModel: {

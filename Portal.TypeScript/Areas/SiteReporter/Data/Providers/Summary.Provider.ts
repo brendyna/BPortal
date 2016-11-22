@@ -71,7 +71,7 @@ module Main {
         public getSidebarViewModelData(): Section.IViewModelData {
             let sidebarData = <Section.IViewModelData>{
                 classes: "sidebar",
-                body: `<input data-bind="wpsInput: $vm.siteSearch" />`,
+                body: `<input data-bind="wpsInput: viewModel.siteSearch" />`,
                 bodyViewModel: {
                     siteSearch: <Input.IViewModelData>{
                         type: Input.Type.Text,
@@ -84,7 +84,7 @@ module Main {
                 subsections: [
                     {
                         classes: Config.Classes.TableOfContents,
-                        body: `<ul data-bind="wpsList: $vm.sections"></ul>`,
+                        body: `<ul data-bind="wpsList: viewModel.sections"></ul>`,
                         bodyViewModel: {
                             sections: <List.IViewModelData>{
                                 type: List.Type.Links,
@@ -102,7 +102,7 @@ module Main {
                     {
                         classes: "snapshot--bug",
                         header: Config.Strings.SummaryBugSnapshotTitle,
-                        body: `<dl data-bind="wpsDescriptionList: $vm.summary"></dl>`,
+                        body: `<dl data-bind="wpsDescriptionList: viewModel.summary"></dl>`,
                         bodyViewModel: {
                             summary: <DescriptionList.IViewModelData>{
                                 classes: "sidebar__bug-snapshot"
@@ -112,7 +112,7 @@ module Main {
                     {
                         classes: "snapshot--trend",
                         header: Config.Strings.SummaryTrendSnapshotTitle,
-                        body: `<dl data-bind="wpsDescriptionList: $vm.summary"></dl>`,
+                        body: `<dl data-bind="wpsDescriptionList: viewModel.summary"></dl>`,
                         bodyViewModel: {
                             summary: <DescriptionList.IViewModelData>{
                                 classes: "sidebar__trend-snapshot",
@@ -121,21 +121,21 @@ module Main {
                     },
                     {
                         classes: Config.Classes.LearnMoreLinks,
-                        body: `<dl data-bind="wpsDescriptionList: $vm.links"></dl>`,
+                        body: `<dl data-bind="wpsDescriptionList: viewModel.links"></dl>`,
                         bodyViewModel: {
                             links: <DescriptionList.IViewModelData>{
                                 descriptionPairs: [
                                     {
                                         descriptions: [
                                             {
-                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
+                                                content: `<a data-bind="text: viewModel.text, attr: { href: viewModel.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
                                                     text: Config.Strings.LearnMore,
                                                     url: Config.Urls.SiteReporterWiki
                                                 }
                                             },
                                             {
-                                                content: `<a data-bind="text: $vm.text, attr: { href: $vm.url, target: '_blank' }"></a>`,
+                                                content: `<a data-bind="text: viewModel.text, attr: { href: viewModel.url, target: '_blank' }"></a>`,
                                                 contentViewModel: {
                                                     text: Config.Strings.ExtensionInstall,
                                                     url: Config.Urls.ExtensionLocation
@@ -160,8 +160,8 @@ module Main {
                 anchor: Config.Strings.BugSectionTitle,
                 classes: "summary--bugs",
                 body: `
-                    <div data-bind="wpsFilters: $vm.filters"></div>
-                    <table data-bind="wpsTable: $vm.table"></table>
+                    <div data-bind="wpsFilters: viewModel.filters"></div>
+                    <table data-bind="wpsTable: viewModel.table"></table>
                 `,
                 bodyViewModel: {
                     filters: this.getBugFilterData(),
@@ -177,8 +177,8 @@ module Main {
                 anchor: Config.Strings.TrendsSectionTitle,
                 classes: "details--trends",
                 body: `
-                    <div data-bind="wpsFilters: $vm.filters"></div>
-                    <table data-bind="wpsTable: $vm.table"></table>
+                    <div data-bind="wpsFilters: viewModel.filters"></div>
+                    <table data-bind="wpsTable: viewModel.table"></table>
                 `,
                 bodyViewModel: {
                     filters: this.getTrendsFilterData(),
@@ -563,8 +563,8 @@ module Main {
                     term: snapshot.term,
                     descriptions: [{
                         content: `<span class="subtitle">
-                                    <span data-bind="wpsIcon: $vm.icon, css: $vm.classes"></span>
-                                    <span data-bind="text: $vm.text"></span>
+                                    <span data-bind="wpsIcon: viewModel.icon, css: viewModel.classes"></span>
+                                    <span data-bind="text: viewModel.text"></span>
                                   </span>`,
                         contentViewModel: {
                             classes: (<any>snapshot).classes || "",
@@ -740,8 +740,8 @@ module Main {
                     descriptions: [{
                         content: `
                             <span class="subtitle">
-                                <span data-bind="wpsIcon: $vm.icon"></span>
-                                <span data-bind="text: $vm.text"></span>
+                                <span data-bind="wpsIcon: viewModel.icon"></span>
+                                <span data-bind="text: viewModel.text"></span>
                             </span>`,
                         contentViewModel: {
                             text: (snapshot.value !== 0) ? Humanize.compactInteger(Math.abs(snapshot.value), 1) : Config.Strings.SummarySnapshotNoDataMessage,

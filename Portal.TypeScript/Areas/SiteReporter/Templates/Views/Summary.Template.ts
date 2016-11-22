@@ -5,11 +5,11 @@ module Main {
         <section>
             <div class="layout layout--sidebar">
                 <div class="module module--secondary">
-                    <section id="summary-sidebar" data-bind="wpsSection: vm.sidebar"></section>
+                    <section id="summary-sidebar" data-bind="wpsSection: viewModel.sidebar"></section>
                 </div>
                 <div class="module module--primary">
-                    <section id="summary-bugs" data-bind="wpsSection: vm.bugs"></section>
-                    <section id="summary-trends" data-bind="wpsSection: vm.trends"></section>
+                    <section id="summary-bugs" data-bind="wpsSection: viewModel.bugs"></section>
+                    <section id="summary-trends" data-bind="wpsSection: viewModel.trends"></section>
                 </div>
             </div>
         </section>

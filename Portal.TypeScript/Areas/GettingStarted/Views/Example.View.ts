@@ -111,7 +111,7 @@ module Main {
         }
 
         public initializeLoading(): void {
-            this.sidebarSampleData.vm.loading(true);
+            this.sidebarSampleData.viewModel.loading(true);
         }
 
         public loadRepos(): void {
@@ -154,12 +154,12 @@ module Main {
         private applyExampleData(): void {
             this._exampleProvider = new ExampleProvider.ExampleProvider(this._exampleRepo);
 
-            this.sidebarSampleData.vm.subsections.push(new Section.SubSection({
+            this.sidebarSampleData.viewModel.subsections.push(new Section.SubSection({
                 header: "Result data",
                 body: this._exampleProvider.getResponseDataAsString()
             }));
 
-            this.sidebarSampleData.vm.loading(false);
+            this.sidebarSampleData.viewModel.loading(false);
         }
     }
 }

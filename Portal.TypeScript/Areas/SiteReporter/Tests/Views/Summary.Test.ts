@@ -79,7 +79,7 @@ module Main {
 
         QUnit.test("Breadcrumb renders correctly", (assert) => {
             let nav = widget.element.find(classify(Navigation.Widget.widgetClass));
-            let navVM: Navigation.IViewModel = ko.dataFor(nav[0]).vm;
+            let navVM: Navigation.IViewModel = ko.dataFor(nav[0]).viewModel;
             let breadcrumbs = nav.find("li");
 
             // Act
@@ -93,7 +93,7 @@ module Main {
 
         QUnit.test("Header renders correctly", (assert) => {
             let header = $(classify(Header.Widget.widgetClass));
-            let headerVM: Header.IViewModel = ko.dataFor(header[0]).vm;
+            let headerVM: Header.IViewModel = ko.dataFor(header[0]).viewModel;
 
             // Assert
             assert.equal(header.find("h1").text(), "", "The header title is empty");
@@ -101,7 +101,7 @@ module Main {
 
         QUnit.test("Site search box renders correctly", (assert) => {
             let input = widget.sidebar.widget.element.find("input[type=text]");
-            let inputVM: Input.IViewModel = ko.dataFor(input[0]).vm;
+            let inputVM: Input.IViewModel = ko.dataFor(input[0]).viewModel;
 
             // Assert
             assert.equal(input.length, 1, "There's one input present");
@@ -109,7 +109,7 @@ module Main {
         });
 
         QUnit.test("Table of contents renders correctly", (assert) => {
-            let tocSubsection = widget.sidebar.vm.subsections()[0];
+            let tocSubsection = widget.sidebar.viewModel.subsections()[0];
             let tocSection = widget.sidebar.widget.element.find(classify(tocSubsection.classes()));
             let tocSectionItems = tocSection.find("li");
             let tocSectionVMItems: Array<List.IItemData> = (<List.IViewModelData>tocSubsection.bodyViewModel().sections).items;
@@ -127,7 +127,7 @@ module Main {
 
         QUnit.test("Snapshot description list renders correctly", (assert) => {
             for (let i = 1; i <= 2; i++) {
-                let snapshotSubsection = widget.sidebar.vm.subsections()[i];
+                let snapshotSubsection = widget.sidebar.viewModel.subsections()[i];
                 let snapshotSection = widget.sidebar.widget.element.find(classify(snapshotSubsection.classes()));
                 let snapshotList = snapshotSection.find("dl");
                 let snapshotDts = snapshotList.find("dt");
@@ -142,10 +142,10 @@ module Main {
         });
 
         QUnit.test("External links content renders correctly", (assert) => {
-            let externalLinkSubsection = widget.sidebar.vm.subsections()[3];
+            let externalLinkSubsection = widget.sidebar.viewModel.subsections()[3];
             let externalLinkSection = widget.sidebar.widget.element.find(classify(externalLinkSubsection.classes()));
             let externalLinkDL = externalLinkSection.find("dl");
-            let externalLinkDLVM: DescriptionList.IViewModel = ko.dataFor(externalLinkDL[0]).vm;
+            let externalLinkDLVM: DescriptionList.IViewModel = ko.dataFor(externalLinkDL[0]).viewModel;
             let externalLinkDLDds = externalLinkDL.find("dd");
 
             // Assert
@@ -159,13 +159,13 @@ module Main {
         });
 
         QUnit.test("Sections render correctly", (assert) => {
-            let bugSection = $(widget.element.find(classify(widget.bugs.vm.classes())));
+            let bugSection = $(widget.element.find(classify(widget.bugs.viewModel.classes())));
             let bugSectionTable = bugSection.find(classify(Config.Classes.SummaryBugsTable));
-            let trendsSection = $(widget.element.find(classify(widget.trends.vm.classes())));
+            let trendsSection = $(widget.element.find(classify(widget.trends.viewModel.classes())));
             let trendsSectionTable = trendsSection.find(classify(Config.Classes.SummaryTrendsTable));
 
             // Assert
-            assert.equal(bugSection.find("h2").text(), widget.bugs.vm.title(), "Bugs section title is correct");
+            assert.equal(bugSection.find("h2").text(), widget.bugs.viewModel.title(), "Bugs section title is correct");
             assert.equal(bugSection.find(classify(BaseConfig.Classes.TableMetadata)).text(),
                 Config.Strings.BugsTableScanTimePlaceholder, "Bugs section table scan time placeholder is correct");
             assert.equal(bugSection.find(`${classify(BaseConfig.Classes.TableFilter)} input`).attr("placeholder"),
@@ -173,7 +173,7 @@ module Main {
             assert.equal(bugSectionTable.find(classify(BaseConfig.Classes.TableEmpty)).text(),
                 Config.Strings.SummaryTableNoDataMessage, "Bugs section empty table placeholder is shown");
 
-            assert.equal(trendsSection.find("h2").text(), widget.trends.vm.title(), "Trends section title is correct");
+            assert.equal(trendsSection.find("h2").text(), widget.trends.viewModel.title(), "Trends section title is correct");
             assert.equal(trendsSection.find(`${classify(BaseConfig.Classes.TableFilter)} input`).attr("placeholder"),
                 Config.Strings.TableFilterPlaceholder, "Trends section table filter placeholder is correct");
             assert.equal(bugSectionTable.find(classify(BaseConfig.Classes.TableEmpty)).text(),
@@ -251,8 +251,8 @@ module Main {
             this.loadPromise.done(() => {
                 // There's a race condition here, so checking for both states
                 // of loading to determine when to execute the tests
-                if (this.widget.bugsSnapshots.vm.loading()) {
-                    let loadingSub = this.widget.bugsSnapshots.vm.loading.subscribe((loading: boolean) => {
+                if (this.widget.bugsSnapshots.viewModel.loading()) {
+                    let loadingSub = this.widget.bugsSnapshots.viewModel.loading.subscribe((loading: boolean) => {
                         if (!loading) {
                             testSidebarBugsSnapshot(widget.sidebar, mockBugsForTagData, assert);
                             loadingSub.dispose();
@@ -274,8 +274,8 @@ module Main {
             this.loadPromise.done(() => {
                 // There's a race condition here, so checking for both states
                 // of loading to determine when to execute the tests
-                if (this.widget.trendsSnapshots.vm.loading()) {
-                    let loadingSub = this.widget.trendsSnapshots.vm.loading.subscribe((loading: boolean) => {
+                if (this.widget.trendsSnapshots.viewModel.loading()) {
+                    let loadingSub = this.widget.trendsSnapshots.viewModel.loading.subscribe((loading: boolean) => {
                         if (!loading) {
                             testSidebarTrendsSnapshot(widget.sidebar, mockTrendsForTagData, assert);
                             loadingSub.dispose();
@@ -304,7 +304,7 @@ module Main {
             let tagFilterOptionListFromData = [];
             let tagFilterOptionListFromDom = [];
             
-            let loadingSub1 = widget.bugsTable.vm.loading.subscribe((loading: boolean) => {
+            let loadingSub1 = widget.bugsTable.viewModel.loading.subscribe((loading: boolean) => {
                 if (!loading) {
                     loadingSub1.dispose();
 
@@ -360,7 +360,7 @@ module Main {
                     assert.equal(actualFavIconCount, 1, "Favicon is present for site");
                     assert.equal(actualDetailsButtonCount, 1, "Details button is present for site");
 
-                    widget.bugsFilters.vm.value({ "tag": "BingdexTop100", "bugType": "outreach" });
+                    widget.bugsFilters.viewModel.value({ "tag": "BingdexTop100", "bugType": "outreach" });
                     assert.equal(bugSectionTableElem.find("tbody tr").length, 2,
                         "Changing bug type filter results in the correct number of rows");
 
@@ -397,7 +397,7 @@ module Main {
             let bugsForTagAlexaTop100MockData = SummaryMocks.getMockBugsForTagAlexaTop100();
             let expectedPostFilterChangeCellValue = bugsForTagAlexaTop100MockData[0].DomainName;
 
-            let loadingSub1 = widget.bugsTable.vm.loading.subscribe((loading: boolean) => {
+            let loadingSub1 = widget.bugsTable.viewModel.loading.subscribe((loading: boolean) => {
                 if (!loading) {
                     loadingSub1.dispose();
 
@@ -550,7 +550,7 @@ module Main {
             let mockBugsForTagData = SummaryMocks.getMockBugsForTagFakeTagEdge();
             let mockTrendsForTagData = SummaryMocks.getMockTrendsForTagFakeTagEdge();
 
-            let loadingSub = widget.bugsSnapshots.vm.loading.subscribe((loading: boolean) => {
+            let loadingSub = widget.bugsSnapshots.viewModel.loading.subscribe((loading: boolean) => {
                 if (!loading) {
                     loadingSub.dispose();
 
@@ -624,7 +624,7 @@ module Main {
         mockBugsForTagData: BugsForTagRepo.DataTransferObject,
         assert: QUnitAssert
     ): void {
-        let snapshotSubsection = sidebar.vm.subsections()[1];
+        let snapshotSubsection = sidebar.viewModel.subsections()[1];
         let snapshotSection = sidebar.widget.element.find(classify(snapshotSubsection.classes()));
         let snapshotList = snapshotSection.find("dl");
         let snapshotDts = snapshotList.find("dt");
@@ -683,7 +683,7 @@ module Main {
         mockTrendsForTagData: TrendsForTagRepo.DataTransferObject,
         assert: QUnitAssert
     ): void {
-        let snapshotSubsection = sidebar.vm.subsections()[2];
+        let snapshotSubsection = sidebar.viewModel.subsections()[2];
         let snapshotSection = sidebar.widget.element.find(classify(snapshotSubsection.classes()));
         let snapshotList = snapshotSection.find("dl");
         let snapshotDts = snapshotList.find("dt");
@@ -747,7 +747,7 @@ module Main {
         let tableDeferred = $.Deferred<void>();
         let snapshotDeferred = $.Deferred<void>();
 
-        let tableLoadingSub = table.vm.loading.subscribe((loading: boolean) => {
+        let tableLoadingSub = table.viewModel.loading.subscribe((loading: boolean) => {
             if (!loading) {
                 tableLoadingSub.dispose();
 
@@ -761,7 +761,7 @@ module Main {
         });
 
         if (!skipSnapshotTests) {
-            let snapshotLoadingSub = snapshot.vm.loading.subscribe((loading: boolean) => {
+            let snapshotLoadingSub = snapshot.viewModel.loading.subscribe((loading: boolean) => {
                 if (!loading) {
                     snapshotLoadingSub.dispose();
                     testSnapshot(sidebar, testSnapshotData, assert);
@@ -770,7 +770,7 @@ module Main {
             });
         }
 
-        filters.vm.value(newFilterValue);
+        filters.viewModel.value(newFilterValue);
 
         if (skipSnapshotTests) {
             $.when<any>(
@@ -842,8 +842,8 @@ module Main {
     ): JQueryPromise<void> {
         let deferred = $.Deferred<void>();
 
-        if (table.vm.loading()) {
-            let loadingSub = table.vm.loading.subscribe((loading: boolean) => {
+        if (table.viewModel.loading()) {
+            let loadingSub = table.viewModel.loading.subscribe((loading: boolean) => {
                 if (!loading) {
                     loadingSub.dispose();
                     runEmptyTableTests(table, assert);

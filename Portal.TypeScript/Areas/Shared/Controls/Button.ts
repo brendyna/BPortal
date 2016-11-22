@@ -117,12 +117,12 @@ module Main {
         }
 
         public _setupElement(): void {
-            super._addBinding("text", "vm.text");
+            super._addBinding("text", "viewModel.text");
             super._addBinding("css", "'button--primary': widget._primary");
             super._addBinding("css", "'button--page-primary': widget._pagePrimary");
             super._addBinding("css", "'button--warning': widget._warning");
             super._addBinding("css", "'button--textual': widget._textual");
-            super._addBinding("attr", "title: vm.title");
+            super._addBinding("attr", "title: viewModel.title");
 
             super._setupElement();
 

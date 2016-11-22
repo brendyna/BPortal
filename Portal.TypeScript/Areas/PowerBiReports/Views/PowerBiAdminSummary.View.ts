@@ -109,8 +109,8 @@ module Main {
         }
 
         public initializeLoading(): void {
-            this.workspacesTable.vm.loading(true);
-            this.datasetsTable.vm.loading(true);
+            this.workspacesTable.viewModel.loading(true);
+            this.datasetsTable.viewModel.loading(true);
         }
 
         public loadRepos(): void {
@@ -151,7 +151,7 @@ module Main {
 
             this.workspacesTable.widget.data(this._workspacesProvider.getTableData());
 
-            this.workspacesTable.vm.loading(false);
+            this.workspacesTable.viewModel.loading(false);
         }
 
         private applyDatasetsData(): void {
@@ -159,7 +159,7 @@ module Main {
 
             this.datasetsTable.widget.data(this._datasetsProvider.getTableData());
 
-            this.datasetsTable.vm.loading(false);
+            this.datasetsTable.viewModel.loading(false);
         }
     }
 }

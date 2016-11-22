@@ -5,7 +5,7 @@ module Main {
         <section>
             <div class="layout">
                 <div class="module">
-                    <section id="reportlist" data-bind="wpsSection: vm.reportlistSection"></section>
+                    <section id="reportlist" data-bind="wpsSection: viewModel.reportlistSection"></section>
                 </div>
             </div>
         </section>

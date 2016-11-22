@@ -273,7 +273,7 @@ module Main {
          * See interface definition.
          */
         public render(): void {
-            ko.applyBindings({ vm: this._staticViewModelData, widget: this }, this._element[0]);
+            ko.applyBindings({ viewModel: this._staticViewModelData, widget: this }, this._element[0]);
         }
 
         /**

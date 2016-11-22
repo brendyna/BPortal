@@ -2,7 +2,7 @@
 
 module Main {
     export let template = `
-        <!-- ko foreach: vm.items -->
+        <!-- ko foreach: viewModel.items -->
             <li data-bind="html: $data.content, css: $data.classes"></li>
         <!-- /ko -->
     `;

@@ -40,7 +40,7 @@ module Main {
      * @return T A ViewModel of type T
      */
     export function getViewModelFromElement<T extends IViewModel>(elem: JQuery): T {
-        return <T>(ko.dataFor(elem[0]).vm);
+        return <T>(ko.dataFor(elem[0]).viewModel);
     }
 
     /**
@@ -50,7 +50,7 @@ module Main {
         /**
          * The ViewModel for a control, providing access to observable properties.
          */
-        vm: VM;
+        viewModel: VM;
 
         /**
          * The Widget for a control, providing access to public members and other properties
@@ -462,7 +462,7 @@ module Main {
         public _applyBindings(): void {
             this.element.attr("data-bind", this._getBindings());
 
-            ko.applyBindings({ vm: this.viewModel, widget: this }, this.element[0]);
+            ko.applyBindings({ viewModel: this.viewModel, widget: this }, this.element[0]);
 
             if (this._labelElement) {
                 this._applyLabelBindings();
@@ -525,8 +525,8 @@ module Main {
          * Invoked by child class
          */
         public _setupElement(): void {
-            this._addBinding("disable", "vm.disabled");
-            this._addBinding("css", "'" + Widget.disabledWidgetClass + "': vm.disabled");
+            this._addBinding("disable", "viewModel.disabled");
+            this._addBinding("css", "'" + Widget.disabledWidgetClass + "': viewModel.disabled");
 
             this._previousId = this.element.attr("id");
 
@@ -597,9 +597,9 @@ module Main {
      */
     ko.bindingHandlers.customViewModel = {
         init: function (element: Element, valueAccessor: () => IWidgetDefaults, allBindings: any, viewModel, bindingContext) {
-            let vm = ko.unwrap(valueAccessor());
             let widget = bindingContext.$root.widget;
             let html = $(element).html();
+            viewModel = ko.unwrap(valueAccessor());
 
             // Clean the current data-binding on the element
             // so we can rebind w/the custom view model
@@ -607,7 +607,7 @@ module Main {
             $(element).html(html);
             $(element).attr("data-bind", null);
 
-            ko.applyBindings({ $vm: vm, widget: widget }, element);
+            ko.applyBindings({ viewModel: viewModel, widget: widget }, element);
         }
     };
 }

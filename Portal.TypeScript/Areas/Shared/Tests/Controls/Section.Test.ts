@@ -32,7 +32,7 @@ module Main {
         let section = getMockSection();
         section.viewModelData.body = `
             <strong>This is the section body.</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            <div><select data-bind="wpsSelect: $vm.select"></select></div>
+            <div><select data-bind="wpsSelect: viewModel.select"></select></div>
         `;
         section.viewModelData.bodyViewModel = {
             select: <Select.IViewModelData>{

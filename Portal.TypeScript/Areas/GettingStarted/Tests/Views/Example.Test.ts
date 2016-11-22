@@ -70,7 +70,7 @@ module Main {
 
         QUnit.test("Breadcrumb renders correctly", (assert) => {
             let nav = widget.element.find(classify(Navigation.Widget.widgetClass));
-            let navVM: Navigation.IViewModel = ko.dataFor(nav[0]).vm;
+            let navVM: Navigation.IViewModel = ko.dataFor(nav[0]).viewModel;
             let breadcrumbs = nav.find("li");
 
             // Act
@@ -84,7 +84,7 @@ module Main {
 
         QUnit.test("Header renders correctly", (assert) => {
             let header = $(classify(Header.Widget.widgetClass));
-            let headerVM: Header.IViewModel = ko.dataFor(header[0]).vm;
+            let headerVM: Header.IViewModel = ko.dataFor(header[0]).viewModel;
 
             // Assert
             assert.equal(header.find("h1").text(), "Getting Started", "The header title is correct");
@@ -151,10 +151,10 @@ module Main {
         QUnit.test("Example section renders correctly", function (assert) {
             let widget = (<View.IWidget>this.widget);
             let done = assert.async();
-            let initialSubSectionCount = widget.sidebarSampleData.vm.subsections().length;
+            let initialSubSectionCount = widget.sidebarSampleData.viewModel.subsections().length;
 
             this.loadPromise.done(() => {
-                let postLoadSubSectionCount = widget.sidebarSampleData.vm.subsections().length;
+                let postLoadSubSectionCount = widget.sidebarSampleData.viewModel.subsections().length;
 
                 assert.equal(initialSubSectionCount+1, postLoadSubSectionCount, "There is one more subsection after load");
                 done();

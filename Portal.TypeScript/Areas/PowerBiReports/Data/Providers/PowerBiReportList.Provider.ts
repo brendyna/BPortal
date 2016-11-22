@@ -50,7 +50,7 @@ module Main {
                 altHeader: true,
                 classes: Config.Classes.ReportListSectionClass,
                 body: `
-                    <button data-bind="wpsButton: $vm.buttonViewModel"></button>
+                    <button data-bind="wpsButton: viewModel.buttonViewModel"></button>
                 `,
                 bodyViewModel: {
                     buttonViewModel:
@@ -92,11 +92,11 @@ module Main {
             let subSection = <Section.ISubSectionData>{
                 body: `
                     <div class="layout layout--thirds">
-                        <!-- ko ifnot: $vm.cards.length > 0 -->
+                        <!-- ko ifnot: viewModel.cards.length > 0 -->
                             <span>${Config.Strings.ReportListEmptyMessage}</span>
                         <!-- /ko -->
-                        <!-- ko if: $vm.cards.length > 0 -->
-                            <!-- ko foreach: $vm.cards -->
+                        <!-- ko if: viewModel.cards.length > 0 -->
+                            <!-- ko foreach: viewModel.cards -->
                                 <div data-bind="wpsCard: $data"></div>
                             <!-- /ko -->
                         <!-- /ko -->

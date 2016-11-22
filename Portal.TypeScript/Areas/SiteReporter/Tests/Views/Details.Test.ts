@@ -74,7 +74,7 @@ module Main {
 
         QUnit.test("Breadcrumb renders correctly", (assert) => {
             let nav = widget.element.find(classify(Navigation.Widget.widgetClass));
-            let navVM: Navigation.IViewModel = ko.dataFor(nav[0]).vm;
+            let navVM: Navigation.IViewModel = ko.dataFor(nav[0]).viewModel;
             let breadcrumbs = nav.find("li");
 
             // Act
@@ -88,7 +88,7 @@ module Main {
 
         QUnit.test("Header renders correctly", (assert) => {
             let header = $(widget.element.find(classify(Header.Widget.widgetClass)));
-            let headerVM: Header.IViewModel = ko.dataFor(header[0]).vm;
+            let headerVM: Header.IViewModel = ko.dataFor(header[0]).viewModel;
 
             // Assert
             assert.equal(header.find("h1").text(), headerVM.title(), "The header title is correct");
@@ -96,7 +96,7 @@ module Main {
 
         QUnit.test("Site search box renders correctly", (assert) => {
             let input = widget.sidebar.widget.element.find("input[type=text]");
-            let inputVM: Input.IViewModel = ko.dataFor(input[0]).vm;
+            let inputVM: Input.IViewModel = ko.dataFor(input[0]).viewModel;
 
             // Assert
             assert.equal(input.length, 1, "There's one input present");
@@ -104,7 +104,7 @@ module Main {
         });
 
         QUnit.test("Table of contents renders correctly", (assert) => {
-            let tocSubsection = widget.sidebar.vm.subsections()[0];
+            let tocSubsection = widget.sidebar.viewModel.subsections()[0];
             let tocSection = widget.sidebar.widget.element.find(classify(tocSubsection.classes()));
             let tocSectionItems = tocSection.find("li");
             let tocSectionVMItems: Array<List.IItemData> = (<List.IViewModelData>tocSubsection.bodyViewModel().sections).items;
@@ -121,7 +121,7 @@ module Main {
         });
 
         QUnit.test("Snapshot description list renders correctly", (assert) => {
-            let snapshotSubsection = widget.sidebar.vm.subsections()[1];
+            let snapshotSubsection = widget.sidebar.viewModel.subsections()[1];
             let snapshotSection = widget.sidebar.widget.element.find(classify(snapshotSubsection.classes()));
             let snapshotList = snapshotSection.find("dl");
             let snapshotDts = snapshotList.find("dt");
@@ -135,10 +135,10 @@ module Main {
         });
 
         QUnit.test("External links content renders correctly", (assert) => {
-            let externalLinkSubsection = widget.sidebar.vm.subsections()[2];
+            let externalLinkSubsection = widget.sidebar.viewModel.subsections()[2];
             let externalLinkSection = widget.sidebar.widget.element.find(classify(externalLinkSubsection.classes()));
             let externalLinkDL = externalLinkSection.find("dl");
-            let externalLinkDLVM: DescriptionList.IViewModel = ko.dataFor(externalLinkDL[0]).vm;
+            let externalLinkDLVM: DescriptionList.IViewModel = ko.dataFor(externalLinkDL[0]).viewModel;
             let externalLinkDLDds = externalLinkDL.find("dd");
 
             // Assert
@@ -152,18 +152,18 @@ module Main {
         });
 
         QUnit.test("Sections render correctly", (assert) => {
-            let bugSection = $(widget.element.find(classify(widget.bugs.vm.classes())));
+            let bugSection = $(widget.element.find(classify(widget.bugs.viewModel.classes())));
             let bugSectionTable = bugSection.find(classify(Config.Classes.DetailsBugsTable));
             let bugSectionTrendsChart = bugSection.find(classify(Config.Classes.DetailsBugsTrendsChart));
-            let techSection = $(widget.element.find(classify(widget.tech.vm.classes())));
-            let trendsSection = $(widget.element.find(classify(widget.trends.vm.classes())));
+            let techSection = $(widget.element.find(classify(widget.tech.viewModel.classes())));
+            let trendsSection = $(widget.element.find(classify(widget.trends.viewModel.classes())));
             let trendsSectionFrowniesChart = trendsSection.find(classify(Config.Classes.DetailsTrendsFrowniesChart));
             let trendsSectionNavigationsChart = trendsSection.find(classify(Config.Classes.DetailsTrendsNavigationsChart));
             let trendsSectionFocusTimeChart = trendsSection.find(classify(Config.Classes.DetailsTrendsFocusTimeChart));
             let highchartsTitleClass = classify(BaseConfig.Classes.ChartTitle);
 
             // Assert
-            assert.equal(bugSection.find("h2").text(), widget.bugs.vm.title(), "Bugs section title is correct");
+            assert.equal(bugSection.find("h2").text(), widget.bugs.viewModel.title(), "Bugs section title is correct");
             assert.equal(bugSection.find(classify(BaseConfig.Classes.TableMetadata)).text(),
                 Config.Strings.BugsTableScanTimePlaceholder, "Bugs section table scan time placeholder is correct");
             assert.equal(bugSection.find(`${classify(BaseConfig.Classes.TableFilter)} input`).attr("placeholder"),
@@ -172,8 +172,8 @@ module Main {
                 Config.Strings.DetailsBugsTableNoDataMessage, "Bugs section empty table placeholder is shown");
             assert.equal(bugSectionTrendsChart.find(highchartsTitleClass).text(),
                 Config.Strings.DetailsBugsTrendsTitle, "Bugs section trends chart title is correct");
-            assert.equal(techSection.find("h2").text(), widget.tech.vm.title(), "Technologies section title is correct");
-            assert.equal(trendsSection.find("h2").text(), widget.trends.vm.title(), "Trends section title is correct");
+            assert.equal(techSection.find("h2").text(), widget.tech.viewModel.title(), "Technologies section title is correct");
+            assert.equal(trendsSection.find("h2").text(), widget.trends.viewModel.title(), "Trends section title is correct");
             assert.equal(trendsSectionFrowniesChart.find(highchartsTitleClass).text(),
                 Config.Strings.DetailsTrendsFrowniesTitle, "Bugs section frownies trends chart title is correct");
             assert.equal(trendsSectionNavigationsChart.find(highchartsTitleClass).text(),
@@ -314,7 +314,7 @@ module Main {
 
                     tableFilterUpdateDone();
                 });
-                widget.bugsFilters.vm.value({ "bug": "SwitchRisk" });
+                widget.bugsFilters.viewModel.value({ "bug": "SwitchRisk" });
 
                 // Verify table search filter works as expected
                 widget.bugsTable.widget.getDataUpdatePromise().done(() => {
@@ -399,7 +399,7 @@ module Main {
 
                     chartFilterUpdateDone();
                 });
-                widget.trendsFilters.vm.value({ "release": "TH2" });
+                widget.trendsFilters.viewModel.value({ "release": "TH2" });
 
                 done();
             });

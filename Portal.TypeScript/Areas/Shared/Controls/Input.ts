@@ -81,7 +81,7 @@ module Main {
         }
 
         public _setupElement(): void {
-            super._addBinding("attr", "type: vm.type");
+            super._addBinding("attr", "type: viewModel.type");
 
             super._setupElement();
 

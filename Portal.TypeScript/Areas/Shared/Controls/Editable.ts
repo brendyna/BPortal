@@ -80,9 +80,9 @@ module Main {
         }
 
         public _setupElement(): void {
-            super._addBinding("attr", "placeholder: vm.placeholder");
-            super._addBinding("attr", "name: vm.name");
-            super._addBinding("value", "vm.value");
+            super._addBinding("attr", "placeholder: viewModel.placeholder");
+            super._addBinding("attr", "name: viewModel.name");
+            super._addBinding("value", "viewModel.value");
             super._addBinding("valueUpdate", "'keyup'");
 
             super._setupElement();

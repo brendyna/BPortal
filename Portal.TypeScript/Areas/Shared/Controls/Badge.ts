@@ -94,7 +94,7 @@ module Main {
         }
 
         public _setupElement(): void {
-            super._addBinding("text", "vm.text");
+            super._addBinding("text", "viewModel.text");
             super._addBinding("css", "'badge--warning': widget._warning");
             super._addBinding("css", "'badge--error': widget._error");
             super._addBinding("css", "'badge--primary': widget._primary");

@@ -52,7 +52,7 @@ module Main {
                 altHeader: true,
                 classes: Config.Classes.WorkspacesSectionClass,
                 body: `
-                    <table data-bind="wpsTable: $vm.table"></table>
+                    <table data-bind="wpsTable: viewModel.table"></table>
                 `,
                 bodyViewModel: {
                     table: this.getWorkspacesTableData()
@@ -66,7 +66,7 @@ module Main {
                 altHeader: true,
                 classes: Config.Classes.DatasetsSectionClass,
                 body: `
-                    <table data-bind="wpsTable: $vm.table"></table>
+                    <table data-bind="wpsTable: viewModel.table"></table>
                 `,
                 bodyViewModel: {
                     table: this.getDatasetsTableData()

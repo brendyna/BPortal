@@ -95,7 +95,7 @@ module Main {
         }
 
         public _setupElement(): void {
-            super._addBinding("options", "vm.options");
+            super._addBinding("options", "viewModel.options");
             super._addBinding("optionsText", "'text'");
             super._addBinding("optionsValue", "'value'");
             super._addBinding("optionsAfterRender", "widget._setOptionDisable");

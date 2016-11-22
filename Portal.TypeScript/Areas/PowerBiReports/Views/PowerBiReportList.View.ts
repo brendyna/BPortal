@@ -81,7 +81,7 @@ module Main {
         }
 
         public initializeLoading(): void {
-            this.reportlistSection.vm.loading(true);
+            this.reportlistSection.viewModel.loading(true);
         }
 
         public loadRepos(): void {
@@ -113,8 +113,8 @@ module Main {
 
         private applyReportListData(): void {
             this._reportlistProvider = new PowerBiReportListProvider.ReportListProvider(this._reportlistRepo);
-            this.reportlistSection.vm.loading(false);
-            this.reportlistSection.vm.subsections([this._reportlistProvider.getCardSubsection()]);
+            this.reportlistSection.viewModel.loading(false);
+            this.reportlistSection.viewModel.subsections([this._reportlistProvider.getCardSubsection()]);
         }
     }
 }
