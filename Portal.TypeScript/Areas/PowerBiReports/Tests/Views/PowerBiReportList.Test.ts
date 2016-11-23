@@ -162,37 +162,53 @@ module Main {
 
             let reportlistSection = $(widget.element.find(DomUtil.classify(Config.Classes.ReportListSectionClass)));
             let reportlistMockData = PowerBiReportListMocks.getMockReportListData();
+            let reportGroupsMock: Array<string> = reportlistMockData.map((item: ReportListRepo.PowerBiReport) => item.group);
+            reportGroupsMock = reportGroupsMock.filter(
+                (item, index) => {
+                    return reportGroupsMock.indexOf(item) === index;
+                }
+            );
 
             this.loadPromise.done(() => {
                 let reportCards = reportlistSection.find(DomUtil.classify(Config.Classes.ReportCardClass));
+                let accordionGroups = reportlistSection.find("details");
 
+                //Assert the no of groups shown is correct
+                assert.equal(accordionGroups.length, reportGroupsMock.length, "Report number of groups is correct");
                 //Assert the no of cards shown is correct
                 assert.equal(reportCards.length, reportlistMockData.length, "Report number of cards is correct");
-
+                
                 if (reportlistMockData.length > 0) {
+                    //check first group title
+                    let firstGroup = $(accordionGroups[0]).find("summary");
+                    assert.equal(
+                        firstGroup.text(),
+                        ((reportGroupsMock[0] === "null") ? Config.Strings.ReportGroupOthers : reportGroupsMock[0]),
+                        "First Group title is correct"
+                    );
+                    
+                    //check the first card content.
+                    let firstCard = $(reportCards[0]);
+                    let firstExpectedCardData = reportlistMockData[0];
+
+                    //the first anchor is the title of the card
+                    let firstCardTitle = firstCard.find("a")[0];
+                    let firstCardContact = firstCard.find(DomUtil.classify(Config.Classes.ReportCardContactClass));
                 
-                //check the first card content.
-                let firstCard = $(reportCards[0]);
-                let firstExpectedCardData = reportlistMockData[0];
+                    assert.equal(
+                        firstCardTitle.getAttribute("href"),
+                        Config.Urls.PowerBiReportsReportUrl + firstExpectedCardData.id,
+                        "ReportCard Url is correct");
 
-                //the first anchor is the title of the card
-                let firstCardTitle = firstCard.find("a")[0];
-                let firstCardContact = firstCard.find(DomUtil.classify(Config.Classes.ReportCardContactClass));
-                
-                assert.equal(
-                    firstCardTitle.getAttribute("href"),
-                    Config.Urls.PowerBiReportsReportUrl + firstExpectedCardData.id,
-                    "ReportCard Url is correct");
+                    assert.equal(
+                        $(firstCardTitle).find("span").text(),
+                        firstExpectedCardData.name,
+                        "ReportCard Title is correct");
 
-                assert.equal(
-                    $(firstCardTitle).find("span").text(),
-                    firstExpectedCardData.name,
-                    "ReportCard Title is correct");
-
-                assert.equal(
-                    firstCardContact.text(),
-                    firstExpectedCardData.contact,
-                    "ReportCard Contact is correct");
+                    assert.equal(
+                        firstCardContact.text(),
+                        firstExpectedCardData.contact,
+                        "ReportCard Contact is correct");
                 }
                 done();
             });

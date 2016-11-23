@@ -38,6 +38,7 @@ module Main {
         public static DatasetNameColumnHeader = "Dataset Name";
         public static DatasetsTableNoDataMessage = "No Datasets to show";
         public static ImportPbixFileButton = "Import PBIX File";
+        public static ReportGroupOthers = "Others";
         public static ReportListEmptyMessage = "There are no reports to show.";
         public static ReportListTitle = "PowerBI Reports";
         public static WorkspaceCollectionNameColumnHeader = "Workspace Collection Name";
@@ -52,6 +53,7 @@ module Main {
         public static ImportPbixButtonClass = "importpbix__button";
         public static ReportCardClass = "reportcard__card";
         public static ReportCardContactClass = "reportcard__card__contact";
+        public static ReportGroupsContainerClass = "reportgroups__accordioncontainer";
         public static ReportListSectionClass = "reportlist__section";
         public static TableColumnDatasetIdClass = "table__column__datasetid";
         public static TableColumnDatasetNameClass = "table__column__datasetname" ;

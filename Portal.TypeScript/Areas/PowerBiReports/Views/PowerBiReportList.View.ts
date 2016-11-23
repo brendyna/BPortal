@@ -114,7 +114,8 @@ module Main {
         private applyReportListData(): void {
             this._reportlistProvider = new PowerBiReportListProvider.ReportListProvider(this._reportlistRepo);
             this.reportlistSection.viewModel.loading(false);
-            this.reportlistSection.viewModel.subsections([this._reportlistProvider.getCardSubsection()]);
+            let subsection = this._reportlistProvider.getReportAccordions();
+            this.reportlistSection.viewModel.subsections([subsection]);
         }
     }
 }
