@@ -34,8 +34,11 @@ interface KnockoutBindingHandlers {
     wpsBadge: KnockoutBindingHandler;
 }
 
+type RequestFunction = (url: string, data: {}) => any;
+
 interface PortalAuthResponse {
-    get: (url: string, data: {}) => any;
+    get: RequestFunction;
+    post: RequestFunction;
 }
 
 interface PortalCredentials {

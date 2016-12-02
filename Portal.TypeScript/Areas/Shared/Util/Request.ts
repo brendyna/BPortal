@@ -5,23 +5,33 @@ import Config = require("../Config");
 export = Main;
 
 module Main {
-    export type Settings = {
+    export interface IRequestSettings {
         authorize?: boolean;
-        plainGet?: boolean;
         options?: JQueryAjaxSettings;
         credentials?: PortalCredentials;
     }
 
-    export function getData<T>(url: string, settings: Settings = {}): JQueryPromise<T> {
+    export interface IGetRequestSettings extends IRequestSettings {
+        plainGet?: boolean;
+    }
+
+    export function getData<T>(url: string, settings: IGetRequestSettings = {}): JQueryPromise<T> {
+        return triggerRequest(url, settings, (settings.plainGet ? $.get : $.getJSON));
+    }
+
+    export function postData<T>(url: string, settings: IRequestSettings = {}): JQueryPromise<T> {
+        return triggerRequest(url, settings, $.post);
+    }
+
+    function triggerRequest<T>(
+        url: string,
+        settings: IRequestSettings,
+        requestFunc: RequestFunction
+    ): JQueryPromise<T> {
         let deferred = $.Deferred<T>();
-        let getFunc = $.getJSON;
 
         settings.options = settings.options || {};
         settings.options.data = settings.options.data || {};
-
-        if (settings.plainGet) {
-            getFunc = $.get;
-        }
 
         if (!Config.Window.DebugMode && settings.authorize) {
             let credentials = settings.credentials || {
@@ -33,12 +43,15 @@ module Main {
             Portal
                 .auth(credentials)
                 .done((result: PortalAuthResponse) => {
-                    result.get(url, { data: settings.options.data }).done((data: T) => {
+                    let authRequestFunc = ($.post.toString() === requestFunc.toString())
+                        ? result.post : result.get;
+
+                    authRequestFunc(url, { data: settings.options.data }).done((data: T) => {
                         deferred.resolve(data);
                     });
                 });
         } else {
-            getFunc(url, settings.options.data).done((data: T) => {
+            requestFunc(url, settings.options.data).done((data: T) => {
                 deferred.resolve(data);
             });
         }

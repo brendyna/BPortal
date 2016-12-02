@@ -9,6 +9,12 @@ module Main {
      */
     export interface IRepositorySettings {
         /**
+         * Whether to authorize the request through the WPTPortal
+         * OAuth infrastructure.
+         */
+        authorize?: boolean;
+
+        /**
          * The root URL for the API (minus the endpoint).
          */
         baseUrl?: string;
@@ -20,22 +26,16 @@ module Main {
         endpoint?: string;
 
         /**
-         * The jQuery AJAX settings object passed to the invoked
-         * AJAX function (see http://api.jquery.com/jquery.ajax/)
-         */
-        request?: JQueryAjaxSettings;
-
-        /**
-         * Whether to authorize the request through the WPTPortal
-         * OAuth infrastructure.
-         */
-        authorize?: boolean;
-
-        /**
          * By default, the request response is expected to be JSON.
          * If it will instead be plain text, set this to true.
          */
         plainGet?: boolean;
+
+        /**
+         * The jQuery AJAX settings object passed to the invoked
+         * AJAX function (see http://api.jquery.com/jquery.ajax/)
+         */
+        request?: JQueryAjaxSettings;
 
         /**
          * The result data for the repo.
@@ -57,19 +57,6 @@ module Main {
         destroy: () => void;
 
         /**
-         * The settings which configure and control repository functionality.
-         */
-        settings: IRepositorySettings;
-
-        /**
-         * Triggers the AJAX request for the repository data, returning a promise
-         * which can be used to perform actions once the request resolves successfully.
-         * 
-         * @returns JQueryPromise<T> A promise for the async data load task. 
-         */
-        load: () => JQueryPromise<T>;
-
-        /**
          * Returns a promise for the async data load task. This is useful if you need
          * to get a promise without explicitly triggering load.
          * 
@@ -78,10 +65,31 @@ module Main {
         getPromise: () => JQueryPromise<T>;
 
         /**
+         * Triggers the AJAX GET request for the repository data, returning a promise
+         * which can be used to perform actions once the request resolves successfully.
+         * 
+         * @returns JQueryPromise<T> A promise for the async GET data load task. 
+         */
+        load: () => JQueryPromise<T>;
+
+        /**
          * The result data returned from the API endpoint on success.
          * This data type is typically defined by the repositories Data Transfer Object type.
          */
         resultData: T;
+
+        /**
+         * The settings which configure and control repository functionality.
+         */
+        settings: IRepositorySettings;
+
+        /**
+         * Triggers the AJAX POST request for the repository data, returning a promise
+         * which can be used to perform actions once the request resolves successfully.
+         * 
+         * @returns JQueryPromise<T> A promise for the async POST data load task.
+         */
+        submit: () => JQueryPromise<T>;
     }
 
     /**
@@ -93,22 +101,22 @@ module Main {
      */
     export class Repository<T> implements IRepository<T> {
         private _settings: IRepositorySettings;
-        private _loadDeferred: JQueryDeferred<T>;
         private _requestPromise: JQueryPromise<T>;
         private _resultData: T;
+        private _resultDeferred: JQueryDeferred<T>;
         private _requestSettings: JQueryAjaxSettings;
 
         constructor(settings: IRepositorySettings = {}) {
             this._settings = settings;
-            this._loadDeferred = $.Deferred<T>();
             this._resultData = settings.resultData || <T>{};
+            this._resultDeferred = $.Deferred<T>();
         }
 
         /**
          * Rejects any ongoing async tasks related to loading this data.
          */
         public destroy(): void {
-            this._loadDeferred.reject();
+            this._resultDeferred.reject();
         }
 
         /**
@@ -130,41 +138,53 @@ module Main {
         }
 
         /**
-         * Returns a new promise for the async deferred task. If the load deferred has already
-         * resolved (meaning load has been called already), a new deferred will be newed up in
-         * anticipation of load being called again.
+         * Returns a new promise for the result deferred task. If the result deferred has already
+         * resolved (meaning the request has been called and returned already), a new deferred will be newed up in
+         * anticipation of a request being made again.
          * 
-         * @returns JQueryPromise<T> A promise to be resolved by the load deferred task.
+         * @returns JQueryPromise<T> A promise to be resolved by the result deferred task.
          */
         public getPromise(): JQueryPromise<T> {
             // Must create a new deferred once it's been resolved
-            // (to support calling load() multiple times)
-            if (this._loadDeferred.state() === "resolved") {
-                this._loadDeferred = $.Deferred<T>();
+            // (to support making a request multiple times)
+            if (this._resultDeferred.state() === "resolved") {
+                this._resultDeferred = $.Deferred<T>();
             }
 
-            return this._loadDeferred.promise();
+            return this._resultDeferred.promise();
         }
 
         /**
-         * Triggers the AJAX load request and returns a promise to be resolved on successful
+         * Triggers an AJAX GET request and returns a promise to be resolved on successful
          * completion of the request. Once the request succeeds, the resultant data is available
          * on the resultData property of the repository.
          * 
          * @returns JQueryPromise<T> A promise to be resolved by the load deferred task.
          */
         public load(): JQueryPromise<T> {
-            Request.getData<T>(this.getRequestUrl(), {
-                    authorize: this.settings.authorize,
-                    options: this.settings.request,
-                    plainGet: this.settings.plainGet
-                })
-                .done((data: T) => {
-                    this._resultData = data;
-                    this._loadDeferred.resolve(data);
-                });
+            let settings = {
+                authorize: this.settings.authorize,
+                options: this.settings.request,
+                plainGet: this.settings.plainGet
+            };
 
-            return this.getPromise();
+            return this.triggerRequest(settings, Request.getData);
+        }
+
+        /**
+         * Triggers an AJAX POST request and returns a promise to be resolved on successful
+         * completion of the request. Once the request succeeds, the resultant data is available
+         * on the resultData property of the repository.
+         * 
+         * @returns JQueryPromise<T> A promise to be resolved by the submit deferred task.
+         */
+        public submit(): JQueryPromise<T> {
+            let settings = {
+                authorize: this.settings.authorize,
+                options: this.settings.request
+            };
+
+            return this.triggerRequest(settings, Request.postData);
         }
 
         private getRequestUrl(): string {
@@ -175,6 +195,19 @@ module Main {
             }
 
             return url;
+        }
+
+        private triggerRequest(
+            settings: Request.IRequestSettings,
+            requestFunc: RequestFunction
+        ): JQueryPromise<T> {
+            requestFunc(this.getRequestUrl(), settings)
+                .done((data: T) => {
+                    this._resultData = data;
+                    this._resultDeferred.resolve(data);
+                });
+
+            return this.getPromise();
         }
     }
 }
