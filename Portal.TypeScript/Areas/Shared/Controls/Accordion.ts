@@ -7,7 +7,7 @@ export = Main;
 
 module Main {
     export interface IGroupData {
-        id?:string;
+        id?: string;
         body?: string;
         bodyViewModel?: any;
         expanded?: boolean;
