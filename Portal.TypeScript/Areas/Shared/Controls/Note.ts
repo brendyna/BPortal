@@ -47,7 +47,7 @@ module Main {
             this._text = ko.observable(data.text || "");
             this._title = ko.observable(data.title || "");
             this._type = ko.observable(data.type || Type.Default);
-            this._visible = ko.observable(data.visible || true);
+            this._visible = ko.observable((data.visible || data.visible === undefined) ? true : data.visible);
         }
 
         public get text(): KnockoutObservable<string> {
