@@ -19,12 +19,14 @@ module Main {
         text?: string;
         title?: string;
         type?: Type;
+        visible?: boolean;
     }
 
     export interface IViewModel extends Base.IViewModel {
         text: KnockoutObservable<string>;
         title: KnockoutObservable<string>;
         type: KnockoutObservable<Type>;
+        visible: KnockoutObservable<boolean>;
     }
 
     export interface IWidgetDefaults extends Base.IWidgetDefaults {
@@ -38,12 +40,14 @@ module Main {
         private _text: KnockoutObservable<string>;
         private _title: KnockoutObservable<string>;
         private _type: KnockoutObservable<Type>;
+        private _visible: KnockoutObservable<boolean>;
 
         constructor(data: IViewModelData = {}) {
             super(data);
             this._text = ko.observable(data.text || "");
             this._title = ko.observable(data.title || "");
             this._type = ko.observable(data.type || Type.Default);
+            this._visible = ko.observable(data.visible || true);
         }
 
         public get text(): KnockoutObservable<string> {
@@ -56,6 +60,10 @@ module Main {
 
         public get type(): KnockoutObservable<Type> {
             return this._type;
+        }
+
+        public get visible(): KnockoutObservable<boolean> {
+            return this._visible;
         }
     }
 
@@ -113,6 +121,7 @@ module Main {
             super._addBinding("css", `'${Config.Classes.NoteBlockWarning}': widget._warning`);
             super._addBinding("css", `'${Config.Classes.NoteBlockError}': widget._error`);
             super._addBinding("css", `'${Config.Classes.NoteInline}': widget._inline`);
+            super._addBinding("visible", "viewModel.visible");
 
             super._setupElement();
 
