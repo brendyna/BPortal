@@ -6,6 +6,10 @@ module Main {
         public static ChartSeries = "highcharts-series";
         public static ChartTitle = "highcharts-title";
         public static LoadingOverlay = "content__async__loading-overlay";
+        public static NoteBlock = "block-note";
+        public static NoteBlockError = "block-note--error";
+        public static NoteBlockWarning = "block-note--warning";
+        public static NoteInline = "note--error";
         public static SectionBody = "section__body";
         public static SectionBodyPlaceholder = "body-placeholder";
         public static TableEmpty = "dataTables_empty";

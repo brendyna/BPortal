@@ -27,6 +27,7 @@ interface KnockoutBindingHandlers {
     wpsInput: KnockoutBindingHandler;
     wpsList: KnockoutBindingHandler;
     wpsNavigation: KnockoutBindingHandler;
+    wpsNote: KnockoutBindingHandler;
     wpsSelect: KnockoutBindingHandler;
     wpsSection: KnockoutBindingHandler;
     wpsTable: KnockoutBindingHandler;
