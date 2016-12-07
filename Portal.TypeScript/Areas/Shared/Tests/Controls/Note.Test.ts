@@ -124,4 +124,27 @@ module Main {
 
         widget.destroy();
     });
+
+    QUnit.test("Visible property shows/hides the note", (assert) => {
+        // Setup
+        let fixture = $("qunit-fixture");
+        let defaults: Note.IWidgetDefaults = {
+            viewModelData: {
+                text: "My Note",
+                title: "Note",
+                visible: false
+            }
+        };
+        let widget = new Note.Widget($("#qunit-fixture"), defaults);
+        let noteHiddenInitially = false;
+        let noteVisibleAfterVMUpdate = false;
+
+        // Act
+        assert.equal(widget.element.css("display"), "none", "Note is hidden initially");
+
+        widget.viewModel.visible(true);
+        assert.notEqual(widget.element.css("display"), "none", "Note is visible after viewmodel update");
+
+        widget.destroy();
+    });
 }
