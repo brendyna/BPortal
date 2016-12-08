@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Azure Crawler</title>
+    <link rel="stylesheet" href="/lib/indigo.full.min.css" />
+    <link rel="stylesheet" href="/Content/css/spinner.css" />
+    <link rel="stylesheet" href="/Areas/Shared/Styles/controls.css" />
+    <link rel="stylesheet" href="/Content/css/samples.css"/>
+    <script>
+        window.BREADCRUMB = [
+            { text: "WPT Portal TypeScript", url: "javascript:;" },
+            { text: "Azure Crawler", url: "javascript:;" }
+        ];
+    </script>
+    <script type="text/javascript" src="/bower_components/requirejs/require.js"></script>
+    <script type="text/javascript" src="/require.web.config.js"></script>
+    <script>
+        require(["Areas/AzureCrawler/Samples/Views/CrawlScheduler.Sample"]);
+    </script>
+</head>
+
+<body>
+    <h1>Azure Crawler</h1>
+    <div class="container">
+        <article id="crawler" class="content"></article>
+    </div>
+</body>
+</html>

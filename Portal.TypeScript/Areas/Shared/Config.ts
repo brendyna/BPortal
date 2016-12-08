@@ -31,6 +31,7 @@ module Main {
         public static ApiPassword = window.API_PASSWORD;
         public static DebugMode = document.location.href.indexOf("localhost:1305") !== -1
             || (<any>window).chutzpah !== undefined;
+        public static RootUrl = document.location.origin;
     }
 
     export function isDebugMode(): boolean {

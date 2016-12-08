@@ -26,6 +26,8 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\AzureCrawler\Html\Samples\Views\CrawlScheduler.Sample.html" />
+    <Content Include="Areas\AzureCrawler\Html\Tests\Views\CrawlScheduler.Test.html" />
     <Content Include="Areas\GettingStarted\Html\Samples\Views\Example.Sample.html" />
     <Content Include="Areas\GettingStarted\Html\Tests\Views\Example.Test.html" />
     <Content Include="Areas\PowerBiReports\Html\Samples\Views\PowerBiReportList.Sample.html" />
@@ -152,6 +154,15 @@
     <Content Include="Web\Readme.md" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Areas\AzureCrawler\Config.ts" />
+    <TypeScriptCompile Include="Areas\AzureCrawler\Data\Providers\CrawlScheduler.Provider.ts" />
+    <TypeScriptCompile Include="Areas\AzureCrawler\Data\Repositories\CrawlScheduler.Repository.ts" />
+    <TypeScriptCompile Include="Areas\AzureCrawler\Samples\Helpers\CrawlScheduler.Mocks.ts" />
+    <TypeScriptCompile Include="Areas\AzureCrawler\Samples\Views\CrawlScheduler.Sample.ts" />
+    <TypeScriptCompile Include="Areas\AzureCrawler\Templates\Views\CrawlScheduler.Template.ts" />
+    <TypeScriptCompile Include="Areas\AzureCrawler\Tests\Views\CrawlScheduler.Test.ts" />
+    <TypeScriptCompile Include="Areas\AzureCrawler\Views\CrawlScheduler.View.Start.ts" />
+    <TypeScriptCompile Include="Areas\AzureCrawler\Views\CrawlScheduler.View.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Config.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Data\Providers\Example.Provider.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Data\Repositories\Example.Repository.ts" />
