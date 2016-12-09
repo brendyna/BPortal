@@ -21,15 +21,18 @@ module Main {
             viewModelData: {
                 groups: [
                     {
+                        id: "Group1",
                         title: "Group 1",
                         body: `There is some body text here`,
                         expanded: true
                     },
                     {
+                        id: "Group2",
                         title: "Group 2",
                         body: `There is some body text here too!`
                     },
                     {
+                        id: "Group3",
                         title: "Group 3",
                         body: `
                             There is some body text here lastly! And:
@@ -75,6 +78,7 @@ module Main {
         assert.notEqual(widget.element.attr("data-bind"), undefined, "Data-bind attribute is set");
         assert.equal(groups.length, defaults.viewModelData.groups.length, "The correct number of groups renders");
         assert.equal($(groups[0]).attr("role"), "group", "The role property for the group is 'group'");
+        assert.equal($(groups[0]).attr("id"), defaults.viewModelData.groups[0].id, "Group id property is set correctly");
         assert.equal($(group1Summary).text(), defaults.viewModelData.groups[0].title, "Group summary title is set correctly");
         assert.equal($(group2Summary).attr("tabindex"), 0, "Group summary has tabindex set to 0");
         assert.equal($(group2Summary).attr("role"), "button", "Group summary has role set to 'button'");

@@ -7,6 +7,7 @@ export = Main;
 
 module Main {
     export interface IGroupData {
+        id?: string;
         body?: string;
         bodyViewModel?: any;
         expanded?: boolean;
@@ -14,6 +15,7 @@ module Main {
     }
 
     export interface IGroup {
+        id:KnockoutObservable<string>;
         body: KnockoutObservable<string>;
         bodyViewModel: KnockoutObservable<any>;
         expanded: KnockoutObservable<boolean>;
@@ -37,12 +39,14 @@ module Main {
     }
 
     export class Group implements IGroup {
+        private _id: KnockoutObservable<string>;
         private _body: KnockoutObservable<string>;
         private _bodyViewModel: KnockoutObservable<any>;
         private _expanded: KnockoutObservable<boolean>;
         private _title: KnockoutObservable<string>;
 
         constructor(data: IGroupData = {}) {
+            this._id = ko.observable(data.id || "");
             this._body = ko.observable(data.body || "");
             this._bodyViewModel = ko.observable(data.bodyViewModel || {});
             this._expanded = ko.observable(data.expanded || false);
@@ -59,6 +63,10 @@ module Main {
 
         public get bodyViewModel(): KnockoutObservable<any> {
             return this._bodyViewModel;
+        }
+
+        public get id(): KnockoutObservable<string> {
+            return this._id;
         }
 
         public get title(): KnockoutObservable<string> {
