@@ -357,7 +357,9 @@ module Main {
             this._template = this._defaults.template || "";
             this._viewModel = createFromDefaults<IViewModelData, IViewModel>(<IViewModelData>this._defaults.viewModelData, viewModelType)[0];
 
-            this._addClass(this.viewModel.classes(), false);
+            if (this.viewModel.classes() !== "") {
+                this._addClass(this.viewModel.classes(), false);
+            }
         }
 
         /**

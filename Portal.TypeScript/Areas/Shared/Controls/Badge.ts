@@ -7,10 +7,14 @@ export = Main;
 
 module Main {
     export enum Type {
+        Cyan = 1,
         Default,
-        Warning,
         Error,
-        Primary
+        Gold,
+        LightGray,
+        LightGreen,
+        Primary,
+        Warning
     }
 
     export interface IViewModelData extends Base.IViewModelData {
@@ -52,30 +56,50 @@ module Main {
     export class Widget extends Base.Widget implements IWidget {
         public static widgetClass = "badge";
 
+        _cyan: KnockoutComputed<boolean>;
         _default: KnockoutComputed<boolean>;
-        _warning: KnockoutComputed<boolean>;
         _error: KnockoutComputed<boolean>;
+        _gold: KnockoutComputed<boolean>;
+        _lightGray: KnockoutComputed<boolean>;
+        _lightGreen: KnockoutComputed<boolean>;
         _primary: KnockoutComputed<boolean>;
+        _warning: KnockoutComputed<boolean>;
 
         constructor(element: JQuery, defaults?: IWidgetDefaults) {
             super(element, ViewModel, defaults);
 
             this._template = "";
 
-            this._default = ko.pureComputed(() => {
-                return this.viewModel.type() === Type.Default;
+            this._cyan = ko.pureComputed(() => {
+                return this.viewModel.type() === Type.Cyan;
             });
 
-            this._warning = ko.pureComputed(() => {
-                return this.viewModel.type() === Type.Warning;
+            this._default = ko.pureComputed(() => {
+                return this.viewModel.type() === Type.Default;
             });
 
             this._error = ko.pureComputed(() => {
                 return this.viewModel.type() === Type.Error;
             });
 
+            this._gold = ko.pureComputed(() => {
+                return this.viewModel.type() === Type.Gold;
+            });
+
+            this._lightGray = ko.pureComputed(() => {
+                return this.viewModel.type() === Type.LightGray;
+            });
+
+            this._lightGreen = ko.pureComputed(() => {
+                return this.viewModel.type() === Type.LightGreen;
+            });
+
             this._primary = ko.pureComputed(() => {
                 return this.viewModel.type() === Type.Primary;
+            });
+
+            this._warning = ko.pureComputed(() => {
+                return this.viewModel.type() === Type.Warning;
             });
 
             this._setupElement();
@@ -95,9 +119,13 @@ module Main {
 
         public _setupElement(): void {
             super._addBinding("text", "viewModel.text");
-            super._addBinding("css", "'badge--warning': widget._warning");
+            super._addBinding("css", "'badge--cyan': widget._cyan");
             super._addBinding("css", "'badge--error': widget._error");
+            super._addBinding("css", "'badge--gold': widget._gold");
+            super._addBinding("css", "'badge--light-gray': widget._lightGray");
+            super._addBinding("css", "'badge--light-green': widget._lightGreen");
             super._addBinding("css", "'badge--primary': widget._primary");
+            super._addBinding("css", "'badge--warning': widget._warning");
 
             super._setupElement();
 

@@ -43,6 +43,26 @@
     color: darkorange;
 }
 
+/* CONTROL: Badge */
+
+.badge--cyan {
+    background-color: hsla(193,100%,47%,.5);
+}
+
+.badge--gold {
+    background-color: #ffd800;
+}
+
+.badge--light-gray {
+    background-color: hsla(0,0%,0%,.09);
+}
+
+.badge--light-green {
+    background-color: hsla(69,91%,44%,.5);
+}
+
+/* END CONTROL: Badge */
+
 /* CONTROL: Card */
 
 .card .module__content {
