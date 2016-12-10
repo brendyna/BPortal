@@ -26,14 +26,8 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\AzureCrawler\Html\Samples\Views\CrawlScheduler.Sample.html" />
-    <Content Include="Areas\AzureCrawler\Html\Tests\Views\CrawlScheduler.Test.html" />
     <Content Include="Areas\GettingStarted\Html\Samples\Views\Example.Sample.html" />
     <Content Include="Areas\GettingStarted\Html\Tests\Views\Example.Test.html" />
-    <Content Include="Areas\PowerBiReports\Html\Samples\Views\PowerBiReportList.Sample.html" />
-    <Content Include="Areas\PowerBiReports\Html\Samples\Views\PowerBiAdminSummary.Sample.html" />
-    <Content Include="Areas\PowerBiReports\Html\Tests\Views\PowerBiReportList.Test.html" />
-    <Content Include="Areas\PowerBiReports\Html\Tests\Views\PowerBiAdminSummary.Test.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Note.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Badge.Sample.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Button.Sample.html" />
@@ -62,8 +56,6 @@
     <Content Include="Areas\Shared\Images\sort_both.png" />
     <Content Include="Areas\Shared\Images\sort_desc.png" />
     <Content Include="Areas\Shared\Images\sort_desc_disabled.png" />
-    <Content Include="Areas\SiteReporter\Html\Samples\Views\Details.Sample.html" />
-    <Content Include="Areas\SiteReporter\Html\Samples\Views\Summary.Sample.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Base.Test.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Button.Test.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Chart.Test.html" />
@@ -76,8 +68,6 @@
     <Content Include="Areas\Shared\Html\Tests\Controls\Select.Test.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Table.Test.html" />
     <Content Include="Areas\Shared\Html\Tests\Controls\Tabs.Test.html" />
-    <Content Include="Areas\SiteReporter\Html\Tests\Views\Details.Test.html" />
-    <Content Include="Areas\SiteReporter\Html\Tests\Views\Summary.Test.html" />
     <Content Include="Areas\Shared\Styles\controls.css" />
     <Content Include="chutzpah.harness.html" />
     <Content Include="Content\css\samples.css" />
@@ -87,7 +77,6 @@
     <Content Include="Content\css\spinner.min.css">
       <DependentUpon>spinner.css</DependentUpon>
     </Content>
-    <Content Include="Areas\SiteReporter\Styles\styles.css" />
     <Content Include="gulpfile.js" />
     <Content Include="Lib\indigo.full.min.css" />
     <Content Include="require.chutzpah.config.js" />
@@ -154,15 +143,6 @@
     <Content Include="Web\Readme.md" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Areas\AzureCrawler\Config.ts" />
-    <TypeScriptCompile Include="Areas\AzureCrawler\Data\Providers\CrawlScheduler.Provider.ts" />
-    <TypeScriptCompile Include="Areas\AzureCrawler\Data\Repositories\CrawlScheduler.Repository.ts" />
-    <TypeScriptCompile Include="Areas\AzureCrawler\Samples\Helpers\CrawlScheduler.Mocks.ts" />
-    <TypeScriptCompile Include="Areas\AzureCrawler\Samples\Views\CrawlScheduler.Sample.ts" />
-    <TypeScriptCompile Include="Areas\AzureCrawler\Templates\Views\CrawlScheduler.Template.ts" />
-    <TypeScriptCompile Include="Areas\AzureCrawler\Tests\Views\CrawlScheduler.Test.ts" />
-    <TypeScriptCompile Include="Areas\AzureCrawler\Views\CrawlScheduler.View.Start.ts" />
-    <TypeScriptCompile Include="Areas\AzureCrawler\Views\CrawlScheduler.View.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Config.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Data\Providers\Example.Provider.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Data\Repositories\Example.Repository.ts" />
@@ -173,26 +153,6 @@
     <TypeScriptCompile Include="Areas\GettingStarted\Util\Example.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Views\Example.View.Start.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Views\Example.View.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Config.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Providers\PowerBiReportList.Provider.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Providers\PowerBiAdminSummary.Provider.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiAccessToken.Repository.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiDatasets.Repository.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiReport.Repository.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiReportList.Repository.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Data\Repositories\PowerBiWorkspaces.Repository.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Samples\Helpers\PowerBiReportList.Mocks.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Samples\Helpers\PowerBiAdminSummary.Mocks.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Samples\Views\PowerBiReportList.Sample.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Samples\Views\PowerBiAdminSummary.Sample.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Templates\Views\PowerBiReportList.Template.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Templates\Views\PowerBiAdminSummary.Template.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Tests\Views\PowerBiReportList.Test.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Tests\Views\PowerBiAdminSummary.Test.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Views\PowerBiReportList.View.Start.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Views\PowerBiReportList.View.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Views\PowerBiAdminSummary.View.Start.ts" />
-    <TypeScriptCompile Include="Areas\PowerBiReports\Views\PowerBiAdminSummary.View.ts" />
     <TypeScriptCompile Include="Areas\Shared\Config.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Note.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\List.ts" />
@@ -224,7 +184,6 @@
     <TypeScriptCompile Include="Areas\Shared\Util\Dom.ts" />
     <TypeScriptCompile Include="Areas\Shared\Util\Knockout.ts" />
     <TypeScriptCompile Include="Areas\Shared\Views\Base.View.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Config.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Base.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Button.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Chart.ts" />
@@ -239,23 +198,8 @@
     <TypeScriptCompile Include="Areas\Shared\Controls\Table.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Tabs.ts" />
     <TypeScriptCompile Include="Areas\Shared\Data\Providers\Base.Provider.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Details.Provider.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Shared.Provider.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Providers\Summary.Provider.ts" />
     <TypeScriptCompile Include="Areas\Shared\Data\Repositories\Base.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugTrends.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForDomain.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugTrendsBlobUrl.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForTag.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForDomainBlobUrl.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BugsForTagBlobUrl.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\BuiltWithDataForDomain.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\Filters.Repository.ts" />
     <TypeScriptCompile Include="Areas\Shared\Util\Request.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\ScanTime.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\TrendsForDomain.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\DetailsForDomain.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Data\Repositories\TrendsForTag.Repository.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Button.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Chart.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\DescriptionList.Sample.ts" />
@@ -267,10 +211,6 @@
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Select.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Table.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Tabs.Sample.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Samples\Helpers\Details.Mocks.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Samples\Helpers\Summary.Mocks.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Samples\Views\Details.Sample.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Samples\Views\Summary.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Base.Loading.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\DescriptionList.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Filters.Template.ts" />
@@ -278,9 +218,6 @@
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Section.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Table.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Tabs.Template.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Templates\SiteDisabled.Template.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Templates\Views\Details.Template.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Templates\Views\Summary.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Base.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Button.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Chart.Test.ts" />
@@ -293,13 +230,6 @@
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Select.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Table.Test.ts" />
     <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Tabs.Test.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Tests\Views\Details.Test.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Tests\Views\Summary.Test.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Util\Navigation.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Views\Details.View.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Views\Details.View.Start.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Views\Summary.View.Start.ts" />
-    <TypeScriptCompile Include="Areas\SiteReporter\Views\Summary.View.ts" />
     <TypeScriptCompile Include="references.d.ts" />
   </ItemGroup>
   <ItemGroup>

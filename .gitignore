@@ -262,3 +262,8 @@ Portal.TypeScript/Areas/**/*.js.map
 
 # Minified files
 Portal.TypeScript/Areas/**/*.min.css
+
+# WPTPortal Areas
+Portal.TypeScript/Areas/AzureCrawler
+Portal.TypeScript/Areas/PowerBiReports
+Portal.TypeScript/Areas/SiteReporter
