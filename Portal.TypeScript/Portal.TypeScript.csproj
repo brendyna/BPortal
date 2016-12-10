@@ -26,6 +26,8 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\RedditBubble\Html\Samples\Views\Example.Sample.html" />
+    <Content Include="Areas\RedditBubble\Html\Tests\Views\Example.Test.html" />
     <Content Include="Areas\GettingStarted\Html\Samples\Views\Example.Sample.html" />
     <Content Include="Areas\GettingStarted\Html\Tests\Views\Example.Test.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Note.Sample.html" />
@@ -143,6 +145,16 @@
     <Content Include="Web\Readme.md" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Areas\RedditBubble\Config.ts" />
+    <TypeScriptCompile Include="Areas\RedditBubble\Data\Providers\Example.Provider.ts" />
+    <TypeScriptCompile Include="Areas\RedditBubble\Data\Repositories\Example.Repository.ts" />
+    <TypeScriptCompile Include="Areas\RedditBubble\Samples\Helpers\Example.Mocks.ts" />
+    <TypeScriptCompile Include="Areas\RedditBubble\Samples\Views\Example.Sample.ts" />
+    <TypeScriptCompile Include="Areas\RedditBubble\Templates\Views\Example.Template.ts" />
+    <TypeScriptCompile Include="Areas\RedditBubble\Tests\Views\Example.Test.ts" />
+    <TypeScriptCompile Include="Areas\RedditBubble\Util\Example.ts" />
+    <TypeScriptCompile Include="Areas\RedditBubble\Views\Example.View.Start.ts" />
+    <TypeScriptCompile Include="Areas\RedditBubble\Views\Example.View.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Config.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Data\Providers\Example.Provider.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Data\Repositories\Example.Repository.ts" />
@@ -160,12 +172,6 @@
     <TypeScriptCompile Include="Areas\Shared\Controls\Badge.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Accordion.ts" />
     <TypeScriptCompile Include="Areas\Shared\Controls\Card.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Note.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Badge.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\List.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Navigation.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Accordion.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Card.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Accordion.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Note.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Card.Template.ts" />
@@ -173,14 +179,6 @@
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Navigation.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.DisabledWrapper.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Views\Base.View.Template.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Note.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Card.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Badge.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Editable.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\List.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Navigation.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Accordion.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Helpers\Controls.Helper.ts" />
     <TypeScriptCompile Include="Areas\Shared\Util\Dom.ts" />
     <TypeScriptCompile Include="Areas\Shared\Util\Knockout.ts" />
     <TypeScriptCompile Include="Areas\Shared\Views\Base.View.ts" />
@@ -200,17 +198,6 @@
     <TypeScriptCompile Include="Areas\Shared\Data\Providers\Base.Provider.ts" />
     <TypeScriptCompile Include="Areas\Shared\Data\Repositories\Base.Repository.ts" />
     <TypeScriptCompile Include="Areas\Shared\Util\Request.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Button.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Chart.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\DescriptionList.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Filters.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Header.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Icon.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Input.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Section.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Select.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Table.Sample.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Samples\Controls\Tabs.Sample.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Base.Loading.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\DescriptionList.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Filters.Template.ts" />
@@ -218,18 +205,6 @@
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Section.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Table.Template.ts" />
     <TypeScriptCompile Include="Areas\Shared\Templates\Controls\Tabs.Template.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Base.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Button.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Chart.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\DescriptionList.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Filters.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Header.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Icon.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Input.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Section.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Select.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Table.Test.ts" />
-    <TypeScriptCompile Include="Areas\Shared\Tests\Controls\Tabs.Test.ts" />
     <TypeScriptCompile Include="references.d.ts" />
   </ItemGroup>
   <ItemGroup>
