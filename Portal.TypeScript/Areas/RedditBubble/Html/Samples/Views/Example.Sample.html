@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Summary - Getting Started Example</title>
+    <link rel="stylesheet" href="/lib/indigo.full.min.css" />
+    <link rel="stylesheet" href="/Content/css/spinner.css" />
+    <link rel="stylesheet" href="/Areas/Shared/Styles/controls.css" />
+    <link rel="stylesheet" href="/Content/css/samples.css"/>
+    <style>
+        li { max-width: 100% !important; }
+    </style>
+    <script>
+        window.BREADCRUMB = [
+            { text: "WPT Portal TypeScript", url: "javascript:;" },
+            { text: "Getting Started", url: "javascript:;" }
+        ];
+    </script>
+    <script type="text/javascript" src="/bower_components/requirejs/require.js"></script>
+    <script type="text/javascript" src="/require.web.config.js"></script>
+    <script>
+        require(["Areas/GettingStarted/Samples/Views/Example.Sample"]);
+    </script>
+</head>
+
+<body>
+    <h1>Samples: Getting Started Example</h1>
+    <div class="container">
+        <article id="example" class="content"></article>
+    </div>
+</body>
+</html>
