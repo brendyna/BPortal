@@ -138,8 +138,7 @@ module Main {
                 navigation: this._staticProvider.getNavigationViewModelData(),
                 header: this._staticProvider.getHeaderViewModelData(),
                 sidebar: this._staticProvider.getSidebarSectionViewModelData(),
-                sidebarSampleData: this._staticProvider.getSidebarSampleDataSectionViewModelData(),
-                BiasPlotSection: this._staticProvider.getBiasPlotSectionViewModelData()
+                biasPlotSection: this._staticProvider.getBiasPlotSectionViewModelData()
             }
         }
 
