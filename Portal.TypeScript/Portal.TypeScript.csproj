@@ -26,8 +26,8 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\RedditBubble\Html\Samples\Views\Example.Sample.html" />
-    <Content Include="Areas\RedditBubble\Html\Tests\Views\Example.Test.html" />
+    <Content Include="Areas\SourceBubble\Html\Samples\Views\Example.Sample.html" />
+    <Content Include="Areas\SourceBubble\Html\Tests\Views\Example.Test.html" />
     <Content Include="Areas\GettingStarted\Html\Samples\Views\Example.Sample.html" />
     <Content Include="Areas\GettingStarted\Html\Tests\Views\Example.Test.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Note.Sample.html" />
@@ -145,16 +145,16 @@
     <Content Include="Web\Readme.md" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Areas\RedditBubble\Config.ts" />
-    <TypeScriptCompile Include="Areas\RedditBubble\Data\Providers\Example.Provider.ts" />
-    <TypeScriptCompile Include="Areas\RedditBubble\Data\Repositories\Example.Repository.ts" />
-    <TypeScriptCompile Include="Areas\RedditBubble\Samples\Helpers\Example.Mocks.ts" />
-    <TypeScriptCompile Include="Areas\RedditBubble\Samples\Views\Example.Sample.ts" />
-    <TypeScriptCompile Include="Areas\RedditBubble\Templates\Views\Example.Template.ts" />
-    <TypeScriptCompile Include="Areas\RedditBubble\Tests\Views\Example.Test.ts" />
-    <TypeScriptCompile Include="Areas\RedditBubble\Util\Example.ts" />
-    <TypeScriptCompile Include="Areas\RedditBubble\Views\Example.View.Start.ts" />
-    <TypeScriptCompile Include="Areas\RedditBubble\Views\Example.View.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Config.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Data\Providers\Example.Provider.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Data\Repositories\Example.Repository.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Samples\Helpers\Example.Mocks.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Samples\Views\Example.Sample.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Templates\Views\Example.Template.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Tests\Views\Example.Test.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Util\Example.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Views\Example.View.Start.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Views\Example.View.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Config.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Data\Providers\Example.Provider.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Data\Repositories\Example.Repository.ts" />
