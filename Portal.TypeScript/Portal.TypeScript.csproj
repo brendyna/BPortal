@@ -26,8 +26,8 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\SourceBubble\Html\Samples\Views\Example.Sample.html" />
-    <Content Include="Areas\SourceBubble\Html\Tests\Views\Example.Test.html" />
+    <Content Include="Areas\SourceBubble\Html\Views\BiasPlot.html" />
+    <Content Include="Areas\SourceBubble\Html\Tests\Views\BiasPlot.Test.html" />
     <Content Include="Areas\GettingStarted\Html\Samples\Views\Example.Sample.html" />
     <Content Include="Areas\GettingStarted\Html\Tests\Views\Example.Test.html" />
     <Content Include="Areas\Shared\Html\Samples\Controls\Note.Sample.html" />
@@ -146,15 +146,14 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Areas\SourceBubble\Config.ts" />
-    <TypeScriptCompile Include="Areas\SourceBubble\Data\Providers\Example.Provider.ts" />
-    <TypeScriptCompile Include="Areas\SourceBubble\Data\Repositories\Example.Repository.ts" />
-    <TypeScriptCompile Include="Areas\SourceBubble\Samples\Helpers\Example.Mocks.ts" />
-    <TypeScriptCompile Include="Areas\SourceBubble\Samples\Views\Example.Sample.ts" />
-    <TypeScriptCompile Include="Areas\SourceBubble\Templates\Views\Example.Template.ts" />
-    <TypeScriptCompile Include="Areas\SourceBubble\Tests\Views\Example.Test.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Data\Providers\BiasPlot.Provider.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Data\Repositories\BiasPlot.Repository.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Tests\Helpers\BiasPlot.Mocks.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Templates\Views\BiasPlot.Template.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Tests\Views\BiasPlot.Test.ts" />
     <TypeScriptCompile Include="Areas\SourceBubble\Util\Example.ts" />
-    <TypeScriptCompile Include="Areas\SourceBubble\Views\Example.View.Start.ts" />
-    <TypeScriptCompile Include="Areas\SourceBubble\Views\Example.View.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Views\BiasPlot.View.Start.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Views\BiasPlot.View.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Config.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Data\Providers\Example.Provider.ts" />
     <TypeScriptCompile Include="Areas\GettingStarted\Data\Repositories\Example.Repository.ts" />

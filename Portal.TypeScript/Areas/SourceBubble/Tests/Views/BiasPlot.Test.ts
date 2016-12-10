@@ -1,11 +1,11 @@
 ﻿import "jquery";
 import "qunit";
 import BaseConfig = require("Areas/Shared/Config");
-import Config = require("Areas/GettingStarted/Config");
+import Config = require("Areas/SourceBubble/Config");
 import Header = require("Areas/Shared/Controls/Header");
 import Navigation = require("Areas/Shared/Controls/Navigation");
-import ExampleMocks = require("Areas/GettingStarted/Samples/Helpers/Example.Mocks");
-import View = require("Areas/GettingStarted/Views/Example.View");
+import BiasPlotMocks = require("Areas/SourceBubble/Tests/Helpers/BiasPlot.Mocks");
+import View = require("Areas/SourceBubble/Views/BiasPlot.View");
 
 export = Main;
 
@@ -22,7 +22,7 @@ module Main {
     QUnit.start();
 
     // ### Exists ###
-    QUnit.module("Example View: Exists", (hooks) => {
+    QUnit.module("BiasPlot View: Exists", (hooks) => {
         QUnit.test("View exists", (assert) => {
             // Assert
             assert.ok(View, "View loaded");
@@ -30,7 +30,7 @@ module Main {
         });
     });
 
-    QUnit.module("Example View: Basics", (hooks) => {
+    QUnit.module("BiasPlot View: Basics", (hooks) => {
         let widget: View.IWidget;
 
         hooks.before((assert) => {
@@ -57,7 +57,7 @@ module Main {
         });
     });
 
-    QUnit.module("Example View: Static", (hooks) => {
+    QUnit.module("BiasPlot View: Static", (hooks) => {
         let widget: View.IWidget;
 
         hooks.before((assert) => {
@@ -78,7 +78,7 @@ module Main {
             // Assert
             assert.equal(breadcrumbs.length, navVM.breadcrumb().length, "The correct number of crumbs are present");
             for (let i = 0; i < breadcrumbs.length; i++) {
-                assert.equal($(breadcrumbs.get(i)).text(), Config.Window.ExampleBreadcrumb[i].text, "Crumb " + i + " has correct text");
+                assert.equal($(breadcrumbs.get(i)).text(), Config.Window.BiasPlotBreadcrumb[i].text, "Crumb " + i + " has correct text");
             }
         });
 
@@ -91,7 +91,7 @@ module Main {
         });
     });
 
-    QUnit.module("Example View: Load started", (hooks) => {
+    QUnit.module("BiasPlot View: Load started", (hooks) => {
         let widget: View.IWidget;
 
         hooks.before((assert) => {
@@ -116,7 +116,7 @@ module Main {
         });
     });
 
-    QUnit.module("Example View: Load done", (hooks) => {
+    QUnit.module("BiasPlot View: Load done", (hooks) => {
         let widget: View.IWidget;
 
         hooks.before((assert) => {
@@ -148,7 +148,7 @@ module Main {
             destroy(this.widget);
         });
 
-        QUnit.test("Example section renders correctly", function (assert) {
+        QUnit.test("BiasPlot section renders correctly", function (assert) {
             let widget = (<View.IWidget>this.widget);
             let done = assert.async();
             let initialSubSectionCount = widget.sidebarSampleData.viewModel.subsections().length;
@@ -163,7 +163,7 @@ module Main {
     });
 
     function setupMockjax(): void {
-        ExampleMocks.setupExampleMock();
+        BiasPlotMocks.setupBiasPlotMock();
     }
     
 
@@ -189,7 +189,7 @@ module Main {
     function getWidgetDefaults(): View.IWidgetDefaults {
         return {
             viewContext: {
-                params: $.extend({}, Config.Params.Example)
+                params: $.extend({}, {})
             }
         };
     }

@@ -9,7 +9,7 @@ module Main {
                     <section id="sidebar--sample-data" data-bind="wpsSection: viewModel.sidebarSampleData"></section>
                 </div>
                 <div class="module module--primary">
-                    <section id="example" data-bind="wpsSection: viewModel.exampleSection"></section>
+                    <section id="BiasPlot" data-bind="wpsSection: viewModel.BiasPlotSection"></section>
                 </div>
             </div>
         </section>

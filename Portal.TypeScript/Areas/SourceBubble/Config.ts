@@ -29,17 +29,12 @@ module Main {
     export class Urls {
         public static ExampleApi = "https://example-api.azurewebsites.net/api";
     }
-
-    // This serves as an adapter for global javascript window object references expected
-    // to be present in a production context.
+    
     export class Window {
-        // The breadcrumb involves .NET MVC communicating data about the index and controller,
-        // which will be written out to the global window object. In test settings, we use a 
-        // static breadcrumb as it doesn't matter.
-        // In production, use the window object value.
-        public static ExampleBreadcrumb = BaseConfig.isTestRunnerMode() ? [
-            { text: "WPT Portal", url: "javascript:;" },
-            { text: "Getting Started", url: "javascript:;" }
+        public static BiasPlotBreadcrumb = BaseConfig.isTestRunnerMode() ? [
+            { text: "BPortal", url: "javascript:;" },
+            { text: "Source Bubble", url: "javascript:;" },
+            { text: "Bias Plot" }
         ] : window.BREADCRUMB;
     }
 }

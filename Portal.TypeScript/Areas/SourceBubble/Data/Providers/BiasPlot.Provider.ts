@@ -1,6 +1,6 @@
 ﻿import BaseProvider = require("Areas/Shared/Data/Providers/Base.Provider");
 import Config = require("../../Config");
-import ExampleRepo = require("../Repositories/Example.Repository");
+import BiasPlotRepo = require("../Repositories/BiasPlot.Repository");
 import Header = require("Areas/Shared/Controls/Header");
 import List = require("Areas/Shared/Controls/List");
 import Navigation = require("Areas/Shared/Controls/Navigation");
@@ -18,7 +18,7 @@ module Main {
         getHeaderViewModelData: () => Header.IViewModelData;
         getSidebarSectionViewModelData: () => Section.IViewModelData;
         getSidebarSampleDataSectionViewModelData: () => Section.IViewModelData;
-        getExampleSectionViewModelData: () => Section.IViewModelData;
+        getBiasPlotSectionViewModelData: () => Section.IViewModelData;
     }
 
     /**
@@ -32,7 +32,7 @@ module Main {
 
         public getNavigationViewModelData(): Navigation.IViewModelData {
             let navViewModelData: Navigation.IViewModelData = {
-                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.ExampleBreadcrumb
+                breadcrumb: <Array<Navigation.ICrumbData>>Config.Window.BiasPlotBreadcrumb
             };
 
             return navViewModelData;
@@ -46,9 +46,9 @@ module Main {
             return headerViewModelData;
         }
 
-        public getExampleSectionViewModelData(): Section.IViewModelData {
-            let exampleSectionData = <Section.IViewModelData>{
-                classes: "example",
+        public getBiasPlotSectionViewModelData(): Section.IViewModelData {
+            let BiasPlotSectionData = <Section.IViewModelData>{
+                classes: "BiasPlot",
                 // This use of the Section control demonstrates using a body template and
                 // a bodyViewModel to drive that template (aka it demonstrates nested bindings).
                 // The body template can contain any markup, including any of the custom binding
@@ -71,7 +71,7 @@ module Main {
                             <li>To outline common patterns, tips, and tricks for creating views and integrating them with <a href="http://ieportal" target="_blank">WPTPortal</a></li>
                         </ul>
                         <br />
-                        This view and the example dependencies it relies on aren't meant to go into depth about the Portal-TypeScript project itself.
+                        This view and the BiasPlot dependencies it relies on aren't meant to go into depth about the Portal-TypeScript project itself.
                         To read more about the overall project, check out the <a href="https://github.com/MicrosoftEdge/IEPortal/wiki/Portal-TypeScript-Overview" target="_blank">Portal-TypeScript wiki page.</a>
                         It's recommended you read both!
                     `
@@ -81,7 +81,7 @@ module Main {
                         header: "Repositories",
                         anchor: "Repositories",
                         altHeader: true,
-                        // This example shows using the body as just a string with no data binding. This is also an
+                        // This BiasPlot shows using the body as just a string with no data binding. This is also an
                         // option if the content is purely static. It's a simpler use case for sections and subsection content.
                         body: `
                             A repository typically maps to an API endpoint from which you retrieve data. It is used to link data types via
@@ -98,7 +98,7 @@ module Main {
                                 <li>The <em>resultData</em> property, which is set to the AJAX response when the request successfully returns</li>
                             </ul><br />
 
-                            <strong>See examples:</strong> Areas/Shared/Data/Repositories/Base.Repository.ts, Areas/GettingStarted/Data/Repositories/Example.Repository.ts
+                            <strong>See BiasPlots:</strong> Areas/Shared/Data/Repositories/Base.Repository.ts, Areas/GettingStarted/Data/Repositories/BiasPlot.Repository.ts
                         `
                     },
                     {
@@ -117,7 +117,7 @@ module Main {
                             A <em>dynamic</em> provider typically maps 1:1 to a repository. They handle transforming repo data into view model data which then
                             drives views and controls.<br /><br />
 
-                            <strong>See examples:</strong> Areas/Shared/Data/Providers/Base.Provider.ts, Areas/GettingStarted/Data/Providers/Example.Provider.ts
+                            <strong>See BiasPlots:</strong> Areas/Shared/Data/Providers/Base.Provider.ts, Areas/GettingStarted/Data/Providers/BiasPlot.Provider.ts
                         `,
                         bodyViewModel: {
 
@@ -140,7 +140,7 @@ module Main {
                                 You use custom binding handlers for Controls (see the Controls section) and other Knockout inline and control-flow <a href="http://knockoutjs.com/documentation/binding-syntax.html" target="_blank">bindings</a>
                                 for other data-driven templating needs.<br /><br />
 
-                                <strong>See examples:</strong> Areas/GettingStarted/Templates/Views/Example.Template.ts, Areas/Shared/Templates/Controls/DescriptionList.Template.ts
+                                <strong>See BiasPlots:</strong> Areas/GettingStarted/Templates/Views/BiasPlot.Template.ts, Areas/Shared/Templates/Controls/DescriptionList.Template.ts
                             </div>
 
                             <h4>Controls</h4>
@@ -166,7 +166,7 @@ module Main {
 
                                 <strong>Note:</strong> Controls can be composited, meaning composed of other controls in whole or in part. This level of reuse is enabled by custom binding handlers.<br /><br />
                                 
-                                <strong>See examples:</strong> Areas/Shared/Controls/Button.ts, Areas/Shared/Controls/Section.ts
+                                <strong>See BiasPlots:</strong> Areas/Shared/Controls/Button.ts, Areas/Shared/Controls/Section.ts
                             </div>
 
                             <h4>Views</h4>
@@ -183,7 +183,7 @@ module Main {
                                 <strong>Note:</strong> It's far more likely you'll author Views than Controls. However, if you have a UI scenario not yet covered by the framework, you may need to author Controls to
                                 account for those new scenarios.<br /><br />
 
-                                <strong>See examples:</strong> Areas/Shared/Views/Base.View.ts, Areas/GettingStarted/Views/Example.View.ts
+                                <strong>See BiasPlots:</strong> Areas/Shared/Views/Base.View.ts, Areas/GettingStarted/Views/BiasPlot.View.ts
                             </div>
                         `
                     },
@@ -198,9 +198,9 @@ module Main {
                             In WPTPortal, the Indigo stylesheet is included by default. For local development here, it's included in the sample page.<br /><br />
 
                             If styles are needed, you'll need to ensure the CSS is copied correctly to package output by updating the <em>nuspec</em> file.
-                            You can see in the existing file an example of copying CSS (Shared and SiteReporter areas).<br /><br />
+                            You can see in the existing file an BiasPlot of copying CSS (Shared and SiteReporter areas).<br /><br />
 
-                            <strong>See examples:</strong> <a href="http://edgecore.azurewebsites.net/" target="_blank">http://edgecore.azurewebsites.net/</a>
+                            <strong>See BiasPlots:</strong> <a href="http://edgecore.azurewebsites.net/" target="_blank">http://edgecore.azurewebsites.net/</a>
                         `
                     },
                     {
@@ -226,7 +226,7 @@ module Main {
                                         requests go through to their configured URLs/endpoints as normal, making integration seamless.</li>
                                 </ul><br />
 
-                                <strong>See examples:</strong> require.web.config.js, Areas/GettingStarted/Samples/Helpers/Example.Mocks.ts, Areas/GettingStarted/Samples/Views/Example.Sample.ts
+                                <strong>See BiasPlots:</strong> require.web.config.js, Areas/GettingStarted/Samples/Helpers/BiasPlot.Mocks.ts, Areas/GettingStarted/Samples/Views/BiasPlot.Sample.ts
                             </div>
 
                             <h4>Tests</h4>
@@ -238,7 +238,7 @@ module Main {
                                 <strong>Note:</strong> not all tests can be implemented in JS. Some tests that require interactions with password fields or user behaviors unable to be programmatically simulated will benefit
                                 from use of WebDriver or other UI automation technologies.<br /><br />
 
-                                <strong>See examples:</strong> Areas/Shared/Tests/Controls/Button.Test.ts, Areas/GettingStarted/Tests/Views/Example.Test.ts
+                                <strong>See BiasPlots:</strong> Areas/Shared/Tests/Controls/Button.Test.ts, Areas/GettingStarted/Tests/Views/BiasPlot.Test.ts
                             </div>
                         `
                     },
@@ -263,7 +263,7 @@ module Main {
                                     all the needed assets to deploy IEPortal to the web. The JS files won't be tracked in the git repo for IEPortal, but they'll be included in the csproj.</li>
                             </ul><br />
 
-                            <strong>See examples</strong>: Areas/GettingStarted/Views/Example.View.Start.ts, 
+                            <strong>See BiasPlots</strong>: Areas/GettingStarted/Views/BiasPlot.View.Start.ts, 
                             <a href="https://github.com/MicrosoftEdge/IEPortal/blob/develop/Web/Areas/SiteReporter/Views/Shared/_Layout.cshtml" target="_blank">Web/Areas/SiteReporter/Views/Shared/_Layout.cshtml</a>, 
                             <a href="https://github.com/MicrosoftEdge/IEPortal/blob/develop/Web/Areas/SiteReporter/Views/Summary/Index.cshtml" target="_blank">Web/Areas/SiteReporter/Views/Summary/Index.cshtml</a>
                         `
@@ -287,11 +287,11 @@ module Main {
                 ]
             };
 
-            return exampleSectionData;
+            return BiasPlotSectionData;
         }
 
         public getSidebarSectionViewModelData(): Section.IViewModelData {
-            let exampleSectionData = <Section.IViewModelData>{
+            let BiasPlotSectionData = <Section.IViewModelData>{
                 classes: "sidebar",
                 body: `<ul data-bind="wpsList: viewModel.sections"></ul>`,
                 bodyViewModel: {
@@ -327,21 +327,21 @@ module Main {
                 }
             };
 
-            return exampleSectionData;
+            return BiasPlotSectionData;
         }
 
         public getSidebarSampleDataSectionViewModelData(): Section.IViewModelData {
-            let exampleSectionData = <Section.IViewModelData>{
+            let BiasPlotSectionData = <Section.IViewModelData>{
                 classes: "sidebar--data-sample",
                 title: "Loading data",
                 altHeader: true,
                 body: `
-                    This section is a simple demo of loading data. It's a contrived example
+                    This section is a simple demo of loading data. It's a contrived BiasPlot
                     to demonstrate the UI and code behind fetching remote content.
                 `
             };
 
-            return exampleSectionData;
+            return BiasPlotSectionData;
         }
     }
 
@@ -352,8 +352,8 @@ module Main {
      * But often, to decouple UIs from backends, the data is genericized and dynamic providers
      * are used to specialize it for WPTPortal display using Indigo/WPTPortal controls.
      */
-    export class ExampleProvider extends BaseProvider.DynamicProvider<ExampleRepo.DataTransferObject> implements BaseProvider.IDynamicProvider {
-        constructor(repository: ExampleRepo.IRepository) {
+    export class BiasPlotProvider extends BaseProvider.DynamicProvider<BiasPlotRepo.DataTransferObject> implements BaseProvider.IDynamicProvider {
+        constructor(repository: BiasPlotRepo.IRepository) {
             super(repository);
         }
 

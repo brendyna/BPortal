@@ -8,19 +8,20 @@
     <link rel="stylesheet" href="/Areas/Shared/Styles/controls.css" />
     <script>
         window.BREADCRUMB = [
-            { text: "WPT Portal", url: "javascript:;" },
-            { text: "Getting Started", url: "javascript:;" }
+            { text: "BPortal", url: "javascript:;" },
+            { text: "Source Bubble", url: "javascript:;" },
+            { text: "Bias Plot" } 
         ];
     </script>
     <script type="text/javascript" src="/bower_components/requirejs/require.js"></script>
     <script type="text/javascript" src="/require.web.config.js"></script>
     <script>
-        require(["Areas/GettingStarted/Tests/Views/Example.Test"]);
+        require(["Areas/SourceBubble/Tests/Views/BiasPlot.Test"]);
     </script>
 </head>
 
 <body>
-    <h1>Tests: Example</h1>
+    <h1>Tests: BiasPlot</h1>
     <section>
         <div id="qunit"></div>
         <div id="qunit-fixtures"></div>

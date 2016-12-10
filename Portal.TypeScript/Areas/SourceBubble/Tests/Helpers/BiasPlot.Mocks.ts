@@ -1,12 +1,12 @@
 ﻿import "jquery.mockjax";
 import BaseConfig = require("Areas/Shared/Config");
 import Config = require("../../Config");
-import ExampleRepo = require("../../Data/Repositories/Example.Repository");
+import BiasPlotRepo = require("../../Data/Repositories/BiasPlot.Repository");
 
 export = Main;
 
 module Main {
-    export let example = Config.Params.Example;
+    export let BiasPlot = {};
 
     // When mockjax requests are being invoked in a command line setting,
     // hide debug information like object dumps (as they're non-interactive)
@@ -19,15 +19,15 @@ module Main {
     // Given mockjax is disabled in production, the requests will go to
     // their production endpoints and not mockjax. This enables the same
     // configuration to be used in testing and production.
-    export function setupExampleMock(): void {
+    export function setupBiasPlotMock(): void {
         $.mockjax({
             url: [Config.Urls.ExampleApi, Config.Endpoints.Example].join("/"),
-            responseText: getMockExampleData(),
+            responseText: getMockBiasPlotData(),
             responseTime: 1000
         });
     }
 
-    export function getMockExampleData(): ExampleRepo.DataTransferObject {
+    export function getMockBiasPlotData(): BiasPlotRepo.DataTransferObject {
         return [
             {
                 baz: "Flibble",
