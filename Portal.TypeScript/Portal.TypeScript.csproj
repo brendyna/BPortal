@@ -148,6 +148,7 @@
     <TypeScriptCompile Include="Areas\SourceBubble\Config.ts" />
     <TypeScriptCompile Include="Areas\SourceBubble\Data\Providers\BiasPlot.Provider.ts" />
     <TypeScriptCompile Include="Areas\SourceBubble\Data\Repositories\BiasPlot.Repository.ts" />
+    <TypeScriptCompile Include="Areas\SourceBubble\Data\Static\Sources.ts" />
     <TypeScriptCompile Include="Areas\SourceBubble\Tests\Helpers\BiasPlot.Mocks.ts" />
     <TypeScriptCompile Include="Areas\SourceBubble\Templates\Views\BiasPlot.Template.ts" />
     <TypeScriptCompile Include="Areas\SourceBubble\Tests\Views\BiasPlot.Test.ts" />
