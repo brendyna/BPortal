@@ -19,7 +19,6 @@ module Main {
     export interface IViewModelData extends Base.IViewModelData {
         BiasPlotSection?: Section.IViewModelData;
         sidebar?: Section.IViewModelData;
-        sidebarSampleData?: Section.IViewModelData;
     }
 
     export interface IViewContext extends Base.IViewContext {
@@ -32,16 +31,15 @@ module Main {
     }
 
     export interface IWidget extends Base.IWidget {
-        BiasPlotSection: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
+        biasPlotSection: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
         sidebar: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
-        sidebarSampleData: BaseControl.IControl<Section.IViewModel, Section.IWidget>;
     }
 
     export class Widget extends Base.Widget implements IWidget {
         public static widgetClass = "view--BiasPlot";
 
-        private _BiasPlotRepo: BiasPlotRepo.IRepository;
-        private _BiasPlotProvider: BiasPlotProvider.BiasPlotProvider;
+        private _biasPlotRepo: BiasPlotRepo.IRepository;
+        private _biasPlotProvider: BiasPlotProvider.BiasPlotProvider;
         private _staticProvider: BiasPlotProvider.StaticProvider;
 
         constructor(element: JQuery, defaults: IWidgetDefaults, viewModelData: IViewModelData = {}) {
@@ -74,16 +72,10 @@ module Main {
         public destroy(): void {
             super.destroy();
 
-            // Destroying repositories ensures active AJAX calls don't
-            // return and execute code after the view is destroyed
-            if (this._BiasPlotRepo) {
-                this._BiasPlotRepo.destroy();
-            }
-
             this.element.removeClass(Widget.widgetClass);
         }
 
-        public get BiasPlotSection(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
+        public get biasPlotSection(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
             return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
                 (super.getDataFor("#" + this.controlIds["BiasPlotSection"]));
         }
@@ -91,11 +83,6 @@ module Main {
         public get sidebar(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
             return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
                 (super.getDataFor("#" + this.controlIds["sidebar"]));
-        }
-
-        public get sidebarSampleData(): BaseControl.IControl<Section.IViewModel, Section.IWidget> {
-            return <BaseControl.IControl<Section.IViewModel, Section.IWidget>>
-                (super.getDataFor("#" + this.controlIds["sidebarSampleData"]));
         }
 
         public loadData(): JQueryPromise<void> {
@@ -107,25 +94,12 @@ module Main {
         }
 
         public initializeRepos(): void {
-            this._BiasPlotRepo = new BiasPlotRepo.Repository(this.getRepoSettings());
         }
 
         public initializeLoading(): void {
-            this.sidebarSampleData.viewModel.loading(true);
         }
 
         public loadRepos(): void {
-            this._BiasPlotRepo.load().done(() => {
-                this.applyBiasPlotData();
-            });
-
-            // There's a random bug here (remove the <any> and see the compiler error)
-            $.when<any>(
-                this._BiasPlotRepo.getPromise())
-            .done(() => {
-                this.initializeSubscriptions();
-                this._loadDeferred.resolve();
-            });
         }
 
         public initializeSubscriptions(): void {
@@ -148,17 +122,6 @@ module Main {
                     data: $.extend({}, this.defaults.viewContext.params)
                 }
             };
-        }
-
-        private applyBiasPlotData(): void {
-            this._BiasPlotProvider = new BiasPlotProvider.BiasPlotProvider(this._BiasPlotRepo);
-
-            this.sidebarSampleData.viewModel.subsections.push(new Section.SubSection({
-                header: "Result data",
-                body: this._BiasPlotProvider.getResponseDataAsString()
-            }));
-
-            this.sidebarSampleData.viewModel.loading(false);
         }
     }
 }
