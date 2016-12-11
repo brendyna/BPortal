@@ -87,80 +87,80 @@ module Main {
             let headerVM: Header.IViewModel = ko.dataFor(header[0]).viewModel;
 
             // Assert
-            assert.equal(header.find("h1").text(), "Getting Started", "The header title is correct");
+            assert.equal(header.find("h1").text(), "Bias Plot", "The header title is correct");
         });
     });
 
-    QUnit.module("BiasPlot View: Load started", (hooks) => {
-        let widget: View.IWidget;
+    //QUnit.module("BiasPlot View: Load started", (hooks) => {
+    //    let widget: View.IWidget;
 
-        hooks.before((assert) => {
-            widget = create(getDisableLoadWidgetDefaults());
-            widget.initializeRepos();
-            widget.initializeLoading();
-        });
+    //    hooks.before((assert) => {
+    //        widget = create(getDisableLoadWidgetDefaults());
+    //        widget.initializeRepos();
+    //        widget.initializeLoading();
+    //    });
 
-        hooks.after((assert) => {
-            destroy(widget);
-        });
+    //    hooks.after((assert) => {
+    //        destroy(widget);
+    //    });
 
-        QUnit.test("Indicators appear for dynamic elements", (assert) => {
-            let loadingElements = {
-                "sidebar data section": widget.sidebarSampleData.widget.element,
-            };
+    //    QUnit.test("Indicators appear for dynamic elements", (assert) => {
+    //        let loadingElements = {
+    //            "sidebar data section": widget.sidebarSampleData.widget.element,
+    //        };
 
-            for (var elemName in loadingElements) {
-                assert.equal(loadingElements[elemName].find(classify(BaseConfig.Classes.LoadingOverlay)).length,
-                    1, "The loading overlay is present for " + elemName);
-            }
-        });
-    });
+    //        for (var elemName in loadingElements) {
+    //            assert.equal(loadingElements[elemName].find(classify(BaseConfig.Classes.LoadingOverlay)).length,
+    //                1, "The loading overlay is present for " + elemName);
+    //        }
+    //    });
+    //});
 
-    QUnit.module("BiasPlot View: Load done", (hooks) => {
-        let widget: View.IWidget;
+    //QUnit.module("BiasPlot View: Load done", (hooks) => {
+    //    let widget: View.IWidget;
 
-        hooks.before((assert) => {
-            widget = create(getDisableLoadWidgetDefaults());
-        });
+    //    hooks.before((assert) => {
+    //        widget = create(getDisableLoadWidgetDefaults());
+    //    });
 
-        hooks.after((assert) => {
-            destroy(widget);
-        });
+    //    hooks.after((assert) => {
+    //        destroy(widget);
+    //    });
 
-        QUnit.test("Data promise is resolved when load completes", (assert) => {
-            let loadPromise = widget.loadData();
-            let done = assert.async();
+    //    QUnit.test("Data promise is resolved when load completes", (assert) => {
+    //        let loadPromise = widget.loadData();
+    //        let done = assert.async();
 
-            loadPromise.done(() => {
-                assert.ok(true, "Data load promise resolves correctly");
-                done();
-            });
-        });
-    });
+    //        loadPromise.done(() => {
+    //            assert.ok(true, "Data load promise resolves correctly");
+    //            done();
+    //        });
+    //    });
+    //});
 
-    QUnit.module("Summary View: Dynamic common", (hooks) => {
-        hooks.beforeEach(function(assert) {
-            this.widget = <View.IWidget>create(getDisableLoadWidgetDefaults());
-            this.loadPromise = this.widget.loadData();
-        });
+    //QUnit.module("Summary View: Dynamic common", (hooks) => {
+    //    hooks.beforeEach(function(assert) {
+    //        this.widget = <View.IWidget>create(getDisableLoadWidgetDefaults());
+    //        this.loadPromise = this.widget.loadData();
+    //    });
 
-        hooks.afterEach(function(assert) {
-            destroy(this.widget);
-        });
+    //    hooks.afterEach(function(assert) {
+    //        destroy(this.widget);
+    //    });
 
-        QUnit.test("BiasPlot section renders correctly", function (assert) {
-            let widget = (<View.IWidget>this.widget);
-            let done = assert.async();
-            let initialSubSectionCount = widget.sidebarSampleData.viewModel.subsections().length;
+    //    QUnit.test("BiasPlot section renders correctly", function (assert) {
+    //        let widget = (<View.IWidget>this.widget);
+    //        let done = assert.async();
+    //        let initialSubSectionCount = widget.sidebarSampleData.viewModel.subsections().length;
 
-            this.loadPromise.done(() => {
-                let postLoadSubSectionCount = widget.sidebarSampleData.viewModel.subsections().length;
+    //        this.loadPromise.done(() => {
+    //            let postLoadSubSectionCount = widget.sidebarSampleData.viewModel.subsections().length;
 
-                assert.equal(initialSubSectionCount+1, postLoadSubSectionCount, "There is one more subsection after load");
-                done();
-            });
-        });
-    });
+    //            assert.equal(initialSubSectionCount+1, postLoadSubSectionCount, "There is one more subsection after load");
+    //            done();
+    //        });
+    //    });
+    //});
 
     function setupMockjax(): void {
         BiasPlotMocks.setupBiasPlotMock();
